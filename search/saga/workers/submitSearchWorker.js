@@ -1,27 +1,23 @@
 // Core
 import { select, put } from 'redux-saga/effects';
-import { replace } from 'connected-react-router';
 
 // Instruments
-import { QUERY_PARAMS } from 'helpers/query';
-import { searchActions } from '/search/actions';
-import { queriesActions } from '/queries/actions';
-import { book } from 'routes/book';
+import { selectCountryWorker } from 'bus/geo/saga/workers';
+import { QUERY_PARAMS } from '/queries/fn';
+import { searchActions } from 'bus/search/actions';
+import { queriesActions } from 'bus/queries/actions';
 
-export function* submitSearchWorker ({ payload: queryId }) {
+export function* submitSearchWorker ({ payload: { queryId, targetPage = null }}) {
     const { query, location } = yield select((state) => ({
         query:    state.queries.get(queryId),
         location: state.router.location,
     }));
 
-    if (query.get(QUERY_PARAMS.COUNTRY)) {
-        if (location.pathname === book.searchPage) {
-            yield put(searchActions.runSearch(queryId));
-        } else {
-            yield put(replace(book.searchPage));
-        }
+    const searchCountryId = query.get(QUERY_PARAMS.COUNTRY);
 
+    if (searchCountryId) {
         yield put(queriesActions.changeQueryParam(QUERY_PARAMS.AUTOSTART, true, queryId));
         yield put(queriesActions.compileQueryString(queryId));
+        yield put(searchActions.runSearch(queryId));
     }
 }

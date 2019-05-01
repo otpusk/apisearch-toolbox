@@ -11,7 +11,6 @@ import {
     numberCompiler,
     toStringCompiler
 } from './compilers';
-import { hash } from 'helpers/fn';
 
 /**
  * Query params names
@@ -193,12 +192,6 @@ function convertToOtpQuery (query) {
             },
             {}
         );
-}
-
-function hashQuery (query) {
-    const raw = JSON.stringify(convertToOtpQuery(query));
-
-    return hash(raw);
 }
 
 function parseOSQueryHash (queryHash) {

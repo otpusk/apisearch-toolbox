@@ -4,7 +4,7 @@ import { handleActions } from 'redux-actions';
 
 // Instruments
 import { searchActions as actions } from './actions';
-import { createResultBones } from 'helpers/query';
+import { createResultBones } from '/queries/fn';
 
 const initialState = Map({
     results: Map(),
@@ -38,7 +38,7 @@ export const searchReducer = handleActions(
         [actions.finishSearch]: (state, { payload: queryId }) => {
             return state.setIn(['results', queryId, 'status'], 'done');
         },
-        [actions.failSearch]: (state, { payload: { queryId }}) => {
+        [actions.failSearch]: (state, { payload: queryId }) => {
             return state.setIn(['results', queryId, 'status'], 'failed');
         },
         [actions.getPriceChartSuccess]: (state, { payload: { queryId, chart }}) => {

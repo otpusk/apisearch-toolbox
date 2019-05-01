@@ -1,13 +1,13 @@
 // Core
 import { call, put, select, fork } from 'redux-saga/effects';
 import { Map, fromJS } from 'immutable';
-import { delay } from 'redux-saga/effects';
+import { delay } from 'redux-saga';
 
 // Instruments
-import { convertToOtpQuery, QUERY_PARAMS } from 'helpers/query';
-import { searchActions } from '/search/actions';
-import { hotelsActions } from '/hotels/actions';
-import { offersActions } from '/offers/actions';
+import { convertToOtpQuery, QUERY_PARAMS } from '/queries/fn';
+import { searchActions } from 'bus/search/actions';
+import { hotelsActions } from 'bus/hotels/actions';
+import { offersActions } from 'bus/offers/actions';
 import { getToursSearch } from '@otpusk/json-api';
 
 function* runSearchKiller () {
@@ -16,32 +16,30 @@ function* runSearchKiller () {
 
 export function* runSearchWorker ({ payload: queryId }) {
     try {
-        const { query, otpuskQuery, singleHotelQuery } = yield select((state) => ({
-            query:            state.queries.get(queryId),
-            otpuskQuery:      convertToOtpQuery(state.queries.get(queryId)),
-            singleHotelQuery: state.queries.get(queryId).get(QUERY_PARAMS.HOTELS).length === 1,
+        const { query, singleHotelQuery } = yield select((state) => ({
+            query:            convertToOtpQuery(state.queries.get(queryId)),
+            singleHotelQuery: state.queries.get(queryId).get(QUERY_PARAMS.HOTELS, []).length === 1,
         }));
         const token = yield select((state) => state.auth.getIn(['otpusk', 'token']));
         const killer = yield fork(runSearchKiller);
 
         yield put(searchActions.startSearch(queryId));
-        otpuskQuery.number = 0;
+        query.number = 0;
         do {
             const {
                 lastResult: finished,
                 result,
                 country,
                 progress: operators,
-                total,
-            } = yield call(getToursSearch, token, otpuskQuery);
+                total } = yield call(getToursSearch, token, query);
 
             const hotels = Map(result.hotels)
-                .filter(({ name }) => Boolean(name) || query.get(QUERY_PARAMS.SHORT))
+                .filter(({ name }) => Boolean(name))
                 .map((hotel) => fromJS(hotel)
                     .updateIn(['offers'], (offers) =>
                         offers
                             .map((offerId) => result.offers[offerId])
-                            .sortBy(({ price: { uah }}) => uah)
+                            .sortBy(({ price: uah }) => uah)
                             .take(singleHotelQuery ? offers.count() : 5)
                     )
                 ).sortBy((hotel) =>
@@ -64,7 +62,7 @@ export function* runSearchWorker ({ payload: queryId }) {
                 hotels: hotels.map(({ offers: hotelOffers }) => hotelOffers),
                 country,
                 total,
-                page:   otpuskQuery.page,
+                page:   query.page,
             }));
 
             if (finished) {
@@ -72,13 +70,12 @@ export function* runSearchWorker ({ payload: queryId }) {
             }
             yield delay(5000);
 
-            otpuskQuery.number+=1;
+            query.number+=1;
         } while (killer.isRunning());
 
         yield delay(200);
         yield put(searchActions.finishSearch(queryId));
     } catch (error) {
-        console.error(error);
         yield put(searchActions.failSearch(queryId));
     }
 }

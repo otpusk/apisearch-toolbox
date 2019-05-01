@@ -2,7 +2,7 @@
 import { createActions } from 'redux-actions';
 
 export const searchActions = createActions({
-    SUBMIT_SEARCH:           (queryId) => queryId,
+    SUBMIT_SEARCH:           (queryId = 'main', targetPage) => ({ queryId, targetPage }),
     RUN_SEARCH:              (queryId) => queryId,
     RESET_SEARCH:            (queryId) => queryId,
     START_SEARCH:            (queryId) => queryId,
