@@ -2,7 +2,7 @@
 import { takeEvery } from 'redux-saga/effects';
 
 // Instruments
-import { searchActions as actions } from 'bus/search/actions';
+import { searchActions as actions } from '/search/actions';
 import { runSearchWorker, submitSearchWorker, getPriceChartWorker } from './workers';
 
 export const searchWatchers =  Object.freeze({

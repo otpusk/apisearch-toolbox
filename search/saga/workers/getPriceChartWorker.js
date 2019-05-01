@@ -4,7 +4,7 @@ import { Range } from 'immutable';
 
 // Instrumetns
 import { getToursGraph } from '@otpusk/json-api';
-import { searchActions as actions } from 'bus/search/actions';
+import { searchActions as actions } from '/search/actions';
 import { QUERY_PARAMS } from 'helpers/query';
 
 export function* getPriceChartWorker ({ payload: queryId }) {

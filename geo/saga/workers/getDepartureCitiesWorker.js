@@ -2,7 +2,7 @@
 import { call, put, select } from 'redux-saga/effects';
 
 // Instruments
-import { geoActions } from 'bus/geo/actions';
+import { geoActions } from '/geo/actions';
 import { getToursDepartureCities } from '@otpusk/json-api';
 
 export function* getDepartureCitiesWorker ({ payload: countryId }) {

@@ -5,9 +5,9 @@ import { delay } from 'redux-saga/effects';
 
 // Instruments
 import { convertToOtpQuery, QUERY_PARAMS } from 'helpers/query';
-import { searchActions } from 'bus/search/actions';
-import { hotelsActions } from 'bus/hotels/actions';
-import { offersActions } from 'bus/offers/actions';
+import { searchActions } from '/search/actions';
+import { hotelsActions } from '/hotels/actions';
+import { offersActions } from '/offers/actions';
 import { getToursSearch } from '@otpusk/json-api';
 
 function* runSearchKiller () {

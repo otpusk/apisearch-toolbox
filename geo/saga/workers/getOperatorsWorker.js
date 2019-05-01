@@ -3,7 +3,7 @@ import { call, put, select } from 'redux-saga/effects';
 import { List } from 'immutable';
 
 // Instruments
-import { geoActions } from 'bus/geo/actions';
+import { geoActions } from '/geo/actions';
 import { getToursOperators } from '@otpusk/json-api';
 
 export function* getOperatorsWorker ({ payload: countryId }) {

@@ -3,7 +3,7 @@ import { put, call, select } from 'redux-saga/effects';
 import { delay } from 'redux-saga/effects';
 
 // Instruments
-import { geoActions } from 'bus/geo/actions';
+import { geoActions } from '/geo/actions';
 import { getToursSuggests } from '@otpusk/json-api';
 
 export function* getSuggestsWorker ({ payload: key }) {

@@ -4,8 +4,8 @@ import { replace } from 'connected-react-router';
 
 // Instruments
 import { QUERY_PARAMS } from 'helpers/query';
-import { searchActions } from 'bus/search/actions';
-import { queriesActions } from 'bus/queries/actions';
+import { searchActions } from '/search/actions';
+import { queriesActions } from '/queries/actions';
 import { book } from 'routes/book';
 
 export function* submitSearchWorker ({ payload: queryId }) {
