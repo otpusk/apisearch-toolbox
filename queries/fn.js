@@ -1,5 +1,5 @@
 // Core
-import { OrderedMap, Map } from 'immutable';
+import { OrderedMap, Map, Set, List } from 'immutable';
 import moment from 'moment';
 
 // Instruments
@@ -16,22 +16,29 @@ import {
  * Query params names
  */
 const QUERY_PARAMS = {
-    AUTOSTART: 'autostart',
-    DEPARTURE: 'departure',
-    COUNTRY:   'country',
-    CITIES:    'cities',
-    HOTELS:    'hotels',
-    CATEGORY:  'category',
-    DATES:     'dates',
-    DURATION:  'duration',
-    ADULTS:    'adults',
-    CHILDREN:  'children',
-    FOOD:      'food',
-    TRANSPORT: 'transport',
-    PRICE:     'price',
-    PAGE:      'page',
-    SERVICES:  'services',
-    SHORT:     'short',
+    AUTOSTART:           'autostart',
+    DEPARTURE:           'departure',
+    COUNTRY:             'country',
+    CITIES:              'cities',
+    HOTELS:              'hotels',
+    CATEGORY:            'category',
+    DATES:               'dates',
+    DURATION:            'duration',
+    ADULTS:              'adults',
+    CHILDREN:            'children',
+    FOOD:                'food',
+    TRANSPORT:           'transport',
+    PRICE:               'price',
+    PAGE:                'page',
+    SERVICES:            'services',
+    SHORT:               'short',
+    RATING:              'rating',
+    CURRENCY:            'currency',
+    OPERATORS:           'operators',
+    FLIGHT_AVAILABILITY: 'flightAvailability',
+    HOTEL_AVAILABILITY:  'hotelAvailability',
+    WITHOUT_SPO:         'withoutSPO',
+    LANGUAGE:            'language',
 };
 
 /**
@@ -39,7 +46,7 @@ const QUERY_PARAMS = {
  */
 const DEFAULTS = {
     [QUERY_PARAMS.AUTOSTART]: false,
-    [QUERY_PARAMS.DEPARTURE]: 1544,
+    [QUERY_PARAMS.DEPARTURE]: '1544',
     [QUERY_PARAMS.COUNTRY]:   null,
     [QUERY_PARAMS.CATEGORY]:  Map({
         2: true,
@@ -56,7 +63,7 @@ const DEFAULTS = {
         to:   9,
     }),
     [QUERY_PARAMS.ADULTS]:   2,
-    [QUERY_PARAMS.CHILDREN]: [],
+    [QUERY_PARAMS.CHILDREN]: List(),
     [QUERY_PARAMS.FOOD]:     Map({
         'uai': true,
         'ai':  true,
@@ -72,12 +79,19 @@ const DEFAULTS = {
         'ship':  true,
         'no':    false,
     }),
-    [QUERY_PARAMS.CITIES]:   [],
-    [QUERY_PARAMS.HOTELS]:   [],
-    [QUERY_PARAMS.PRICE]:    Map(),
-    [QUERY_PARAMS.PAGE]:     1,
-    [QUERY_PARAMS.SERVICES]: [],
-    [QUERY_PARAMS.SHORT]:    null,
+    [QUERY_PARAMS.CITIES]:              Set(),
+    [QUERY_PARAMS.HOTELS]:              Set(),
+    [QUERY_PARAMS.PRICE]:               Map(),
+    [QUERY_PARAMS.PAGE]:                1,
+    [QUERY_PARAMS.SERVICES]:            Set(),
+    [QUERY_PARAMS.SHORT]:               null,
+    [QUERY_PARAMS.RATING]:              Map(),
+    [QUERY_PARAMS.CURRENCY]:            null,
+    [QUERY_PARAMS.OPERATORS]:           Set(),
+    [QUERY_PARAMS.FLIGHT_AVAILABILITY]: Set(['yes', 'request']),
+    [QUERY_PARAMS.HOTEL_AVAILABILITY]:  Set(['yes', 'request']),
+    [QUERY_PARAMS.WITHOUT_SPO]:         false,
+    [QUERY_PARAMS.LANGUAGE]:            null,
 };
 
 /**
@@ -106,6 +120,7 @@ function createQuery (params = {}) {
 
 /**
  * Create search result bones
+ * @returns {Map} result
  */
 function createResultBones () {
     return new Map({
@@ -140,6 +155,7 @@ function compileQuery (query) {
         [QUERY_PARAMS.TRANSPORT]: binaryCompiler,
         [QUERY_PARAMS.PRICE]:     rangeCompiler,
         [QUERY_PARAMS.SERVICES]:  arrayCompiler,
+        [QUERY_PARAMS.RATING]:    rangeCompiler,
     };
 
     return GLUE.field + query
@@ -162,21 +178,28 @@ function compileQuery (query) {
  */
 function convertToOtpQuery (query) {
     const converters = {
-        [QUERY_PARAMS.DEPARTURE]: (value) => ({ 'deptCity': value }),
-        [QUERY_PARAMS.COUNTRY]:   (value) => ({ 'to': value }),
-        [QUERY_PARAMS.CATEGORY]:  (value) => ({ 'stars': value.filter((status) => status).keySeq().toList().join(',') }),
-        [QUERY_PARAMS.DATES]:     (value) => ({ 'checkIn': value.get('from').format('Y-MM-DD'), 'checkTo': value.get('to').format('Y-MM-DD') }),
-        [QUERY_PARAMS.DURATION]:  (value) => ({ 'length': value.get('from'), 'lengthTo': value.get('to') }),
-        [QUERY_PARAMS.ADULTS]:    (value) => ({ 'people': value }),
-        [QUERY_PARAMS.CHILDREN]:  (value) => ({ 'people': value.map((age) => typeof age === 'string' ? age.replace(/\D.+/, '') : age).map(String).map((age) => age.length === 1 ? `0${age}` : age).join('') }),
-        [QUERY_PARAMS.FOOD]:      (value) => ({ 'food': value.filter((status) => status).keySeq().toList().join(',') }),
-        [QUERY_PARAMS.TRANSPORT]: (value) => ({ 'transport': value.filter((status) => status).keySeq().toList().join(',') }),
-        [QUERY_PARAMS.CITIES]:    (value) => ({ 'toCities': value.join(',') }),
-        [QUERY_PARAMS.HOTELS]:    (value) => ({ 'toHotels': value.join(',') }),
-        [QUERY_PARAMS.PRICE]:     (value) => ({ 'price': value.get('from'), 'priceTo': value.get('to') }),
-        [QUERY_PARAMS.PAGE]:      (value) => ({ 'page': value }),
-        [QUERY_PARAMS.SERVICES]:  (value) => ({ 'services': value.join(',') }),
-        [QUERY_PARAMS.SHORT]:     (value) => ({ 'short': value }),
+        [QUERY_PARAMS.DEPARTURE]:           (value) => ({ 'deptCity': value }),
+        [QUERY_PARAMS.COUNTRY]:             (value) => ({ 'to': value }),
+        [QUERY_PARAMS.CATEGORY]:            (value) => ({ 'stars': value.filter((status) => status).keySeq().toList().join(',') }),
+        [QUERY_PARAMS.DATES]:               (value) => ({ 'checkIn': value.get('from').format('Y-MM-DD'), 'checkTo': value.get('to').format('Y-MM-DD') }),
+        [QUERY_PARAMS.DURATION]:            (value) => ({ 'length': value.get('from'), 'lengthTo': value.get('to') }),
+        [QUERY_PARAMS.ADULTS]:              (value) => ({ 'people': value }),
+        [QUERY_PARAMS.CHILDREN]:            (value) => ({ 'people': value.map((age) => typeof age === 'string' ? age.replace(/\D.+/, '') : age).map(String).map((age) => age.length === 1 ? `0${age}` : age).join('') }),
+        [QUERY_PARAMS.FOOD]:                (value) => ({ 'food': value.filter((status) => status).keySeq().toList().join(',') }),
+        [QUERY_PARAMS.TRANSPORT]:           (value) => ({ 'transport': value.filter((status) => status).keySeq().toList().join(',') }),
+        [QUERY_PARAMS.CITIES]:              (value) => ({ 'toCities': value.join(',') }),
+        [QUERY_PARAMS.HOTELS]:              (value) => ({ 'toHotels': value.join(',') }),
+        [QUERY_PARAMS.PRICE]:               (value) => ({ 'price': value.get('from'), 'priceTo': value.get('to') }),
+        [QUERY_PARAMS.PAGE]:                (value) => ({ 'page': value }),
+        [QUERY_PARAMS.SERVICES]:            (value) => ({ 'services': value.join(',') }),
+        [QUERY_PARAMS.SHORT]:               (value) => ({ 'short': value }),
+        [QUERY_PARAMS.RATING]:              (value) => ({ 'rate': value.isEmpty() ? null : `${value.get('from')}-${value.get('to')}` }),
+        [QUERY_PARAMS.CURRENCY]:            (value) => ({ 'currency': value }),
+        [QUERY_PARAMS.OPERATORS]:           (value) => ({ 'toOperators': value.toArray() }),
+        [QUERY_PARAMS.FLIGHT_AVAILABILITY]: (value) => ({ 'availableFlight': value.toArray() }),
+        [QUERY_PARAMS.HOTEL_AVAILABILITY]:  (value) => ({ 'stopSale': value.toArray() }),
+        [QUERY_PARAMS.WITHOUT_SPO]:         (value) => ({ 'noPromo': value }),
+        [QUERY_PARAMS.LANGUAGE]:            (value) => ({ 'lang': value }),
     };
 
     return query
@@ -185,7 +208,11 @@ function convertToOtpQuery (query) {
         .reduce(
             (summary, values) => {
                 for (const [param, value] of Object.entries(values)) {
-                    value && Object.assign(summary, { [param]: param in summary ? summary[param] + value : value });
+                    value && Object.assign(summary, {
+                        [param]: param in summary
+                            ? summary[param] + value
+                            : value,
+                    });
                 }
 
                 return summary;
@@ -235,7 +262,6 @@ export {
     createQuery,
     createResultBones,
     compileQuery,
-    hashQuery,
     convertToOtpQuery,
     parseOSQueryHash
 };
