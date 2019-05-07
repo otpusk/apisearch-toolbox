@@ -2,7 +2,7 @@
 import { call, put, select } from 'redux-saga/effects';
 
 // Instruments
-import { hotelsActions as actions } from '/hotels/actions';
+import { hotelsActions as actions } from '../../actions';
 import { getToursSimilar } from '@otpusk/json-api';
 
 export function* getSimilarHotelsWorker ({ payload: hotelId }) {

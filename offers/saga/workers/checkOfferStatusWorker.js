@@ -3,11 +3,10 @@ import { call, put, select } from 'redux-saga/effects';
 import { Range } from 'immutable';
 
 // Instruments
-import { offersActions as actions } from '/offers/actions';
-import { analyticsActions } from '/analytics/actions';
+import { offersActions as actions } from '../../actions';
 import { getToursActual } from '@otpusk/json-api';
 import { getOperatorById } from '@otpusk/json-api/dist/dictionary';
-import { QUERY_PARAMS } from '/queries/fn';
+import { QUERY_PARAMS } from '../../../queries/fn';
 
 export function* checkOfferStatusWorker ({ payload: { offerId, hotelId }}) {
     const hotel = yield select(({ hotels }) => hotels.getIn(['store', hotelId]));

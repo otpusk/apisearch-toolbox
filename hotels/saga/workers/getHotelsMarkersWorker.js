@@ -2,7 +2,7 @@
 import { call, put, select } from 'redux-saga/effects';
 
 // Instruments
-import { hotelsActions as actions } from '/hotels/actions';
+import { hotelsActions as actions } from '../../actions';
 import { getToursHotelsMarkers } from '@otpusk/json-api';
 
 export function* getHotelsMarkersWorker ({ payload: { countryId, cityId, center, radius }}) {

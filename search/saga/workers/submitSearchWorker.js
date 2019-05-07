@@ -2,10 +2,9 @@
 import { select, put } from 'redux-saga/effects';
 
 // Instruments
-import { selectCountryWorker } from 'bus/geo/saga/workers';
-import { QUERY_PARAMS } from '/queries/fn';
-import { searchActions } from 'bus/search/actions';
-import { queriesActions } from 'bus/queries/actions';
+import { QUERY_PARAMS } from '../../../queries/fn';
+import { searchActions } from '../../../search/actions';
+import { queriesActions } from '../../../queries/actions';
 
 export function* submitSearchWorker ({ payload: { queryId, targetPage = null }}) {
     const { query, location } = yield select((state) => ({

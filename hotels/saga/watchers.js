@@ -2,7 +2,7 @@
 import { takeEvery } from 'redux-saga/effects';
 
 // Instruments
-import { hotelsActions as actions } from '/hotels/actions';
+import { hotelsActions as actions } from '../actions';
 import { getHotelWorker, getHotelsMarkersWorker, getSimilarHotelsWorker } from './workers';
 
 export const hotelsWatchers =  Object.freeze({

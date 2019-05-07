@@ -2,7 +2,7 @@
 import { select } from 'redux-saga/effects';
 
 // Instrumetns
-import { compileQuery } from '/queries/fn';
+import { compileQuery } from '../../fn';
 
 export function* compileQueryStringWorker ({ payload: { queryId }}) {
     const query = yield select((state) => state.queries.get(queryId));

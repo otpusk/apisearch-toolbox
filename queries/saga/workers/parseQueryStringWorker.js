@@ -2,16 +2,16 @@
 import { put, select } from 'redux-saga/effects';
 
 // Instruments
-import { queriesActions } from '/queries/actions';
-import { searchActions } from '/search/actions';
-import { QUERY_PARAMS, GLUE } from '/queries/fn';
+import { queriesActions } from '../../actions';
+import { searchActions } from '../../../search/actions';
+import { QUERY_PARAMS, GLUE } from '../../fn';
 import {
     binaryParser,
     datesParser,
     rangeParser,
     numbersArrayParser,
     arrayParser
-} from '/queries/fn/parsers';
+} from '../../parsers';
 
 function* parseQueryParam (paramName, rawValue, queryId) {
     const token = yield select((state) => state.auth.getIn(['otpusk', 'token']));

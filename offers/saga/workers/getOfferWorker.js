@@ -2,7 +2,7 @@
 import { call, put, select } from 'redux-saga/effects';
 
 // Instruments
-import { offersActions } from '/offers/actions';
+import { offersActions } from '../../actions';
 import { getToursOffer } from '@otpusk/json-api';
 
 export function* getOfferWorker ({ payload: offerId }) {

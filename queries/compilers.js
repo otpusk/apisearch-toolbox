@@ -1,5 +1,5 @@
 // Instruments
-import { GLUE } from './index';
+import { GLUE } from './fn';
 
 /**
  * Compile boolean list
@@ -61,7 +61,7 @@ export const toStringCompiler = (value) => value.toString();
 /**
  * Number compiler
  *
- * @param {Number} value
+ * @param {Number} value value
  * @returns {string} param
  */
 export const numberCompiler = (value) => Number(value).toString();

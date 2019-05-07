@@ -2,7 +2,7 @@
 import { takeEvery } from 'redux-saga/effects';
 
 // Instruments
-import { queriesActions } from '/queries/actions';
+import { queriesActions } from '../actions';
 import {
     compileQueryStringWorker,
     parseQueryStringWorker,

@@ -4,7 +4,7 @@ import { handleActions } from 'redux-actions';
 
 // Instruments
 import { searchActions as actions } from './actions';
-import { createResultBones } from '/queries/fn';
+import { createResultBones } from '../queries/fn';
 
 const initialState = Map({
     results: Map(),

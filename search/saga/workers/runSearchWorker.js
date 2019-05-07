@@ -1,14 +1,13 @@
 // Core
-import { call, put, select, fork } from 'redux-saga/effects';
+import { call, put, select, fork, delay } from 'redux-saga/effects';
 import { Map, fromJS } from 'immutable';
-import { delay } from 'redux-saga';
+import { getToursSearch } from '@otpusk/json-api';
 
 // Instruments
-import { convertToOtpQuery, QUERY_PARAMS } from '/queries/fn';
-import { searchActions } from 'bus/search/actions';
-import { hotelsActions } from 'bus/hotels/actions';
-import { offersActions } from 'bus/offers/actions';
-import { getToursSearch } from '@otpusk/json-api';
+import { convertToOtpQuery, QUERY_PARAMS } from '../../../queries/fn';
+import { searchActions } from '../../../search/actions';
+import { hotelsActions } from '../../../hotels/actions';
+import { offersActions } from '../../../offers/actions';
 
 function* runSearchKiller () {
     yield delay(35000);

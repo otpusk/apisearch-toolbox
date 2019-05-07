@@ -1,13 +1,11 @@
 // Core
 import { Map, Range } from 'immutable';
 import moment from 'moment';
-import { createQuery } from '/queries/fn';
 import { handleActions } from 'redux-actions';
 
 // Instruments
 import { queriesActions } from './actions';
-import { QUERY_PARAMS } from '/queries/fn';
-import { parseOSQueryHash } from '/queries/fn';
+import { createQuery, QUERY_PARAMS, parseOSQueryHash  } from './fn';
 
 const initalState = Map({});
 
@@ -50,11 +48,10 @@ export const queriesReducer = handleActions(
             );
         },
         [queriesActions.changeQueryParam]: (state, { payload: { queryId, paramName, paramValue }}) => {
-            if (Array.isArray(paramName)) {
-                return state.mergeIn([queryId], paramValue);
-            }
-
             return state.setIn([queryId, paramName], paramValue);
+        },
+        [queriesActions.changeQueryParams]: (state, { payload: { queryId, paramValue }}) => {
+            return state.mergeIn([queryId], paramValue);
         },
         [queriesActions.resetQueryParam]: (state, { payload: { queryId, paramName }}) => {
             return state.setIn([queryId, paramName], createQuery().get(paramName));

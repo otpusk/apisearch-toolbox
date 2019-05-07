@@ -2,7 +2,7 @@
 import { takeLatest, takeEvery } from 'redux-saga/effects';
 
 // Instruments
-import { geoActions } from '/geo/actions';
+import { geoActions } from '../actions';
 import { getSuggestsWorker } from './workers/getSuggestsWorker';
 import { getCountriesWorker } from './workers/getCountriesWorker';
 import { getCitiesWorker } from './workers/getCitiesWorker';

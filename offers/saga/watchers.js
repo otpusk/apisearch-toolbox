@@ -2,7 +2,7 @@
 import { takeEvery } from 'redux-saga/effects';
 
 // Instruments
-import { offersActions as actions } from '/offers/actions';
+import { offersActions as actions } from '../../offers/actions';
 import { getOfferWorker, checkOfferStatusWorker } from './workers';
 
 export const offersWatchers = Object.freeze({

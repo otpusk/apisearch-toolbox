@@ -3,7 +3,7 @@ import { List, Map } from 'immutable';
 import moment from 'moment';
 
 // Instruments
-import { GLUE } from './index';
+import { GLUE } from './fn';
 import { getToursGeoById } from '@otpusk/json-api';
 
 /**
