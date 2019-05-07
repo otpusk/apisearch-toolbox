@@ -20,6 +20,8 @@
     "@otpusk/json-api": "0.0.21",
     "immutable": "^4.0.0-rc.12",
     "moment": "^2.24.0",
-    "redux-saga": "^1.0.2"
+    "redux-actions": "^2.6.5",
+    "redux-saga": "^1.0.2",
+    "reselect": "^4.0.0"
   }
 }
