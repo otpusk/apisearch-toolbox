@@ -11,25 +11,32 @@ const initalState = Map({
     'similar': Map(),
 });
 
+const mergeTwoHotelsWithOffers = (fresh, base) => {
+    const { offers: offersFresh } = fresh;
+    const { offers: offersBase } = base;
+
+    return {
+        ...base,
+        ...fresh,
+        offers: Set(offersFresh).union(offersBase).toArray(),
+    };
+};
+
 export const hotelsReducer = handleActions(
     {
         [combineActions(actions.addHotel, actions.getHotelSuccess)]: (state, { payload: hotel }) => {
-            return state.setIn(['store', String(hotel.id)], hotel);
+            return state.updateIn(
+                ['store', String(hotel.id)],
+                (current) => current
+                    ? mergeTwoHotelsWithOffers(hotel, current)
+                    : hotel
+            );
         },
         [actions.addHotels]: (state, { payload: hotels }) => {
             return state
                 .updateIn(
                     ['store'],
-                    (store) => store.mergeWith((a, b) => {
-                        const { offers: offersA } = a;
-                        const { offers: offersB } = b;
-
-                        return {
-                            ...b,
-                            ...a,
-                            offers: Set(offersA).union(offersB).toArray(),
-                        };
-                    }, hotels));
+                    (store) => store.mergeWith(mergeTwoHotelsWithOffers, hotels));
         },
         [actions.getHotelsMarkersSuccess]: (state, { payload: markers }) => {
             return state.mergeIn(['markers'], markers);
