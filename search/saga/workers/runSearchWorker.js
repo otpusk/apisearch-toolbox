@@ -1,6 +1,6 @@
 // Core
 import { call, put, select, fork, delay } from 'redux-saga/effects';
-import { Map, fromJS } from 'immutable';
+import { Map, fromJS, Set } from 'immutable';
 import { getToursSearch } from '@otpusk/json-api';
 
 // Instruments
@@ -15,9 +15,8 @@ function* runSearchKiller () {
 
 export function* runSearchWorker ({ payload: queryId }) {
     try {
-        const { query, singleHotelQuery } = yield select((state) => ({
+        const { query } = yield select((state) => ({
             query:            convertToOtpQuery(state.queries.get(queryId)),
-            singleHotelQuery: state.queries.get(queryId).get(QUERY_PARAMS.HOTELS, []).length === 1,
         }));
         const token = yield select((state) => state.auth.getIn(['otpusk', 'token']));
         const killer = yield fork(runSearchKiller);
@@ -39,7 +38,6 @@ export function* runSearchWorker ({ payload: queryId }) {
                         offers
                             .map((offerId) => result.offers[offerId])
                             .sortBy(({ price: uah }) => uah)
-                            .take(singleHotelQuery ? offers.count() : 5)
                     )
                 ).sortBy((hotel) =>
                     hotel.get('offers').first().price.uah
