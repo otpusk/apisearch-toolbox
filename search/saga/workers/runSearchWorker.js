@@ -29,7 +29,7 @@ export function* runSearchWorker ({ payload: queryId }) {
                 result,
                 country,
                 progress: operators,
-                total } = yield call(getToursSearch, token, query);
+                total, meta } = yield call(getToursSearch, token, query);
 
             const hotels = Map(result.hotels)
                 .filter(({ name }) => Boolean(name))
@@ -59,6 +59,7 @@ export function* runSearchWorker ({ payload: queryId }) {
                 hotels: hotels.map(({ offers: hotelOffers }) => hotelOffers),
                 country,
                 total,
+                meta,
                 page:   query.page,
             }));
 

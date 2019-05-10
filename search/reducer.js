@@ -21,17 +21,18 @@ export const searchReducer = handleActions(
         },
         [actions.startSearch]: (state, { payload: queryId }) => {
             return state
-                .setIn(['results', queryId, 'operators'], Map())
+                .setIn(['results', queryId], createResultBones())
                 .setIn(['results', queryId, 'status'], 'starting')
                 .removeIn(['charts', queryId]);
         },
-        [actions.processSearch]: (state, { payload: { hotels, operators, queryId, country, total, page }}) => {
+        [actions.processSearch]: (state, { payload: { hotels, operators, queryId, country, total, page, meta }}) => {
             return state
                 .mergeIn(['results', queryId], Map({
                     operators,
                     country: country ? country : state.getIn([queryId, 'country']),
                     total:   total ? total : state.getIn(['results', queryId, 'total']),
-                    status:  'processing',
+                    status: 'processing',
+                    meta,
                 }))
                 .setIn(['results', queryId, 'hotels', page], hotels);
         },

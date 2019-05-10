@@ -124,9 +124,10 @@ function createQuery (params = {}) {
  */
 function createResultBones () {
     return new Map({
-        country:   null,
-        hotels:    Map(),
-        operators: Map(),
+        country: null,
+        hotels: Map(),
+        operators: null,
+        meta:      null,
         chart:     null,
         status:    null,
         total:     0,
