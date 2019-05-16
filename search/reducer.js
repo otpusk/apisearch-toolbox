@@ -21,7 +21,7 @@ export const searchReducer = handleActions(
         },
         [actions.startSearch]: (state, { payload: queryId }) => {
             return state
-                .setIn(['results', queryId, 'operators'], Map())
+                .setIn(['results', queryId, 'operators'], {})
                 .setIn(['results', queryId, 'status'], 'starting')
                 .removeIn(['charts', queryId]);
         },

@@ -13,6 +13,7 @@ const initialState = Map({
         'hotel':      'Услуги в отеле',
         'room':       'Удобства в номерах',
         'sport':      'Развлечения и спорт',
+        'recommend':  'Отели с рекомендацией',
     }),
     groups: Map(),
 });
