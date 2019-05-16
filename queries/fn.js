@@ -222,6 +222,52 @@ function convertToOtpQuery (query) {
         );
 }
 
+function parseQueryParam (currentValue, paramName, rawValue) {
+    const paramsToParsers = {
+        [QUERY_PARAMS.AUTOSTART]: Boolean,
+        [QUERY_PARAMS.DEPARTURE]: Number,
+        [QUERY_PARAMS.CATEGORY]:  binaryParser,
+        [QUERY_PARAMS.TRANSPORT]: binaryParser,
+        [QUERY_PARAMS.FOOD]:      binaryParser,
+        [QUERY_PARAMS.DATES]:     datesParser,
+        [QUERY_PARAMS.DURATION]:  rangeParser,
+        [QUERY_PARAMS.ADULTS]:    Number,
+        [QUERY_PARAMS.CHILDREN]:  numbersArrayParser,
+        [QUERY_PARAMS.COUNTRY]:   String,
+        [QUERY_PARAMS.CITIES]:    numbersArrayParser,
+        [QUERY_PARAMS.HOTELS]:    numbersArrayParser,
+        [QUERY_PARAMS.PRICE]:     rangeParser,
+        [QUERY_PARAMS.SERVICES]:  arrayParser,
+    };
+
+    if (rawValue !== GLUE.empty) {
+        return paramsToParsers[paramName](rawValue, { prevValue: currentValue });
+    }
+
+    return currentValue;
+}
+
+/**
+ * Parse query string to query map
+ * @param {string} queryString 
+ * @param {OrderedMap} baseQuery 
+ * 
+ * @returns {OrderedMap}
+ */
+function parseQueryString(queryString, baseQuery) {
+    const query = baseQuery || createQuery();
+    const params = queryString.replace('#/', '').split('/');
+
+    return query.map((currentValue, paramName) => {
+        const position = query.keySeq().findIndex((f) => f === paramName);
+        const rawValue = position in params ? params[position] : null;
+
+        return rawValue
+            ? parseQueryParam(currentValue, paramName, rawValue)
+            : currentValue;
+    });
+}
+
 function parseOSQueryHash (queryHash) {
     const convertListToBooleanMap = (value = '') => decodeURIComponent(value).split(',').reduce((param, key) => param.set(key, true), Map());
     const params = queryHash
@@ -264,5 +310,6 @@ export {
     createResultBones,
     compileQuery,
     convertToOtpQuery,
-    parseOSQueryHash
+    parseOSQueryHash,
+    parseQueryString
 };
