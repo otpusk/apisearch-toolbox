@@ -11,6 +11,13 @@ import {
     numberCompiler,
     toStringCompiler
 } from './compilers';
+import {
+    numbersArrayParser,
+    rangeParser,
+    datesParser,
+    binaryParser,
+    arrayParser
+} from './parsers';
 
 /**
  * Query params names

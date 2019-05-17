@@ -5,7 +5,7 @@ import { handleActions } from 'redux-actions';
 
 // Instruments
 import { queriesActions } from './actions';
-import { createQuery, QUERY_PARAMS, parseOSQueryHash  } from './fn';
+import { createQuery, QUERY_PARAMS, parseOSQueryHash, parseQueryString  } from './fn';
 
 const initalState = Map({});
 
@@ -56,18 +56,21 @@ export const queriesReducer = handleActions(
         [queriesActions.resetQueryParam]: (state, { payload: { queryId, paramName }}) => {
             return state.setIn([queryId, paramName], createQuery().get(paramName));
         },
-        [queriesActions.parseQueryParamSuccess]: (state, { payload: { queryId, paramName, paramValue }}) => {
-            return state.setIn([queryId, paramName], paramValue);
-        },
-        [queriesActions.parseOsHashQueryString]: (state, { payload: targetQueryId }) => {
-            const { hash } = window.location;
+        [queriesActions.parseOsQueryString]: (state, { payload: { targetQueryId, queryString } }) => {
 
             return state.update(
-                (queries) => hash
-                    ? queries.set(targetQueryId, parseOSQueryHash(hash))
+                (queries) => queryString
+                    ? queries.set(targetQueryId, parseOSQueryHash(queryString))
                     : queries
             );
         },
+        [queriesActions.parseQueryString]: (state, { payload: { targetQueryId, queryString } }) => {
+            return state.update(
+                (queries) => queryString
+                    ? queries.set(targetQueryId, parseQueryString(queryString))
+                    : queries
+            );
+        }
     },
     initalState
 );
