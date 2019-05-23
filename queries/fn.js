@@ -247,7 +247,11 @@ function parseQueryParam (currentValue, paramName, rawValue) {
         [QUERY_PARAMS.SERVICES]:  arrayParser,
     };
 
-    if (rawValue !== GLUE.empty) {
+    if (rawValue) {
+        if (rawValue === GLUE.empty) {
+            return DEFAULTS[paramName];
+        }
+
         return paramsToParsers[paramName](rawValue, { prevValue: currentValue });
     }
 
