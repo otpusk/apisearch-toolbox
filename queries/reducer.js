@@ -57,14 +57,14 @@ export const queriesReducer = handleActions(
 
             return state.update(
                 (queries) => queryString
-                    ? queries.set(targetQueryId, parseOSQueryHash(queryString))
+                    ? queries.set(targetQueryId, parseOSQueryHash(queryString, queries.get(targetQueryId)))
                     : queries
             );
         },
         [queriesActions.parseQueryString]: (state, { payload: { targetQueryId, queryString } }) => {
             return state.update(
                 (queries) => queryString
-                    ? queries.set(targetQueryId, parseQueryString(queryString))
+                    ? queries.set(targetQueryId, parseQueryString(queryString, queries.get(targetQueryId)))
                     : queries
             );
         }

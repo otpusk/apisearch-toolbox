@@ -275,9 +275,11 @@ function parseQueryString(queryString, baseQuery) {
     });
 }
 
-function parseOSQueryHash (queryHash) {
+function parseOSQueryHash (queryHash, baseQuery) {
     const convertListToBooleanMap = (value = '') => decodeURIComponent(value).split(',').reduce((param, key) => param.set(key, true), Map());
-    const params = queryHash
+    const query = baseQuery || createQuery();
+
+    return queryHash
         .replace(/^#/, '')
         .split('&')
         .map((pair) => pair.split('='))
@@ -305,9 +307,7 @@ function parseOSQueryHash (queryHash) {
                 default:
                     return query;
             }
-        }, createQuery());
-
-    return params;
+        }, query);
 }
 
 export {
