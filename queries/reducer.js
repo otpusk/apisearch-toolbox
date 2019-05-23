@@ -32,10 +32,7 @@ export const queriesReducer = handleActions(
                         to:   moment(offer.date),
                     }),
                     [QUERY_PARAMS.CATEGORY]: Map({}),
-                    [QUERY_PARAMS.ADULTS]:   state.getIn(
-                        ['form', QUERY_PARAMS.ADULTS],
-                        offer.adults
-                    ),
+                    [QUERY_PARAMS.ADULTS]:   offer.adults,
                     [QUERY_PARAMS.CHILDREN]: state.getIn(
                         ['form', QUERY_PARAMS.CHILDREN],
                         Range(0, offer.children).map(() => offer.childrenAge).toArray()
