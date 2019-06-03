@@ -252,7 +252,9 @@ function parseQueryParam (currentValue, paramName, rawValue) {
             return DEFAULTS[paramName];
         }
 
-        return paramsToParsers[paramName](rawValue, { prevValue: currentValue });
+        if (paramName in paramsToParsers) {
+            return paramsToParsers[paramName](rawValue, { prevValue: currentValue });
+        }
     }
 
     return currentValue;
