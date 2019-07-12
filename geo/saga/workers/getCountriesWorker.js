@@ -5,10 +5,13 @@ import { call, put, select } from 'redux-saga/effects';
 import { geoActions } from '../../actions';
 import { getToursCountries } from '@otpusk/json-api';
 
-export function* getCountriesWorker () {
+export function* getCountriesWorker ({ payload: options = { 'with': 'price' } }) {
     try {
-        const token = yield select((state) => state.auth.getIn(['otpusk', 'token']));
-        const countries = yield call(getToursCountries, token);
+        const { token, lang } = yield select(({ auth }) => ({
+            token: auth.getIn(['otpusk', 'token']),
+            lang: auth.getIn(['otpusk', 'lang'], 'rus')
+        }));
+        const countries = yield call(getToursCountries, token, { lang, ...options });
 
         yield put(geoActions.getCountriesSuccess(countries));
     } catch (error) {
