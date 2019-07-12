@@ -38,7 +38,7 @@ function* parseQueryParam (paramName, rawValue, queryId) {
         const parsedValue = yield paramsToParsers[paramName](rawValue, { prevValue: currentValue, token });
 
         if (parsedValue) {
-            yield put(queriesActions.changeQueryParam(paramName, parsedValue, queryId));
+            yield put(queriesActions.changeQueryParam(queryId, paramName, parsedValue));
         }
     }
 }
