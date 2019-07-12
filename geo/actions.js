@@ -14,7 +14,7 @@ export const geoActions = createActions({
     GET_COUNTRIES_SUCCESS: (countries) => countries,
     GET_COUNTRIES_FAIL:    (error) => error,
 
-    GET_CITIES:         (countryId) => countryId,
+    GET_CITIES:         (countryId, options) => ({ countryId, options }),
     GET_CITIES_SUCCESS: (countryId, cities) => ({ countryId, cities }),
     GET_CITIES_FAIL:    (error) => error,
 

@@ -7,8 +7,11 @@ import { getToursDepartureCities } from '@otpusk/json-api';
 
 export function* getDepartureCitiesWorker ({ payload: countryId }) {
     try {
-        const token = yield select((state) => state.auth.getIn(['otpusk', 'token']));
-        const departures = yield call(getToursDepartureCities, token, { geoId: countryId });
+        const { token } = yield select(({ auth }) => ({
+            token: auth.getIn(['otpusk', 'token']),
+            lang: auth.getIn(['otpusk', 'lang'], 'rus'),
+        }));
+        const departures = yield call(getToursDepartureCities, token, { geoId: countryId, lang });
 
         yield put(geoActions.getDepartureCitiesSuccess(countryId, departures));
     } catch (error) {
