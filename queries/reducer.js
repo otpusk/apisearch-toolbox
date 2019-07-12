@@ -47,8 +47,8 @@ export const queriesReducer = handleActions(
         [queriesActions.changeQueryParam]: (state, { payload: { queryId, paramName, paramValue }}) => {
             return state.setIn([queryId, paramName], paramValue);
         },
-        [queriesActions.changeQueryParams]: (state, { payload: { queryId, paramValue }}) => {
-            return state.mergeIn([queryId], paramValue);
+        [queriesActions.changeQueryParams]: (state, { payload: { queryId, paramValues }}) => {
+            return state.mergeIn([queryId], paramValues);
         },
         [queriesActions.resetQueryParam]: (state, { payload: { queryId, paramName }}) => {
             return state.setIn([queryId, paramName], createQuery().get(paramName));
