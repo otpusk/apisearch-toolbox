@@ -15,7 +15,7 @@ export function* submitSearchWorker ({ payload: { queryId, targetPage = null }})
     const searchCountryId = query.get(QUERY_PARAMS.COUNTRY);
 
     if (searchCountryId) {
-        yield put(queriesActions.changeQueryParam(QUERY_PARAMS.AUTOSTART, true, queryId));
+        yield put(queriesActions.changeQueryParam(queryId, QUERY_PARAMS.AUTOSTART, true));
         yield put(queriesActions.compileQueryString(queryId));
         yield put(searchActions.runSearch(queryId));
     }
