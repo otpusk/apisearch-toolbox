@@ -10,5 +10,7 @@ export const queriesActions = createActions({
     RESET_QUERY_PARAM:          (queryId, paramName) => ({ paramName, queryId }),
     PARSE_OS_QUERY_STRING: (targetQueryId, queryString) => ({targetQueryId, queryString}),
     PARSE_QUERY_STRING:         (targetQueryId, queryString) => ({ targetQueryId, queryString }),
+    PARSE_QUERY_STRING_SUCCESS: () => void 0,
+    PARSE_QUERY_STRING_FAIL:    () => void 0,
     COMPILE_QUERY_STRING:       (queryId) => ({ queryId }),
 });
