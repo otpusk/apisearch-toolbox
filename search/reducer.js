@@ -29,11 +29,11 @@ export const searchReducer = handleActions(
             return state
                 .mergeIn(['results', queryId], Map({
                     operators,
-                    country: state.getIn(['results', queryId, 'country'], country),
                     total:   total ? total : state.getIn(['results', queryId, 'total']),
                     status: 'processing',
                     meta,
                 }))
+                .updateIn(['results', queryId, 'country'], (value) => value ? value : country)
                 .setIn(['results', queryId, 'hotels', page], hotels);
         },
         [actions.finishSearch]: (state, { payload: queryId }) => {
