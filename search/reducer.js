@@ -29,7 +29,7 @@ export const searchReducer = handleActions(
             return state
                 .mergeIn(['results', queryId], Map({
                     operators,
-                    country: country ? country : state.getIn([queryId, 'country']),
+                    country: state.getIn(['results', queryId, 'country'], country),
                     total:   total ? total : state.getIn(['results', queryId, 'total']),
                     status: 'processing',
                     meta,
