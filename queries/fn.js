@@ -9,14 +9,17 @@ import {
     datesCompiler,
     arrayCompiler,
     numberCompiler,
-    toStringCompiler
+    toStringCompiler,
+    immutableArrayCompiler
 } from './compilers';
 import {
     numbersArrayParser,
     rangeParser,
     datesParser,
     binaryParser,
-    arrayParser
+    arrayParser,
+    createImmutableArrayParser,
+    createImmutableNumbersArrayParser
 } from './parsers';
 
 /**
@@ -152,17 +155,17 @@ function compileQuery (query) {
         [QUERY_PARAMS.AUTOSTART]: numberCompiler,
         [QUERY_PARAMS.DEPARTURE]: toStringCompiler,
         [QUERY_PARAMS.COUNTRY]:   numberCompiler,
-        [QUERY_PARAMS.CITIES]:    arrayCompiler,
-        [QUERY_PARAMS.HOTELS]:    arrayCompiler,
+        [QUERY_PARAMS.CITIES]:    immutableArrayCompiler,
+        [QUERY_PARAMS.HOTELS]:    immutableArrayCompiler,
         [QUERY_PARAMS.CATEGORY]:  binaryCompiler,
         [QUERY_PARAMS.DATES]:     datesCompiler,
         [QUERY_PARAMS.DURATION]:  rangeCompiler,
         [QUERY_PARAMS.ADULTS]:    toStringCompiler,
-        [QUERY_PARAMS.CHILDREN]:  arrayCompiler,
+        [QUERY_PARAMS.CHILDREN]:  immutableArrayCompiler,
         [QUERY_PARAMS.FOOD]:      binaryCompiler,
         [QUERY_PARAMS.TRANSPORT]: binaryCompiler,
         [QUERY_PARAMS.PRICE]:     rangeCompiler,
-        [QUERY_PARAMS.SERVICES]:  arrayCompiler,
+        [QUERY_PARAMS.SERVICES]:  immutableArrayCompiler,
         [QUERY_PARAMS.RATING]:    rangeCompiler,
     };
 
@@ -239,12 +242,12 @@ function parseQueryParam (currentValue, paramName, rawValue) {
         [QUERY_PARAMS.DATES]:     datesParser,
         [QUERY_PARAMS.DURATION]:  rangeParser,
         [QUERY_PARAMS.ADULTS]:    Number,
-        [QUERY_PARAMS.CHILDREN]:  numbersArrayParser,
+        [QUERY_PARAMS.CHILDREN]:  createImmutableNumbersArrayParser(List()),
         [QUERY_PARAMS.COUNTRY]:   String,
-        [QUERY_PARAMS.CITIES]:    numbersArrayParser,
-        [QUERY_PARAMS.HOTELS]:    numbersArrayParser,
+        [QUERY_PARAMS.CITIES]:    createImmutableNumbersArrayParser(Set()),
+        [QUERY_PARAMS.HOTELS]:    createImmutableNumbersArrayParser(Set()),
         [QUERY_PARAMS.PRICE]:     rangeParser,
-        [QUERY_PARAMS.SERVICES]:  arrayParser,
+        [QUERY_PARAMS.SERVICES]:  createImmutableArrayParser(Set()),
     };
 
     if (rawValue) {

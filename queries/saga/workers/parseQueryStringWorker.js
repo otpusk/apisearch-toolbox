@@ -1,5 +1,6 @@
 // Core
 import { put, select } from 'redux-saga/effects';
+import { Set, List } from 'immutable';
 
 // Instruments
 import { queriesActions } from '../../actions';
@@ -10,7 +11,9 @@ import {
     datesParser,
     rangeParser,
     numbersArrayParser,
-    arrayParser
+    arrayParser,
+    createImmutableArrayParser,
+    createImmutableNumbersArrayParser
 } from '../../parsers';
 
 function* parseQueryParam (paramName, rawValue, queryId) {
@@ -26,12 +29,12 @@ function* parseQueryParam (paramName, rawValue, queryId) {
         [QUERY_PARAMS.DATES]:     datesParser,
         [QUERY_PARAMS.DURATION]:  rangeParser,
         [QUERY_PARAMS.ADULTS]:    Number,
-        [QUERY_PARAMS.CHILDREN]:  numbersArrayParser,
+        [QUERY_PARAMS.CHILDREN]:  createImmutableNumbersArrayParser(List()),
         [QUERY_PARAMS.COUNTRY]:   String,
-        [QUERY_PARAMS.CITIES]:    numbersArrayParser,
-        [QUERY_PARAMS.HOTELS]:    numbersArrayParser,
+        [QUERY_PARAMS.CITIES]:    createImmutableNumbersArrayParser(Set()),
+        [QUERY_PARAMS.HOTELS]:    createImmutableNumbersArrayParser(Set()),
         [QUERY_PARAMS.PRICE]:     rangeParser,
-        [QUERY_PARAMS.SERVICES]:  arrayParser,
+        [QUERY_PARAMS.SERVICES]:  createImmutableArrayParser(Set()),
     };
 
     if (rawValue !== GLUE.empty) {

@@ -78,3 +78,9 @@ export const geoParser = async (value, { token }) => {
 
     return location;
 };
+
+/* immutable List, Set parser */
+
+export const createImmutableArrayParser = (defaultValue) => (value) => value ? value.split(GLUE.list) : defaultValue;
+
+export const createImmutableNumbersArrayParser = (defaultValue) => (value) => createImmutableArrayParser(defaultValue)(value).map(Number);

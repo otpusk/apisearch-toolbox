@@ -65,3 +65,7 @@ export const toStringCompiler = (value) => value.toString();
  * @returns {string} param
  */
 export const numberCompiler = (value) => Number(value).toString();
+
+/* Immutable List, Set compiler */
+
+export const immutableArrayCompiler = (value) => value.size ? value.join(GLUE.list) : GLUE.empty;
