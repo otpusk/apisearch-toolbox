@@ -81,6 +81,6 @@ export const geoParser = async (value, { token }) => {
 
 /* immutable List, Set parser */
 
-export const createImmutableArrayParser = (defaultValue) => (value) => value ? value.split(GLUE.list) : defaultValue;
+export const createImmutableArrayParser = (baseValueCreator) => (value) => value ? baseValueCreator(value.split(GLUE.list)) : baseValueCreator();
 
-export const createImmutableNumbersArrayParser = (defaultValue) => (value) => createImmutableArrayParser(defaultValue)(value).map(Number);
+export const createImmutableNumbersArrayParser = (baseValueCreator) => (value) => createImmutableArrayParser(baseValueCreator)(value).map(Number);

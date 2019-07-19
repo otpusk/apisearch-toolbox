@@ -29,12 +29,12 @@ function* parseQueryParam (paramName, rawValue, queryId) {
         [QUERY_PARAMS.DATES]:     datesParser,
         [QUERY_PARAMS.DURATION]:  rangeParser,
         [QUERY_PARAMS.ADULTS]:    Number,
-        [QUERY_PARAMS.CHILDREN]:  createImmutableNumbersArrayParser(List()),
+        [QUERY_PARAMS.CHILDREN]:  createImmutableNumbersArrayParser(List),
         [QUERY_PARAMS.COUNTRY]:   String,
-        [QUERY_PARAMS.CITIES]:    createImmutableNumbersArrayParser(Set()),
-        [QUERY_PARAMS.HOTELS]:    createImmutableNumbersArrayParser(Set()),
+        [QUERY_PARAMS.CITIES]:    createImmutableNumbersArrayParser(Set),
+        [QUERY_PARAMS.HOTELS]:    createImmutableNumbersArrayParser(Set),
         [QUERY_PARAMS.PRICE]:     rangeParser,
-        [QUERY_PARAMS.SERVICES]:  createImmutableArrayParser(Set()),
+        [QUERY_PARAMS.SERVICES]:  createImmutableArrayParser(Set),
     };
 
     if (rawValue !== GLUE.empty) {
