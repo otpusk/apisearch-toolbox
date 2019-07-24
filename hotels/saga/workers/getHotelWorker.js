@@ -7,8 +7,11 @@ import { getToursHotel } from '@otpusk/json-api';
 
 export function* getHotelWorker ({ payload: hotelId }) {
     try {
-        const token = yield select((state) => state.auth.getIn(['otpusk', 'token']));
-        const { hotel } = yield call(getToursHotel, token, hotelId);
+        const { token, lang } = yield select(({ auth }) => ({
+            token: auth.getIn(['otpusk', 'token']),
+            lang: auth.getIn(['otpusk', 'lang'], 'ru'),
+        }));
+        const { hotel } = yield call(getToursHotel, token, hotelId, lang);
 
         yield put(hotelsActions.getHotelSuccess(hotel));
     } catch (error) {
