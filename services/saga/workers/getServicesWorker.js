@@ -7,8 +7,11 @@ import { servicesActions } from '../../actions';
 
 export function* getServicesWorker ({ payload: countryId }) {
     try {
-        const token = yield select((state) => state.auth.getIn(['otpusk', 'token']));
-        const services = yield call(getToursServices, token, countryId);
+        const { token, lang } = yield select(({ auth }) => ({
+            token: auth.getIn(['otpusk', 'token']),
+            lang: auth.getIn(['otpusk', 'lang'])
+        }));
+        const services = yield call(getToursServices, token, countryId, lang);
 
         yield put(servicesActions.getServicesSuccess(services));
     } catch (error) {
