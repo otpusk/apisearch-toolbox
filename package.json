@@ -2,9 +2,9 @@
   "name": "@otpusk/apisearch-toolbox",
   "version": "0.1.42",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "babel . --out-dir ./dist"
   },
   "repository": {
     "type": "git",
@@ -23,5 +23,11 @@
     "redux-actions": "^2.6.5",
     "redux-saga": "^1.0.2",
     "reselect": "^4.0.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.5.5",
+    "@babel/core": "^7.5.5",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/preset-env": "^7.5.5"
   }
 }
