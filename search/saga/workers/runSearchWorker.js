@@ -31,21 +31,20 @@ export function* runSearchWorker ({ payload: queryId }) {
                 progress: operators,
                 total, meta } = yield call(getToursSearch, token, query);
 
+            const getPriceValueByOfferId = (id) => {
+                const { currency, price } = result.offers[id];
+                return currency in price ? price[currency] : price.uah;
+            };
+            
             const hotels = Map(result.hotels)
                 .filter(({ name }) => Boolean(name))
-                .map((hotel) => fromJS(hotel)
-                    .updateIn(['offers'], (offers) =>
-                        offers
-                            .map((offerId) => result.offers[offerId])
-                            .sortBy(({ price: uah }) => uah)
-                    )
-                ).sortBy((hotel) =>
-                    hotel.get('offers').first().price.uah
-                ).map((hotel) =>
-                    hotel
-                        .updateIn(['offers'], (offers) => offers.map(({ id }) => id))
-                        .toJS()
-                );
+                .map((hotel) =>
+                    fromJS(hotel)
+                        .updateIn(['offers'], (offers) => offers.sortBy(getPriceValueByOfferId))
+                )
+                .sortBy((hotel) => getPriceValueByOfferId(hotel.get('offers').first()))
+                .map((hotel) => hotel.toJS());
+        
 
             const offers = Map(result.offers).filter(({ id }) => hotels.some(({ offers: hotelOffers }) => hotelOffers.includes(id)));
 

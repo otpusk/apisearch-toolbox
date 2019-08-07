@@ -81,7 +81,7 @@ function runSearchWorker(_ref) {
           _loop =
           /*#__PURE__*/
           regeneratorRuntime.mark(function _loop() {
-            var _ref3, finished, result, country, operators, total, meta, getPriceValueByOfferId, hotels, offers;
+            var _ref3, finished, result, country, operators, total, meta, hotels, offers;
 
             return regeneratorRuntime.wrap(function _loop$(_context2) {
               while (1) {
@@ -98,52 +98,54 @@ function runSearchWorker(_ref) {
                     operators = _ref3.progress;
                     total = _ref3.total;
                     meta = _ref3.meta;
-
-                    getPriceValueByOfferId = function getPriceValueByOfferId(id) {
-                      var _result$offers$id = result.offers[id],
-                          currency = _result$offers$id.currency,
-                          price = _result$offers$id.price;
-                      return currency in price ? price[currency] : price.uah;
-                    };
-
                     hotels = (0, _immutable.Map)(result.hotels).filter(function (_ref4) {
                       var name = _ref4.name;
                       return Boolean(name);
                     }).map(function (hotel) {
                       return (0, _immutable.fromJS)(hotel).updateIn(['offers'], function (offers) {
-                        return offers.sortBy(getPriceValueByOfferId);
+                        return offers.map(function (offerId) {
+                          return result.offers[offerId];
+                        }).sortBy(function (_ref5) {
+                          var uah = _ref5.price;
+                          return uah;
+                        });
                       });
                     }).sortBy(function (hotel) {
-                      return getPriceValueByOfferId(hotel.get('offers').first());
+                      return hotel.get('offers').first().price.uah;
                     }).map(function (hotel) {
-                      return hotel.toJS();
+                      return hotel.updateIn(['offers'], function (offers) {
+                        return offers.map(function (_ref6) {
+                          var id = _ref6.id;
+                          return id;
+                        });
+                      }).toJS();
                     });
-                    offers = (0, _immutable.Map)(result.offers).filter(function (_ref5) {
-                      var id = _ref5.id;
-                      return hotels.some(function (_ref6) {
-                        var hotelOffers = _ref6.offers;
+                    offers = (0, _immutable.Map)(result.offers).filter(function (_ref7) {
+                      var id = _ref7.id;
+                      return hotels.some(function (_ref8) {
+                        var hotelOffers = _ref8.offers;
                         return hotelOffers.includes(id);
                       });
                     });
 
                     if (!(hotels && offers)) {
-                      _context2.next = 17;
+                      _context2.next = 16;
                       break;
                     }
 
-                    _context2.next = 15;
+                    _context2.next = 14;
                     return (0, _effects.put)(_actions2.hotelsActions.addHotels(hotels));
 
-                  case 15:
-                    _context2.next = 17;
+                  case 14:
+                    _context2.next = 16;
                     return (0, _effects.put)(_actions3.offersActions.addOffers(offers));
 
-                  case 17:
-                    _context2.next = 19;
+                  case 16:
+                    _context2.next = 18;
                     return (0, _effects.put)(_actions.searchActions.processSearch(queryId, {
                       operators: operators,
-                      hotels: hotels.map(function (_ref7) {
-                        var hotelOffers = _ref7.offers;
+                      hotels: hotels.map(function (_ref9) {
+                        var hotelOffers = _ref9.offers;
                         return hotelOffers;
                       }),
                       country: country,
@@ -152,22 +154,22 @@ function runSearchWorker(_ref) {
                       page: query.page
                     }));
 
-                  case 19:
+                  case 18:
                     if (!finished) {
-                      _context2.next = 21;
+                      _context2.next = 20;
                       break;
                     }
 
                     return _context2.abrupt("return", "break");
 
-                  case 21:
-                    _context2.next = 23;
+                  case 20:
+                    _context2.next = 22;
                     return (0, _effects.delay)(5000);
 
-                  case 23:
+                  case 22:
                     query.number += 1;
 
-                  case 24:
+                  case 23:
                   case "end":
                     return _context2.stop();
                 }

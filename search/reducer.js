@@ -25,7 +25,7 @@ export const searchReducer = handleActions(
                 .setIn(['results', queryId, 'status'], 'starting')
                 .removeIn(['charts', queryId]);
         },
-        [actions.processSearch]: (state, { payload: { hotels, operators, queryId, country, total, page, meta }}) => {
+        [actions.processSearch]: (state, { payload: { hotels, operators, queryId, country, total, page, meta } }) => {
             return state
                 .mergeIn(['results', queryId], Map({
                     operators,
