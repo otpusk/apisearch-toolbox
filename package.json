@@ -4,7 +4,7 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "build": "babel . --out-dir ./dist"
+    "build": "babel ./src --out-dir ./dist"
   },
   "repository": {
     "type": "git",
@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/otpusk/apisearch-toolbox#readme",
   "dependencies": {
+    "@otpusk/excursion-api": "git+https://github.com/otpusk/excursion-api.git",
     "@otpusk/json-api": "0.0.47",
     "immutable": "^4.0.0-rc.12",
     "moment": "^2.24.0",
