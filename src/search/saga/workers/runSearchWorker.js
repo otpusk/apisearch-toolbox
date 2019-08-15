@@ -16,7 +16,7 @@ function* runSearchKiller () {
 export function* runSearchWorker ({ payload: queryId }) {
     try {
         const { query } = yield select((state) => ({
-            query:            convertToOtpQuery(state.queries.get(queryId)),
+            query: convertToOtpQuery(state.queries.get(queryId)),
         }));
         const token = yield select((state) => state.auth.getIn(['otpusk', 'token']));
         const killer = yield fork(runSearchKiller);
@@ -33,9 +33,10 @@ export function* runSearchWorker ({ payload: queryId }) {
 
             const getPriceValueByOfferId = (id) => {
                 const { currency, price } = result.offers[id];
+
                 return currency in price ? price[currency] : price.uah;
             };
-            
+
             const hotels = Map(result.hotels)
                 .filter(({ name }) => Boolean(name))
                 .map((hotel) =>
@@ -44,7 +45,6 @@ export function* runSearchWorker ({ payload: queryId }) {
                 )
                 .sortBy((hotel) => getPriceValueByOfferId(hotel.get('offers').first()))
                 .map((hotel) => hotel.toJS());
-        
 
             const offers = Map(result.offers).filter(({ id }) => hotels.some(({ offers: hotelOffers }) => hotelOffers.includes(id)));
 
