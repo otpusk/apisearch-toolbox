@@ -73,11 +73,10 @@ function runSearchWorker(_ref) {
 
         case 11:
           killer = _context3.sent;
-          console.log('query', query);
-          _context3.next = 15;
+          _context3.next = 14;
           return (0, _effects.put)(_actions.searchActions.startSearch(queryId));
 
-        case 15:
+        case 14:
           query.number = 0;
           _loop =
           /*#__PURE__*/
@@ -176,47 +175,47 @@ function runSearchWorker(_ref) {
             }, _loop);
           });
 
-        case 17:
-          return _context3.delegateYield(_loop(), "t0", 18);
+        case 16:
+          return _context3.delegateYield(_loop(), "t0", 17);
 
-        case 18:
+        case 17:
           _ret = _context3.t0;
 
           if (!(_ret === "break")) {
-            _context3.next = 21;
+            _context3.next = 20;
             break;
           }
 
-          return _context3.abrupt("break", 22);
+          return _context3.abrupt("break", 21);
+
+        case 20:
+          if (killer.isRunning()) {
+            _context3.next = 16;
+            break;
+          }
 
         case 21:
-          if (killer.isRunning()) {
-            _context3.next = 17;
-            break;
-          }
-
-        case 22:
-          _context3.next = 24;
+          _context3.next = 23;
           return (0, _effects.delay)(200);
 
-        case 24:
-          _context3.next = 26;
+        case 23:
+          _context3.next = 25;
           return (0, _effects.put)(_actions.searchActions.finishSearch(queryId));
 
-        case 26:
-          _context3.next = 32;
+        case 25:
+          _context3.next = 31;
           break;
 
-        case 28:
-          _context3.prev = 28;
+        case 27:
+          _context3.prev = 27;
           _context3.t1 = _context3["catch"](1);
-          _context3.next = 32;
+          _context3.next = 31;
           return (0, _effects.put)(_actions.searchActions.failSearch(queryId));
 
-        case 32:
+        case 31:
         case "end":
           return _context3.stop();
       }
     }
-  }, _marked2, null, [[1, 28]]);
+  }, _marked2, null, [[1, 27]]);
 }

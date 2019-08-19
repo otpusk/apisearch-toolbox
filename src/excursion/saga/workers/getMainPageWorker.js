@@ -5,13 +5,12 @@ import { call, put } from 'redux-saga/effects';
 import { actions } from '../../actions';
 import { getMainpage } from '@otpusk/excursion-api';
 
-export function* getMainpageWorker() {
+export function* getMainpageWorker () {
     try {
         const categories = yield call(getMainpage);
 
         yield put(actions.getMainpageSuccess(categories));
-    }
-    catch (error) {
+    } catch (error) {
         yield put(actions.getMainpageFail(error));
     }
 }
