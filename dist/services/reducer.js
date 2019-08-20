@@ -16,6 +16,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 var initialState = (0, _immutable.Map)({
   labels: (0, _immutable.Map)({
     'beach_line': 'Линия пляжа',
+    'location': 'Расположение',
     'beach': 'Пляж',
     'main': 'Главное',
     'beach_type': 'тип пляжа',

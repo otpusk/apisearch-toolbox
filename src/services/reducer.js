@@ -6,6 +6,7 @@ import { servicesActions } from './actions';
 const initialState = Map({
     labels: Map({
         'beach_line': 'Линия пляжа',
+        'location':   'Расположение',
         'beach':      'Пляж',
         'main':       'Главное',
         'beach_type': 'тип пляжа',
