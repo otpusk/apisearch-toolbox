@@ -18,7 +18,7 @@
   "homepage": "https://github.com/otpusk/apisearch-toolbox#readme",
   "dependencies": {
     "@otpusk/excursion-api": "git+https://github.com/otpusk/excursion-api.git",
-    "@otpusk/json-api": "0.0.50",
+    "@otpusk/json-api": "0.0.51",
     "immutable": "^4.0.0-rc.12",
     "moment": "^2.24.0",
     "redux-actions": "^2.6.5",
