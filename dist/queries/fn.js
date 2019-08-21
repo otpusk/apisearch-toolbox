@@ -117,7 +117,7 @@ exports.GLUE = GLUE;
 
 function createQuery() {
   var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  return new _immutable.OrderedMap(_objectSpread({}, DEFAULTS, {}, params));
+  return new _immutable.OrderedMap(_objectSpread({}, DEFAULTS)).merge(params);
 }
 /**
  * Create search result bones

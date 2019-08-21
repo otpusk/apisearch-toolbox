@@ -124,8 +124,7 @@ const GLUE = {
 function createQuery (params = {}) {
     return new OrderedMap({
         ...DEFAULTS,
-        ...params,
-    });
+    }).merge(params);
 }
 
 /**
