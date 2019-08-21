@@ -134,8 +134,8 @@ function createQuery (params = {}) {
  */
 function createResultBones () {
     return new Map({
-        country: null,
-        hotels: Map(),
+        country:   null,
+        hotels:    Map(),
         operators: null,
         meta:      null,
         chart:     null,
@@ -248,6 +248,7 @@ function parseQueryParam (currentValue, paramName, rawValue) {
         [QUERY_PARAMS.HOTELS]:    createImmutableNumbersArrayParser(Set),
         [QUERY_PARAMS.PRICE]:     rangeParser,
         [QUERY_PARAMS.SERVICES]:  createImmutableArrayParser(Set),
+        [QUERY_PARAMS.RATING]:    rangeParser,
     };
 
     if (rawValue) {
@@ -265,12 +266,12 @@ function parseQueryParam (currentValue, paramName, rawValue) {
 
 /**
  * Parse query string to query map
- * @param {string} queryString 
- * @param {OrderedMap} baseQuery 
- * 
+ * @param {string} queryString
+ * @param {OrderedMap} baseQuery
+ *
  * @returns {OrderedMap}
  */
-function parseQueryString(queryString, baseQuery) {
+function parseQueryString (queryString, baseQuery) {
     const query = baseQuery || createQuery();
     const params = queryString.replace('#/', '').split('/');
 
