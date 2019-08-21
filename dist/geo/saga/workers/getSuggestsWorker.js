@@ -22,40 +22,36 @@ function getSuggestsWorker(_ref) {
       switch (_context.prev = _context.next) {
         case 0:
           key = _ref.payload;
-          _context.next = 3;
-          return (0, _effects.delay)(25);
-
-        case 3:
-          _context.prev = 3;
-          _context.next = 6;
+          _context.prev = 1;
+          _context.next = 4;
           return (0, _effects.select)(function (state) {
             return state.auth.getIn(['otpusk', 'token']);
           });
 
-        case 6:
+        case 4:
           token = _context.sent;
-          _context.next = 9;
+          _context.next = 7;
           return (0, _effects.call)(_jsonApi.getToursSuggests, token, key);
 
-        case 9:
+        case 7:
           suggestions = _context.sent;
-          _context.next = 12;
+          _context.next = 10;
           return (0, _effects.put)(_actions.geoActions.getSuggestsSuccess(key, suggestions));
 
-        case 12:
-          _context.next = 18;
+        case 10:
+          _context.next = 16;
           break;
 
-        case 14:
-          _context.prev = 14;
-          _context.t0 = _context["catch"](3);
-          _context.next = 18;
+        case 12:
+          _context.prev = 12;
+          _context.t0 = _context["catch"](1);
+          _context.next = 16;
           return (0, _effects.put)(_actions.geoActions.getSuggestsFail(_context.t0));
 
-        case 18:
+        case 16:
         case "end":
           return _context.stop();
       }
     }
-  }, _marked, null, [[3, 14]]);
+  }, _marked, null, [[1, 12]]);
 }

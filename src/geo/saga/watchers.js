@@ -1,5 +1,5 @@
 // Core
-import { takeLatest, takeEvery } from 'redux-saga/effects';
+import { debounce, takeEvery } from 'redux-saga/effects';
 
 // Instruments
 import { geoActions } from '../actions';
@@ -12,7 +12,7 @@ import { getOperatorsWorker } from './workers/getOperatorsWorker';
 
 export const geoWatchers =  Object.freeze({
     * getSuggestsWatcher () {
-        yield takeLatest(geoActions.getSuggests, getSuggestsWorker);
+        yield debounce(250, geoActions.getSuggests, getSuggestsWorker);
     },
     * getCountriesWatcher () {
         yield takeEvery(geoActions.getCountries, getCountriesWorker);

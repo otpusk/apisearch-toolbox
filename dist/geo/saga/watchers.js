@@ -32,7 +32,7 @@ var geoWatchers = Object.freeze({
         switch (_context.prev = _context.next) {
           case 0:
             _context.next = 2;
-            return (0, _effects.takeLatest)(_actions.geoActions.getSuggests, _getSuggestsWorker.getSuggestsWorker);
+            return (0, _effects.debounce)(250, _actions.geoActions.getSuggests, _getSuggestsWorker.getSuggestsWorker);
 
           case 2:
           case "end":
