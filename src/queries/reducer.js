@@ -1,11 +1,11 @@
 // Core
-import { Map, Range } from 'immutable';
+import { Map, Range, Set } from 'immutable';
 import moment from 'moment';
 import { handleActions } from 'redux-actions';
 
 // Instruments
 import { queriesActions } from './actions';
-import { createQuery, QUERY_PARAMS, parseOSQueryHash, parseQueryString  } from './fn';
+import { createQuery, QUERY_PARAMS, parseOSQueryHash, parseQueryString } from './fn';
 
 const initalState = Map({});
 
@@ -35,9 +35,9 @@ export const queriesReducer = handleActions(
                     [QUERY_PARAMS.ADULTS]:   offer.adults,
                     [QUERY_PARAMS.CHILDREN]: state.getIn(
                         ['form', QUERY_PARAMS.CHILDREN],
-                        Range(0, offer.children).map(() => offer.childrenAge).toArray()
+                        Range(0, offer.children).map(() => offer.childrenAge).toList()
                     ),
-                    [QUERY_PARAMS.HOTELS]:    [hotel.id],
+                    [QUERY_PARAMS.HOTELS]:    Set([hotel.id]),
                     [QUERY_PARAMS.TRANSPORT]: Map({ [offer.transport]: true }),
                     [QUERY_PARAMS.FOOD]:      Map({ [offer.food]: true }),
                     ...overrides,
@@ -53,7 +53,7 @@ export const queriesReducer = handleActions(
         [queriesActions.resetQueryParam]: (state, { payload: { queryId, paramName }}) => {
             return state.setIn([queryId, paramName], createQuery().get(paramName));
         },
-        [queriesActions.parseOsQueryString]: (state, { payload: { targetQueryId, queryString } }) => {
+        [queriesActions.parseOsQueryString]: (state, { payload: { targetQueryId, queryString }}) => {
 
             return state.update(
                 (queries) => queryString
@@ -61,13 +61,13 @@ export const queriesReducer = handleActions(
                     : queries
             );
         },
-        [queriesActions.parseQueryString]: (state, { payload: { queryId, queryString } }) => {
+        [queriesActions.parseQueryString]: (state, { payload: { queryId, queryString }}) => {
             return state.update(
                 (queries) => queryString
                     ? queries.set(queryId, parseQueryString(queryString, queries.get(queryId)))
                     : queries
             );
-        }
+        },
     },
     initalState
 );

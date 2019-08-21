@@ -53,7 +53,7 @@ var queriesReducer = (0, _reduxActions.handleActions)((_handleActions = {}, _def
     to: (0, _moment["default"])(offer.date)
   })), _defineProperty(_objectSpread2, _fn.QUERY_PARAMS.CATEGORY, (0, _immutable.Map)({})), _defineProperty(_objectSpread2, _fn.QUERY_PARAMS.ADULTS, offer.adults), _defineProperty(_objectSpread2, _fn.QUERY_PARAMS.CHILDREN, state.getIn(['form', _fn.QUERY_PARAMS.CHILDREN], (0, _immutable.Range)(0, offer.children).map(function () {
     return offer.childrenAge;
-  }).toArray())), _defineProperty(_objectSpread2, _fn.QUERY_PARAMS.HOTELS, [hotel.id]), _defineProperty(_objectSpread2, _fn.QUERY_PARAMS.TRANSPORT, (0, _immutable.Map)(_defineProperty({}, offer.transport, true))), _defineProperty(_objectSpread2, _fn.QUERY_PARAMS.FOOD, (0, _immutable.Map)(_defineProperty({}, offer.food, true))), _objectSpread2), overrides)));
+  }).toList())), _defineProperty(_objectSpread2, _fn.QUERY_PARAMS.HOTELS, (0, _immutable.Set)([hotel.id])), _defineProperty(_objectSpread2, _fn.QUERY_PARAMS.TRANSPORT, (0, _immutable.Map)(_defineProperty({}, offer.transport, true))), _defineProperty(_objectSpread2, _fn.QUERY_PARAMS.FOOD, (0, _immutable.Map)(_defineProperty({}, offer.food, true))), _objectSpread2), overrides)));
 }), _defineProperty(_handleActions, _actions.queriesActions.changeQueryParam, function (state, _ref4) {
   var _ref4$payload = _ref4.payload,
       queryId = _ref4$payload.queryId,
