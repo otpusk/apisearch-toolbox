@@ -8,7 +8,9 @@ import { getToursSuggests } from '@otpusk/json-api';
 export function* getSuggestsWorker ({ payload: key }) {
     try {
         const token = yield select((state) => state.auth.getIn(['otpusk', 'token']));
-        const suggestions = yield call(getToursSuggests, token, key);
+        const lang = yield select((state) => state.auth.getIn(['otpusk', 'lang'], 'rus'));
+
+        const suggestions = yield call(getToursSuggests, token, key, { lang, 'with': 'price' });
 
         yield put(geoActions.getSuggestsSuccess(key, suggestions));
     } catch (error) {
