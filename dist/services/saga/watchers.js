@@ -22,7 +22,7 @@ var servicesWatchers = Object.freeze({
         switch (_context.prev = _context.next) {
           case 0:
             _context.next = 2;
-            return (0, _effects.takeLeading)(_actions.servicesActions.getServices, _getServicesWorker.getServicesWorker);
+            return (0, _effects.takeEvery)(_actions.servicesActions.getServices, _getServicesWorker.getServicesWorker);
 
           case 2:
           case "end":
