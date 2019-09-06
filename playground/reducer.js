@@ -1,9 +1,11 @@
 import { combineReducers } from 'redux';
 
-import { excursionGeoReducer } from '../src/excursionGeo';
-import { excursionReducer } from '../src/excursion';
+import { excursionGeoReducer as excursionGeo } from '../src/excursionGeo';
+import { excursionReducer as excursion } from '../src/excursion';
+import { servicesReducer as services } from '../src/services';
 
 export const reducer = combineReducers({
-    excursionGeoReducer,
-    excursionReducer,
+    excursionGeo,
+    excursion,
+    services,
 });

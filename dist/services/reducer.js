@@ -26,17 +26,22 @@ var initialState = (0, _immutable.Map)({
     'sport': 'Развлечения и спорт',
     'recommend': 'Отели с рекомендацией'
   }),
-  groups: (0, _immutable.Map)()
+  groups: (0, _immutable.Map)(),
+  countries: (0, _immutable.Map)()
 });
 var servicesReducer = (0, _reduxActions.handleActions)(_defineProperty({}, _actions.servicesActions.getServicesSuccess, function (state, _ref) {
-  var payload = _ref.payload;
-  var services = (0, _immutable.fromJS)(payload);
-  return state.setIn(['groups'], services.map(function (group) {
+  var _ref$payload = _ref.payload,
+      countryId = _ref$payload.countryId,
+      raw = _ref$payload.services;
+  var servicesWithLabels = (0, _immutable.fromJS)(raw);
+  var services = servicesWithLabels.map(function (group) {
     return group.map(function (label, code) {
       return code;
     }).toList();
-  })).mergeIn(['labels'], services.reduce(function (list, group) {
+  });
+  var labels = servicesWithLabels.reduce(function (list, group) {
     return list.merge(group);
-  }, (0, _immutable.Map)()));
+  }, (0, _immutable.Map)());
+  return state.setIn(['groups'], services).setIn(['countries', countryId], services).mergeIn(['labels'], labels);
 }), initialState);
 exports.servicesReducer = servicesReducer;

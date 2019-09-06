@@ -13,8 +13,11 @@ var servicesActions = (0, _reduxActions.createActions)({
     var countryId = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
     return countryId;
   },
-  GET_SERVICES_SUCCESS: function GET_SERVICES_SUCCESS(services) {
-    return services;
+  GET_SERVICES_SUCCESS: function GET_SERVICES_SUCCESS(countryId, services) {
+    return {
+      countryId: countryId,
+      services: services
+    };
   },
   GET_SERVICES_FAIL: function GET_SERVICES_FAIL(error) {
     return error;

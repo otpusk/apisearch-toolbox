@@ -43,7 +43,7 @@ function getServicesWorker(_ref) {
         case 9:
           services = _context.sent;
           _context.next = 12;
-          return (0, _effects.put)(_actions.servicesActions.getServicesSuccess(services));
+          return (0, _effects.put)(_actions.servicesActions.getServicesSuccess(countryId, services));
 
         case 12:
           _context.next = 18;

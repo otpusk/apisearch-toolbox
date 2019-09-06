@@ -9,11 +9,11 @@ export function* getServicesWorker ({ payload: countryId }) {
     try {
         const { token, lang } = yield select(({ auth }) => ({
             token: auth.getIn(['otpusk', 'token']),
-            lang: auth.getIn(['otpusk', 'lang'])
+            lang:  auth.getIn(['otpusk', 'lang']),
         }));
         const services = yield call(getToursServices, token, countryId, lang);
 
-        yield put(servicesActions.getServicesSuccess(services));
+        yield put(servicesActions.getServicesSuccess(countryId, services));
     } catch (error) {
         yield put(servicesActions.getServicesFail(error));
     }

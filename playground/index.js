@@ -1,7 +1,8 @@
 import { store } from './store';
-import { excursionGeoActions } from '../src/excursionGeo';
+import { servicesActions } from '../src/services';
 
-store.dispatch(excursionGeoActions.getDepartureCities(0));
+store.dispatch(servicesActions.getServices(0));
+store.dispatch(servicesActions.getServices(43));
 
 const exec = require('child_process').execSync;
 const sleep = (time) => time && exec(`sleep ${time}`);

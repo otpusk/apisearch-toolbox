@@ -16,22 +16,21 @@ const initialState = Map({
         'sport':      'Развлечения и спорт',
         'recommend':  'Отели с рекомендацией',
     }),
-    groups: Map(),
+    groups:    Map(),
+    countries: Map(),
 });
 
 export const servicesReducer = handleActions(
     {
-        [servicesActions.getServicesSuccess]: (state, { payload }) => {
-            const services = fromJS(payload);
+        [servicesActions.getServicesSuccess]: (state, { payload: { countryId, services: raw }}) => {
+            const servicesWithLabels = fromJS(raw);
+            const services = servicesWithLabels.map((group) => group.map((label, code) => code).toList());
+            const labels = servicesWithLabels.reduce((list, group) => list.merge(group), Map());
 
             return state
-                .setIn(['groups'], services.map(
-                    (group) => group.map((label, code) => code).toList()
-                ))
-                .mergeIn(['labels'], services.reduce(
-                    (list, group) => list.merge(group),
-                    Map()
-                ));
+                .setIn(['groups'], services)
+                .setIn(['countries', countryId], services)
+                .mergeIn(['labels'], labels);
         },
     },
     initialState
