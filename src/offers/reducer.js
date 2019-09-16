@@ -16,10 +16,12 @@ export const offersReducer = handleActions(
         [offersActions.addOffers]: (state, { payload: newOffers }) => {
             return state
                 .updateIn(['store'], (offers) =>
-                    offers.mergeWith((a, b) => ({
-                        ...b,
-                        ...a,
-                    }), newOffers)
+                    offers.mergeDeepWith((a, b) => typeof b === 'object'
+                        ? { ...b, ...a }
+                        : b
+                            ? b
+                            : a,
+                    newOffers)
                 )
                 .mergeIn(['status'], Map(newOffers).map((offer, id) => state.getIn(['status', id], 'alive')));
         },

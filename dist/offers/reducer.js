@@ -19,6 +19,8 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 var initalState = (0, _immutable.Map)({
   store: (0, _immutable.Map)(),
   status: (0, _immutable.Map)(),
@@ -27,8 +29,8 @@ var initalState = (0, _immutable.Map)({
 var offersReducer = (0, _reduxActions.handleActions)((_handleActions = {}, _defineProperty(_handleActions, _actions.offersActions.addOffers, function (state, _ref) {
   var newOffers = _ref.payload;
   return state.updateIn(['store'], function (offers) {
-    return offers.mergeWith(function (a, b) {
-      return _objectSpread({}, b, {}, a);
+    return offers.mergeDeepWith(function (a, b) {
+      return _typeof(b) === 'object' ? _objectSpread({}, b, {}, a) : b ? b : a;
     }, newOffers);
   }).mergeIn(['status'], (0, _immutable.Map)(newOffers).map(function (offer, id) {
     return state.getIn(['status', id], 'alive');
