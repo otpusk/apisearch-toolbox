@@ -1,6 +1,6 @@
 // Core
 import { Map } from 'immutable';
-import { handleActions, combineActions } from 'redux-actions';
+import { handleActions } from 'redux-actions';
 
 // Instruments
 import { offersActions } from './actions';
