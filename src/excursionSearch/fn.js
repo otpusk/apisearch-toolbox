@@ -5,16 +5,14 @@ import moment from 'moment';
 
 export class Query extends OrderedMap {
     static defaults = Object.freeze({
-        departure: null,
-        locations: [],
-        dates:     {
-            from: moment().add(7, 'days').locale('ru'),
-            to:   moment().add(14, 'days').locale('ru'),
-        },
-        duration: {
-            from: 4,
-            to:   8,
-        },
+        departure:   null,
+        destCountry: [],
+        destCity:    [],
+        destSight:   [],
+        dateFrom:    moment().add(7, 'days').locale('ru'),
+        dateTo:      moment().add(14, 'days').locale('ru'),
+        lengthFrom:  4,
+        lengthTo:    8,
     });
 
     constructor () {
@@ -26,31 +24,52 @@ export class Query extends OrderedMap {
     }
 
     setDeparture (value) {
-        return this.set('departure', value);
-    }
-    getDeparture () {
-        return this.get('departure');
+        return this.set('departureCity', value);
     }
 
-    setLocations (value) {
-        return this.set('locations', value);
+    getDeparture () {
+        return this.get('departureCity');
+    }
+
+    setLocations (locations) {
+        const { countries, cities, sights } = locations.reduce((geos, { type, id }) => {
+            geos[type] = [...geos[type], id];
+
+            return geos;
+        }, { countries: [], cities: [], sights: []});
+
+        return this
+            .set('destCountry', countries)
+            .set('destCity', cities)
+            .set('destSight', sights);
     }
     getLocations () {
-        return this.get('locations');
+        return [
+            ...this.get('destCountry', []).map((id) => ({ id, type: 'countries' })),
+            ...this.get('destCity', []).map((id) => ({ id, type: 'cities' })),
+            ...this.get('destSight', []).map((id) => ({ id, type: 'sights' }))
+        ];
     }
 
-    setDates (value) {
-        return this.set('dates', value);
+    setDates ({ from, to }) {
+        return this.set('dateFrom', from).set('dateTo', to);
     }
+
     getDates () {
-        return this.get('dates');
+        return {
+            from: this.get('dateFrom'),
+            to:   this.get('dateTo'),
+        };
     }
 
-    setDuration (value) {
-        return this.set('duration', value);
+    setDuration ({ from, to }) {
+        return this.set('lengthFrom', from).set('lengthTo', to);
     }
     getDuration () {
-        return this.get('duration');
+        return {
+            from: this.get('lengthFrom'),
+            to:   this.get('lengthTo'),
+        };
     }
 }
 

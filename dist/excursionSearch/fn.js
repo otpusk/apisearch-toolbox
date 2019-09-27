@@ -13,6 +13,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -45,7 +53,7 @@ function (_OrderedMap) {
 
     _classCallCheck(this, Query);
 
-    return _possibleConstructorReturn(_this, makeQuery(_this = _possibleConstructorReturn(this, _getPrototypeOf(Query).call(this, Query.defaults))));
+    return _possibleConstructorReturn(_this, makeQuery((0, _immutable.OrderedMap)(Query.defaults)));
   }
 
   _createClass(Query, [{
@@ -56,42 +64,81 @@ function (_OrderedMap) {
   }, {
     key: "setDeparture",
     value: function setDeparture(value) {
-      return this.set('departure', value);
+      return this.set('departureCity', value);
     }
   }, {
     key: "getDeparture",
     value: function getDeparture() {
-      return this.get('departure');
+      return this.get('departureCity');
     }
   }, {
     key: "setLocations",
-    value: function setLocations(value) {
-      return this.set('locations', value);
+    value: function setLocations(locations) {
+      var _locations$reduce = locations.reduce(function (geos, _ref) {
+        var type = _ref.type,
+            id = _ref.id;
+        geos[type] = [].concat(_toConsumableArray(geos[type]), [id]);
+        return geos;
+      }, {
+        countries: [],
+        cities: [],
+        sights: []
+      }),
+          countries = _locations$reduce.countries,
+          cities = _locations$reduce.cities,
+          sights = _locations$reduce.sights;
+
+      return this.set('destCountry', countries).set('destCity', cities).set('destSight', sights);
     }
   }, {
     key: "getLocations",
     value: function getLocations() {
-      return this.get('locations');
+      return [].concat(_toConsumableArray(this.get('destCountry', []).map(function (id) {
+        return {
+          id: id,
+          type: 'countries'
+        };
+      })), _toConsumableArray(this.get('destCity', []).map(function (id) {
+        return {
+          id: id,
+          type: 'cities'
+        };
+      })), _toConsumableArray(this.get('destSight', []).map(function (id) {
+        return {
+          id: id,
+          type: 'sights'
+        };
+      })));
     }
   }, {
     key: "setDates",
-    value: function setDates(value) {
-      return this.set('dates', value);
+    value: function setDates(_ref2) {
+      var from = _ref2.from,
+          to = _ref2.to;
+      return this.set('dateFrom', from).set('dateTo', to);
     }
   }, {
     key: "getDates",
     value: function getDates() {
-      return this.get('dates');
+      return {
+        from: this.get('dateFrom'),
+        to: this.get('dateTo')
+      };
     }
   }, {
     key: "setDuration",
-    value: function setDuration(value) {
-      return this.set('duration', value);
+    value: function setDuration(_ref3) {
+      var from = _ref3.from,
+          to = _ref3.to;
+      return this.set('lengthFrom', from).set('lengthTo', to);
     }
   }, {
     key: "getDuration",
     value: function getDuration() {
-      return this.get('duration');
+      return {
+        from: this.get('lengthFrom'),
+        to: this.get('lengthTo')
+      };
     }
   }]);
 
@@ -102,15 +149,13 @@ exports.Query = Query;
 
 _defineProperty(Query, "defaults", Object.freeze({
   departure: null,
-  locations: [],
-  dates: {
-    from: (0, _moment["default"])().add(7, 'days').locale('ru'),
-    to: (0, _moment["default"])().add(14, 'days').locale('ru')
-  },
-  duration: {
-    from: 4,
-    to: 8
-  }
+  destCountry: [],
+  destCity: [],
+  destSight: [],
+  dateFrom: (0, _moment["default"])().add(7, 'days').locale('ru'),
+  dateTo: (0, _moment["default"])().add(14, 'days').locale('ru'),
+  lengthFrom: 4,
+  lengthTo: 8
 }));
 
 function makeQuery(orderedMap) {

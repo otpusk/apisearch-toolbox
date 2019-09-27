@@ -23,6 +23,18 @@ var actions = (0, _reduxActions.createActions)({
   },
   RUN_SEARCH: function RUN_SEARCH(queryId) {
     return queryId;
+  },
+  PROCESS_SEARCH: function PROCESS_SEARCH(queryId, tours) {
+    return {
+      queryId: queryId,
+      tours: tours
+    };
+  },
+  FINISH_SEARCH: function FINISH_SEARCH(queryId) {
+    return queryId;
+  },
+  FAIL_SEARCH: function FAIL_SEARCH(error) {
+    return error;
   }
 }, {
   prefix: '@apisearch/excursion'

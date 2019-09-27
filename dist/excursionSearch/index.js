@@ -21,9 +21,17 @@ Object.defineProperty(exports, "excursionSearchReducer", {
     return _reducer.reducer;
   }
 });
+Object.defineProperty(exports, "excursionSearchWatchers", {
+  enumerable: true,
+  get: function get() {
+    return _watchers.watchers;
+  }
+});
 
 var _fn = require("./fn");
 
 var _actions = require("./actions");
 
 var _reducer = require("./reducer");
+
+var _watchers = require("./saga/watchers");
