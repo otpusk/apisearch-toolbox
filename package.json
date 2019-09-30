@@ -1,6 +1,6 @@
 {
   "name": "@otpusk/apisearch-toolbox",
-  "version": "0.2.64",
+  "version": "0.2.65",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
@@ -17,14 +17,16 @@
   },
   "homepage": "https://github.com/otpusk/apisearch-toolbox#readme",
   "dependencies": {
-    "@otpusk/excursion-api": "^0.0.10",
-    "@otpusk/json-api": "0.0.52",
     "immutable": "^4.0.0-rc.12",
     "moment": "^2.24.0",
     "redux": "^4.0.4",
     "redux-actions": "^2.6.5",
     "redux-saga": "^1.0.2",
     "reselect": "^4.0.0"
+  },
+  "peerDependencies": {
+    "@otpusk/excursion-api": "^0.0.10",
+    "@otpusk/json-api": "^0.0.52"
   },
   "devDependencies": {
     "@babel/cli": "^7.5.5",
