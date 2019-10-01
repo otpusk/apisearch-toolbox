@@ -13,6 +13,7 @@ export class Query extends OrderedMap {
         dateTo:      moment().add(14, 'days').locale('ru'),
         lengthFrom:  4,
         lengthTo:    8,
+        operators:   [],
     });
 
     constructor () {
@@ -70,6 +71,13 @@ export class Query extends OrderedMap {
             from: this.get('lengthFrom'),
             to:   this.get('lengthTo'),
         };
+    }
+
+    setOperators (operators) {
+        return this.set('operators', operators);
+    }
+    getOperators () {
+        return this.get('operators');
     }
 }
 

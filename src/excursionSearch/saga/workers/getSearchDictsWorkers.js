@@ -9,7 +9,7 @@ export function* getSearchOperatorsWorker () {
     try {
         const operators = yield call(getFilterOperators);
 
-        yield put(actions.getSearchOperatorsSuccess(operators));
+        yield put(actions.getSearchOperatorsSuccess(0, operators));
     } catch (error) {
         yield put(actions.getSearchOperatorsFail(error));
     }
@@ -29,7 +29,7 @@ export function* getSearchCategoriesWorker () {
     try {
         const categories = yield call(getFilterCategories);
 
-        yield put(actions.getSearchCategoriesSuccess(categories));
+        yield put(actions.getSearchCategoriesSuccess(0, categories));
     } catch (error) {
         yield put(actions.getSearchCategoriesFail(error));
     }

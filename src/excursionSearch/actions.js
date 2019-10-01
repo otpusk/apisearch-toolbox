@@ -11,7 +11,7 @@ export const actions = createActions({
     FAIL_SEARCH:    (error) => error,
 
     GET_SEARCH_OPERATORS:         () => void 0,
-    GET_SEARCH_OPERATORS_SUCCESS: () => void 0,
+    GET_SEARCH_OPERATORS_SUCCESS: (key, operators) => ({ key, operators }),
     GET_SEARCH_OPERATORS_FAIL:    (error) => error,
 
     GET_SEARCH_TRANSPORT:         () => void 0,
@@ -19,6 +19,6 @@ export const actions = createActions({
     GET_SEARCH_TRANSPORT_FAIL:    (error) => error,
 
     GET_SEARCH_CATEGORIES:         () => void 0,
-    GET_SEARCH_CATEGORIES_SUCCESS: () => void 0,
+    GET_SEARCH_CATEGORIES_SUCCESS: (key, categories) => ({ key, categories }),
     GET_SEARCH_CATEGORIES_FAIL:    (error) => error,
 }, { prefix: '@apisearch/excursion' });

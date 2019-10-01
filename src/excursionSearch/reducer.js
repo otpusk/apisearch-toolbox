@@ -6,9 +6,10 @@ import { Map } from 'immutable';
 import { actions } from './actions';
 
 const initialState = Map({
-    statuses: {},
-    queries:  {},
-    results:  {},
+    statuses:  {},
+    queries:   {},
+    results:   {},
+    operators: {},
 });
 
 export const reducer = handleActions({
@@ -26,5 +27,11 @@ export const reducer = handleActions({
     },
     [actions.failSearch]: (state, { payload: queryId }) => {
         return state.setIn(['statuses', queryId], 'failed');
+    },
+    [actions.getSearchCategoriesSuccess]: (state, { payload: { key, categories }}) => {
+        return state.setIn(['categories', key], categories);
+    },
+    [actions.getSearchOperatorsSuccess]: (state, { payload: { key, operators }}) => {
+        return state.setIn(['operators', key], operators);
     },
 }, initialState);

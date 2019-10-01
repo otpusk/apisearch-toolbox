@@ -140,6 +140,16 @@ function (_OrderedMap) {
         to: this.get('lengthTo')
       };
     }
+  }, {
+    key: "setOperators",
+    value: function setOperators(operators) {
+      return this.set('operators', operators);
+    }
+  }, {
+    key: "getOperators",
+    value: function getOperators() {
+      return this.get('operators');
+    }
   }]);
 
   return Query;
@@ -155,7 +165,8 @@ _defineProperty(Query, "defaults", Object.freeze({
   dateFrom: (0, _moment["default"])().add(7, 'days').locale('ru'),
   dateTo: (0, _moment["default"])().add(14, 'days').locale('ru'),
   lengthFrom: 4,
-  lengthTo: 8
+  lengthTo: 8,
+  operators: []
 }));
 
 function makeQuery(orderedMap) {

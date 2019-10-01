@@ -18,7 +18,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 var initialState = (0, _immutable.Map)({
   statuses: {},
   queries: {},
-  results: {}
+  results: {},
+  operators: {}
 });
 var reducer = (0, _reduxActions.handleActions)((_handleActions = {}, _defineProperty(_handleActions, (0, _reduxActions.combineActions)(_actions.actions.createQuery, _actions.actions.setQuery), function (state, _ref) {
   var _ref$payload = _ref.payload,
@@ -39,5 +40,15 @@ var reducer = (0, _reduxActions.handleActions)((_handleActions = {}, _defineProp
 }), _defineProperty(_handleActions, _actions.actions.failSearch, function (state, _ref5) {
   var queryId = _ref5.payload;
   return state.setIn(['statuses', queryId], 'failed');
+}), _defineProperty(_handleActions, _actions.actions.getSearchCategoriesSuccess, function (state, _ref6) {
+  var _ref6$payload = _ref6.payload,
+      key = _ref6$payload.key,
+      categories = _ref6$payload.categories;
+  return state.setIn(['categories', key], categories);
+}), _defineProperty(_handleActions, _actions.actions.getSearchOperatorsSuccess, function (state, _ref7) {
+  var _ref7$payload = _ref7.payload,
+      key = _ref7$payload.key,
+      operators = _ref7$payload.operators;
+  return state.setIn(['operators', key], operators);
 }), _handleActions), initialState);
 exports.reducer = reducer;

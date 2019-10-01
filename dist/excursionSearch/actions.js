@@ -39,8 +39,11 @@ var actions = (0, _reduxActions.createActions)({
   GET_SEARCH_OPERATORS: function GET_SEARCH_OPERATORS() {
     return void 0;
   },
-  GET_SEARCH_OPERATORS_SUCCESS: function GET_SEARCH_OPERATORS_SUCCESS() {
-    return void 0;
+  GET_SEARCH_OPERATORS_SUCCESS: function GET_SEARCH_OPERATORS_SUCCESS(key, operators) {
+    return {
+      key: key,
+      operators: operators
+    };
   },
   GET_SEARCH_OPERATORS_FAIL: function GET_SEARCH_OPERATORS_FAIL(error) {
     return error;
@@ -57,8 +60,11 @@ var actions = (0, _reduxActions.createActions)({
   GET_SEARCH_CATEGORIES: function GET_SEARCH_CATEGORIES() {
     return void 0;
   },
-  GET_SEARCH_CATEGORIES_SUCCESS: function GET_SEARCH_CATEGORIES_SUCCESS() {
-    return void 0;
+  GET_SEARCH_CATEGORIES_SUCCESS: function GET_SEARCH_CATEGORIES_SUCCESS(key, categories) {
+    return {
+      key: key,
+      categories: categories
+    };
   },
   GET_SEARCH_CATEGORIES_FAIL: function GET_SEARCH_CATEGORIES_FAIL(error) {
     return error;

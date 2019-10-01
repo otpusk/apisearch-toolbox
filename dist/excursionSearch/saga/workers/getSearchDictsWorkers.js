@@ -36,7 +36,7 @@ function getSearchOperatorsWorker() {
         case 3:
           operators = _context.sent;
           _context.next = 6;
-          return (0, _effects.put)(_actions.actions.getSearchOperatorsSuccess(operators));
+          return (0, _effects.put)(_actions.actions.getSearchOperatorsSuccess(0, operators));
 
         case 6:
           _context.next = 12;
@@ -102,7 +102,7 @@ function getSearchCategoriesWorker() {
         case 3:
           categories = _context3.sent;
           _context3.next = 6;
-          return (0, _effects.put)(_actions.actions.getSearchCategoriesSuccess(categories));
+          return (0, _effects.put)(_actions.actions.getSearchCategoriesSuccess(0, categories));
 
         case 6:
           _context3.next = 12;
