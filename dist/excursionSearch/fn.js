@@ -150,6 +150,16 @@ function (_OrderedMap) {
     value: function getOperators() {
       return this.get('operators');
     }
+  }, {
+    key: "setCategories",
+    value: function setCategories(categories) {
+      return this.set('categories', categories);
+    }
+  }, {
+    key: "getCategories",
+    value: function getCategories() {
+      return this.get('categories');
+    }
   }]);
 
   return Query;
@@ -166,7 +176,8 @@ _defineProperty(Query, "defaults", Object.freeze({
   dateTo: (0, _moment["default"])().add(14, 'days').locale('ru'),
   lengthFrom: 4,
   lengthTo: 8,
-  operators: []
+  operators: [],
+  categories: []
 }));
 
 function makeQuery(orderedMap) {

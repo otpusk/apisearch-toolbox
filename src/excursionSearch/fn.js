@@ -14,6 +14,7 @@ export class Query extends OrderedMap {
         lengthFrom:  4,
         lengthTo:    8,
         operators:   [],
+        categories:  [],
     });
 
     constructor () {
@@ -78,6 +79,14 @@ export class Query extends OrderedMap {
     }
     getOperators () {
         return this.get('operators');
+    }
+
+    setCategories (categories) {
+        return this.set('categories', categories);
+    }
+
+    getCategories () {
+        return this.get('categories');
     }
 }
 
