@@ -35,6 +35,33 @@ var actions = (0, _reduxActions.createActions)({
   },
   FAIL_SEARCH: function FAIL_SEARCH(error) {
     return error;
+  },
+  GET_SEARCH_OPERATORS: function GET_SEARCH_OPERATORS() {
+    return void 0;
+  },
+  GET_SEARCH_OPERATORS_SUCCESS: function GET_SEARCH_OPERATORS_SUCCESS() {
+    return void 0;
+  },
+  GET_SEARCH_OPERATORS_FAIL: function GET_SEARCH_OPERATORS_FAIL(error) {
+    return error;
+  },
+  GET_SEARCH_TRANSPORT: function GET_SEARCH_TRANSPORT() {
+    return void 0;
+  },
+  GET_SEARCH_TRANSPORT_SUCCESS: function GET_SEARCH_TRANSPORT_SUCCESS() {
+    return void 0;
+  },
+  GET_SEARCH_TRANSPORT_FAIL: function GET_SEARCH_TRANSPORT_FAIL(error) {
+    return error;
+  },
+  GET_SEARCH_CATEGORIES: function GET_SEARCH_CATEGORIES() {
+    return void 0;
+  },
+  GET_SEARCH_CATEGORIES_SUCCESS: function GET_SEARCH_CATEGORIES_SUCCESS() {
+    return void 0;
+  },
+  GET_SEARCH_CATEGORIES_FAIL: function GET_SEARCH_CATEGORIES_FAIL(error) {
+    return error;
   }
 }, {
   prefix: '@apisearch/excursion'
