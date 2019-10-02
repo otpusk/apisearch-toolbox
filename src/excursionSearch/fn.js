@@ -5,16 +5,20 @@ import moment from 'moment';
 
 export class Query extends OrderedMap {
     static defaults = Object.freeze({
-        departure:   null,
-        destCountry: [],
-        destCity:    [],
-        destSight:   [],
-        dateFrom:    moment().add(7, 'days').locale('ru'),
-        dateTo:      moment().add(14, 'days').locale('ru'),
-        lengthFrom:  4,
-        lengthTo:    8,
-        operators:   [],
-        categories:  [],
+        departure:            null,
+        destCountry:          [],
+        destCity:             [],
+        destSight:            [],
+        dateFrom:             moment().add(7, 'days').locale('ru'),
+        dateTo:               moment().add(14, 'days').locale('ru'),
+        lengthFrom:           4,
+        lengthTo:             8,
+        operators:            [],
+        categories:           [],
+        transport:            [],
+        priceFrom:            null,
+        priceTo:              null,
+        withoutNightTransfer: false,
     });
 
     constructor () {
@@ -45,6 +49,7 @@ export class Query extends OrderedMap {
             .set('destCity', cities)
             .set('destSight', sights);
     }
+
     getLocations () {
         return [
             ...this.get('destCountry', []).map((id) => ({ id, type: 'countries' })),
@@ -67,6 +72,7 @@ export class Query extends OrderedMap {
     setDuration ({ from, to }) {
         return this.set('lengthFrom', from).set('lengthTo', to);
     }
+
     getDuration () {
         return {
             from: this.get('lengthFrom'),
@@ -77,6 +83,7 @@ export class Query extends OrderedMap {
     setOperators (operators) {
         return this.set('operators', operators);
     }
+
     getOperators () {
         return this.get('operators');
     }
@@ -87,6 +94,33 @@ export class Query extends OrderedMap {
 
     getCategories () {
         return this.get('categories');
+    }
+
+    setTransport (transport) {
+        return this.set('transport', transport);
+    }
+
+    getTransport () {
+        return this.get('transport');
+    }
+
+    setPrice ({ from, to }) {
+        return this.set('priceFrom', from).set('priceTo', to);
+    }
+
+    getPrice () {
+        return {
+            from: this.get('priceFrom'),
+            to:   this.get('priceTo'),
+        };
+    }
+
+    setWithoutNightTransfer (flag) {
+        return this.set('withoutNightTransfer', flag);
+    }
+
+    isWithoutNightTransfer () {
+        return this.get('withoutNightTransfer');
     }
 }
 

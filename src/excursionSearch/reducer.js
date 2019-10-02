@@ -34,4 +34,7 @@ export const reducer = handleActions({
     [actions.getSearchOperatorsSuccess]: (state, { payload: { key, operators }}) => {
         return state.setIn(['operators', key], operators);
     },
+    [actions.getSearchTransportsSuccess]: (state, { payload: { key, transports }}) => {
+        return state.setIn(['transports', key], transports);
+    },
 }, initialState);

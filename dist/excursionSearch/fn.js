@@ -160,6 +160,41 @@ function (_OrderedMap) {
     value: function getCategories() {
       return this.get('categories');
     }
+  }, {
+    key: "setTransport",
+    value: function setTransport(transport) {
+      return this.set('transport', transport);
+    }
+  }, {
+    key: "getTransport",
+    value: function getTransport() {
+      return this.get('transport');
+    }
+  }, {
+    key: "setPrice",
+    value: function setPrice(_ref4) {
+      var from = _ref4.from,
+          to = _ref4.to;
+      return this.set('priceFrom', from).set('priceTo', to);
+    }
+  }, {
+    key: "getPrice",
+    value: function getPrice() {
+      return {
+        from: this.get('priceFrom'),
+        to: this.get('priceTo')
+      };
+    }
+  }, {
+    key: "setWithoutNightTransfer",
+    value: function setWithoutNightTransfer(flag) {
+      return this.set('withoutNightTransfer', flag);
+    }
+  }, {
+    key: "isWithoutNightTransfer",
+    value: function isWithoutNightTransfer() {
+      return this.get('withoutNightTransfer');
+    }
   }]);
 
   return Query;
@@ -177,7 +212,11 @@ _defineProperty(Query, "defaults", Object.freeze({
   lengthFrom: 4,
   lengthTo: 8,
   operators: [],
-  categories: []
+  categories: [],
+  transport: [],
+  priceFrom: null,
+  priceTo: null,
+  withoutNightTransfer: false
 }));
 
 function makeQuery(orderedMap) {

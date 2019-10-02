@@ -50,5 +50,10 @@ var reducer = (0, _reduxActions.handleActions)((_handleActions = {}, _defineProp
       key = _ref7$payload.key,
       operators = _ref7$payload.operators;
   return state.setIn(['operators', key], operators);
+}), _defineProperty(_handleActions, _actions.actions.getSearchTransportsSuccess, function (state, _ref8) {
+  var _ref8$payload = _ref8.payload,
+      key = _ref8$payload.key,
+      transports = _ref8$payload.transports;
+  return state.setIn(['transports', key], transports);
 }), _handleActions), initialState);
 exports.reducer = reducer;

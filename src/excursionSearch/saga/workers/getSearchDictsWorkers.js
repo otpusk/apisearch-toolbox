@@ -15,13 +15,13 @@ export function* getSearchOperatorsWorker () {
     }
 }
 
-export function* getSearchTransportWorker () {
+export function* getSearchTransportsWorker () {
     try {
-        const transport = yield call(getFilterTransport);
+        const transports = yield call(getFilterTransport);
 
-        yield put(actions.getSearchTransportSuccess(transport));
+        yield put(actions.getSearchTransportsSuccess(0, transports));
     } catch (error) {
-        yield put(actions.getSearchTransportFail(error));
+        yield put(actions.getSearchTransportsFail(error));
     }
 }
 

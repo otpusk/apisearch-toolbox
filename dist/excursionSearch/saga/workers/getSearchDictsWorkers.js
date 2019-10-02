@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.getSearchOperatorsWorker = getSearchOperatorsWorker;
-exports.getSearchTransportWorker = getSearchTransportWorker;
+exports.getSearchTransportsWorker = getSearchTransportsWorker;
 exports.getSearchCategoriesWorker = getSearchCategoriesWorker;
 
 var _effects = require("redux-saga/effects");
@@ -18,7 +18,7 @@ var _marked =
 regeneratorRuntime.mark(getSearchOperatorsWorker),
     _marked2 =
 /*#__PURE__*/
-regeneratorRuntime.mark(getSearchTransportWorker),
+regeneratorRuntime.mark(getSearchTransportsWorker),
     _marked3 =
 /*#__PURE__*/
 regeneratorRuntime.mark(getSearchCategoriesWorker);
@@ -56,9 +56,9 @@ function getSearchOperatorsWorker() {
   }, _marked, null, [[0, 8]]);
 }
 
-function getSearchTransportWorker() {
-  var transport;
-  return regeneratorRuntime.wrap(function getSearchTransportWorker$(_context2) {
+function getSearchTransportsWorker() {
+  var transports;
+  return regeneratorRuntime.wrap(function getSearchTransportsWorker$(_context2) {
     while (1) {
       switch (_context2.prev = _context2.next) {
         case 0:
@@ -67,9 +67,9 @@ function getSearchTransportWorker() {
           return (0, _effects.call)(_excursionApi.getFilterTransport);
 
         case 3:
-          transport = _context2.sent;
+          transports = _context2.sent;
           _context2.next = 6;
-          return (0, _effects.put)(_actions.actions.getSearchTransportSuccess(transport));
+          return (0, _effects.put)(_actions.actions.getSearchTransportsSuccess(0, transports));
 
         case 6:
           _context2.next = 12;
@@ -79,7 +79,7 @@ function getSearchTransportWorker() {
           _context2.prev = 8;
           _context2.t0 = _context2["catch"](0);
           _context2.next = 12;
-          return (0, _effects.put)(_actions.actions.getSearchTransportFail(_context2.t0));
+          return (0, _effects.put)(_actions.actions.getSearchTransportsFail(_context2.t0));
 
         case 12:
         case "end":

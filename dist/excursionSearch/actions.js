@@ -48,13 +48,16 @@ var actions = (0, _reduxActions.createActions)({
   GET_SEARCH_OPERATORS_FAIL: function GET_SEARCH_OPERATORS_FAIL(error) {
     return error;
   },
-  GET_SEARCH_TRANSPORT: function GET_SEARCH_TRANSPORT() {
+  GET_SEARCH_TRANSPORTS: function GET_SEARCH_TRANSPORTS() {
     return void 0;
   },
-  GET_SEARCH_TRANSPORT_SUCCESS: function GET_SEARCH_TRANSPORT_SUCCESS() {
-    return void 0;
+  GET_SEARCH_TRANSPORTS_SUCCESS: function GET_SEARCH_TRANSPORTS_SUCCESS(key, transports) {
+    return {
+      key: key,
+      transports: transports
+    };
   },
-  GET_SEARCH_TRANSPORT_FAIL: function GET_SEARCH_TRANSPORT_FAIL(error) {
+  GET_SEARCH_TRANSPORTS_FAIL: function GET_SEARCH_TRANSPORTS_FAIL(error) {
     return error;
   },
   GET_SEARCH_CATEGORIES: function GET_SEARCH_CATEGORIES() {

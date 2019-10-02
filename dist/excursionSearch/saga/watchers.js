@@ -50,22 +50,22 @@ var watchers = Object.freeze({
       }
     }, getSearchOperatorsWatcher);
   }),
-  getSearchTransportWatcher:
+  getSearchTransportsWatcher:
   /*#__PURE__*/
-  regeneratorRuntime.mark(function getSearchTransportWatcher() {
-    return regeneratorRuntime.wrap(function getSearchTransportWatcher$(_context3) {
+  regeneratorRuntime.mark(function getSearchTransportsWatcher() {
+    return regeneratorRuntime.wrap(function getSearchTransportsWatcher$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
             _context3.next = 2;
-            return (0, _effects.takeEvery)(_actions.actions.getSearchTransport, _getSearchDictsWorkers.getSearchTransportWorker);
+            return (0, _effects.takeEvery)(_actions.actions.getSearchTransports, _getSearchDictsWorkers.getSearchTransportsWorker);
 
           case 2:
           case "end":
             return _context3.stop();
         }
       }
-    }, getSearchTransportWatcher);
+    }, getSearchTransportsWatcher);
   }),
   getSearchCategoriesWatcher:
   /*#__PURE__*/
