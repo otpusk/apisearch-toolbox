@@ -39,7 +39,7 @@ var offersReducer = (0, _reduxActions.handleActions)((_handleActions = {}, _defi
   var offer = _ref2.payload;
   return state.updateIn(['store', offer.id], function () {
     var current = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-    return (0, _immutable.Map)(current).mergeWith(function (prev, next) {
+    return (0, _immutable.Map)(current).mergeDeepWith(function (prev, next) {
       return next || prev;
     }, offer).toJS();
   });

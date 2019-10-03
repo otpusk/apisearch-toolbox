@@ -29,7 +29,7 @@ export const offersReducer = handleActions(
             return state
                 .updateIn(['store', offer.id], (current = {}) =>
                     Map(current)
-                        .mergeWith((prev, next) => next || prev, offer)
+                        .mergeDeepWith((prev, next) => next || prev, offer)
                         .toJS()
                 );
         },
