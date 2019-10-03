@@ -1,5 +1,5 @@
 // Core
-import { Map } from 'immutable';
+import { Map, merge } from 'immutable';
 import { handleActions } from 'redux-actions';
 
 // Instruments
@@ -11,17 +11,18 @@ const initalState = Map({
     siblings: Map(),
 });
 
+const mergeOffer = (prev, next) => next && typeof next === 'object' && !next[Symbol.iterator]
+    ? { ...next, ...prev }
+    : next
+        ? next
+        : prev;
+
 export const offersReducer = handleActions(
     {
         [offersActions.addOffers]: (state, { payload: newOffers }) => {
             return state
                 .updateIn(['store'], (offers) =>
-                    offers.mergeDeepWith((a, b) => typeof b === 'object'
-                        ? { ...b, ...a }
-                        : b
-                            ? b
-                            : a,
-                    newOffers)
+                    offers.mergeWith(mergeOffer, newOffers)
                 )
                 .mergeIn(['status'], Map(newOffers).map((offer, id) => state.getIn(['status', id], 'alive')));
         },
@@ -29,7 +30,7 @@ export const offersReducer = handleActions(
             return state
                 .updateIn(['store', offer.id], (current = {}) =>
                     Map(current)
-                        .mergeDeepWith((prev, next) => next || prev, offer)
+                        .mergeWith(mergeOffer, offer)
                         .toJS()
                 );
         },

@@ -73,6 +73,7 @@ export function* runSearchWorker ({ payload: queryId }) {
         yield delay(200);
         yield put(searchActions.finishSearch(queryId));
     } catch (error) {
+        console.log('error', error);
         yield put(searchActions.failSearch(queryId));
     }
 }

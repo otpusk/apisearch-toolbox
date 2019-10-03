@@ -203,16 +203,17 @@ function runSearchWorker(_ref) {
           return (0, _effects.put)(_actions.searchActions.finishSearch(queryId));
 
         case 25:
-          _context3.next = 31;
+          _context3.next = 32;
           break;
 
         case 27:
           _context3.prev = 27;
           _context3.t1 = _context3["catch"](1);
-          _context3.next = 31;
+          console.log('error', _context3.t1);
+          _context3.next = 32;
           return (0, _effects.put)(_actions.searchActions.failSearch(queryId));
 
-        case 31:
+        case 32:
         case "end":
           return _context3.stop();
       }

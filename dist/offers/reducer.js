@@ -26,12 +26,15 @@ var initalState = (0, _immutable.Map)({
   status: (0, _immutable.Map)(),
   siblings: (0, _immutable.Map)()
 });
+
+var mergeOffer = function mergeOffer(prev, next) {
+  return next && _typeof(next) === 'object' && !next[Symbol.iterator] ? _objectSpread({}, next, {}, prev) : next ? next : prev;
+};
+
 var offersReducer = (0, _reduxActions.handleActions)((_handleActions = {}, _defineProperty(_handleActions, _actions.offersActions.addOffers, function (state, _ref) {
   var newOffers = _ref.payload;
   return state.updateIn(['store'], function (offers) {
-    return offers.mergeDeepWith(function (a, b) {
-      return _typeof(b) === 'object' ? _objectSpread({}, b, {}, a) : b ? b : a;
-    }, newOffers);
+    return offers.mergeWith(mergeOffer, newOffers);
   }).mergeIn(['status'], (0, _immutable.Map)(newOffers).map(function (offer, id) {
     return state.getIn(['status', id], 'alive');
   }));
@@ -39,9 +42,7 @@ var offersReducer = (0, _reduxActions.handleActions)((_handleActions = {}, _defi
   var offer = _ref2.payload;
   return state.updateIn(['store', offer.id], function () {
     var current = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-    return (0, _immutable.Map)(current).mergeDeepWith(function (prev, next) {
-      return next || prev;
-    }, offer).toJS();
+    return (0, _immutable.Map)(current).mergeWith(mergeOffer, offer).toJS();
   });
 }), _defineProperty(_handleActions, _actions.offersActions.setOfferStatus, function (state, _ref3) {
   var _ref3$payload = _ref3.payload,
