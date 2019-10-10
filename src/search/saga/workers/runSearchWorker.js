@@ -1,10 +1,10 @@
 // Core
 import { call, put, select, fork, delay } from 'redux-saga/effects';
-import { Map, fromJS, Set } from 'immutable';
+import { Map, fromJS } from 'immutable';
 import { getToursSearch } from '@otpusk/json-api';
 
 // Instruments
-import { convertToOtpQuery, QUERY_PARAMS } from '../../../queries/fn';
+import { convertToOtpQuery } from '../../../queries/fn';
 import { searchActions } from '../../../search/actions';
 import { hotelsActions } from '../../../hotels/actions';
 import { offersActions } from '../../../offers/actions';
@@ -73,7 +73,6 @@ export function* runSearchWorker ({ payload: queryId }) {
         yield delay(200);
         yield put(searchActions.finishSearch(queryId));
     } catch (error) {
-        console.log('error', error);
         yield put(searchActions.failSearch(queryId));
     }
 }

@@ -1,10 +1,11 @@
 {
   "name": "@otpusk/apisearch-toolbox",
-  "version": "0.2.72",
+  "version": "0.2.73",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "build": "babel ./src --out-dir ./dist"
+    "build": "babel ./src --out-dir ./dist",
+    "publish": "npm publish"
   },
   "repository": {
     "type": "git",

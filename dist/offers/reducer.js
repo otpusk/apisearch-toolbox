@@ -28,7 +28,7 @@ var initalState = (0, _immutable.Map)({
 });
 
 var mergeOffer = function mergeOffer(prev, next) {
-  return next && _typeof(next) === 'object' && !next[Symbol.iterator] ? _objectSpread({}, next, {}, prev) : next ? next : prev;
+  return next && _typeof(next) === 'object' && !next[Symbol.iterator] ? _objectSpread({}, prev, {}, next) : next ? next : prev;
 };
 
 var offersReducer = (0, _reduxActions.handleActions)((_handleActions = {}, _defineProperty(_handleActions, _actions.offersActions.addOffers, function (state, _ref) {

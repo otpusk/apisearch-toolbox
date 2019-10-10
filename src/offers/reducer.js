@@ -1,5 +1,5 @@
 // Core
-import { Map, merge } from 'immutable';
+import { Map } from 'immutable';
 import { handleActions } from 'redux-actions';
 
 // Instruments
@@ -12,7 +12,7 @@ const initalState = Map({
 });
 
 const mergeOffer = (prev, next) => next && typeof next === 'object' && !next[Symbol.iterator]
-    ? { ...next, ...prev }
+    ? { ...prev, ...next }
     : next
         ? next
         : prev;
