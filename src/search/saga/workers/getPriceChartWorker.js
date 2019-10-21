@@ -9,8 +9,8 @@ import { QUERY_PARAMS } from '../../../queries/fn';
 
 const computedToParam = (query) => {
     switch (true) {
-        case query.get(QUERY_PARAMS.HOTELS, Set()).size === 1: return query.get(QUERY_PARAMS.HOTELS);
-        case query.get(QUERY_PARAMS.CITIES, Set()).size === 1: return query.get(QUERY_PARAMS.CITIES);
+        case query.get(QUERY_PARAMS.HOTELS, Set()).size === 1: return query.get(QUERY_PARAMS.HOTELS).first();
+        case query.get(QUERY_PARAMS.CITIES, Set()).size === 1: return query.get(QUERY_PARAMS.CITIES).first();
         default: return query.get(QUERY_PARAMS.COUNTRY);
     }
 };
