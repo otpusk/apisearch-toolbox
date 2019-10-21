@@ -22,10 +22,10 @@ regeneratorRuntime.mark(getPriceChartWorker);
 var computedToParam = function computedToParam(query) {
   switch (true) {
     case query.get(_fn.QUERY_PARAMS.HOTELS, (0, _immutable.Set)()).size === 1:
-      return query.get(_fn.QUERY_PARAMS.HOTELS);
+      return query.get(_fn.QUERY_PARAMS.HOTELS).first();
 
     case query.get(_fn.QUERY_PARAMS.CITIES, (0, _immutable.Set)()).size === 1:
-      return query.get(_fn.QUERY_PARAMS.CITIES);
+      return query.get(_fn.QUERY_PARAMS.CITIES).first();
 
     default:
       return query.get(_fn.QUERY_PARAMS.COUNTRY);
