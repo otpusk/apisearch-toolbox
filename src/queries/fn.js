@@ -7,17 +7,14 @@ import {
     binaryCompiler,
     rangeCompiler,
     datesCompiler,
-    arrayCompiler,
     numberCompiler,
     toStringCompiler,
     immutableArrayCompiler
 } from './compilers';
 import {
-    numbersArrayParser,
     rangeParser,
     datesParser,
     binaryParser,
-    arrayParser,
     createImmutableArrayParser,
     createImmutableNumbersArrayParser
 } from './parsers';

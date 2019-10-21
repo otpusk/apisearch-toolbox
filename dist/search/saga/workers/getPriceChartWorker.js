@@ -19,6 +19,19 @@ var _marked =
 /*#__PURE__*/
 regeneratorRuntime.mark(getPriceChartWorker);
 
+var computedToParam = function computedToParam(query) {
+  switch (true) {
+    case query.get(_fn.QUERY_PARAMS.HOTELS, (0, _immutable.Set)()).size === 1:
+      return query.get(_fn.QUERY_PARAMS.HOTELS);
+
+    case query.get(_fn.QUERY_PARAMS.CITIES, (0, _immutable.Set)()).size === 1:
+      return query.get(_fn.QUERY_PARAMS.CITIES);
+
+    default:
+      return query.get(_fn.QUERY_PARAMS.COUNTRY);
+  }
+};
+
 function getPriceChartWorker(_ref) {
   var queryId, _ref2, query, token, params, chart;
 
@@ -43,7 +56,7 @@ function getPriceChartWorker(_ref) {
           query = _ref2.query;
           token = _ref2.token;
           params = {
-            to: query.get(_fn.QUERY_PARAMS.COUNTRY),
+            to: computedToParam(query),
             from: query.get(_fn.QUERY_PARAMS.DEPARTURE),
             checkIn: query.get(_fn.QUERY_PARAMS.DATES).get('from').format('YYYY-MM-DD'),
             checkTo: query.get(_fn.QUERY_PARAMS.DATES).get('from').clone().add(30, 'days').format('YYYY-MM-DD'),

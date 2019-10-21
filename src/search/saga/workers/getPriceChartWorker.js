@@ -1,11 +1,19 @@
 // Core
 import { call, put, select } from 'redux-saga/effects';
-import { Range } from 'immutable';
+import { Range, Set } from 'immutable';
 
 // Instrumetns
 import { getToursGraph } from '@otpusk/json-api';
 import { searchActions as actions } from '../../actions';
 import { QUERY_PARAMS } from '../../../queries/fn';
+
+const computedToParam = (query) => {
+    switch (true) {
+        case query.get(QUERY_PARAMS.HOTELS, Set()).size === 1: return query.get(QUERY_PARAMS.HOTELS);
+        case query.get(QUERY_PARAMS.CITIES, Set()).size === 1: return query.get(QUERY_PARAMS.CITIES);
+        default: return query.get(QUERY_PARAMS.COUNTRY);
+    }
+};
 
 export function* getPriceChartWorker ({ payload: queryId }) {
     try {
@@ -14,7 +22,7 @@ export function* getPriceChartWorker ({ payload: queryId }) {
             token: auth.getIn(['otpusk', 'token']),
         }));
         const params = {
-            to:      query.get(QUERY_PARAMS.COUNTRY),
+            to:      computedToParam(query),
             from:    query.get(QUERY_PARAMS.DEPARTURE),
             checkIn: query.get(QUERY_PARAMS.DATES).get('from').format('YYYY-MM-DD'),
             checkTo: query.get(QUERY_PARAMS.DATES).get('from').clone().add(30, 'days').format('YYYY-MM-DD'),

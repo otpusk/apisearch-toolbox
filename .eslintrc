@@ -159,7 +159,7 @@ rules:
   max-nested-callbacks: 2
   max-params: [2, 4]
   max-statements-per-line: 2
-  new-cap: [2, {"capIsNewExceptions": ["List", "Map", "Range", "OrderedMap"]}]
+  new-cap: [2, {"capIsNewExceptions": ["List", "Map", "Range", "OrderedMap", "Set"]}]
   new-parens: 2
   newline-after-var: 2
   newline-before-return: 2
