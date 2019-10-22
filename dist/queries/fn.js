@@ -242,7 +242,7 @@ function convertToOtpQuery(query) {
     };
   }), _defineProperty(_converters, QUERY_PARAMS.CURRENCY, function (value) {
     return {
-      'currency': value
+      'currency': value !== 'uah' ? value : ''
     };
   }), _defineProperty(_converters, QUERY_PARAMS.OPERATORS, function (value) {
     return {
