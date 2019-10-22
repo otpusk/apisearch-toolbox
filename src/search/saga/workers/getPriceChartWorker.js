@@ -8,11 +8,18 @@ import { searchActions as actions } from '../../actions';
 import { QUERY_PARAMS } from '../../../queries/fn';
 
 const computedToParam = (query) => {
-    switch (true) {
-        case query.get(QUERY_PARAMS.HOTELS, Set()).size === 1: return query.get(QUERY_PARAMS.HOTELS).first();
-        case query.get(QUERY_PARAMS.CITIES, Set()).size === 1: return query.get(QUERY_PARAMS.CITIES).first();
-        default: return query.get(QUERY_PARAMS.COUNTRY);
+    const IS_SET_SINGLE_HOTEL = query.get(QUERY_PARAMS.HOTELS, Set()).size === 1;
+    const IS_SET_SINGLE_CITY = query.get(QUERY_PARAMS.CITIES, Set()).size === 1;
+
+    if (IS_SET_SINGLE_HOTEL) {
+        return query.get(QUERY_PARAMS.HOTELS).first();
     }
+
+    if (IS_SET_SINGLE_CITY) {
+        return query.get(QUERY_PARAMS.CITIES).first();
+    }
+
+    return query.get(QUERY_PARAMS.COUNTRY);
 };
 
 export function* getPriceChartWorker ({ payload: queryId }) {

@@ -20,16 +20,18 @@ var _marked =
 regeneratorRuntime.mark(getPriceChartWorker);
 
 var computedToParam = function computedToParam(query) {
-  switch (true) {
-    case query.get(_fn.QUERY_PARAMS.HOTELS, (0, _immutable.Set)()).size === 1:
-      return query.get(_fn.QUERY_PARAMS.HOTELS).first();
+  var IS_SET_SINGLE_HOTEL = query.get(_fn.QUERY_PARAMS.HOTELS, (0, _immutable.Set)()).size === 1;
+  var IS_SET_SINGLE_CITY = query.get(_fn.QUERY_PARAMS.CITIES, (0, _immutable.Set)()).size === 1;
 
-    case query.get(_fn.QUERY_PARAMS.CITIES, (0, _immutable.Set)()).size === 1:
-      return query.get(_fn.QUERY_PARAMS.CITIES).first();
-
-    default:
-      return query.get(_fn.QUERY_PARAMS.COUNTRY);
+  if (IS_SET_SINGLE_HOTEL) {
+    return query.get(_fn.QUERY_PARAMS.HOTELS).first();
   }
+
+  if (IS_SET_SINGLE_CITY) {
+    return query.get(_fn.QUERY_PARAMS.CITIES).first();
+  }
+
+  return query.get(_fn.QUERY_PARAMS.COUNTRY);
 };
 
 function getPriceChartWorker(_ref) {
