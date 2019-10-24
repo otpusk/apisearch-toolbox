@@ -95,8 +95,8 @@ const DEFAULTS = {
     [QUERY_PARAMS.RATING]:              Map(),
     [QUERY_PARAMS.CURRENCY]:            null,
     [QUERY_PARAMS.OPERATORS]:           Set(),
-    [QUERY_PARAMS.FLIGHT_AVAILABILITY]: Set(['yes', 'request']),
-    [QUERY_PARAMS.HOTEL_AVAILABILITY]:  Set(['yes', 'request']),
+    [QUERY_PARAMS.FLIGHT_AVAILABILITY]: Set(),
+    [QUERY_PARAMS.HOTEL_AVAILABILITY]:  Set(),
     [QUERY_PARAMS.WITHOUT_SPO]:         false,
     [QUERY_PARAMS.LANGUAGE]:            null,
 };
