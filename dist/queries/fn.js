@@ -303,10 +303,10 @@ function parseQueryParam(currentValue, paramName, rawValue) {
 }
 /**
  * Parse query string to query map
- * @param {string} queryString
- * @param {OrderedMap} baseQuery
+ * @param {string} queryString input
+ * @param {OrderedMap} baseQuery base
  *
- * @returns {OrderedMap}
+ * @returns {OrderedMap} query
  */
 
 
@@ -330,7 +330,7 @@ function parseOSQueryHash(queryHash, baseQuery) {
     }, (0, _immutable.Map)());
   };
 
-  var query = baseQuery || createQuery();
+  var base = baseQuery || createQuery();
   return queryHash.replace(/^#/, '').split('&').map(function (pair) {
     return pair.split('=');
   }).reduce(function (query, _ref) {
@@ -373,5 +373,5 @@ function parseOSQueryHash(queryHash, baseQuery) {
       default:
         return query;
     }
-  }, query);
+  }, base);
 }

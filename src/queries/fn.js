@@ -262,10 +262,10 @@ function parseQueryParam (currentValue, paramName, rawValue) {
 
 /**
  * Parse query string to query map
- * @param {string} queryString
- * @param {OrderedMap} baseQuery
+ * @param {string} queryString input
+ * @param {OrderedMap} baseQuery base
  *
- * @returns {OrderedMap}
+ * @returns {OrderedMap} query
  */
 function parseQueryString (queryString, baseQuery) {
     const query = baseQuery || createQuery();
@@ -283,7 +283,7 @@ function parseQueryString (queryString, baseQuery) {
 
 function parseOSQueryHash (queryHash, baseQuery) {
     const convertListToBooleanMap = (value = '') => decodeURIComponent(value).split(',').reduce((param, key) => param.set(key, true), Map());
-    const query = baseQuery || createQuery();
+    const base = baseQuery || createQuery();
 
     return queryHash
         .replace(/^#/, '')
@@ -313,7 +313,7 @@ function parseOSQueryHash (queryHash, baseQuery) {
                 default:
                     return query;
             }
-        }, query);
+        }, base);
 }
 
 export {
