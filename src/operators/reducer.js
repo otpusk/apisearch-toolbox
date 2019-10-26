@@ -13,7 +13,7 @@ export const operatorsReducer = handleActions({
     [actions.getOperatorsSuccess]: (state, { payload }) => {
         const { countryId, operators } = payload;
 
-        return state.setIn(['operators', countryId], operators);
+        return state.setIn(['store', countryId], operators);
     },
     [actions.setUiFlag]: (state, { payload }) => {
         const { path, value } = payload;

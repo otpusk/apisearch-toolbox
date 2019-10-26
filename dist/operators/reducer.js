@@ -31,7 +31,7 @@ var operatorsReducer = (0, _reduxActions.handleActions)((_handleActions = {}, _d
   var payload = _ref.payload;
   var countryId = payload.countryId,
       operators = payload.operators;
-  return state.setIn(['operators', countryId], operators);
+  return state.setIn(['store', countryId], operators);
 }), _defineProperty(_handleActions, _actions.operatorsActions.setUiFlag, function (state, _ref2) {
   var payload = _ref2.payload;
   var path = payload.path,
