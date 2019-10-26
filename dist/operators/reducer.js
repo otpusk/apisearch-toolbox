@@ -24,8 +24,8 @@ function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
 
 var initialState = (0, _immutable.Map)({
-  operators: (0, _immutable.Map)(),
-  ui: (0, _immutable.Map)()
+  'store': (0, _immutable.Map)(),
+  'ui': (0, _immutable.Map)()
 });
 var operatorsReducer = (0, _reduxActions.handleActions)((_handleActions = {}, _defineProperty(_handleActions, _actions.operatorsActions.getOperatorsSuccess, function (state, _ref) {
   var payload = _ref.payload;

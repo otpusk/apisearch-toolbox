@@ -5,8 +5,8 @@ import { Map } from 'immutable';
 import { operatorsActions as actions } from './actions';
 
 const initialState = Map({
-    operators: Map(),
-    ui:        Map(),
+    'store': Map(),
+    'ui':    Map(),
 });
 
 export const operatorsReducer = handleActions({
