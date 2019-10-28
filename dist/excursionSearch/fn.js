@@ -203,7 +203,7 @@ function (_OrderedMap) {
 exports.Query = Query;
 
 _defineProperty(Query, "defaults", Object.freeze({
-  departure: null,
+  departureCity: null,
   destCountry: [],
   destCity: [],
   destSight: [],

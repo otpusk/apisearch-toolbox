@@ -5,7 +5,7 @@ import moment from 'moment';
 
 export class Query extends OrderedMap {
     static defaults = Object.freeze({
-        departure:            null,
+        departureCity:        null,
         destCountry:          [],
         destCity:             [],
         destSight:            [],
