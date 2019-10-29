@@ -51,9 +51,9 @@ var queriesReducer = (0, _reduxActions.handleActions)((_handleActions = {}, _def
   })), _defineProperty(_objectSpread2, _fn.QUERY_PARAMS.DATES, (0, _immutable.Map)({
     from: (0, _moment["default"])(offer.date),
     to: (0, _moment["default"])(offer.date)
-  })), _defineProperty(_objectSpread2, _fn.QUERY_PARAMS.CATEGORY, (0, _immutable.Map)(_defineProperty({}, hotel.stars, true))), _defineProperty(_objectSpread2, _fn.QUERY_PARAMS.ADULTS, offer.adults), _defineProperty(_objectSpread2, _fn.QUERY_PARAMS.CHILDREN, state.getIn(['form', _fn.QUERY_PARAMS.CHILDREN], (0, _immutable.Range)(0, offer.children).map(function () {
+  })), _defineProperty(_objectSpread2, _fn.QUERY_PARAMS.CATEGORY, (0, _immutable.Map)(_defineProperty({}, hotel.stars, true))), _defineProperty(_objectSpread2, _fn.QUERY_PARAMS.ADULTS, offer.adults), _defineProperty(_objectSpread2, _fn.QUERY_PARAMS.CHILDREN, (0, _immutable.Range)(0, offer.children).map(function () {
     return offer.childrenAge.replace(/^.*\D(\d+)\D*$/, '$1');
-  }).map(Number).toList())), _defineProperty(_objectSpread2, _fn.QUERY_PARAMS.CITIES, (0, _immutable.Set)([hotel.city.id])), _defineProperty(_objectSpread2, _fn.QUERY_PARAMS.HOTELS, (0, _immutable.Set)([hotel.id])), _defineProperty(_objectSpread2, _fn.QUERY_PARAMS.TRANSPORT, (0, _immutable.Map)(_defineProperty({}, offer.transport, true))), _defineProperty(_objectSpread2, _fn.QUERY_PARAMS.FOOD, (0, _immutable.Map)(_defineProperty({}, offer.food, true))), _objectSpread2), overrides)));
+  }).map(Number).toList()), _defineProperty(_objectSpread2, _fn.QUERY_PARAMS.CITIES, (0, _immutable.Set)([hotel.city.id])), _defineProperty(_objectSpread2, _fn.QUERY_PARAMS.HOTELS, (0, _immutable.Set)([hotel.id])), _defineProperty(_objectSpread2, _fn.QUERY_PARAMS.TRANSPORT, (0, _immutable.Map)(_defineProperty({}, offer.transport, true))), _defineProperty(_objectSpread2, _fn.QUERY_PARAMS.FOOD, (0, _immutable.Map)(_defineProperty({}, offer.food, true))), _objectSpread2), overrides)));
 }), _defineProperty(_handleActions, _actions.queriesActions.changeQueryParam, function (state, _ref4) {
   var _ref4$payload = _ref4.payload,
       queryId = _ref4$payload.queryId,

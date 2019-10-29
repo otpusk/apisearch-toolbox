@@ -33,10 +33,9 @@ export const queriesReducer = handleActions(
                     }),
                     [QUERY_PARAMS.CATEGORY]: Map({ [hotel.stars]: true }),
                     [QUERY_PARAMS.ADULTS]:   offer.adults,
-                    [QUERY_PARAMS.CHILDREN]: state.getIn(
-                        ['form', QUERY_PARAMS.CHILDREN],
-                        Range(0, offer.children).map(() => offer.childrenAge.replace(/^.*\D(\d+)\D*$/, '$1')).map(Number).toList()
-                    ),
+                    [QUERY_PARAMS.CHILDREN]: Range(0, offer.children)
+                        .map(() => offer.childrenAge.replace(/^.*\D(\d+)\D*$/, '$1'))
+                        .map(Number).toList(),
                     [QUERY_PARAMS.CITIES]:    Set([hotel.city.id]),
                     [QUERY_PARAMS.HOTELS]:    Set([hotel.id]),
                     [QUERY_PARAMS.TRANSPORT]: Map({ [offer.transport]: true }),

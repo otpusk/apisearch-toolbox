@@ -362,7 +362,7 @@ function parseOSQueryHash(queryHash, baseQuery) {
         }));
 
       case 'p':
-        return query.set(QUERY_PARAMS.ADULTS, Number(value.slice(0, 1))).set(QUERY_PARAMS.CHILDREN, (value.slice(1).match(/.{2}/g) || []).map(Number));
+        return query.set(QUERY_PARAMS.ADULTS, Number(value.slice(0, 1))).set(QUERY_PARAMS.CHILDREN, (0, _immutable.List)(value.slice(1).match(/.{2}/g) || []).map(Number));
 
       case 'r':
         return query.set(QUERY_PARAMS.TRANSPORT, convertListToBooleanMap(value));
