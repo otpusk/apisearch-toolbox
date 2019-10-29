@@ -185,9 +185,14 @@ function compileQuery (query) {
  */
 function convertToOtpQuery (query) {
     const converters = {
-        [QUERY_PARAMS.DEPARTURE]:           (value) => ({ 'deptCity': value }),
-        [QUERY_PARAMS.COUNTRY]:             (value) => ({ 'to': value }),
-        [QUERY_PARAMS.CATEGORY]:            (value) => ({ 'stars': value.filter((status) => status).keySeq().toList().join(',') }),
+        [QUERY_PARAMS.DEPARTURE]: (value) => ({ 'deptCity': value }),
+        [QUERY_PARAMS.COUNTRY]:   (value) => ({ 'to': value }),
+        [QUERY_PARAMS.CATEGORY]:  (value) => {
+            const selected = value.filter((status) => status).keySeq().toList();
+            const everySelected = selected.size === DEFAULTS[QUERY_PARAMS.CATEGORY].size;
+
+            return { 'stars': everySelected ? '' : selected.join(',') };
+        },
         [QUERY_PARAMS.DATES]:               (value) => ({ 'checkIn': value.get('from').format('Y-MM-DD'), 'checkTo': value.get('to').format('Y-MM-DD') }),
         [QUERY_PARAMS.DURATION]:            (value) => ({ 'length': value.get('from'), 'lengthTo': value.get('to') }),
         [QUERY_PARAMS.ADULTS]:              (value) => ({ 'people': value }),

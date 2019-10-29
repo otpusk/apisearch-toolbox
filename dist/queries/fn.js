@@ -172,10 +172,12 @@ function convertToOtpQuery(query) {
       'to': value
     };
   }), _defineProperty(_converters, QUERY_PARAMS.CATEGORY, function (value) {
+    var selected = value.filter(function (status) {
+      return status;
+    }).keySeq().toList();
+    var everySelected = selected.size === DEFAULTS[QUERY_PARAMS.CATEGORY].size;
     return {
-      'stars': value.filter(function (status) {
-        return status;
-      }).keySeq().toList().join(',')
+      'stars': everySelected ? '' : selected.join(',')
     };
   }), _defineProperty(_converters, QUERY_PARAMS.DATES, function (value) {
     return {
