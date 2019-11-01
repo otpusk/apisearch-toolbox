@@ -1,6 +1,6 @@
 {
   "name": "@otpusk/apisearch-toolbox",
-  "version": "0.2.85",
+  "version": "0.2.86",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
@@ -26,13 +26,13 @@
     "reselect": "^4.0.0"
   },
   "peerDependencies": {
-    "@otpusk/excursion-api": "^0.0.10",
+    "@otpusk/excursion-api": "^0.0.12",
     "@otpusk/json-api": "^0.0.62"
   },
   "devDependencies": {
     "@babel/cli": "^7.5.5",
-    "@babel/core": "^7.5.5",
-    "@babel/node": "^7.5.5",
+    "@babel/core": "^7.6.4",
+    "@babel/node": "^7.6.3",
     "@babel/plugin-proposal-class-properties": "^7.5.5",
     "@babel/preset-env": "^7.5.5",
     "babel-eslint": "^10.0.2",
