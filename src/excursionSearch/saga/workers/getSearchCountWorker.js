@@ -15,10 +15,10 @@ export function* getSearchCountWorker ({ payload: queryId }) {
             .filter((value) => Boolean(value))
             .toJS();
 
-        const searchCount = yield call(getSearchCount, formattedQuery);
-        yield put(actions.getSearchCountSuccess(queryId, searchCount));
+        const excursionsCount = yield call(getSearchCount, formattedQuery);
+        yield put(actions.getExcursionsCountSuccess(queryId, excursionsCount));
     } catch (error) {
         console.log(error);
-        yield put(actions.getSearchCountFail(error));
+        yield put(actions.getExcursionsCountFail(error));
     }
 }

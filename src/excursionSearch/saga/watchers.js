@@ -26,6 +26,6 @@ export const watchers = Object.freeze({
         yield takeEvery(actions.getSearchCategories, getSearchCategoriesWorker);
     },
     * getSearchCountWatcher () {
-        yield takeEvery(actions.getSearchCount, getSearchCountWorker);
+        yield takeEvery(actions.getExcursionsCount, getSearchCountWorker);
     },
 });
