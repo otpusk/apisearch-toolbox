@@ -10,8 +10,6 @@ import {
     binaryParser,
     datesParser,
     rangeParser,
-    numbersArrayParser,
-    arrayParser,
     createImmutableArrayParser,
     createImmutableNumbersArrayParser
 } from '../../parsers';
