@@ -60,7 +60,7 @@ var queriesReducer = (0, _reduxActions.handleActions)((_handleActions = {}, _def
     return false;
   }).merge(_defineProperty({}, offer.transport, true))), _defineProperty(_objectSpread2, _fn.QUERY_PARAMS.FOOD, defaultQuery.get(_fn.QUERY_PARAMS.FOOD).map(function () {
     return false;
-  }).merge(_defineProperty({}, offer.food, true))), _objectSpread2), overrides)));
+  }).merge(_defineProperty({}, offer.food, true))), _defineProperty(_objectSpread2, _fn.QUERY_PARAMS.CURRENCY, offer.currency), _objectSpread2), overrides)));
 }), _defineProperty(_handleActions, _actions.queriesActions.changeQueryParam, function (state, _ref4) {
   var _ref4$payload = _ref4.payload,
       queryId = _ref4$payload.queryId,

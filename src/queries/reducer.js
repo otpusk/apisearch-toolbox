@@ -42,6 +42,7 @@ export const queriesReducer = handleActions(
                     [QUERY_PARAMS.HOTELS]:    Set([hotel.id]),
                     [QUERY_PARAMS.TRANSPORT]: defaultQuery.get(QUERY_PARAMS.TRANSPORT).map(() => false).merge({ [offer.transport]: true }),
                     [QUERY_PARAMS.FOOD]:      defaultQuery.get(QUERY_PARAMS.FOOD).map(() => false).merge({ [offer.food]: true }),
+                    [QUERY_PARAMS.CURRENCY]:  offer.currency,
                     ...overrides,
                 })
             );
