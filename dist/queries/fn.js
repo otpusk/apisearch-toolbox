@@ -9,7 +9,7 @@ exports.compileQuery = compileQuery;
 exports.convertToOtpQuery = convertToOtpQuery;
 exports.parseOSQueryHash = parseOSQueryHash;
 exports.parseQueryString = parseQueryString;
-exports.GLUE = exports.QUERY_PARAMS = void 0;
+exports.GLUE = exports.QUERY_PARAMS = exports.DEFAULTS = void 0;
 
 var _immutable = require("immutable");
 
@@ -99,6 +99,7 @@ var DEFAULTS = (_DEFAULTS = {}, _defineProperty(_DEFAULTS, QUERY_PARAMS.AUTOSTAR
  * Query string glue
  */
 
+exports.DEFAULTS = DEFAULTS;
 var GLUE = {
   field: '/',
   range: '-',

@@ -322,6 +322,7 @@ function parseOSQueryHash (queryHash, baseQuery) {
 }
 
 export {
+    DEFAULTS,
     QUERY_PARAMS,
     GLUE,
     createQuery,

@@ -5,7 +5,7 @@ import { handleActions } from 'redux-actions';
 
 // Instruments
 import { queriesActions } from './actions';
-import { createQuery, QUERY_PARAMS, parseOSQueryHash, parseQueryString } from './fn';
+import { createQuery, DEFAULTS, QUERY_PARAMS, parseOSQueryHash, parseQueryString } from './fn';
 
 const initalState = Map({});
 
@@ -31,15 +31,15 @@ export const queriesReducer = handleActions(
                         from: moment(offer.date),
                         to:   moment(offer.date),
                     }),
-                    [QUERY_PARAMS.CATEGORY]: Map({ [hotel.stars]: true }),
+                    [QUERY_PARAMS.CATEGORY]: DEFAULTS[QUERY_PARAMS.CATEGORY].map(() => false).merge({ [hotel.stars]: true }),
                     [QUERY_PARAMS.ADULTS]:   offer.adults,
                     [QUERY_PARAMS.CHILDREN]: Range(0, offer.children)
                         .map(() => offer.childrenAge.replace(/^.*\D(\d+)\D*$/, '$1'))
                         .map(Number).toList(),
                     [QUERY_PARAMS.CITIES]:    Set([hotel.city.id]),
                     [QUERY_PARAMS.HOTELS]:    Set([hotel.id]),
-                    [QUERY_PARAMS.TRANSPORT]: Map({ [offer.transport]: true }),
-                    [QUERY_PARAMS.FOOD]:      Map({ [offer.food]: true }),
+                    [QUERY_PARAMS.TRANSPORT]: DEFAULTS[QUERY_PARAMS.TRANSPORT].map(() => false).merge({ [offer.transport]: true }),
+                    [QUERY_PARAMS.FOOD]:      DEFAULTS[QUERY_PARAMS.FOOD].map(() => false).merge({ [offer.food]: true }),
                     ...overrides,
                 })
             );
