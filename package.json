@@ -1,6 +1,6 @@
 {
   "name": "@otpusk/apisearch-toolbox",
-  "version": "0.2.87",
+  "version": "0.2.88",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
@@ -26,7 +26,7 @@
     "reselect": "^4.0.0"
   },
   "peerDependencies": {
-    "@otpusk/excursion-api": "^0.0.10",
+    "@otpusk/excursion-api": "^0.0.12",
     "@otpusk/json-api": "^0.0.62"
   },
   "devDependencies": {

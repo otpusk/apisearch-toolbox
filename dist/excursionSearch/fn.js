@@ -62,6 +62,16 @@ function (_OrderedMap) {
       return makeQuery(_get(_getPrototypeOf(Query.prototype), "set", this).call(this, k, v));
     }
   }, {
+    key: "setPage",
+    value: function setPage(page) {
+      return this.set('page', page);
+    }
+  }, {
+    key: "getPage",
+    value: function getPage(page) {
+      return this.get('page', page);
+    }
+  }, {
     key: "setDeparture",
     value: function setDeparture(value) {
       return this.set('departureCity', value);
@@ -203,6 +213,7 @@ function (_OrderedMap) {
 exports.Query = Query;
 
 _defineProperty(Query, "defaults", Object.freeze({
+  page: 1,
   departureCity: null,
   destCountry: [],
   destCity: [],

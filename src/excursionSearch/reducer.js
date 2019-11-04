@@ -37,4 +37,7 @@ export const reducer = handleActions({
     [actions.getSearchTransportsSuccess]: (state, { payload: { key, transports }}) => {
         return state.setIn(['transports', key], transports);
     },
+    [actions.getExcursionsCountSuccess]: (state, { payload: { queryId, excursionsCount }}) => {
+        return state.setIn(['searchCount', queryId], excursionsCount);
+    }
 }, initialState);
