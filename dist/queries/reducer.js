@@ -45,19 +45,20 @@ var queriesReducer = (0, _reduxActions.handleActions)((_handleActions = {}, _def
       offer = _ref3$payload.offer,
       _ref3$payload$overrid = _ref3$payload.overrides,
       overrides = _ref3$payload$overrid === void 0 ? {} : _ref3$payload$overrid;
+  var defaultQuery = (0, _fn.createQuery)();
   return state.set(queryId, (0, _fn.createQuery)(_objectSpread((_objectSpread2 = {}, _defineProperty(_objectSpread2, _fn.QUERY_PARAMS.COUNTRY, hotel.country.id), _defineProperty(_objectSpread2, _fn.QUERY_PARAMS.DEPARTURE, String(offer.departure)), _defineProperty(_objectSpread2, _fn.QUERY_PARAMS.DURATION, (0, _immutable.Map)({
     from: offer.days,
     to: offer.days
   })), _defineProperty(_objectSpread2, _fn.QUERY_PARAMS.DATES, (0, _immutable.Map)({
     from: (0, _moment["default"])(offer.date),
     to: (0, _moment["default"])(offer.date)
-  })), _defineProperty(_objectSpread2, _fn.QUERY_PARAMS.CATEGORY, _fn.DEFAULTS[_fn.QUERY_PARAMS.CATEGORY].map(function () {
+  })), _defineProperty(_objectSpread2, _fn.QUERY_PARAMS.CATEGORY, defaultQuery.get(_fn.QUERY_PARAMS.CATEGORY).map(function () {
     return false;
   }).merge(_defineProperty({}, hotel.stars, true))), _defineProperty(_objectSpread2, _fn.QUERY_PARAMS.ADULTS, offer.adults), _defineProperty(_objectSpread2, _fn.QUERY_PARAMS.CHILDREN, (0, _immutable.Range)(0, offer.children).map(function () {
     return offer.childrenAge.replace(/^.*\D(\d+)\D*$/, '$1');
-  }).map(Number).toList()), _defineProperty(_objectSpread2, _fn.QUERY_PARAMS.CITIES, (0, _immutable.Set)([hotel.city.id])), _defineProperty(_objectSpread2, _fn.QUERY_PARAMS.HOTELS, (0, _immutable.Set)([hotel.id])), _defineProperty(_objectSpread2, _fn.QUERY_PARAMS.TRANSPORT, _fn.DEFAULTS[_fn.QUERY_PARAMS.TRANSPORT].map(function () {
+  }).map(Number).toList()), _defineProperty(_objectSpread2, _fn.QUERY_PARAMS.CITIES, (0, _immutable.Set)([hotel.city.id])), _defineProperty(_objectSpread2, _fn.QUERY_PARAMS.HOTELS, (0, _immutable.Set)([hotel.id])), _defineProperty(_objectSpread2, _fn.QUERY_PARAMS.TRANSPORT, defaultQuery.get(_fn.QUERY_PARAMS.TRANSPORT).map(function () {
     return false;
-  }).merge(_defineProperty({}, offer.transport, true))), _defineProperty(_objectSpread2, _fn.QUERY_PARAMS.FOOD, _fn.DEFAULTS[_fn.QUERY_PARAMS.FOOD].map(function () {
+  }).merge(_defineProperty({}, offer.transport, true))), _defineProperty(_objectSpread2, _fn.QUERY_PARAMS.FOOD, defaultQuery.get(_fn.QUERY_PARAMS.FOOD).map(function () {
     return false;
   }).merge(_defineProperty({}, offer.food, true))), _objectSpread2), overrides)));
 }), _defineProperty(_handleActions, _actions.queriesActions.changeQueryParam, function (state, _ref4) {
