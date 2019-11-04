@@ -163,6 +163,7 @@ function compileQuery (query) {
         [QUERY_PARAMS.PRICE]:     rangeCompiler,
         [QUERY_PARAMS.SERVICES]:  immutableArrayCompiler,
         [QUERY_PARAMS.RATING]:    rangeCompiler,
+        [QUERY_PARAMS.CURRENCY]:  toStringCompiler,
     };
 
     return GLUE.field + query
@@ -250,6 +251,7 @@ function parseQueryParam (currentValue, paramName, rawValue) {
         [QUERY_PARAMS.PRICE]:     rangeParser,
         [QUERY_PARAMS.SERVICES]:  createImmutableArrayParser(Set),
         [QUERY_PARAMS.RATING]:    rangeParser,
+        [QUERY_PARAMS.CURRENCY]:  String,
     };
 
     if (rawValue) {
