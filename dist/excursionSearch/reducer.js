@@ -55,5 +55,10 @@ var reducer = (0, _reduxActions.handleActions)((_handleActions = {}, _defineProp
       key = _ref8$payload.key,
       transports = _ref8$payload.transports;
   return state.setIn(['transports', key], transports);
+}), _defineProperty(_handleActions, _actions.actions.getExcursionsCountSuccess, function (state, _ref9) {
+  var _ref9$payload = _ref9.payload,
+      queryId = _ref9$payload.queryId,
+      excursionsCount = _ref9$payload.excursionsCount;
+  return state.setIn(['searchCount', queryId], excursionsCount);
 }), _handleActions), initialState);
 exports.reducer = reducer;

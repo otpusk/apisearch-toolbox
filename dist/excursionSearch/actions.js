@@ -71,6 +71,18 @@ var actions = (0, _reduxActions.createActions)({
   },
   GET_SEARCH_CATEGORIES_FAIL: function GET_SEARCH_CATEGORIES_FAIL(error) {
     return error;
+  },
+  GET_EXCURSIONS_COUNT: function GET_EXCURSIONS_COUNT(queryId) {
+    return queryId;
+  },
+  GET_EXCURSIONS_COUNT_SUCCESS: function GET_EXCURSIONS_COUNT_SUCCESS(queryId, excursionsCount) {
+    return {
+      queryId: queryId,
+      excursionsCount: excursionsCount
+    };
+  },
+  GET_EXCURSIONS_COUNT_FAIL: function GET_EXCURSIONS_COUNT_FAIL(error) {
+    return error;
   }
 }, {
   prefix: '@apisearch/excursion'

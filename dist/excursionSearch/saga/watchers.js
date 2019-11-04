@@ -13,6 +13,8 @@ var _runSearchWorker = require("./workers/runSearchWorker");
 
 var _getSearchDictsWorkers = require("./workers/getSearchDictsWorkers");
 
+var _getSearchCountWorker = require("./workers/getSearchCountWorker");
+
 // Core
 // Instruments
 var watchers = Object.freeze({
@@ -83,6 +85,23 @@ var watchers = Object.freeze({
         }
       }
     }, getSearchCategoriesWatcher);
+  }),
+  getSearchCountWatcher:
+  /*#__PURE__*/
+  regeneratorRuntime.mark(function getSearchCountWatcher() {
+    return regeneratorRuntime.wrap(function getSearchCountWatcher$(_context5) {
+      while (1) {
+        switch (_context5.prev = _context5.next) {
+          case 0:
+            _context5.next = 2;
+            return (0, _effects.takeEvery)(_actions.actions.getExcursionsCount, _getSearchCountWorker.getSearchCountWorker);
+
+          case 2:
+          case "end":
+            return _context5.stop();
+        }
+      }
+    }, getSearchCountWatcher);
   })
 });
 exports.watchers = watchers;
