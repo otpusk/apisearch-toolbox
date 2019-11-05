@@ -65,7 +65,7 @@ function getPriceChartWorker(_ref) {
             people: "".concat(query.get(_fn.QUERY_PARAMS.ADULTS)).concat(query.get(_fn.QUERY_PARAMS.CHILDREN).map(function (age) {
               return age < 10 ? "0".concat(age) : age;
             }).join('')),
-            nights: (0, _immutable.Range)(query.get(_fn.QUERY_PARAMS.DURATION).get('from'), query.get(_fn.QUERY_PARAMS.DURATION).get('to') + 1).toList().join(',')
+            nights: (0, _immutable.Range)(query.get(_fn.QUERY_PARAMS.DURATION).get('from') - 1, query.get(_fn.QUERY_PARAMS.DURATION).get('to')).toList().join(',')
           };
           _context.next = 10;
           return (0, _effects.call)(_jsonApi.getToursGraph, token, params);
