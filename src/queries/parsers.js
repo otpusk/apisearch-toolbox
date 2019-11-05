@@ -30,7 +30,19 @@ export const binaryParser =  (value, { prevValue }) => {
  * @returns {Map} range
  */
 export const rangeParser =  (value) => {
-    const [from, to] = value.split(GLUE.range).map((v) => !isNaN(parseInt(v, 10)) ? Number(v) : null);
+    const valuesArray = value.split(GLUE.range);
+    const isEqualValues = valuesArray.length === 1;
+
+    // methods
+    const mapperValue = (v) => !isNaN(parseInt(v, 10)) ? Number(v) : null;
+
+    if (isEqualValues) {
+        const [val] = valuesArray.map(mapperValue);
+
+        return Map({ 'from': val, 'to': val });
+    }
+
+    const [from, to] = valuesArray.map(mapperValue);
 
     return Map({ from, to });
 };

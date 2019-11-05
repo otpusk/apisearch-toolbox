@@ -71,12 +71,28 @@ var binaryParser = function binaryParser(value, _ref) {
 exports.binaryParser = binaryParser;
 
 var rangeParser = function rangeParser(value) {
-  var _value$split$map = value.split(_fn.GLUE.range).map(function (v) {
+  var valuesArray = value.split(_fn.GLUE.range);
+  var isEqualValues = valuesArray.length === 1; // methods
+
+  var mapperValue = function mapperValue(v) {
     return !isNaN(parseInt(v, 10)) ? Number(v) : null;
-  }),
-      _value$split$map2 = _slicedToArray(_value$split$map, 2),
-      from = _value$split$map2[0],
-      to = _value$split$map2[1];
+  };
+
+  if (isEqualValues) {
+    var _valuesArray$map = valuesArray.map(mapperValue),
+        _valuesArray$map2 = _slicedToArray(_valuesArray$map, 1),
+        val = _valuesArray$map2[0];
+
+    return (0, _immutable.Map)({
+      'from': val,
+      'to': val
+    });
+  }
+
+  var _valuesArray$map3 = valuesArray.map(mapperValue),
+      _valuesArray$map4 = _slicedToArray(_valuesArray$map3, 2),
+      from = _valuesArray$map4[0],
+      to = _valuesArray$map4[1];
 
   return (0, _immutable.Map)({
     from: from,
