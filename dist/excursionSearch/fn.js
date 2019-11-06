@@ -205,6 +205,46 @@ function (_OrderedMap) {
     value: function isWithoutNightTransfer() {
       return this.get('withoutNightTransfer');
     }
+  }, {
+    key: "setSortOrderByPrice",
+    value: function setSortOrderByPrice(order) {
+      return this.set('sortPrice', order);
+    }
+  }, {
+    key: "getSortOrderByPrice",
+    value: function getSortOrderByPrice() {
+      return this.get('sortPrice');
+    }
+  }, {
+    key: "setSortOrderByLength",
+    value: function setSortOrderByLength(order) {
+      return this.set('sortLength', order);
+    }
+  }, {
+    key: "getSortOrderByLength",
+    value: function getSortOrderByLength() {
+      return this.get('sortLength');
+    }
+  }, {
+    key: "setSortOrderByCitiesCount",
+    value: function setSortOrderByCitiesCount(order) {
+      return this.set('sortCitiesCnt', order);
+    }
+  }, {
+    key: "getSortOrderByCitiesCount",
+    value: function getSortOrderByCitiesCount() {
+      return this.get('sortCitiesCnt');
+    }
+  }, {
+    key: "setSortOrderByCountriesCount",
+    value: function setSortOrderByCountriesCount(order) {
+      return this.set('sortCountriesCnt', order);
+    }
+  }, {
+    key: "getSortOrderByCountriesCount",
+    value: function getSortOrderByCountriesCount() {
+      return this.get('sortCountriesCnt');
+    }
   }]);
 
   return Query;
@@ -227,7 +267,11 @@ _defineProperty(Query, "defaults", Object.freeze({
   transport: [],
   priceFrom: null,
   priceTo: null,
-  withoutNightTransfer: false
+  withoutNightTransfer: false,
+  sortPrice: null,
+  sortLength: null,
+  sortCitiesCnt: null,
+  sortCountriesCnt: null
 }));
 
 function makeQuery(orderedMap) {

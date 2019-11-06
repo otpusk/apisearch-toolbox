@@ -5,21 +5,25 @@ import moment from 'moment';
 
 export class Query extends OrderedMap {
     static defaults = Object.freeze({
-        page:                 1,
-        departureCity:        null,
-        destCountry:          [],
-        destCity:             [],
-        destSight:            [],
-        dateFrom:             moment().add(7, 'days').locale('ru'),
-        dateTo:               moment().add(14, 'days').locale('ru'),
-        lengthFrom:           4,
-        lengthTo:             8,
-        operators:            [],
-        categories:           [],
-        transport:            [],
-        priceFrom:            null,
-        priceTo:              null,
-        withoutNightTransfer: false,
+        page:                       1,
+        departureCity:              null,
+        destCountry:                [],
+        destCity:                   [],
+        destSight:                  [],
+        dateFrom:                   moment().add(7, 'days').locale('ru'),
+        dateTo:                     moment().add(14, 'days').locale('ru'),
+        lengthFrom:                 4,
+        lengthTo:                   8,
+        operators:                  [],
+        categories:                 [],
+        transport:                  [],
+        priceFrom:                  null,
+        priceTo:                    null,
+        withoutNightTransfer:       false,
+        sortPrice:                  null,
+        sortLength:                 null,
+        sortCitiesCnt:              null,
+        sortCountriesCnt:           null,
     });
 
     constructor () {
@@ -130,6 +134,38 @@ export class Query extends OrderedMap {
 
     isWithoutNightTransfer () {
         return this.get('withoutNightTransfer');
+    }
+
+    setSortOrderByPrice (order) {
+        return this.set('sortPrice', order);
+    }
+
+    getSortOrderByPrice () {
+        return this.get('sortPrice');
+    }
+
+    setSortOrderByLength (order) {
+        return this.set('sortLength', order);
+    }
+
+    getSortOrderByLength () {
+        return this.get('sortLength');
+    }
+
+    setSortOrderByCitiesCount (order) {
+        return this.set('sortCitiesCnt', order);
+    }
+
+    getSortOrderByCitiesCount () {
+        return this.get('sortCitiesCnt');
+    }
+
+    setSortOrderByCountriesCount (order) {
+        return this.set('sortCountriesCnt', order);
+    }
+
+    getSortOrderByCountriesCount () {
+        return this.get('sortCountriesCnt');
     }
 }
 
