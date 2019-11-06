@@ -136,36 +136,30 @@ export class Query extends OrderedMap {
         return this.get('withoutNightTransfer');
     }
 
-    setSortOrderByPrice (order) {
-        return this.set('sortPrice', order);
+    setSortsOrder (...sorts) {
+
+        const { sortPrice, sortLength, sortCitiesCnt, sortCountriesCnt } = sorts.reduce(( sortProperties, sort ) => {
+            const key = Object.keys(sort)[0];
+            const value = sort[key];
+            sortProperties[key] = value;
+            return sortProperties;
+        }, { sortPrice: null, sortLength: null, sortCitiesCnt: null, sortCountriesCnt: null});
+
+        return this
+            .set('sortPrice', sortPrice)
+            .set('sortLength', sortLength)
+            .set('sortCitiesCnt', sortCitiesCnt)
+            .set('sortCountriesCnt', sortCountriesCnt);
+
     }
 
-    getSortOrderByPrice () {
-        return this.get('sortPrice');
-    }
-
-    setSortOrderByLength (order) {
-        return this.set('sortLength', order);
-    }
-
-    getSortOrderByLength () {
-        return this.get('sortLength');
-    }
-
-    setSortOrderByCitiesCount (order) {
-        return this.set('sortCitiesCnt', order);
-    }
-
-    getSortOrderByCitiesCount () {
-        return this.get('sortCitiesCnt');
-    }
-
-    setSortOrderByCountriesCount (order) {
-        return this.set('sortCountriesCnt', order);
-    }
-
-    getSortOrderByCountriesCount () {
-        return this.get('sortCountriesCnt');
+    getSortsOrder () {
+        return [
+            { 'sortPrice'        :  this.get('sortPrice') },
+            { 'sortLength'       :  this.get('sortLength') },
+            { 'sortCitiesCnt'    :  this.get('sortCitiesCnt') },
+            { 'sortCountriesCnt' :  this.get('sortCountriesCnt') },
+        ]
     }
 }
 
