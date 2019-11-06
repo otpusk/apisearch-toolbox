@@ -4,11 +4,13 @@ import { ExcursionQuery, excursionSearchActions } from '../src/excursionSearch';
 const exec = require('child_process').execSync;
 const sleep = (time) => time && exec(`sleep ${time}`);
 
-const query = new ExcursionQuery().setSortsOrder({'sortPrice': 'desc'});
+const query = new ExcursionQuery().setSortsOrder({price: 'desc', length: 'asc'});
 
-console.log(query.getSortsOrder());
+const anotherQuery = new ExcursionQuery().setSortsOrder(query.getSortsOrder());
 
-store.dispatch(excursionSearchActions.createQuery('main', query));
+console.log(anotherQuery.getSortsOrder());
+
+store.dispatch(excursionSearchActions.createQuery('main', anotherQuery));
 store.dispatch(excursionSearchActions.runSearch('main'));
 
 sleep(1);

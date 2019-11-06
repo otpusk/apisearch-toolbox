@@ -136,30 +136,30 @@ export class Query extends OrderedMap {
         return this.get('withoutNightTransfer');
     }
 
-    setSortsOrder (...sorts) {
+    setSortsOrder (sorts) {
 
-        const { sortPrice, sortLength, sortCitiesCnt, sortCountriesCnt } = sorts.reduce(( sortProperties, sort ) => {
-            const key = Object.keys(sort)[0];
-            const value = sort[key];
-            sortProperties[key] = value;
-            return sortProperties;
-        }, { sortPrice: null, sortLength: null, sortCitiesCnt: null, sortCountriesCnt: null});
+        const {
+            price = null,
+            length = null,
+            citiesCount = null,
+            countriesCount = null
+        } = sorts;
 
         return this
-            .set('sortPrice', sortPrice)
-            .set('sortLength', sortLength)
-            .set('sortCitiesCnt', sortCitiesCnt)
-            .set('sortCountriesCnt', sortCountriesCnt);
+            .set('sortPrice', price)
+            .set('sortLength', length)
+            .set('sortCitiesCnt', citiesCount)
+            .set('sortCountriesCnt', countriesCount);
 
     }
 
     getSortsOrder () {
-        return [
-            { 'sortPrice'        :  this.get('sortPrice') },
-            { 'sortLength'       :  this.get('sortLength') },
-            { 'sortCitiesCnt'    :  this.get('sortCitiesCnt') },
-            { 'sortCountriesCnt' :  this.get('sortCountriesCnt') },
-        ]
+        return {
+            price: this.get('sortPrice'),
+            length: this.get('sortLength'),
+            citiesCount: this.get('sortCitiesCnt'),
+            countriesCount: this.get('sortCountriesCnt')
+        }
     }
 }
 
