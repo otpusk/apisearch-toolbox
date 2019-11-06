@@ -5,21 +5,25 @@ import moment from 'moment';
 
 export class Query extends OrderedMap {
     static defaults = Object.freeze({
-        page:                 1,
-        departureCity:        null,
-        destCountry:          [],
-        destCity:             [],
-        destSight:            [],
-        dateFrom:             moment().add(7, 'days').locale('ru'),
-        dateTo:               moment().add(14, 'days').locale('ru'),
-        lengthFrom:           4,
-        lengthTo:             8,
-        operators:            [],
-        categories:           [],
-        transport:            [],
-        priceFrom:            null,
-        priceTo:              null,
-        withoutNightTransfer: false,
+        page:                       1,
+        departureCity:              null,
+        destCountry:                [],
+        destCity:                   [],
+        destSight:                  [],
+        dateFrom:                   moment().add(7, 'days').locale('ru'),
+        dateTo:                     moment().add(14, 'days').locale('ru'),
+        lengthFrom:                 4,
+        lengthTo:                   8,
+        operators:                  [],
+        categories:                 [],
+        transport:                  [],
+        priceFrom:                  null,
+        priceTo:                    null,
+        withoutNightTransfer:       false,
+        sortPrice:                  null,
+        sortLength:                 null,
+        sortCitiesCnt:              null,
+        sortCountriesCnt:           null,
     });
 
     constructor () {
@@ -130,6 +134,32 @@ export class Query extends OrderedMap {
 
     isWithoutNightTransfer () {
         return this.get('withoutNightTransfer');
+    }
+
+    setSortsOrder (sorts) {
+
+        const {
+            price = null,
+            length = null,
+            citiesCount = null,
+            countriesCount = null
+        } = sorts;
+
+        return this
+            .set('sortPrice', price)
+            .set('sortLength', length)
+            .set('sortCitiesCnt', citiesCount)
+            .set('sortCountriesCnt', countriesCount);
+
+    }
+
+    getSortsOrder () {
+        return {
+            price: this.get('sortPrice'),
+            length: this.get('sortLength'),
+            citiesCount: this.get('sortCitiesCnt'),
+            countriesCount: this.get('sortCountriesCnt')
+        }
     }
 }
 

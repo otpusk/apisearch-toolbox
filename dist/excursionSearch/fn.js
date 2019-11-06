@@ -205,6 +205,29 @@ function (_OrderedMap) {
     value: function isWithoutNightTransfer() {
       return this.get('withoutNightTransfer');
     }
+  }, {
+    key: "setSortsOrder",
+    value: function setSortsOrder(sorts) {
+      var _sorts$price = sorts.price,
+          price = _sorts$price === void 0 ? null : _sorts$price,
+          _sorts$length = sorts.length,
+          length = _sorts$length === void 0 ? null : _sorts$length,
+          _sorts$citiesCount = sorts.citiesCount,
+          citiesCount = _sorts$citiesCount === void 0 ? null : _sorts$citiesCount,
+          _sorts$countriesCount = sorts.countriesCount,
+          countriesCount = _sorts$countriesCount === void 0 ? null : _sorts$countriesCount;
+      return this.set('sortPrice', price).set('sortLength', length).set('sortCitiesCnt', citiesCount).set('sortCountriesCnt', countriesCount);
+    }
+  }, {
+    key: "getSortsOrder",
+    value: function getSortsOrder() {
+      return {
+        price: this.get('sortPrice'),
+        length: this.get('sortLength'),
+        citiesCount: this.get('sortCitiesCnt'),
+        countriesCount: this.get('sortCountriesCnt')
+      };
+    }
   }]);
 
   return Query;
@@ -227,7 +250,11 @@ _defineProperty(Query, "defaults", Object.freeze({
   transport: [],
   priceFrom: null,
   priceTo: null,
-  withoutNightTransfer: false
+  withoutNightTransfer: false,
+  sortPrice: null,
+  sortLength: null,
+  sortCitiesCnt: null,
+  sortCountriesCnt: null
 }));
 
 function makeQuery(orderedMap) {
