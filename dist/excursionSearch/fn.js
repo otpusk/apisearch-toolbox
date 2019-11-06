@@ -207,41 +207,26 @@ function (_OrderedMap) {
     }
   }, {
     key: "setSortsOrder",
-    value: function setSortsOrder() {
-      for (var _len = arguments.length, sorts = new Array(_len), _key = 0; _key < _len; _key++) {
-        sorts[_key] = arguments[_key];
-      }
-
-      var _sorts$reduce = sorts.reduce(function (sortProperties, sort) {
-        var key = Object.keys(sort)[0];
-        var value = sort[key];
-        sortProperties[key] = value;
-        return sortProperties;
-      }, {
-        sortPrice: null,
-        sortLength: null,
-        sortCitiesCnt: null,
-        sortCountriesCnt: null
-      }),
-          sortPrice = _sorts$reduce.sortPrice,
-          sortLength = _sorts$reduce.sortLength,
-          sortCitiesCnt = _sorts$reduce.sortCitiesCnt,
-          sortCountriesCnt = _sorts$reduce.sortCountriesCnt;
-
-      return this.set('sortPrice', sortPrice).set('sortLength', sortLength).set('sortCitiesCnt', sortCitiesCnt).set('sortCountriesCnt', sortCountriesCnt);
+    value: function setSortsOrder(sorts) {
+      var _sorts$price = sorts.price,
+          price = _sorts$price === void 0 ? null : _sorts$price,
+          _sorts$length = sorts.length,
+          length = _sorts$length === void 0 ? null : _sorts$length,
+          _sorts$citiesCount = sorts.citiesCount,
+          citiesCount = _sorts$citiesCount === void 0 ? null : _sorts$citiesCount,
+          _sorts$countriesCount = sorts.countriesCount,
+          countriesCount = _sorts$countriesCount === void 0 ? null : _sorts$countriesCount;
+      return this.set('sortPrice', price).set('sortLength', length).set('sortCitiesCnt', citiesCount).set('sortCountriesCnt', countriesCount);
     }
   }, {
     key: "getSortsOrder",
     value: function getSortsOrder() {
-      return [{
-        'sortPrice': this.get('sortPrice')
-      }, {
-        'sortLength': this.get('sortLength')
-      }, {
-        'sortCitiesCnt': this.get('sortCitiesCnt')
-      }, {
-        'sortCountriesCnt': this.get('sortCountriesCnt')
-      }];
+      return {
+        price: this.get('sortPrice'),
+        length: this.get('sortLength'),
+        citiesCount: this.get('sortCitiesCnt'),
+        countriesCount: this.get('sortCountriesCnt')
+      };
     }
   }]);
 
