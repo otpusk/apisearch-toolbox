@@ -206,44 +206,42 @@ function (_OrderedMap) {
       return this.get('withoutNightTransfer');
     }
   }, {
-    key: "setSortOrderByPrice",
-    value: function setSortOrderByPrice(order) {
-      return this.set('sortPrice', order);
+    key: "setSortsOrder",
+    value: function setSortsOrder() {
+      for (var _len = arguments.length, sorts = new Array(_len), _key = 0; _key < _len; _key++) {
+        sorts[_key] = arguments[_key];
+      }
+
+      var _sorts$reduce = sorts.reduce(function (sortProperties, sort) {
+        var key = Object.keys(sort)[0];
+        var value = sort[key];
+        sortProperties[key] = value;
+        return sortProperties;
+      }, {
+        sortPrice: null,
+        sortLength: null,
+        sortCitiesCnt: null,
+        sortCountriesCnt: null
+      }),
+          sortPrice = _sorts$reduce.sortPrice,
+          sortLength = _sorts$reduce.sortLength,
+          sortCitiesCnt = _sorts$reduce.sortCitiesCnt,
+          sortCountriesCnt = _sorts$reduce.sortCountriesCnt;
+
+      return this.set('sortPrice', sortPrice).set('sortLength', sortLength).set('sortCitiesCnt', sortCitiesCnt).set('sortCountriesCnt', sortCountriesCnt);
     }
   }, {
-    key: "getSortOrderByPrice",
-    value: function getSortOrderByPrice() {
-      return this.get('sortPrice');
-    }
-  }, {
-    key: "setSortOrderByLength",
-    value: function setSortOrderByLength(order) {
-      return this.set('sortLength', order);
-    }
-  }, {
-    key: "getSortOrderByLength",
-    value: function getSortOrderByLength() {
-      return this.get('sortLength');
-    }
-  }, {
-    key: "setSortOrderByCitiesCount",
-    value: function setSortOrderByCitiesCount(order) {
-      return this.set('sortCitiesCnt', order);
-    }
-  }, {
-    key: "getSortOrderByCitiesCount",
-    value: function getSortOrderByCitiesCount() {
-      return this.get('sortCitiesCnt');
-    }
-  }, {
-    key: "setSortOrderByCountriesCount",
-    value: function setSortOrderByCountriesCount(order) {
-      return this.set('sortCountriesCnt', order);
-    }
-  }, {
-    key: "getSortOrderByCountriesCount",
-    value: function getSortOrderByCountriesCount() {
-      return this.get('sortCountriesCnt');
+    key: "getSortsOrder",
+    value: function getSortsOrder() {
+      return [{
+        'sortPrice': this.get('sortPrice')
+      }, {
+        'sortLength': this.get('sortLength')
+      }, {
+        'sortCitiesCnt': this.get('sortCitiesCnt')
+      }, {
+        'sortCountriesCnt': this.get('sortCountriesCnt')
+      }];
     }
   }]);
 
