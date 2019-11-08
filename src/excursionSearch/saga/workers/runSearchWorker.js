@@ -19,6 +19,6 @@ export function* runSearchWorker ({ payload: queryId }) {
         yield put(actions.processSearch(queryId, tours));
         yield put(actions.finishSearch(queryId));
     } catch (error) {
-        yield put(actions.failSearch(error));
+        yield put(actions.failSearch(queryId));
     }
 }
