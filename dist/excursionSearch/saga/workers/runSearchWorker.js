@@ -62,7 +62,7 @@ function runSearchWorker(_ref) {
           _context.prev = 15;
           _context.t0 = _context["catch"](1);
           _context.next = 19;
-          return (0, _effects.put)(_actions.actions.failSearch(_context.t0));
+          return (0, _effects.put)(_actions.actions.failSearch(queryId));
 
         case 19:
         case "end":
