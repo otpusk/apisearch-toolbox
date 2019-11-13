@@ -6,7 +6,8 @@ export const actions = createActions({
     SET_QUERY:    (queryId, query) => ({ queryId, query }),
 
     RUN_SEARCH:     (queryId) => queryId,
-    PROCESS_SEARCH: (queryId, tours) => ({ queryId, tours }),
+    RUN_NEXT_PAGE_SEARCH: (queryId) => queryId,
+    PROCESS_SEARCH: (queryId, page, tours) => ({ queryId, page, tours }),
     FINISH_SEARCH:  (queryId) => queryId,
     FAIL_SEARCH:    (error) => error,
 
