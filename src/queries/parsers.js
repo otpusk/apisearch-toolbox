@@ -91,6 +91,10 @@ export const geoParser = async (value, { token }) => {
     return location;
 };
 
+/* parse boolean values that presented as a string */
+
+export const parseStringIntengerToBoolean = (value) => Boolean(Number(value));
+
 /* immutable List, Set parser */
 
 export const createImmutableArrayParser = (baseValueCreator) => (value) => value ? baseValueCreator(value.split(GLUE.list)) : baseValueCreator();

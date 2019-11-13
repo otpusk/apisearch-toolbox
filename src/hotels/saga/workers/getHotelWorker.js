@@ -9,7 +9,7 @@ export function* getHotelWorker ({ payload: hotelId }) {
     try {
         const { token, lang } = yield select(({ auth }) => ({
             token: auth.getIn(['otpusk', 'token']),
-            lang: auth.getIn(['otpusk', 'lang'], 'ru'),
+            lang:  auth.getIn(['otpusk', 'lang'], 'ru'),
         }));
         const { hotel } = yield call(getToursHotel, token, hotelId, lang);
 

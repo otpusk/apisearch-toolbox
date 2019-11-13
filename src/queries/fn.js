@@ -16,7 +16,8 @@ import {
     datesParser,
     binaryParser,
     createImmutableArrayParser,
-    createImmutableNumbersArrayParser
+    createImmutableNumbersArrayParser,
+    parseStringIntengerToBoolean
 } from './parsers';
 
 /**
@@ -148,22 +149,23 @@ function createResultBones () {
  */
 function compileQuery (query) {
     const fieldsToCompilers = {
-        [QUERY_PARAMS.AUTOSTART]: numberCompiler,
-        [QUERY_PARAMS.DEPARTURE]: toStringCompiler,
-        [QUERY_PARAMS.COUNTRY]:   numberCompiler,
-        [QUERY_PARAMS.CITIES]:    immutableArrayCompiler,
-        [QUERY_PARAMS.HOTELS]:    immutableArrayCompiler,
-        [QUERY_PARAMS.CATEGORY]:  binaryCompiler,
-        [QUERY_PARAMS.DATES]:     datesCompiler,
-        [QUERY_PARAMS.DURATION]:  rangeCompiler,
-        [QUERY_PARAMS.ADULTS]:    toStringCompiler,
-        [QUERY_PARAMS.CHILDREN]:  immutableArrayCompiler,
-        [QUERY_PARAMS.FOOD]:      binaryCompiler,
-        [QUERY_PARAMS.TRANSPORT]: binaryCompiler,
-        [QUERY_PARAMS.PRICE]:     rangeCompiler,
-        [QUERY_PARAMS.SERVICES]:  immutableArrayCompiler,
-        [QUERY_PARAMS.RATING]:    rangeCompiler,
-        [QUERY_PARAMS.CURRENCY]:  toStringCompiler,
+        [QUERY_PARAMS.AUTOSTART]:   numberCompiler,
+        [QUERY_PARAMS.DEPARTURE]:   toStringCompiler,
+        [QUERY_PARAMS.COUNTRY]:     numberCompiler,
+        [QUERY_PARAMS.CITIES]:      immutableArrayCompiler,
+        [QUERY_PARAMS.HOTELS]:      immutableArrayCompiler,
+        [QUERY_PARAMS.CATEGORY]:    binaryCompiler,
+        [QUERY_PARAMS.DATES]:       datesCompiler,
+        [QUERY_PARAMS.DURATION]:    rangeCompiler,
+        [QUERY_PARAMS.ADULTS]:      toStringCompiler,
+        [QUERY_PARAMS.CHILDREN]:    immutableArrayCompiler,
+        [QUERY_PARAMS.FOOD]:        binaryCompiler,
+        [QUERY_PARAMS.TRANSPORT]:   binaryCompiler,
+        [QUERY_PARAMS.PRICE]:       rangeCompiler,
+        [QUERY_PARAMS.SERVICES]:    immutableArrayCompiler,
+        [QUERY_PARAMS.RATING]:      rangeCompiler,
+        [QUERY_PARAMS.CURRENCY]:    toStringCompiler,
+        [QUERY_PARAMS.WITHOUT_SPO]: numberCompiler,
     };
 
     return GLUE.field + query
@@ -236,22 +238,23 @@ function convertToOtpQuery (query) {
 
 function parseQueryParam (currentValue, paramName, rawValue) {
     const paramsToParsers = {
-        [QUERY_PARAMS.AUTOSTART]: Boolean,
-        [QUERY_PARAMS.DEPARTURE]: Number,
-        [QUERY_PARAMS.CATEGORY]:  binaryParser,
-        [QUERY_PARAMS.TRANSPORT]: binaryParser,
-        [QUERY_PARAMS.FOOD]:      binaryParser,
-        [QUERY_PARAMS.DATES]:     datesParser,
-        [QUERY_PARAMS.DURATION]:  rangeParser,
-        [QUERY_PARAMS.ADULTS]:    Number,
-        [QUERY_PARAMS.CHILDREN]:  createImmutableNumbersArrayParser(List),
-        [QUERY_PARAMS.COUNTRY]:   String,
-        [QUERY_PARAMS.CITIES]:    createImmutableNumbersArrayParser(Set),
-        [QUERY_PARAMS.HOTELS]:    createImmutableNumbersArrayParser(Set),
-        [QUERY_PARAMS.PRICE]:     rangeParser,
-        [QUERY_PARAMS.SERVICES]:  createImmutableArrayParser(Set),
-        [QUERY_PARAMS.RATING]:    rangeParser,
-        [QUERY_PARAMS.CURRENCY]:  String,
+        [QUERY_PARAMS.AUTOSTART]:   Boolean,
+        [QUERY_PARAMS.DEPARTURE]:   Number,
+        [QUERY_PARAMS.CATEGORY]:    binaryParser,
+        [QUERY_PARAMS.TRANSPORT]:   binaryParser,
+        [QUERY_PARAMS.FOOD]:        binaryParser,
+        [QUERY_PARAMS.DATES]:       datesParser,
+        [QUERY_PARAMS.DURATION]:    rangeParser,
+        [QUERY_PARAMS.ADULTS]:      Number,
+        [QUERY_PARAMS.CHILDREN]:    createImmutableNumbersArrayParser(List),
+        [QUERY_PARAMS.COUNTRY]:     String,
+        [QUERY_PARAMS.CITIES]:      createImmutableNumbersArrayParser(Set),
+        [QUERY_PARAMS.HOTELS]:      createImmutableNumbersArrayParser(Set),
+        [QUERY_PARAMS.PRICE]:       rangeParser,
+        [QUERY_PARAMS.SERVICES]:    createImmutableArrayParser(Set),
+        [QUERY_PARAMS.RATING]:      rangeParser,
+        [QUERY_PARAMS.CURRENCY]:    String,
+        [QUERY_PARAMS.WITHOUT_SPO]: parseStringIntengerToBoolean,
     };
 
     if (rawValue) {
