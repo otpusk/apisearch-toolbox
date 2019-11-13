@@ -4,7 +4,7 @@ import { Map, fromJS } from 'immutable';
 import { getToursSearch } from '@otpusk/json-api';
 
 // Instruments
-import { convertToOtpQuery } from '../../../queries/fn';
+import { convertToOtpQuery, QUERY_PARAMS } from '../../../queries/fn';
 import { searchActions } from '../../../search/actions';
 import { hotelsActions } from '../../../hotels/actions';
 import { offersActions } from '../../../offers/actions';
@@ -15,21 +15,22 @@ function* runSearchKiller () {
 
 export function* runSearchWorker ({ payload: queryId }) {
     try {
-        const { query } = yield select((state) => ({
-            query: convertToOtpQuery(state.queries.get(queryId)),
+        const { otpsukQuery, query } = yield select((state) => ({
+            query:       state.queries.get(queryId),
+            otpsukQuery: convertToOtpQuery(state.queries.get(queryId)),
         }));
         const token = yield select((state) => state.auth.getIn(['otpusk', 'token']));
         const killer = yield fork(runSearchKiller);
 
         yield put(searchActions.startSearch(queryId));
-        query.number = 0;
+        otpsukQuery.number = 0;
         do {
             const {
                 lastResult: finished,
                 result,
                 country,
                 progress: operators,
-                total, meta } = yield call(getToursSearch, token, query);
+                total, meta } = yield call(getToursSearch, token, otpsukQuery);
 
             const getPriceValueByOfferId = (id) => {
                 const { currency, price } = result.offers[id];
@@ -38,7 +39,7 @@ export function* runSearchWorker ({ payload: queryId }) {
             };
 
             const hotels = Map(result.hotels)
-                .filter(({ name }) => Boolean(name))
+                .filter(({ name }) => Boolean(name) || query.get(QUERY_PARAMS.SHORT))
                 .map((hotel) =>
                     fromJS(hotel)
                         .updateIn(['offers'], (offers) => offers.sortBy(getPriceValueByOfferId))
@@ -59,7 +60,7 @@ export function* runSearchWorker ({ payload: queryId }) {
                 country,
                 total,
                 meta,
-                page:   query.page,
+                page:   otpsukQuery.page,
             }));
 
             if (finished) {
@@ -67,7 +68,7 @@ export function* runSearchWorker ({ payload: queryId }) {
             }
             yield delay(5000);
 
-            query.number+=1;
+            otpsukQuery.number+=1;
         } while (killer.isRunning());
 
         yield delay(200);
