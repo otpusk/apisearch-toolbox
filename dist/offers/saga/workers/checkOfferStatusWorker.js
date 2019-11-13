@@ -82,7 +82,7 @@ function checkOfferStatusWorker(_ref) {
           freshOffer = _ref6.offer;
           code = _ref6.code;
           _context.t0 = code;
-          _context.next = _context.t0 === 5 ? 26 : _context.t0 === 4 ? 34 : _context.t0 === 3 ? 34 : _context.t0 === 2 ? 34 : 41;
+          _context.next = _context.t0 === 5 ? 26 : _context.t0 === 4 ? 32 : _context.t0 === 3 ? 32 : _context.t0 === 2 ? 32 : 37;
           break;
 
         case 26:
@@ -95,61 +95,40 @@ function checkOfferStatusWorker(_ref) {
           return (0, _effects.put)(_actions.offersActions.checkOfferStatusSuccess(offerId, freshOffer));
 
         case 31:
-          _context.next = 33;
-          return (0, _effects.put)(analyticsActions.sendEvent('Страница тура', 'Актуализация', 'Тур актуален', {
-            'dimension1': (0, _dictionary.getOperatorById)(currentOffer.operator).name,
-            'dimension2': hotel.country.name
-          }));
+          return _context.abrupt("break", 38);
 
-        case 33:
-          return _context.abrupt("break", 42);
+        case 32:
+          _context.next = 34;
+          return (0, _effects.put)(_actions.offersActions.setOfferStatus(offerId, 'dirty'));
 
         case 34:
           _context.next = 36;
-          return (0, _effects.put)(_actions.offersActions.setOfferStatus(offerId, 'dirty'));
-
-        case 36:
-          _context.next = 38;
           return (0, _effects.put)(_actions.offersActions.checkOfferStatusSuccess(offerId, freshOffer));
 
-        case 38:
-          _context.next = 40;
-          return (0, _effects.put)(analyticsActions.sendEvent('Страница тура', 'Актуализация', 'Тур не актуален', {
-            'dimension1': (0, _dictionary.getOperatorById)(currentOffer.operator).name,
-            'dimension2': hotel.country.name
-          }));
+        case 36:
+          return _context.abrupt("break", 38);
 
-        case 40:
-          return _context.abrupt("break", 42);
-
-        case 41:
+        case 37:
           throw new Error('Ошибка актуализации');
 
-        case 42:
-          _context.next = 52;
+        case 38:
+          _context.next = 46;
           break;
 
-        case 44:
-          _context.prev = 44;
+        case 40:
+          _context.prev = 40;
           _context.t1 = _context["catch"](7);
-          _context.next = 48;
+          _context.next = 44;
           return (0, _effects.put)(_actions.offersActions.setOfferStatus(offerId, 'failed'));
 
-        case 48:
-          _context.next = 50;
-          return (0, _effects.put)(analyticsActions.sendEvent('Страница тура', 'Актуализация', 'Ошибка актуализации', {
-            'dimension1': (0, _dictionary.getOperatorById)(currentOffer.operator).name,
-            'dimension2': hotel.country.name
-          }));
-
-        case 50:
-          _context.next = 52;
+        case 44:
+          _context.next = 46;
           return (0, _effects.put)(_actions.offersActions.checkOfferStatusFail(_context.t1));
 
-        case 52:
+        case 46:
         case "end":
           return _context.stop();
       }
     }
-  }, _marked, null, [[7, 44]]);
+  }, _marked, null, [[7, 40]]);
 }

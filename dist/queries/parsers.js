@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.createImmutableNumbersArrayParser = exports.createImmutableArrayParser = exports.geoParser = exports.numbersArrayParser = exports.arrayParser = exports.datesParser = exports.rangeParser = exports.binaryParser = void 0;
+exports.createImmutableNumbersArrayParser = exports.createImmutableArrayParser = exports.parseStringIntengerToBoolean = exports.geoParser = exports.numbersArrayParser = exports.arrayParser = exports.datesParser = exports.rangeParser = exports.binaryParser = void 0;
 
 var _immutable = require("immutable");
 
@@ -192,10 +192,18 @@ function () {
     return _ref5.apply(this, arguments);
   };
 }();
-/* immutable List, Set parser */
+/* parse boolean values that presented as a string */
 
 
 exports.geoParser = geoParser;
+
+var parseStringIntengerToBoolean = function parseStringIntengerToBoolean(value) {
+  return Boolean(Number(value));
+};
+/* immutable List, Set parser */
+
+
+exports.parseStringIntengerToBoolean = parseStringIntengerToBoolean;
 
 var createImmutableArrayParser = function createImmutableArrayParser(baseValueCreator) {
   return function (value) {
