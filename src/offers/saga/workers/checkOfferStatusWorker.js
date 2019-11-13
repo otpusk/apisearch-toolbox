@@ -30,30 +30,30 @@ export function* checkOfferStatusWorker ({ payload: { offerId, hotelId }}) {
 
                 yield put(actions.setOfferStatus(offerId, isTouched ? 'touched' : 'fresh'));
                 yield put(actions.checkOfferStatusSuccess(offerId, freshOffer));
-                yield put(analyticsActions.sendEvent('Страница тура', 'Актуализация', 'Тур актуален', {
-                    'dimension1': getOperatorById(currentOffer.operator).name,
-                    'dimension2': hotel.country.name,
-                }));
+                // yield put(analyticsActions.sendEvent('Страница тура', 'Актуализация', 'Тур актуален', {
+                //     'dimension1': getOperatorById(currentOffer.operator).name,
+                //     'dimension2': hotel.country.name,
+                // }));
                 break;
             case 4:
             case 3:
             case 2:
                 yield put(actions.setOfferStatus(offerId, 'dirty'));
                 yield put(actions.checkOfferStatusSuccess(offerId, freshOffer));
-                yield put(analyticsActions.sendEvent('Страница тура', 'Актуализация', 'Тур не актуален', {
-                    'dimension1': getOperatorById(currentOffer.operator).name,
-                    'dimension2': hotel.country.name,
-                }));
+                // yield put(analyticsActions.sendEvent('Страница тура', 'Актуализация', 'Тур не актуален', {
+                //     'dimension1': getOperatorById(currentOffer.operator).name,
+                //     'dimension2': hotel.country.name,
+                // }));
                 break;
             default:
                 throw new Error('Ошибка актуализации');
         }
     } catch (error) {
         yield put(actions.setOfferStatus(offerId, 'failed'));
-        yield put(analyticsActions.sendEvent('Страница тура', 'Актуализация', 'Ошибка актуализации', {
-            'dimension1': getOperatorById(currentOffer.operator).name,
-            'dimension2': hotel.country.name,
-        }));
+        // yield put(analyticsActions.sendEvent('Страница тура', 'Актуализация', 'Ошибка актуализации', {
+        //     'dimension1': getOperatorById(currentOffer.operator).name,
+        //     'dimension2': hotel.country.name,
+        // }));
         yield put(actions.checkOfferStatusFail(error));
     }
 }
