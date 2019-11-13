@@ -24,9 +24,13 @@ var actions = (0, _reduxActions.createActions)({
   RUN_SEARCH: function RUN_SEARCH(queryId) {
     return queryId;
   },
-  PROCESS_SEARCH: function PROCESS_SEARCH(queryId, tours) {
+  RUN_NEXT_PAGE_SEARCH: function RUN_NEXT_PAGE_SEARCH(queryId) {
+    return queryId;
+  },
+  PROCESS_SEARCH: function PROCESS_SEARCH(queryId, page, tours) {
     return {
       queryId: queryId,
+      page: page,
       tours: tours
     };
   },
