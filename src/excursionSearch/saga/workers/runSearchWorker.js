@@ -14,9 +14,11 @@ export function* runSearchWorker ({ payload: queryId }) {
             .map((value) => Array.isArray(value) && value.length === 0 ? false : value)
             .filter((value) => Boolean(value))
             .toJS();
+
+        const { page } = formattedQuery;
         const tours = yield call(getSearch, formattedQuery);
 
-        yield put(actions.processSearch(queryId, tours));
+        yield put(actions.processSearch(queryId, page, tours));
         yield put(actions.finishSearch(queryId));
     } catch (error) {
         yield put(actions.failSearch(queryId));

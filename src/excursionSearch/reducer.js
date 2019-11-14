@@ -17,10 +17,15 @@ export const reducer = handleActions({
         return state.setIn(['queries', queryId], query);
     },
     [actions.runSearch]: (state, { payload: queryId }) => {
+        return state
+            .removeIn(['results', queryId])
+            .setIn(['statuses', queryId], 'process');
+    },
+    [actions.runNextPageSearch]: (state, { payload: queryId }) => {
         return state.setIn(['statuses', queryId], 'process');
     },
-    [actions.processSearch]: (state, { payload: { queryId, tours }}) => {
-        return state.setIn(['results', queryId], tours);
+    [actions.processSearch]: (state, { payload: { queryId, page, tours }}) => {
+        return state.setIn(['results', queryId, page], tours);
     },
     [actions.finishSearch]: (state, { payload: queryId }) => {
         return state.setIn(['statuses', queryId], 'success');

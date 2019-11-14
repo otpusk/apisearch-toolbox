@@ -14,7 +14,7 @@ import { getSearchCountWorker } from './workers/getSearchCountWorker';
 
 export const watchers = Object.freeze({
     * runSearchWatcher () {
-        yield takeEvery(actions.runSearch, runSearchWorker);
+        yield takeEvery([actions.runSearch, actions.runNextPageSearch], runSearchWorker);
     },
     * getSearchOperatorsWatcher () {
         yield takeEvery(actions.getSearchOperators, getSearchOperatorsWorker);

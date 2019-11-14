@@ -20,7 +20,7 @@ var _marked =
 regeneratorRuntime.mark(runSearchWorker);
 
 function runSearchWorker(_ref) {
-  var queryId, query, formattedQuery, tours;
+  var queryId, query, formattedQuery, page, tours;
   return regeneratorRuntime.wrap(function runSearchWorker$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
@@ -42,32 +42,33 @@ function runSearchWorker(_ref) {
           }).filter(function (value) {
             return Boolean(value);
           }).toJS();
-          _context.next = 8;
+          page = formattedQuery.page;
+          _context.next = 9;
           return (0, _effects.call)(_excursionApi.getSearch, formattedQuery);
 
-        case 8:
+        case 9:
           tours = _context.sent;
-          _context.next = 11;
-          return (0, _effects.put)(_actions.actions.processSearch(queryId, tours));
+          _context.next = 12;
+          return (0, _effects.put)(_actions.actions.processSearch(queryId, page, tours));
 
-        case 11:
-          _context.next = 13;
+        case 12:
+          _context.next = 14;
           return (0, _effects.put)(_actions.actions.finishSearch(queryId));
 
-        case 13:
-          _context.next = 19;
+        case 14:
+          _context.next = 20;
           break;
 
-        case 15:
-          _context.prev = 15;
+        case 16:
+          _context.prev = 16;
           _context.t0 = _context["catch"](1);
-          _context.next = 19;
+          _context.next = 20;
           return (0, _effects.put)(_actions.actions.failSearch(queryId));
 
-        case 19:
+        case 20:
         case "end":
           return _context.stop();
       }
     }
-  }, _marked, null, [[1, 15]]);
+  }, _marked, null, [[1, 16]]);
 }
