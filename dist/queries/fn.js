@@ -71,6 +71,7 @@ var QUERY_PARAMS = {
 
 exports.QUERY_PARAMS = QUERY_PARAMS;
 var DEFAULTS = (_DEFAULTS = {}, _defineProperty(_DEFAULTS, QUERY_PARAMS.AUTOSTART, false), _defineProperty(_DEFAULTS, QUERY_PARAMS.DEPARTURE, '1544'), _defineProperty(_DEFAULTS, QUERY_PARAMS.COUNTRY, null), _defineProperty(_DEFAULTS, QUERY_PARAMS.CATEGORY, (0, _immutable.Map)({
+  1: true,
   2: true,
   3: true,
   4: true,
