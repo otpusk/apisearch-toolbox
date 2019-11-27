@@ -13,8 +13,6 @@ var _getMainPageWorker = require("./workers/getMainPageWorker");
 
 var _getCountriesWorker = require("./workers/getCountriesWorker");
 
-var _getExcursionWorker = require("./workers/getExcursionWorker");
-
 // Core
 // Instruments
 var watchers = Object.freeze({
@@ -51,23 +49,6 @@ var watchers = Object.freeze({
         }
       }
     }, getCountriesWatcher);
-  }),
-  getExcursionWatcher:
-  /*#__PURE__*/
-  regeneratorRuntime.mark(function getExcursionWatcher() {
-    return regeneratorRuntime.wrap(function getExcursionWatcher$(_context3) {
-      while (1) {
-        switch (_context3.prev = _context3.next) {
-          case 0:
-            _context3.next = 2;
-            return (0, _effects.takeEvery)(_actions.actions.getExcursion, _getExcursionWorker.getExcursionWorker);
-
-          case 2:
-          case "end":
-            return _context3.stop();
-        }
-      }
-    }, getExcursionWatcher);
   })
 });
 exports.watchers = watchers;

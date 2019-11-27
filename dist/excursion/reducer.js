@@ -22,10 +22,5 @@ var reducer = (0, _reduxActions.handleActions)((_handleActions = {}, _defineProp
 }), _defineProperty(_handleActions, _actions.actions.getCountriesSuccess, function (state, _ref2) {
   var countries = _ref2.payload;
   return state.set('countries', countries);
-}), _defineProperty(_handleActions, _actions.actions.getExcursionSuccess, function (state, _ref3) {
-  var _ref3$payload = _ref3.payload,
-      excursion = _ref3$payload.excursion,
-      excursionData = _ref3$payload.excursionData;
-  return state.set(excursion, excursionData);
 }), _handleActions), initialState);
 exports.reducer = reducer;
