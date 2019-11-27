@@ -5,6 +5,7 @@ import { takeEvery } from 'redux-saga/effects';
 import { actions } from '../actions';
 import { getMainpageWorker } from './workers/getMainPageWorker';
 import { getCountriesWorker } from './workers/getCountriesWorker';
+import { getExcursionWorker } from './workers/getExcursionWorker';
 
 export const watchers = Object.freeze({
     * getMainpageWatcher () {
@@ -13,4 +14,7 @@ export const watchers = Object.freeze({
     * getCountriesWatcher () {
         yield takeEvery(actions.getCountries, getCountriesWorker);
     },
+    * getExcursionWatcher () {
+        yield takeEvery(actions.getExcursion, getExcursionWorker);
+    }
 });
