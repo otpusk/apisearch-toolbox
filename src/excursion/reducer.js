@@ -14,7 +14,4 @@ export const reducer = handleActions({
     [actions.getCountriesSuccess]: (state, { payload: countries }) => {
         return state.set('countries', countries);
     },
-    [actions.getExcursionSuccess]: (state, { payload: { excursion, excursionData } }) => {
-        return state.set(excursion, excursionData);
-    }
 }, initialState);

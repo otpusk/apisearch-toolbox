@@ -2,7 +2,7 @@
 import { call, put } from 'redux-saga/effects';
 
 // Instruments
-import { actions } from '../../actions';
+import { excursionsActions as actions } from '../../actions';
 import { getExcursion } from '@otpusk/excursion-api';
 
 export function* getExcursionWorker({ payload: { excursion } }) {

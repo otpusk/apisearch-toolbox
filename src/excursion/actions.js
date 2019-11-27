@@ -9,8 +9,4 @@ export const actions = createActions({
     GET_COUNTRIES:         () => void 0,
     GET_COUNTRIES_SUCCESS: (countries) => countries,
     GET_COUNTRIES_FAIL:    (error) => error,
-
-    GET_EXCURSION:         (excursion) => ({excursion}),
-    GET_EXCURSION_SUCCESS: (excursion, excursionData) => ({ excursion, excursionData }),
-    GET_EXCURSION_FAIL:    (error) => error,
 }, { prefix: '@apisearch/excursion' });
