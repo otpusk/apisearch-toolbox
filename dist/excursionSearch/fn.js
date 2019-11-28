@@ -153,12 +153,12 @@ function (_OrderedMap) {
   }, {
     key: "setOperators",
     value: function setOperators(operators) {
-      return this.set('operators', operators);
+      return this.set('opId', operators);
     }
   }, {
     key: "getOperators",
     value: function getOperators() {
-      return this.get('operators');
+      return this.get('opId');
     }
   }, {
     key: "setCategories",
@@ -245,7 +245,7 @@ _defineProperty(Query, "defaults", Object.freeze({
   dateTo: (0, _moment["default"])().add(14, 'days').locale('ru'),
   lengthFrom: 4,
   lengthTo: 8,
-  operators: [],
+  opId: [],
   categories: [],
   transport: [],
   priceFrom: null,
