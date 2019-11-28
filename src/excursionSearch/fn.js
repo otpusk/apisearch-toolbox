@@ -14,7 +14,7 @@ export class Query extends OrderedMap {
         dateTo:                     moment().add(14, 'days').locale('ru'),
         lengthFrom:                 4,
         lengthTo:                   8,
-        operators:                  [],
+        opId:                       [],
         categories:                 [],
         transport:                  [],
         priceFrom:                  null,
@@ -94,11 +94,11 @@ export class Query extends OrderedMap {
     }
 
     setOperators (operators) {
-        return this.set('operators', operators);
+        return this.set('opId', operators);
     }
 
     getOperators () {
-        return this.get('operators');
+        return this.get('opId');
     }
 
     setCategories (categories) {
