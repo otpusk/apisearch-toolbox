@@ -3,7 +3,7 @@ import { combineReducers } from 'redux';
 import { excursionGeoReducer as excursionGeo } from '../src/excursionGeo';
 import { excursionReducer as excursion } from '../src/excursion';
 import { excursionSearchReducer as excursionSearch } from '../src/excursionSearch';
-import { excursionsReducer as excursions } from '../src/excursions';
+import { excursionToursReducer as excursionTours } from '../src/excursionTours';
 import { servicesReducer as services } from '../src/services';
 
 export const reducer = combineReducers({
@@ -11,5 +11,5 @@ export const reducer = combineReducers({
     excursion,
     services,
     excursionSearch,
-    excursions
+    excursionTours,
 });
