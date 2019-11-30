@@ -3,6 +3,25 @@
 import { OrderedMap } from 'immutable';
 import moment from 'moment';
 
+// Instruments
+import {
+    binaryCompiler,
+    rangeCompiler,
+    datesCompiler,
+    numberCompiler,
+    toStringCompiler,
+    immutableArrayCompiler
+} from './compilers';
+
+import {
+    rangeParser,
+    datesParser,
+    binaryParser,
+    createImmutableArrayParser,
+    createImmutableNumbersArrayParser,
+    parseStringIntengerToBoolean
+} from '../queries/parsers';
+
 export class Query extends OrderedMap {
     static defaults = Object.freeze({
         page:                       1,
@@ -163,6 +182,17 @@ export class Query extends OrderedMap {
     }
 }
 
+/**
+ * Query string flue
+ */
+export const GLUE = {
+    field: '/',
+    range: '-',
+    list: ',',
+    binary: '',
+    empty: '!',
+}
+
 function makeQuery (orderedMap) {
     const query = Object.create(Query.prototype);
 
@@ -171,4 +201,65 @@ function makeQuery (orderedMap) {
     query._list = orderedMap._list;
 
     return query;
+}
+
+
+/**
+ * Compile query to string
+ *
+ * @param {OrderedMap} query query
+ * @returns {string} query string
+ */
+
+export function compileQuery (query) {
+    const fieldsToCompilers = {
+        page:             numberCompiler,
+        departureCity:    numberCompiler,
+        destCountry:      immutableArrayCompiler,
+        destCity:         immutableArrayCompiler,
+        destSight:        immutableArrayCompiler,
+        date:             datesCompiler,
+        length:           rangeCompiler,
+        opId:             immutableArrayCompiler,
+        categories:       immutableArrayCompiler,
+        transport:        immutableArrayCompiler,
+        price:            rangeCompiler,
+        noNightMoves:     toStringCompiler,
+        sortPrice:        toStringCompiler,
+        sortLength:       toStringCompiler,
+        sortCitiesCnt:    toStringCompiler,
+        sortCountriesCnt: toStringCompiler,
+    };
+
+    const exceptions = ['dateFrom', 'lengthFrom', 'priceFrom'];
+
+    return GLUE.field + query
+        .map((value, field) => {
+            if (field in fieldsToCompilers || exceptions.includes(field)) {
+                // date
+                if (field === 'dateFrom') {
+                    const fieldName = field.slice(0, -4);
+                    const date = new Map();
+                    date.set('from', value);
+                    date.set('to', query.get(fieldName + 'To'));
+                    return fieldsToCompilers[fieldName](date);
+                }
+
+                // range
+                if (field === 'lengthFrom' || field === 'priceFrom') {
+                    const fieldName = field.slice(0, -4);
+                    const range = {from: value, to: query.get(fieldName + 'To')};
+                    return fieldsToCompilers[fieldName](range);
+                }
+
+                if (value) {
+                    return fieldsToCompilers[field](value);
+                }
+            }
+            return null;
+        })
+        .toList()
+        .filter((e) => !!e)
+        .join(GLUE.field)
+        .replace(new RegExp(`[${GLUE.field}${GLUE.empty}]+$`), '');
 }

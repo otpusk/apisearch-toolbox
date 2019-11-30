@@ -1,11 +1,12 @@
 {
   "name": "@otpusk/apisearch-toolbox",
-  "version": "0.2.103",
+  "version": "0.2.104",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
     "transpile": "babel ./src --out-dir ./dist",
-    "publish-package": "npm publish"
+    "publish-package": "npm publish",
+    "start": "babel-node playground/index.js"
   },
   "repository": {
     "type": "git",
