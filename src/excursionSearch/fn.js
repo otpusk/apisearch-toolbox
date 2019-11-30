@@ -5,12 +5,10 @@ import moment from 'moment';
 
 // Instruments
 import {
-    binaryCompiler,
-    rangeCompiler,
+    arrayCompiler,
     dateCompiler,
     numberCompiler,
     toStringCompiler,
-    immutableArrayCompiler
 } from './compilers';
 
 import {
@@ -215,16 +213,16 @@ export function compileQuery (query) {
     const fieldsToCompilers = {
         page:                       numberCompiler,
         departureCity:              toStringCompiler,
-        destCountry:                immutableArrayCompiler,
-        destCity:                   immutableArrayCompiler,
-        destSight:                  immutableArrayCompiler,
+        destCountry:                arrayCompiler,
+        destCity:                   arrayCompiler,
+        destSight:                  arrayCompiler,
         dateFrom:                   dateCompiler,
         dateTo:                     dateCompiler,
         lengthFrom:                 numberCompiler,
         lengthTo:                   numberCompiler,
-        opId:                       immutableArrayCompiler,
-        categories:                 immutableArrayCompiler,
-        transport:                  immutableArrayCompiler,
+        opId:                       arrayCompiler,
+        categories:                 arrayCompiler,
+        transport:                  arrayCompiler,
         priceFrom:                  numberCompiler,
         priceTo:                    numberCompiler,
         noNightMoves:               toStringCompiler,

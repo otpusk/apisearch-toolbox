@@ -2,41 +2,14 @@
 import { GLUE } from './fn';
 
 /**
- * Compile boolean list
+ * Date compiler
  *
- * @param {Map} value flags list
- * @returns {String} binary param
+ * @param {Date} value value
+ * @returns {String} param
  */
-export const binaryCompiler = (value) => Number(value.toList().map((flag) => Number(flag)).join(GLUE.binary)).toString(36);
-
-/**
- * Range compiler
- *
- * @param {Map} value range
- * @return {String} range param
- */
-export const rangeCompiler = (value) => {
-    const { from = '', to = '' } = value;
-
-    return (from === to ? [from] : [from, to])
-        .join(GLUE.range);
-};
-
 export const dateCompiler = date => {
     return date ? date.format('D.M.Y') : GLUE.empty
 }
-
-/**
- * Dates compiler
- *
- * @param {Map} value dates
- * @returns {String} dates param
- */
-export const datesCompiler = (value) => {
-    return [value.get('from'), value.get('to')]
-        .map((date) => date ? date.format('D.M.Y') : GLUE.empty)
-        .join(GLUE.range);
-};
 
 /**
  * Array compiler
@@ -45,14 +18,6 @@ export const datesCompiler = (value) => {
  * @returns {String} param
  */
 export const arrayCompiler = (value) => value.length ? value.join(GLUE.list) : GLUE.empty;
-
-/**
- * Map structure compiler
- *
- * @param {Map} value value
- * @returns {String} map keys
- */
-export const mapCompiler = (value) => value && value.count() ? value.keySeq().toArray().join(GLUE.list) : GLUE.empty;
 
 /**
  * toStringCompiler
@@ -69,7 +34,3 @@ export const toStringCompiler = (value) => value.toString();
  * @returns {string} param
  */
 export const numberCompiler = (value) => Number(value).toString();
-
-/* Immutable List, Set compiler */
-
-export const immutableArrayCompiler = (value) => value.size ? value.join(GLUE.list) : GLUE.empty;
