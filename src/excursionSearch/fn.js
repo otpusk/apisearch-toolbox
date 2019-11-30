@@ -19,7 +19,7 @@ export class Query extends OrderedMap {
         transport:                  [],
         priceFrom:                  null,
         priceTo:                    null,
-        withoutNightTransfer:       false,
+        noNightMoves:               false,
         sortPrice:                  null,
         sortLength:                 null,
         sortCitiesCnt:              null,
@@ -129,11 +129,11 @@ export class Query extends OrderedMap {
     }
 
     setWithoutNightTransfer (flag) {
-        return this.set('withoutNightTransfer', flag);
+        return this.set('noNightMoves', flag);
     }
 
     isWithoutNightTransfer () {
-        return this.get('withoutNightTransfer');
+        return this.get('noNightMoves');
     }
 
     setSortsOrder (sorts) {
