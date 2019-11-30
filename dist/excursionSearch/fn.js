@@ -198,12 +198,12 @@ function (_OrderedMap) {
   }, {
     key: "setWithoutNightTransfer",
     value: function setWithoutNightTransfer(flag) {
-      return this.set('withoutNightTransfer', flag);
+      return this.set('noNightMoves', flag);
     }
   }, {
     key: "isWithoutNightTransfer",
     value: function isWithoutNightTransfer() {
-      return this.get('withoutNightTransfer');
+      return this.get('noNightMoves');
     }
   }, {
     key: "setSortsOrder",
@@ -250,7 +250,7 @@ _defineProperty(Query, "defaults", Object.freeze({
   transport: [],
   priceFrom: null,
   priceTo: null,
-  withoutNightTransfer: false,
+  noNightMoves: false,
   sortPrice: null,
   sortLength: null,
   sortCitiesCnt: null,
