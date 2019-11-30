@@ -22,6 +22,10 @@ export const rangeCompiler = (value) => {
         .join(GLUE.range);
 };
 
+export const dateCompiler = date => {
+    return date ? date.format('D.M.Y') : GLUE.empty
+}
+
 /**
  * Dates compiler
  *

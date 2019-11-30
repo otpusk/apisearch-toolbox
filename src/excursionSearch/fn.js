@@ -7,7 +7,7 @@ import moment from 'moment';
 import {
     binaryCompiler,
     rangeCompiler,
-    datesCompiler,
+    dateCompiler,
     numberCompiler,
     toStringCompiler,
     immutableArrayCompiler
@@ -213,53 +213,34 @@ function makeQuery (orderedMap) {
 
 export function compileQuery (query) {
     const fieldsToCompilers = {
-        page:             numberCompiler,
-        departureCity:    numberCompiler,
-        destCountry:      immutableArrayCompiler,
-        destCity:         immutableArrayCompiler,
-        destSight:        immutableArrayCompiler,
-        date:             datesCompiler,
-        length:           rangeCompiler,
-        opId:             immutableArrayCompiler,
-        categories:       immutableArrayCompiler,
-        transport:        immutableArrayCompiler,
-        price:            rangeCompiler,
-        noNightMoves:     toStringCompiler,
-        sortPrice:        toStringCompiler,
-        sortLength:       toStringCompiler,
-        sortCitiesCnt:    toStringCompiler,
-        sortCountriesCnt: toStringCompiler,
+        page:                       numberCompiler,
+        departureCity:              toStringCompiler,
+        destCountry:                immutableArrayCompiler,
+        destCity:                   immutableArrayCompiler,
+        destSight:                  immutableArrayCompiler,
+        dateFrom:                   dateCompiler,
+        dateTo:                     dateCompiler,
+        lengthFrom:                 numberCompiler,
+        lengthTo:                   numberCompiler,
+        opId:                       immutableArrayCompiler,
+        categories:                 immutableArrayCompiler,
+        transport:                  immutableArrayCompiler,
+        priceFrom:                  numberCompiler,
+        priceTo:                    numberCompiler,
+        noNightMoves:               toStringCompiler,
+        sortPrice:                  toStringCompiler,
+        sortLength:                 toStringCompiler,
+        sortCitiesCnt:              toStringCompiler,
+        sortCountriesCnt:           toStringCompiler,
     };
 
-    const exceptions = ['dateFrom', 'lengthFrom', 'priceFrom'];
-
-    return GLUE.field + query
-        .map((value, field) => {
-            if (field in fieldsToCompilers || exceptions.includes(field)) {
-                // date
-                if (field === 'dateFrom') {
-                    const fieldName = field.slice(0, -4);
-                    const date = new Map();
-                    date.set('from', value);
-                    date.set('to', query.get(fieldName + 'To'));
-                    return fieldsToCompilers[fieldName](date);
-                }
-
-                // range
-                if (field === 'lengthFrom' || field === 'priceFrom') {
-                    const fieldName = field.slice(0, -4);
-                    const range = {from: value, to: query.get(fieldName + 'To')};
-                    return fieldsToCompilers[fieldName](range);
-                }
-
-                if (value) {
-                    return fieldsToCompilers[field](value);
-                }
-            }
-            return null;
-        })
+    return GLUE.field + query.map
+        ((value, field) => (
+            value && field in fieldsToCompilers
+                ? fieldsToCompilers[field](value)
+                : GLUE.empty
+        ))
         .toList()
-        .filter((e) => !!e)
         .join(GLUE.field)
         .replace(new RegExp(`[${GLUE.field}${GLUE.empty}]+$`), '');
 }
