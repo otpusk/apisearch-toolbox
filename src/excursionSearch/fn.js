@@ -58,6 +58,10 @@ export class Query extends OrderedMap {
         return makeQuery(super.set(k, v));
     }
 
+    map (k, v) {
+        return makeQuery(super.map(k, v));
+    }
+
     setPage (page) {
         return this.set('page', page);
     }

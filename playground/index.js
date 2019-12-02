@@ -11,9 +11,11 @@ const q = new ExcursionQuery()
     .setOperators([1, 2 , 3]);
 
 const com = q.compileQuery();
-console.log(com);
-console.log(q.parseQueryString('#' + com));
-// console.log(q);
+// console.log(com);
+const t = q.parseQueryString('#' + com);
+console.log(t);
+const nt = t.setDeparture(22222);
+console.log(nt);
 
 
 sleep(1);
