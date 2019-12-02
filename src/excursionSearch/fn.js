@@ -16,49 +16,38 @@ import {
     numbersArrayParser,
 } from './parsers';
 
-const QUERY_PARAMS = {
-    PAGE:               'page',
-    DEPARTURE_CITY:     'departureCity',
-    DEST_COUNTRY:       'destCountry',
-    DEST_CITY:          'destCity',
-    DEST_SIGHT:         'destSight',
-    DATE_FROM:          'dateFrom',
-    DATE_TO:            'dateTo',
-    LENGTH_FROM:        'lengthFrom',
-    LENGTH_TO:          'lengthTo',
-    OP_ID:              'opId',
-    CATEGORIES:         'categories',
-    TRANSPORT:          'transport',
-    PRICE_FROM:         'priceFrom',
-    PRICE_TO:           'priceTo',
-    NO_NIGHT_MOVES:     'noNightMoves',
-    SORT_PRICE:         'sortPrice',
-    SORT_LENGTH:        'sortLength',
-    SORT_CITIES_CNT:    'sortCitiesCnt',
-    SORT_COUNTRIES_CNT: 'sortCountriesCnt',
+/**
+ * Query string glue
+ */
+export const GLUE = {
+    field: '/',
+    range: '-',
+    list: ',',
+    binary: '',
+    empty: '!',
 }
 
 export class Query extends OrderedMap {
     static defaults = Object.freeze({
-        [QUERY_PARAMS.PAGE]:               1,
-        [QUERY_PARAMS.DEPARTURE_CITY]:     null,
-        [QUERY_PARAMS.DEST_COUNTRY]:       [],
-        [QUERY_PARAMS.DEST_CITY]:          [],
-        [QUERY_PARAMS.DEST_SIGHT]:         [],
-        [QUERY_PARAMS.DATE_FROM]:          moment().add(7, 'days').locale('ru'),
-        [QUERY_PARAMS.DATE_TO]:            moment().add(14, 'days').locale('ru'),
-        [QUERY_PARAMS.LENGTH_FROM]:        4,
-        [QUERY_PARAMS.LENGTH_TO]:          8,
-        [QUERY_PARAMS.OP_ID]:              [],
-        [QUERY_PARAMS.CATEGORIES]:         [],
-        [QUERY_PARAMS.TRANSPORT]:          [],
-        [QUERY_PARAMS.PRICE_FROM]:         null,
-        [QUERY_PARAMS.PRICE_TO]:           null,
-        [QUERY_PARAMS.NO_NIGHT_MOVES]:     false,
-        [QUERY_PARAMS.SORT_PRICE]:         null,
-        [QUERY_PARAMS.SORT_LENGTH]:        null,
-        [QUERY_PARAMS.SORT_CITIES_CNT]:    null,
-        [QUERY_PARAMS.SORT_COUNTRIES_CNT]: null,
+        page:                    1,
+        departureCity:           null,
+        destCountry:             [],
+        destCity:                [],
+        destSight:               [],
+        dateFrom:                moment().add(7, 'days').locale('ru'),
+        dateTo:                  moment().add(14, 'days').locale('ru'),
+        lengthFrom:              4,
+        lengthTo:                8,
+        opId:                    [],
+        categories:              [],
+        transport:               [],
+        priceFrom:               null,
+        priceTo:                 null,
+        noNightMoves:            false,
+        sortPrice:               null,
+        sortLength:              null,
+        sortCitiesCnt:           null,
+        sortCountriesCnt:        null,
     });
 
     constructor () {
@@ -70,19 +59,19 @@ export class Query extends OrderedMap {
     }
 
     setPage (page) {
-        return this.set(QUERY_PARAMS.PAGE, page);
+        return this.set('page', page);
     }
 
     getPage (page) {
-        return this.get(QUERY_PARAMS.PAGE, page);
+        return this.get('page', page);
     }
 
     setDeparture (value) {
-        return this.set(QUERY_PARAMS.DEPARTURE_CITY, value);
+        return this.set('departureCity', value);
     }
 
     getDeparture () {
-        return this.get(QUERY_PARAMS.DEPARTURE_CITY);
+        return this.get('departureCity');
     }
 
     setLocations (locations) {
@@ -93,82 +82,82 @@ export class Query extends OrderedMap {
         }, { countries: [], cities: [], sights: []});
 
         return this
-            .set(QUERY_PARAMS.DEST_COUNTRY, countries)
-            .set(QUERY_PARAMS.DEST_CITY, cities)
-            .set(QUERY_PARAMS.DEST_SIGHT, sights);
+            .set('destCountry', countries)
+            .set('destCity', cities)
+            .set('destSight', sights);
     }
 
     getLocations () {
         return [
-            ...this.get(QUERY_PARAMS.DEST_COUNTRY, []).map((id) => ({ id, type: 'countries' })),
-            ...this.get(QUERY_PARAMS.DEST_CITY, []).map((id) => ({ id, type: 'cities' })),
-            ...this.get(QUERY_PARAMS.DEST_SIGHT, []).map((id) => ({ id, type: 'sights' }))
+            ...this.get('destCountry', []).map((id) => ({ id, type: 'countries' })),
+            ...this.get('destCity', []).map((id) => ({ id, type: 'cities' })),
+            ...this.get('destSight', []).map((id) => ({ id, type: 'sights' }))
         ];
     }
 
     setDates ({ from, to }) {
-        return this.set(QUERQUERY_PARAMS.DATE_FROM, from).set(QUERY_PARAMS.DATE_TO, to);
+        return this.set('dateFrom', from).set('dateTo', to);
     }
 
     getDates () {
         return {
-            from: this.get(QUERY_PARAMS.DATE_FROM),
-            to:   this.get(QUERY_PARAMS.DATE_TO),
+            from: this.get('dateFrom'),
+            to:   this.get('dateTo'),
         };
     }
 
     setDuration ({ from, to }) {
-        return this.set(QUERY_PARAMS.LENGTH_FROM, from).set(QUERY_PARAMS.LENGTH_TO, to);
+        return this.set('lengthFrom', from).set('lengthTo', to);
     }
 
     getDuration () {
         return {
-            from: this.get(QUERY_PARAMS.LENGTH_FROM),
-            to:   this.get(QUERY_PARAMS.LENGTH_TO),
+            from: this.get('lengthFrom'),
+            to:   this.get('lengthTo'),
         };
     }
 
     setOperators (operators) {
-        return this.set(QUERY_PARAMS.OP_ID, operators);
+        return this.set('opId', operators);
     }
 
     getOperators () {
-        return this.get(QUERY_PARAMS.OP_ID);
+        return this.get('opId');
     }
 
     setCategories (categories) {
-        return this.set(QUERY_PARAMS.CATEGORIES, categories);
+        return this.set('categories', categories);
     }
 
     getCategories () {
-        return this.get(QUERY_PARAMS.CATEGORIES);
+        return this.get('categories');
     }
 
     setTransport (transport) {
-        return this.set(QUERY_PARAMS.TRANSPORT, transport);
+        return this.set('transport', transport);
     }
 
     getTransport () {
-        return this.get(QUERY_PARAMS.TRANSPORT);
+        return this.get('transport');
     }
 
     setPrice ({ from, to }) {
-        return this.set(QUERY_PARAMS.PRICE_FROM, from).set(QUERY_PARAMS.PRICE_TO, to);
+        return this.set('priceFrom', from).set('priceTo', to);
     }
 
     getPrice () {
         return {
-            from: this.get(QUERY_PARAMS.PRICE_FROM),
-            to:   this.get(QUERY_PARAMS.PRICE_TO),
+            from: this.get('priceFrom'),
+            to:   this.get('priceTo'),
         };
     }
 
     setWithoutNightTransfer (flag) {
-        return this.set(QUERY_PARAMS.NO_NIGHT_MOVES, flag);
+        return this.set('noNightMoves', flag);
     }
 
     isWithoutNightTransfer () {
-        return this.get(QUERY_PARAMS.NO_NIGHT_MOVES);
+        return this.get('noNightMoves');
     }
 
     setSortsOrder (sorts) {
@@ -181,33 +170,107 @@ export class Query extends OrderedMap {
         } = sorts;
 
         return this
-            .set(QUERY_PARAMS.SORT_PRICE, price)
-            .set(QUERY_PARAMS.SORT_LENGTH, length)
-            .set(QUERY_PARAMS.SORT_CITIES_CNT, citiesCount)
-            .set(QUERY_PARAMS.SORT_COUNTRIES_CNT, countriesCount);
+            .set('sortPrice', price)
+            .set('sortLength', length)
+            .set('sortCitiesCnt', citiesCount)
+            .set('sortCountriesCnt', countriesCount);
 
     }
 
     getSortsOrder () {
         return {
-            price:          this.get(QUERY_PARAMS.SORT_PRICE),
-            length:         this.get(QUERY_PARAMS.SORT_LENGTH),
-            citiesCount:    this.get(QUERY_PARAMS.SORT_CITIES_CNT),
-            countriesCount: this.get(QUERY_PARAMS.SORT_COUNTRIES_CNT)
+            price:          this.get('sortPrice'),
+            length:         this.get('sortLength'),
+            citiesCount:    this.get('sortCitiesCnt'),
+            countriesCount: this.get('sortCountriesCnt')
         }
+    }
+
+    compileQuery () {
+        const fieldsToCompilers = {
+            page:               numberCompiler,
+            departureCity:      numberCompiler,
+            destCountry:        arrayCompiler,
+            destCity:           arrayCompiler,
+            destSight:          arrayCompiler,
+            dateFrom:           dateCompiler,
+            dateTo:             dateCompiler,
+            lengthFrom:         numberCompiler,
+            lengthTo:           numberCompiler,
+            opId:               arrayCompiler,
+            categories:         arrayCompiler,
+            transport:          arrayCompiler,
+            priceFrom:          numberCompiler,
+            priceTo:            numberCompiler,
+            noNightMoves:       toStringCompiler,
+            sortPrice:          toStringCompiler,
+            sortLength:         toStringCompiler,
+            sortCitiesCnt:      toStringCompiler,
+            sortCountriesCnt:   toStringCompiler,
+        };
+
+        return GLUE.field + this.map
+            ((value, field) => (
+                value && field in fieldsToCompilers
+                    ? fieldsToCompilers[field](value)
+                    : GLUE.empty
+            ))
+            .toList()
+            .join(GLUE.field)
+            .replace(new RegExp(`[${GLUE.field}${GLUE.empty}]+$`), '');
+    }
+
+    parseQueryParam (currentValue, paramName, rawValue) {
+        const paramsToParsers = {
+            page:               Number,
+            departureCity:      Number,
+            destCountry:        numbersArrayParser,
+            destCity:           numbersArrayParser,
+            destSight:          numbersArrayParser,
+            dateFrom:           dateParser,
+            dateTo:             dateParser,
+            lengthFrom:         Number,
+            lengthTo:           Number,
+            opId:               numbersArrayParser,
+            categories:         numbersArrayParser,
+            transport:          numbersArrayParser,
+            priceFrom:          Number,
+            priceTo:            Number,
+            noNightMoves:       Number,
+            sortPrice:          String,
+            sortLength:         String,
+            sortCitiesCnt:      String,
+            sortCountriesCnt:   String,
+        };
+
+        if (rawValue) {
+            if (rawValue === GLUE.empty) {
+                return Query.defaults[paramName];
+            }
+
+            if (paramName in paramsToParsers) {
+                return paramsToParsers[paramName](rawValue, { prevValue: currentValue });
+            }
+        }
+
+        return currentValue;
+    }
+
+    parseQueryString (queryString) {
+        const query = makeQuery(OrderedMap(Query.defaults));
+        const params = queryString.replace('#/', '').split('/');
+
+        return query.map((currentValue, paramName) => {
+            const position = query.keySeq().findIndex((f) => f === paramName);
+            const rawValue = position in params ? params[position] : null;
+
+            return rawValue
+                ? this.parseQueryParam(currentValue, paramName, rawValue)
+                : currentValue;
+        });
     }
 }
 
-/**
- * Query string glue
- */
-export const GLUE = {
-    field: '/',
-    range: '-',
-    list: ',',
-    binary: '',
-    empty: '!',
-}
 
 function makeQuery (orderedMap) {
     const query = Object.create(Query.prototype);
@@ -219,93 +282,3 @@ function makeQuery (orderedMap) {
     return query;
 }
 
-/**
- * Compile query to string
- *
- * @param {OrderedMap} query query
- * @returns {string} query string
- */
-
-export function compileQuery (query) {
-    const fieldsToCompilers = {
-        [QUERY_PARAMS.PAGE]:               numberCompiler,
-        [QUERY_PARAMS.DEPARTURE_CITY]:     numberCompiler,
-        [QUERY_PARAMS.DEST_COUNTRY]:       arrayCompiler,
-        [QUERY_PARAMS.DEST_CITY]:          arrayCompiler,
-        [QUERY_PARAMS.DEST_SIGHT]:         arrayCompiler,
-        [QUERY_PARAMS.DATE_FROM]:          dateCompiler,
-        [QUERY_PARAMS.DATE_TO]:            dateCompiler,
-        [QUERY_PARAMS.LENGTH_FROM]:        numberCompiler,
-        [QUERY_PARAMS.LENGTH_TO]:          numberCompiler,
-        [QUERY_PARAMS.OP_ID]:              arrayCompiler,
-        [QUERY_PARAMS.CATEGORIES]:         arrayCompiler,
-        [QUERY_PARAMS.TRANSPORT]:          arrayCompiler,
-        [QUERY_PARAMS.PRICE_FROM]:         numberCompiler,
-        [QUERY_PARAMS.PRICE_TO]:           numberCompiler,
-        [QUERY_PARAMS.NO_NIGHT_MOVES]:     toStringCompiler,
-        [QUERY_PARAMS.SORT_PRICE]:         toStringCompiler,
-        [QUERY_PARAMS.SORT_LENGTH]:        toStringCompiler,
-        [QUERY_PARAMS.SORT_CITIES_CNT]:    toStringCompiler,
-        [QUERY_PARAMS.SORT_COUNTRIES_CNT]: toStringCompiler,
-    };
-
-    return GLUE.field + query.map
-        ((value, field) => (
-            value && field in fieldsToCompilers
-                ? fieldsToCompilers[field](value)
-                : GLUE.empty
-        ))
-        .toList()
-        .join(GLUE.field)
-        .replace(new RegExp(`[${GLUE.field}${GLUE.empty}]+$`), '');
-}
-
-export function parseQueryParam (currentValue, paramName, rawValue) {
-    const paramsToParsers = {
-        [QUERY_PARAMS.PAGE]:               Number,
-        [QUERY_PARAMS.DEPARTURE_CITY]:     Number,
-        [QUERY_PARAMS.DEST_COUNTRY]:       numbersArrayParser,
-        [QUERY_PARAMS.DEST_CITY]:          numbersArrayParser,
-        [QUERY_PARAMS.DEST_SIGHT]:         numbersArrayParser,
-        [QUERY_PARAMS.DATE_FROM]:          dateParser,
-        [QUERY_PARAMS.DATE_TO]:            dateParser,
-        [QUERY_PARAMS.LENGTH_FROM]:        Number,
-        [QUERY_PARAMS.LENGTH_TO]:          Number,
-        [QUERY_PARAMS.OP_ID]:              numbersArrayParser,
-        [QUERY_PARAMS.CATEGORIES]:         numbersArrayParser,
-        [QUERY_PARAMS.TRANSPORT]:          numbersArrayParser,
-        [QUERY_PARAMS.PRICE_FROM]:         Number,
-        [QUERY_PARAMS.PRICE_TO]:           Number,
-        [QUERY_PARAMS.NO_NIGHT_MOVES]:     Number,
-        [QUERY_PARAMS.SORT_PRICE]:         String,
-        [QUERY_PARAMS.SORT_LENGTH]:        String,
-        [QUERY_PARAMS.SORT_CITIES_CNT]:    String,
-        [QUERY_PARAMS.SORT_COUNTRIES_CNT]: String,
-    };
-
-    if (rawValue) {
-        if (rawValue === GLUE.empty) {
-            return Query.defaults[paramName];
-        }
-
-        if (paramName in paramsToParsers) {
-            return paramsToParsers[paramName](rawValue, { prevValue: currentValue });
-        }
-    }
-
-    return currentValue;
-}
-
-export function parseQueryString (queryString) {
-    const query = makeQuery(OrderedMap(Query.defaults));
-    const params = queryString.replace('#/', '').split('/');
-
-    return query.map((currentValue, paramName) => {
-        const position = query.keySeq().findIndex((f) => f === paramName);
-        const rawValue = position in params ? params[position] : null;
-
-        return rawValue
-            ? parseQueryParam(currentValue, paramName, rawValue)
-            : currentValue;
-    });
-}

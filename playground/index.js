@@ -1,6 +1,5 @@
 import { store } from './store';
 import { ExcursionQuery } from '../src/excursionSearch';
-import { compileQuery, parseQueryString } from '../src/excursionSearch/fn';
 
 const exec = require('child_process').execSync;
 const sleep = (time) => time && exec(`sleep ${time}`);
@@ -11,10 +10,10 @@ const q = new ExcursionQuery()
     .setSortsOrder({price: 'asc', 'length': 'desc'})
     .setOperators([1, 2 , 3]);
 
-const com = compileQuery(q);
+const com = q.compileQuery();
 console.log(com);
-console.log(parseQueryString('#' + com));
-console.log(q);
+console.log(q.parseQueryString('#' + com));
+// console.log(q);
 
 
 sleep(1);
