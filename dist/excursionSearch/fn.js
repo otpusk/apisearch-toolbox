@@ -3,11 +3,15 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Query = void 0;
+exports.Query = exports.GLUE = void 0;
 
 var _immutable = require("immutable");
 
 var _moment = _interopRequireDefault(require("moment"));
+
+var _compilers = require("./compilers");
+
+var _parsers = require("./parsers");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -43,6 +47,18 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+/**
+ * Query string glue
+ */
+var GLUE = {
+  field: '/',
+  range: '-',
+  list: ',',
+  binary: '',
+  empty: '!'
+};
+exports.GLUE = GLUE;
+
 var Query =
 /*#__PURE__*/
 function (_OrderedMap) {
@@ -60,6 +76,11 @@ function (_OrderedMap) {
     key: "set",
     value: function set(k, v) {
       return makeQuery(_get(_getPrototypeOf(Query.prototype), "set", this).call(this, k, v));
+    }
+  }, {
+    key: "map",
+    value: function map(k, v) {
+      return makeQuery(_get(_getPrototypeOf(Query.prototype), "map", this).call(this, k, v));
     }
   }, {
     key: "setPage",
@@ -198,12 +219,12 @@ function (_OrderedMap) {
   }, {
     key: "setWithoutNightTransfer",
     value: function setWithoutNightTransfer(flag) {
-      return this.set('withoutNightTransfer', flag);
+      return this.set('noNightMoves', flag);
     }
   }, {
     key: "isWithoutNightTransfer",
     value: function isWithoutNightTransfer() {
-      return this.get('withoutNightTransfer');
+      return this.get('noNightMoves');
     }
   }, {
     key: "setSortsOrder",
@@ -228,6 +249,88 @@ function (_OrderedMap) {
         countriesCount: this.get('sortCountriesCnt')
       };
     }
+  }, {
+    key: "compileQuery",
+    value: function compileQuery() {
+      var fieldsToCompilers = {
+        page: _compilers.numberCompiler,
+        departureCity: _compilers.numberCompiler,
+        destCountry: _compilers.arrayCompiler,
+        destCity: _compilers.arrayCompiler,
+        destSight: _compilers.arrayCompiler,
+        dateFrom: _compilers.dateCompiler,
+        dateTo: _compilers.dateCompiler,
+        lengthFrom: _compilers.numberCompiler,
+        lengthTo: _compilers.numberCompiler,
+        opId: _compilers.arrayCompiler,
+        categories: _compilers.arrayCompiler,
+        transport: _compilers.arrayCompiler,
+        priceFrom: _compilers.numberCompiler,
+        priceTo: _compilers.numberCompiler,
+        noNightMoves: _compilers.toStringCompiler,
+        sortPrice: _compilers.toStringCompiler,
+        sortLength: _compilers.toStringCompiler,
+        sortCitiesCnt: _compilers.toStringCompiler,
+        sortCountriesCnt: _compilers.toStringCompiler
+      };
+      return GLUE.field + this.map(function (value, field) {
+        return value && field in fieldsToCompilers ? fieldsToCompilers[field](value) : GLUE.empty;
+      }).toList().join(GLUE.field).replace(new RegExp("[".concat(GLUE.field).concat(GLUE.empty, "]+$")), '');
+    }
+  }, {
+    key: "parseQueryParam",
+    value: function parseQueryParam(currentValue, paramName, rawValue) {
+      var paramsToParsers = {
+        page: Number,
+        departureCity: Number,
+        destCountry: _parsers.numbersArrayParser,
+        destCity: _parsers.numbersArrayParser,
+        destSight: _parsers.numbersArrayParser,
+        dateFrom: _parsers.dateParser,
+        dateTo: _parsers.dateParser,
+        lengthFrom: Number,
+        lengthTo: Number,
+        opId: _parsers.numbersArrayParser,
+        categories: _parsers.numbersArrayParser,
+        transport: _parsers.numbersArrayParser,
+        priceFrom: Number,
+        priceTo: Number,
+        noNightMoves: Number,
+        sortPrice: String,
+        sortLength: String,
+        sortCitiesCnt: String,
+        sortCountriesCnt: String
+      };
+
+      if (rawValue) {
+        if (rawValue === GLUE.empty) {
+          return Query.defaults[paramName];
+        }
+
+        if (paramName in paramsToParsers) {
+          return paramsToParsers[paramName](rawValue, {
+            prevValue: currentValue
+          });
+        }
+      }
+
+      return currentValue;
+    }
+  }, {
+    key: "parseQueryString",
+    value: function parseQueryString(queryString) {
+      var _this2 = this;
+
+      var query = makeQuery((0, _immutable.OrderedMap)(Query.defaults));
+      var params = queryString.replace('#/', '').split('/');
+      return query.map(function (currentValue, paramName) {
+        var position = query.keySeq().findIndex(function (f) {
+          return f === paramName;
+        });
+        var rawValue = position in params ? params[position] : null;
+        return rawValue ? _this2.parseQueryParam(currentValue, paramName, rawValue) : currentValue;
+      });
+    }
   }]);
 
   return Query;
@@ -250,7 +353,7 @@ _defineProperty(Query, "defaults", Object.freeze({
   transport: [],
   priceFrom: null,
   priceTo: null,
-  withoutNightTransfer: false,
+  noNightMoves: false,
   sortPrice: null,
   sortLength: null,
   sortCitiesCnt: null,

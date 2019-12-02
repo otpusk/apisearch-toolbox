@@ -3,27 +3,51 @@
 import { OrderedMap } from 'immutable';
 import moment from 'moment';
 
+// Instruments
+import {
+    arrayCompiler,
+    dateCompiler,
+    numberCompiler,
+    toStringCompiler
+} from './compilers';
+
+import {
+    dateParser,
+    numbersArrayParser,
+} from './parsers';
+
+/**
+ * Query string glue
+ */
+export const GLUE = {
+    field: '/',
+    range: '-',
+    list: ',',
+    binary: '',
+    empty: '!',
+}
+
 export class Query extends OrderedMap {
     static defaults = Object.freeze({
-        page:                       1,
-        departureCity:              null,
-        destCountry:                [],
-        destCity:                   [],
-        destSight:                  [],
-        dateFrom:                   moment().add(7, 'days').locale('ru'),
-        dateTo:                     moment().add(14, 'days').locale('ru'),
-        lengthFrom:                 4,
-        lengthTo:                   8,
-        opId:                       [],
-        categories:                 [],
-        transport:                  [],
-        priceFrom:                  null,
-        priceTo:                    null,
-        withoutNightTransfer:       false,
-        sortPrice:                  null,
-        sortLength:                 null,
-        sortCitiesCnt:              null,
-        sortCountriesCnt:           null,
+        page:                    1,
+        departureCity:           null,
+        destCountry:             [],
+        destCity:                [],
+        destSight:               [],
+        dateFrom:                moment().add(7, 'days').locale('ru'),
+        dateTo:                  moment().add(14, 'days').locale('ru'),
+        lengthFrom:              4,
+        lengthTo:                8,
+        opId:                    [],
+        categories:              [],
+        transport:               [],
+        priceFrom:               null,
+        priceTo:                 null,
+        noNightMoves:            false,
+        sortPrice:               null,
+        sortLength:              null,
+        sortCitiesCnt:           null,
+        sortCountriesCnt:        null,
     });
 
     constructor () {
@@ -32,6 +56,10 @@ export class Query extends OrderedMap {
 
     set (k, v) {
         return makeQuery(super.set(k, v));
+    }
+
+    map (k, v) {
+        return makeQuery(super.map(k, v));
     }
 
     setPage (page) {
@@ -129,11 +157,11 @@ export class Query extends OrderedMap {
     }
 
     setWithoutNightTransfer (flag) {
-        return this.set('withoutNightTransfer', flag);
+        return this.set('noNightMoves', flag);
     }
 
     isWithoutNightTransfer () {
-        return this.get('withoutNightTransfer');
+        return this.get('noNightMoves');
     }
 
     setSortsOrder (sorts) {
@@ -155,13 +183,98 @@ export class Query extends OrderedMap {
 
     getSortsOrder () {
         return {
-            price: this.get('sortPrice'),
-            length: this.get('sortLength'),
-            citiesCount: this.get('sortCitiesCnt'),
+            price:          this.get('sortPrice'),
+            length:         this.get('sortLength'),
+            citiesCount:    this.get('sortCitiesCnt'),
             countriesCount: this.get('sortCountriesCnt')
         }
     }
+
+    compileQuery () {
+        const fieldsToCompilers = {
+            page:               numberCompiler,
+            departureCity:      numberCompiler,
+            destCountry:        arrayCompiler,
+            destCity:           arrayCompiler,
+            destSight:          arrayCompiler,
+            dateFrom:           dateCompiler,
+            dateTo:             dateCompiler,
+            lengthFrom:         numberCompiler,
+            lengthTo:           numberCompiler,
+            opId:               arrayCompiler,
+            categories:         arrayCompiler,
+            transport:          arrayCompiler,
+            priceFrom:          numberCompiler,
+            priceTo:            numberCompiler,
+            noNightMoves:       toStringCompiler,
+            sortPrice:          toStringCompiler,
+            sortLength:         toStringCompiler,
+            sortCitiesCnt:      toStringCompiler,
+            sortCountriesCnt:   toStringCompiler,
+        };
+
+        return GLUE.field + this.map
+            ((value, field) => (
+                value && field in fieldsToCompilers
+                    ? fieldsToCompilers[field](value)
+                    : GLUE.empty
+            ))
+            .toList()
+            .join(GLUE.field)
+            .replace(new RegExp(`[${GLUE.field}${GLUE.empty}]+$`), '');
+    }
+
+    parseQueryParam (currentValue, paramName, rawValue) {
+        const paramsToParsers = {
+            page:               Number,
+            departureCity:      Number,
+            destCountry:        numbersArrayParser,
+            destCity:           numbersArrayParser,
+            destSight:          numbersArrayParser,
+            dateFrom:           dateParser,
+            dateTo:             dateParser,
+            lengthFrom:         Number,
+            lengthTo:           Number,
+            opId:               numbersArrayParser,
+            categories:         numbersArrayParser,
+            transport:          numbersArrayParser,
+            priceFrom:          Number,
+            priceTo:            Number,
+            noNightMoves:       Number,
+            sortPrice:          String,
+            sortLength:         String,
+            sortCitiesCnt:      String,
+            sortCountriesCnt:   String,
+        };
+
+        if (rawValue) {
+            if (rawValue === GLUE.empty) {
+                return Query.defaults[paramName];
+            }
+
+            if (paramName in paramsToParsers) {
+                return paramsToParsers[paramName](rawValue, { prevValue: currentValue });
+            }
+        }
+
+        return currentValue;
+    }
+
+    parseQueryString (queryString) {
+        const query = makeQuery(OrderedMap(Query.defaults));
+        const params = queryString.replace('#/', '').split('/');
+
+        return query.map((currentValue, paramName) => {
+            const position = query.keySeq().findIndex((f) => f === paramName);
+            const rawValue = position in params ? params[position] : null;
+
+            return rawValue
+                ? this.parseQueryParam(currentValue, paramName, rawValue)
+                : currentValue;
+        });
+    }
 }
+
 
 function makeQuery (orderedMap) {
     const query = Object.create(Query.prototype);
@@ -172,3 +285,4 @@ function makeQuery (orderedMap) {
 
     return query;
 }
+
