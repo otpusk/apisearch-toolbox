@@ -78,6 +78,11 @@ function (_OrderedMap) {
       return makeQuery(_get(_getPrototypeOf(Query.prototype), "set", this).call(this, k, v));
     }
   }, {
+    key: "map",
+    value: function map(k, v) {
+      return makeQuery(_get(_getPrototypeOf(Query.prototype), "map", this).call(this, k, v));
+    }
+  }, {
     key: "setPage",
     value: function setPage(page) {
       return this.set('page', page);
