@@ -3,10 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.compileQuery = compileQuery;
-exports.parseQueryParam = parseQueryParam;
-exports.parseQueryString = parseQueryString;
-exports.GLUE = exports.Query = void 0;
+exports.Query = exports.GLUE = void 0;
 
 var _immutable = require("immutable");
 
@@ -15,8 +12,6 @@ var _moment = _interopRequireDefault(require("moment"));
 var _compilers = require("./compilers");
 
 var _parsers = require("./parsers");
-
-var _Object$freeze;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -52,27 +47,17 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-var QUERY_PARAMS = {
-  PAGE: 'page',
-  DEPARTURE_CITY: 'departureCity',
-  DEST_COUNTRY: 'destCountry',
-  DEST_CITY: 'destCity',
-  DEST_SIGHT: 'destSight',
-  DATE_FROM: 'dateFrom',
-  DATE_TO: 'dateTo',
-  LENGTH_FROM: 'lengthFrom',
-  LENGTH_TO: 'lengthTo',
-  OP_ID: 'opId',
-  CATEGORIES: 'categories',
-  TRANSPORT: 'transport',
-  PRICE_FROM: 'priceFrom',
-  PRICE_TO: 'priceTo',
-  NO_NIGHT_MOVES: 'noNightMoves',
-  SORT_PRICE: 'sortPrice',
-  SORT_LENGTH: 'sortLength',
-  SORT_CITIES_CNT: 'sortCitiesCnt',
-  SORT_COUNTRIES_CNT: 'sortCountriesCnt'
+/**
+ * Query string glue
+ */
+var GLUE = {
+  field: '/',
+  range: '-',
+  list: ',',
+  binary: '',
+  empty: '!'
 };
+exports.GLUE = GLUE;
 
 var Query =
 /*#__PURE__*/
@@ -95,22 +80,22 @@ function (_OrderedMap) {
   }, {
     key: "setPage",
     value: function setPage(page) {
-      return this.set(QUERY_PARAMS.PAGE, page);
+      return this.set('page', page);
     }
   }, {
     key: "getPage",
     value: function getPage(page) {
-      return this.get(QUERY_PARAMS.PAGE, page);
+      return this.get('page', page);
     }
   }, {
     key: "setDeparture",
     value: function setDeparture(value) {
-      return this.set(QUERY_PARAMS.DEPARTURE_CITY, value);
+      return this.set('departureCity', value);
     }
   }, {
     key: "getDeparture",
     value: function getDeparture() {
-      return this.get(QUERY_PARAMS.DEPARTURE_CITY);
+      return this.get('departureCity');
     }
   }, {
     key: "setLocations",
@@ -129,22 +114,22 @@ function (_OrderedMap) {
           cities = _locations$reduce.cities,
           sights = _locations$reduce.sights;
 
-      return this.set(QUERY_PARAMS.DEST_COUNTRY, countries).set(QUERY_PARAMS.DEST_CITY, cities).set(QUERY_PARAMS.DEST_SIGHT, sights);
+      return this.set('destCountry', countries).set('destCity', cities).set('destSight', sights);
     }
   }, {
     key: "getLocations",
     value: function getLocations() {
-      return [].concat(_toConsumableArray(this.get(QUERY_PARAMS.DEST_COUNTRY, []).map(function (id) {
+      return [].concat(_toConsumableArray(this.get('destCountry', []).map(function (id) {
         return {
           id: id,
           type: 'countries'
         };
-      })), _toConsumableArray(this.get(QUERY_PARAMS.DEST_CITY, []).map(function (id) {
+      })), _toConsumableArray(this.get('destCity', []).map(function (id) {
         return {
           id: id,
           type: 'cities'
         };
-      })), _toConsumableArray(this.get(QUERY_PARAMS.DEST_SIGHT, []).map(function (id) {
+      })), _toConsumableArray(this.get('destSight', []).map(function (id) {
         return {
           id: id,
           type: 'sights'
@@ -156,14 +141,14 @@ function (_OrderedMap) {
     value: function setDates(_ref2) {
       var from = _ref2.from,
           to = _ref2.to;
-      return this.set(QUERQUERY_PARAMS.DATE_FROM, from).set(QUERY_PARAMS.DATE_TO, to);
+      return this.set('dateFrom', from).set('dateTo', to);
     }
   }, {
     key: "getDates",
     value: function getDates() {
       return {
-        from: this.get(QUERY_PARAMS.DATE_FROM),
-        to: this.get(QUERY_PARAMS.DATE_TO)
+        from: this.get('dateFrom'),
+        to: this.get('dateTo')
       };
     }
   }, {
@@ -171,70 +156,70 @@ function (_OrderedMap) {
     value: function setDuration(_ref3) {
       var from = _ref3.from,
           to = _ref3.to;
-      return this.set(QUERY_PARAMS.LENGTH_FROM, from).set(QUERY_PARAMS.LENGTH_TO, to);
+      return this.set('lengthFrom', from).set('lengthTo', to);
     }
   }, {
     key: "getDuration",
     value: function getDuration() {
       return {
-        from: this.get(QUERY_PARAMS.LENGTH_FROM),
-        to: this.get(QUERY_PARAMS.LENGTH_TO)
+        from: this.get('lengthFrom'),
+        to: this.get('lengthTo')
       };
     }
   }, {
     key: "setOperators",
     value: function setOperators(operators) {
-      return this.set(QUERY_PARAMS.OP_ID, operators);
+      return this.set('opId', operators);
     }
   }, {
     key: "getOperators",
     value: function getOperators() {
-      return this.get(QUERY_PARAMS.OP_ID);
+      return this.get('opId');
     }
   }, {
     key: "setCategories",
     value: function setCategories(categories) {
-      return this.set(QUERY_PARAMS.CATEGORIES, categories);
+      return this.set('categories', categories);
     }
   }, {
     key: "getCategories",
     value: function getCategories() {
-      return this.get(QUERY_PARAMS.CATEGORIES);
+      return this.get('categories');
     }
   }, {
     key: "setTransport",
     value: function setTransport(transport) {
-      return this.set(QUERY_PARAMS.TRANSPORT, transport);
+      return this.set('transport', transport);
     }
   }, {
     key: "getTransport",
     value: function getTransport() {
-      return this.get(QUERY_PARAMS.TRANSPORT);
+      return this.get('transport');
     }
   }, {
     key: "setPrice",
     value: function setPrice(_ref4) {
       var from = _ref4.from,
           to = _ref4.to;
-      return this.set(QUERY_PARAMS.PRICE_FROM, from).set(QUERY_PARAMS.PRICE_TO, to);
+      return this.set('priceFrom', from).set('priceTo', to);
     }
   }, {
     key: "getPrice",
     value: function getPrice() {
       return {
-        from: this.get(QUERY_PARAMS.PRICE_FROM),
-        to: this.get(QUERY_PARAMS.PRICE_TO)
+        from: this.get('priceFrom'),
+        to: this.get('priceTo')
       };
     }
   }, {
     key: "setWithoutNightTransfer",
     value: function setWithoutNightTransfer(flag) {
-      return this.set(QUERY_PARAMS.NO_NIGHT_MOVES, flag);
+      return this.set('noNightMoves', flag);
     }
   }, {
     key: "isWithoutNightTransfer",
     value: function isWithoutNightTransfer() {
-      return this.get(QUERY_PARAMS.NO_NIGHT_MOVES);
+      return this.get('noNightMoves');
     }
   }, {
     key: "setSortsOrder",
@@ -247,39 +232,128 @@ function (_OrderedMap) {
           citiesCount = _sorts$citiesCount === void 0 ? null : _sorts$citiesCount,
           _sorts$countriesCount = sorts.countriesCount,
           countriesCount = _sorts$countriesCount === void 0 ? null : _sorts$countriesCount;
-      return this.set(QUERY_PARAMS.SORT_PRICE, price).set(QUERY_PARAMS.SORT_LENGTH, length).set(QUERY_PARAMS.SORT_CITIES_CNT, citiesCount).set(QUERY_PARAMS.SORT_COUNTRIES_CNT, countriesCount);
+      return this.set('sortPrice', price).set('sortLength', length).set('sortCitiesCnt', citiesCount).set('sortCountriesCnt', countriesCount);
     }
   }, {
     key: "getSortsOrder",
     value: function getSortsOrder() {
       return {
-        price: this.get(QUERY_PARAMS.SORT_PRICE),
-        length: this.get(QUERY_PARAMS.SORT_LENGTH),
-        citiesCount: this.get(QUERY_PARAMS.SORT_CITIES_CNT),
-        countriesCount: this.get(QUERY_PARAMS.SORT_COUNTRIES_CNT)
+        price: this.get('sortPrice'),
+        length: this.get('sortLength'),
+        citiesCount: this.get('sortCitiesCnt'),
+        countriesCount: this.get('sortCountriesCnt')
       };
+    }
+  }, {
+    key: "compileQuery",
+    value: function compileQuery() {
+      var fieldsToCompilers = {
+        page: _compilers.numberCompiler,
+        departureCity: _compilers.numberCompiler,
+        destCountry: _compilers.arrayCompiler,
+        destCity: _compilers.arrayCompiler,
+        destSight: _compilers.arrayCompiler,
+        dateFrom: _compilers.dateCompiler,
+        dateTo: _compilers.dateCompiler,
+        lengthFrom: _compilers.numberCompiler,
+        lengthTo: _compilers.numberCompiler,
+        opId: _compilers.arrayCompiler,
+        categories: _compilers.arrayCompiler,
+        transport: _compilers.arrayCompiler,
+        priceFrom: _compilers.numberCompiler,
+        priceTo: _compilers.numberCompiler,
+        noNightMoves: _compilers.toStringCompiler,
+        sortPrice: _compilers.toStringCompiler,
+        sortLength: _compilers.toStringCompiler,
+        sortCitiesCnt: _compilers.toStringCompiler,
+        sortCountriesCnt: _compilers.toStringCompiler
+      };
+      return GLUE.field + this.map(function (value, field) {
+        return value && field in fieldsToCompilers ? fieldsToCompilers[field](value) : GLUE.empty;
+      }).toList().join(GLUE.field).replace(new RegExp("[".concat(GLUE.field).concat(GLUE.empty, "]+$")), '');
+    }
+  }, {
+    key: "parseQueryParam",
+    value: function parseQueryParam(currentValue, paramName, rawValue) {
+      var paramsToParsers = {
+        page: Number,
+        departureCity: Number,
+        destCountry: _parsers.numbersArrayParser,
+        destCity: _parsers.numbersArrayParser,
+        destSight: _parsers.numbersArrayParser,
+        dateFrom: _parsers.dateParser,
+        dateTo: _parsers.dateParser,
+        lengthFrom: Number,
+        lengthTo: Number,
+        opId: _parsers.numbersArrayParser,
+        categories: _parsers.numbersArrayParser,
+        transport: _parsers.numbersArrayParser,
+        priceFrom: Number,
+        priceTo: Number,
+        noNightMoves: Number,
+        sortPrice: String,
+        sortLength: String,
+        sortCitiesCnt: String,
+        sortCountriesCnt: String
+      };
+
+      if (rawValue) {
+        if (rawValue === GLUE.empty) {
+          return Query.defaults[paramName];
+        }
+
+        if (paramName in paramsToParsers) {
+          return paramsToParsers[paramName](rawValue, {
+            prevValue: currentValue
+          });
+        }
+      }
+
+      return currentValue;
+    }
+  }, {
+    key: "parseQueryString",
+    value: function parseQueryString(queryString) {
+      var _this2 = this;
+
+      var query = makeQuery((0, _immutable.OrderedMap)(Query.defaults));
+      var params = queryString.replace('#/', '').split('/');
+      return query.map(function (currentValue, paramName) {
+        var position = query.keySeq().findIndex(function (f) {
+          return f === paramName;
+        });
+        var rawValue = position in params ? params[position] : null;
+        return rawValue ? _this2.parseQueryParam(currentValue, paramName, rawValue) : currentValue;
+      });
     }
   }]);
 
   return Query;
 }(_immutable.OrderedMap);
-/**
- * Query string glue
- */
-
 
 exports.Query = Query;
 
-_defineProperty(Query, "defaults", Object.freeze((_Object$freeze = {}, _defineProperty(_Object$freeze, QUERY_PARAMS.PAGE, 1), _defineProperty(_Object$freeze, QUERY_PARAMS.DEPARTURE_CITY, null), _defineProperty(_Object$freeze, QUERY_PARAMS.DEST_COUNTRY, []), _defineProperty(_Object$freeze, QUERY_PARAMS.DEST_CITY, []), _defineProperty(_Object$freeze, QUERY_PARAMS.DEST_SIGHT, []), _defineProperty(_Object$freeze, QUERY_PARAMS.DATE_FROM, (0, _moment["default"])().add(7, 'days').locale('ru')), _defineProperty(_Object$freeze, QUERY_PARAMS.DATE_TO, (0, _moment["default"])().add(14, 'days').locale('ru')), _defineProperty(_Object$freeze, QUERY_PARAMS.LENGTH_FROM, 4), _defineProperty(_Object$freeze, QUERY_PARAMS.LENGTH_TO, 8), _defineProperty(_Object$freeze, QUERY_PARAMS.OP_ID, []), _defineProperty(_Object$freeze, QUERY_PARAMS.CATEGORIES, []), _defineProperty(_Object$freeze, QUERY_PARAMS.TRANSPORT, []), _defineProperty(_Object$freeze, QUERY_PARAMS.PRICE_FROM, null), _defineProperty(_Object$freeze, QUERY_PARAMS.PRICE_TO, null), _defineProperty(_Object$freeze, QUERY_PARAMS.NO_NIGHT_MOVES, false), _defineProperty(_Object$freeze, QUERY_PARAMS.SORT_PRICE, null), _defineProperty(_Object$freeze, QUERY_PARAMS.SORT_LENGTH, null), _defineProperty(_Object$freeze, QUERY_PARAMS.SORT_CITIES_CNT, null), _defineProperty(_Object$freeze, QUERY_PARAMS.SORT_COUNTRIES_CNT, null), _Object$freeze)));
-
-var GLUE = {
-  field: '/',
-  range: '-',
-  list: ',',
-  binary: '',
-  empty: '!'
-};
-exports.GLUE = GLUE;
+_defineProperty(Query, "defaults", Object.freeze({
+  page: 1,
+  departureCity: null,
+  destCountry: [],
+  destCity: [],
+  destSight: [],
+  dateFrom: (0, _moment["default"])().add(7, 'days').locale('ru'),
+  dateTo: (0, _moment["default"])().add(14, 'days').locale('ru'),
+  lengthFrom: 4,
+  lengthTo: 8,
+  opId: [],
+  categories: [],
+  transport: [],
+  priceFrom: null,
+  priceTo: null,
+  noNightMoves: false,
+  sortPrice: null,
+  sortLength: null,
+  sortCitiesCnt: null,
+  sortCountriesCnt: null
+}));
 
 function makeQuery(orderedMap) {
   var query = Object.create(Query.prototype);
@@ -287,52 +361,4 @@ function makeQuery(orderedMap) {
   query._map = orderedMap._map;
   query._list = orderedMap._list;
   return query;
-}
-/**
- * Compile query to string
- *
- * @param {OrderedMap} query query
- * @returns {string} query string
- */
-
-
-function compileQuery(query) {
-  var _fieldsToCompilers;
-
-  var fieldsToCompilers = (_fieldsToCompilers = {}, _defineProperty(_fieldsToCompilers, QUERY_PARAMS.PAGE, _compilers.numberCompiler), _defineProperty(_fieldsToCompilers, QUERY_PARAMS.DEPARTURE_CITY, _compilers.numberCompiler), _defineProperty(_fieldsToCompilers, QUERY_PARAMS.DEST_COUNTRY, _compilers.arrayCompiler), _defineProperty(_fieldsToCompilers, QUERY_PARAMS.DEST_CITY, _compilers.arrayCompiler), _defineProperty(_fieldsToCompilers, QUERY_PARAMS.DEST_SIGHT, _compilers.arrayCompiler), _defineProperty(_fieldsToCompilers, QUERY_PARAMS.DATE_FROM, _compilers.dateCompiler), _defineProperty(_fieldsToCompilers, QUERY_PARAMS.DATE_TO, _compilers.dateCompiler), _defineProperty(_fieldsToCompilers, QUERY_PARAMS.LENGTH_FROM, _compilers.numberCompiler), _defineProperty(_fieldsToCompilers, QUERY_PARAMS.LENGTH_TO, _compilers.numberCompiler), _defineProperty(_fieldsToCompilers, QUERY_PARAMS.OP_ID, _compilers.arrayCompiler), _defineProperty(_fieldsToCompilers, QUERY_PARAMS.CATEGORIES, _compilers.arrayCompiler), _defineProperty(_fieldsToCompilers, QUERY_PARAMS.TRANSPORT, _compilers.arrayCompiler), _defineProperty(_fieldsToCompilers, QUERY_PARAMS.PRICE_FROM, _compilers.numberCompiler), _defineProperty(_fieldsToCompilers, QUERY_PARAMS.PRICE_TO, _compilers.numberCompiler), _defineProperty(_fieldsToCompilers, QUERY_PARAMS.NO_NIGHT_MOVES, _compilers.toStringCompiler), _defineProperty(_fieldsToCompilers, QUERY_PARAMS.SORT_PRICE, _compilers.toStringCompiler), _defineProperty(_fieldsToCompilers, QUERY_PARAMS.SORT_LENGTH, _compilers.toStringCompiler), _defineProperty(_fieldsToCompilers, QUERY_PARAMS.SORT_CITIES_CNT, _compilers.toStringCompiler), _defineProperty(_fieldsToCompilers, QUERY_PARAMS.SORT_COUNTRIES_CNT, _compilers.toStringCompiler), _fieldsToCompilers);
-  return GLUE.field + query.map(function (value, field) {
-    return value && field in fieldsToCompilers ? fieldsToCompilers[field](value) : GLUE.empty;
-  }).toList().join(GLUE.field).replace(new RegExp("[".concat(GLUE.field).concat(GLUE.empty, "]+$")), '');
-}
-
-function parseQueryParam(currentValue, paramName, rawValue) {
-  var _paramsToParsers;
-
-  var paramsToParsers = (_paramsToParsers = {}, _defineProperty(_paramsToParsers, QUERY_PARAMS.PAGE, Number), _defineProperty(_paramsToParsers, QUERY_PARAMS.DEPARTURE_CITY, Number), _defineProperty(_paramsToParsers, QUERY_PARAMS.DEST_COUNTRY, _parsers.numbersArrayParser), _defineProperty(_paramsToParsers, QUERY_PARAMS.DEST_CITY, _parsers.numbersArrayParser), _defineProperty(_paramsToParsers, QUERY_PARAMS.DEST_SIGHT, _parsers.numbersArrayParser), _defineProperty(_paramsToParsers, QUERY_PARAMS.DATE_FROM, _parsers.dateParser), _defineProperty(_paramsToParsers, QUERY_PARAMS.DATE_TO, _parsers.dateParser), _defineProperty(_paramsToParsers, QUERY_PARAMS.LENGTH_FROM, Number), _defineProperty(_paramsToParsers, QUERY_PARAMS.LENGTH_TO, Number), _defineProperty(_paramsToParsers, QUERY_PARAMS.OP_ID, _parsers.numbersArrayParser), _defineProperty(_paramsToParsers, QUERY_PARAMS.CATEGORIES, _parsers.numbersArrayParser), _defineProperty(_paramsToParsers, QUERY_PARAMS.TRANSPORT, _parsers.numbersArrayParser), _defineProperty(_paramsToParsers, QUERY_PARAMS.PRICE_FROM, Number), _defineProperty(_paramsToParsers, QUERY_PARAMS.PRICE_TO, Number), _defineProperty(_paramsToParsers, QUERY_PARAMS.NO_NIGHT_MOVES, Number), _defineProperty(_paramsToParsers, QUERY_PARAMS.SORT_PRICE, String), _defineProperty(_paramsToParsers, QUERY_PARAMS.SORT_LENGTH, String), _defineProperty(_paramsToParsers, QUERY_PARAMS.SORT_CITIES_CNT, String), _defineProperty(_paramsToParsers, QUERY_PARAMS.SORT_COUNTRIES_CNT, String), _paramsToParsers);
-
-  if (rawValue) {
-    if (rawValue === GLUE.empty) {
-      return Query.defaults[paramName];
-    }
-
-    if (paramName in paramsToParsers) {
-      return paramsToParsers[paramName](rawValue, {
-        prevValue: currentValue
-      });
-    }
-  }
-
-  return currentValue;
-}
-
-function parseQueryString(queryString) {
-  var query = makeQuery((0, _immutable.OrderedMap)(Query.defaults));
-  var params = queryString.replace('#/', '').split('/');
-  return query.map(function (currentValue, paramName) {
-    var position = query.keySeq().findIndex(function (f) {
-      return f === paramName;
-    });
-    var rawValue = position in params ? params[position] : null;
-    return rawValue ? parseQueryParam(currentValue, paramName, rawValue) : currentValue;
-  });
 }
