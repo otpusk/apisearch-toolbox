@@ -8,14 +8,12 @@ import {
     arrayCompiler,
     dateCompiler,
     numberCompiler,
-    toStringCompiler,
+    toStringCompiler
 } from './compilers';
 
 import {
     dateParser,
-    parseStringIntengerToBoolean,
     numbersArrayParser,
-    arrayParser,
 } from './parsers';
 
 const QUERY_PARAMS = {
@@ -201,7 +199,7 @@ export class Query extends OrderedMap {
 }
 
 /**
- * Query string flue
+ * Query string glue
  */
 export const GLUE = {
     field: '/',

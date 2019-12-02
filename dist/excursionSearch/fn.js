@@ -264,7 +264,7 @@ function (_OrderedMap) {
   return Query;
 }(_immutable.OrderedMap);
 /**
- * Query string flue
+ * Query string glue
  */
 
 
