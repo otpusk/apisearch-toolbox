@@ -1,7 +1,7 @@
 // Core
 import moment from 'moment';
 
-export { numbersArrayParser } from '../queries/parsers';
+export { numbersArrayParser, arrayParser} from '../queries/parsers';
 
 /**
  * Parse date

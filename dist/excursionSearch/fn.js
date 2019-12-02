@@ -292,7 +292,7 @@ function (_OrderedMap) {
         lengthTo: Number,
         opId: _parsers.numbersArrayParser,
         categories: _parsers.numbersArrayParser,
-        transport: _parsers.numbersArrayParser,
+        transport: _parsers.arrayParser,
         priceFrom: Number,
         priceTo: Number,
         noNightMoves: Number,
