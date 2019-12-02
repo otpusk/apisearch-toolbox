@@ -9,6 +9,12 @@ Object.defineProperty(exports, "numbersArrayParser", {
     return _parsers.numbersArrayParser;
   }
 });
+Object.defineProperty(exports, "arrayParser", {
+  enumerable: true,
+  get: function get() {
+    return _parsers.arrayParser;
+  }
+});
 exports.dateParser = void 0;
 
 var _moment = _interopRequireDefault(require("moment"));

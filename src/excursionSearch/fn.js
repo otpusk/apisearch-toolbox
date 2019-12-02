@@ -14,6 +14,7 @@ import {
 import {
     dateParser,
     numbersArrayParser,
+    arrayParser
 } from './parsers';
 
 /**
@@ -237,7 +238,7 @@ export class Query extends OrderedMap {
             lengthTo:           Number,
             opId:               numbersArrayParser,
             categories:         numbersArrayParser,
-            transport:          numbersArrayParser,
+            transport:          arrayParser,
             priceFrom:          Number,
             priceTo:            Number,
             noNightMoves:       Number,
