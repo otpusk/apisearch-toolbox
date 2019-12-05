@@ -22,7 +22,9 @@ const computedToParam = (query) => {
     return query.get(QUERY_PARAMS.COUNTRY);
 };
 
-export function* getPriceChartWorker ({ payload: queryId }) {
+export function* getPriceChartWorker ({ payload }) {
+    const { queryId, duration } = payload;
+
     try {
         const { query, token } = yield select(({ queries, auth }) => ({
             query: queries.get(queryId),
@@ -32,7 +34,7 @@ export function* getPriceChartWorker ({ payload: queryId }) {
             to:      computedToParam(query),
             from:    query.get(QUERY_PARAMS.DEPARTURE),
             checkIn: query.get(QUERY_PARAMS.DATES).get('from').format('YYYY-MM-DD'),
-            checkTo: query.get(QUERY_PARAMS.DATES).get('from').clone().add(30, 'days').format('YYYY-MM-DD'),
+            checkTo: query.get(QUERY_PARAMS.DATES).get('from').clone().add(duration || 30, 'days').format('YYYY-MM-DD'),
             people:  `${query.get(QUERY_PARAMS.ADULTS)}${query.get(QUERY_PARAMS.CHILDREN).map((age) => age < 10 ? `0${age}` : age).join('')}`,
             nights:  Range(query.get(QUERY_PARAMS.DURATION).get('from') - 1, query.get(QUERY_PARAMS.DURATION).get('to')).toList().join(','),
         };
