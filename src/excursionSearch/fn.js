@@ -37,8 +37,8 @@ export class Query extends OrderedMap {
         destSight:               [],
         dateFrom:                moment().add(7, 'days').locale('ru'),
         dateTo:                  moment().add(14, 'days').locale('ru'),
-        lengthFrom:              4,
-        lengthTo:                8,
+        lengthFrom:              1,
+        lengthTo:                null,
         opId:                    [],
         categories:              [],
         transport:               [],
@@ -268,6 +268,8 @@ export class Query extends OrderedMap {
         return query.map((currentValue, paramName) => {
             const position = query.keySeq().findIndex((f) => f === paramName);
             const rawValue = position in params ? params[position] : null;
+
+            console.log(currentValue, paramName);
 
             return rawValue
                 ? this.parseQueryParam(currentValue, paramName, rawValue)
