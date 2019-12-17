@@ -23,6 +23,6 @@ const query = {
     params: { cruiseId: 47658, date: '2019-12-20', variantId: 2025100319, cityFrom: 1815, deptCity: 1397 },
 };
 
-store.dispatch(excursionToursActions.getAgencies(10000, query));
+store.dispatch(excursionToursActions.getAgencies(query));
 
 sleep(1);
