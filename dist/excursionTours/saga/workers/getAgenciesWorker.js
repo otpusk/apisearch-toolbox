@@ -16,36 +16,36 @@ var _marked =
 regeneratorRuntime.mark(getAgenciesWorker);
 
 function getAgenciesWorker(_ref) {
-  var _ref$payload, tourId, query, agencies;
-
+  var query, agencies, tourId;
   return regeneratorRuntime.wrap(function getAgenciesWorker$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
-          _ref$payload = _ref.payload, tourId = _ref$payload.tourId, query = _ref$payload.query;
+          query = _ref.payload;
           _context.prev = 1;
           _context.next = 4;
           return (0, _effects.call)(_excursionApi.getAgencies, query);
 
         case 4:
           agencies = _context.sent;
-          _context.next = 7;
+          tourId = query.params.cruiseId;
+          _context.next = 8;
           return (0, _effects.put)(_actions.actions.getAgenciesSuccess(tourId, agencies));
 
-        case 7:
-          _context.next = 13;
+        case 8:
+          _context.next = 14;
           break;
 
-        case 9:
-          _context.prev = 9;
+        case 10:
+          _context.prev = 10;
           _context.t0 = _context["catch"](1);
-          _context.next = 13;
+          _context.next = 14;
           return (0, _effects.put)(_actions.actions.getAgenciesFail(_context.t0));
 
-        case 13:
+        case 14:
         case "end":
           return _context.stop();
       }
     }
-  }, _marked, null, [[1, 9]]);
+  }, _marked, null, [[1, 10]]);
 }

@@ -5,8 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "transpile": "babel ./src --out-dir ./dist",
-    "publish-package": "npm publish",
-    "start": "babel-node ./playground/index.js"
+    "publish-package": "npm publish"
   },
   "repository": {
     "type": "git",
