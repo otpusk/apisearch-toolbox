@@ -7,6 +7,7 @@ import { actions } from './actions';
 
 const initialState = Map({
     store: {},
+    agencies: {},
 });
 
 export const reducer = handleActions({
@@ -14,6 +15,6 @@ export const reducer = handleActions({
         return state.setIn(['store', tourId], tour);
     },
     [actions.getAgenciesSuccess]: (state, { payload: { tourId, agencies } }) => {
-        return state.setIn(['store', tourId, 'agencies'], agencies);
+        return state.setIn(['agencies', tourId], agencies);
     },
 }, initialState);
