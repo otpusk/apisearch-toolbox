@@ -20,6 +20,18 @@ var actions = (0, _reduxActions.createActions)({
   },
   GET_TOUR_FAIL: function GET_TOUR_FAIL(error) {
     return error;
+  },
+  GET_AGENCIES: function GET_AGENCIES(query) {
+    return query;
+  },
+  GET_AGENCIES_SUCCESS: function GET_AGENCIES_SUCCESS(tourId, agencies) {
+    return {
+      tourId: tourId,
+      agencies: agencies
+    };
+  },
+  GET_AGENCIES_FAIL: function GET_AGENCIES_FAIL(error) {
+    return error;
   }
 }, {
   prefix: '@apisearch/excursion'
