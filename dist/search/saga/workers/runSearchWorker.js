@@ -53,7 +53,7 @@ function runSearchWorker(_ref) {
           return _context4.delegateYield(
           /*#__PURE__*/
           regeneratorRuntime.mark(function _callee() {
-            var _ref2, otpsukQuery, query, token, killer, _loop, _ret;
+            var query, lang, token, killer, otpsukQuery, _loop, _ret;
 
             return regeneratorRuntime.wrap(function _callee$(_context3) {
               while (1) {
@@ -61,37 +61,40 @@ function runSearchWorker(_ref) {
                   case 0:
                     _context3.next = 2;
                     return (0, _effects.select)(function (state) {
-                      return {
-                        query: state.queries.get(queryId),
-                        otpsukQuery: (0, _fn.convertToOtpQuery)(state.queries.get(queryId))
-                      };
+                      return state.queries.get(queryId);
                     });
 
                   case 2:
-                    _ref2 = _context3.sent;
-                    otpsukQuery = _ref2.otpsukQuery;
-                    query = _ref2.query;
-                    _context3.next = 7;
+                    query = _context3.sent;
+                    _context3.next = 5;
+                    return (0, _effects.select)(function (state) {
+                      return state.auth.getIn(['otpusk', 'lang'], null);
+                    });
+
+                  case 5:
+                    lang = _context3.sent;
+                    _context3.next = 8;
                     return (0, _effects.select)(function (state) {
                       return state.auth.getIn(['otpusk', 'token']);
                     });
 
-                  case 7:
+                  case 8:
                     token = _context3.sent;
-                    _context3.next = 10;
+                    _context3.next = 11;
                     return (0, _effects.fork)(runSearchKiller);
 
-                  case 10:
+                  case 11:
                     killer = _context3.sent;
-                    _context3.next = 13;
+                    otpsukQuery = (0, _fn.convertToOtpQuery)(query.set(_fn.QUERY_PARAMS.LANGUAGE, lang));
+                    _context3.next = 15;
                     return (0, _effects.put)(_actions.searchActions.startSearch(queryId));
 
-                  case 13:
+                  case 15:
                     otpsukQuery.number = 0;
                     _loop =
                     /*#__PURE__*/
                     regeneratorRuntime.mark(function _loop() {
-                      var _ref3, finished, result, country, operators, total, meta, getPriceValueByOfferId, hotels, offers;
+                      var _ref2, finished, result, country, operators, total, meta, getPriceValueByOfferId, hotels, offers;
 
                       return regeneratorRuntime.wrap(function _loop$(_context2) {
                         while (1) {
@@ -101,13 +104,13 @@ function runSearchWorker(_ref) {
                               return (0, _effects.call)(_jsonApi.getToursSearch, token, otpsukQuery);
 
                             case 2:
-                              _ref3 = _context2.sent;
-                              finished = _ref3.lastResult;
-                              result = _ref3.result;
-                              country = _ref3.country;
-                              operators = _ref3.progress;
-                              total = _ref3.total;
-                              meta = _ref3.meta;
+                              _ref2 = _context2.sent;
+                              finished = _ref2.lastResult;
+                              result = _ref2.result;
+                              country = _ref2.country;
+                              operators = _ref2.progress;
+                              total = _ref2.total;
+                              meta = _ref2.meta;
 
                               getPriceValueByOfferId = function getPriceValueByOfferId(id) {
                                 var _result$offers$id = result.offers[id],
@@ -116,8 +119,8 @@ function runSearchWorker(_ref) {
                                 return currency in price ? price[currency] : price.uah;
                               };
 
-                              hotels = (0, _immutable.Map)(result.hotels).filter(function (_ref4) {
-                                var name = _ref4.name;
+                              hotels = (0, _immutable.Map)(result.hotels).filter(function (_ref3) {
+                                var name = _ref3.name;
                                 return Boolean(name) || query.get(_fn.QUERY_PARAMS.SHORT);
                               }).map(function (hotel) {
                                 return (0, _immutable.fromJS)(hotel).updateIn(['offers'], function (offers) {
@@ -128,10 +131,10 @@ function runSearchWorker(_ref) {
                               }).map(function (hotel) {
                                 return hotel.toJS();
                               });
-                              offers = (0, _immutable.Map)(result.offers).filter(function (_ref5) {
-                                var id = _ref5.id;
-                                return hotels.some(function (_ref6) {
-                                  var hotelOffers = _ref6.offers;
+                              offers = (0, _immutable.Map)(result.offers).filter(function (_ref4) {
+                                var id = _ref4.id;
+                                return hotels.some(function (_ref5) {
+                                  var hotelOffers = _ref5.offers;
                                   return hotelOffers.includes(id);
                                 });
                               });
@@ -152,8 +155,8 @@ function runSearchWorker(_ref) {
                               _context2.next = 19;
                               return (0, _effects.put)(_actions.searchActions.processSearch(queryId, {
                                 operators: operators,
-                                hotels: hotels.map(function (_ref7) {
-                                  var hotelOffers = _ref7.offers;
+                                hotels: hotels.map(function (_ref6) {
+                                  var hotelOffers = _ref6.offers;
                                   return hotelOffers;
                                 }),
                                 country: country,
@@ -185,34 +188,34 @@ function runSearchWorker(_ref) {
                       }, _loop);
                     });
 
-                  case 15:
-                    return _context3.delegateYield(_loop(), "t0", 16);
+                  case 17:
+                    return _context3.delegateYield(_loop(), "t0", 18);
 
-                  case 16:
+                  case 18:
                     _ret = _context3.t0;
 
                     if (!(_ret === "break")) {
-                      _context3.next = 19;
+                      _context3.next = 21;
                       break;
                     }
 
-                    return _context3.abrupt("break", 20);
+                    return _context3.abrupt("break", 22);
 
-                  case 19:
+                  case 21:
                     if (killer.isRunning()) {
-                      _context3.next = 15;
+                      _context3.next = 17;
                       break;
                     }
-
-                  case 20:
-                    _context3.next = 22;
-                    return (0, _effects.delay)(200);
 
                   case 22:
                     _context3.next = 24;
-                    return (0, _effects.put)(_actions.searchActions.finishSearch(queryId));
+                    return (0, _effects.delay)(200);
 
                   case 24:
+                    _context3.next = 26;
+                    return (0, _effects.put)(_actions.searchActions.finishSearch(queryId));
+
+                  case 26:
                   case "end":
                     return _context3.stop();
                 }

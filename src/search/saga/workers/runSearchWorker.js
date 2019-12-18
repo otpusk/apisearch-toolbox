@@ -15,12 +15,12 @@ function* runSearchKiller () {
 
 export function* runSearchWorker ({ payload: queryId }) {
     try {
-        const { otpsukQuery, query } = yield select((state) => ({
-            query:       state.queries.get(queryId),
-            otpsukQuery: convertToOtpQuery(state.queries.get(queryId)),
-        }));
+        const query = yield select((state) => state.queries.get(queryId));
+        const lang = yield select((state) => state.auth.getIn(['otpusk', 'lang'], null));
         const token = yield select((state) => state.auth.getIn(['otpusk', 'token']));
         const killer = yield fork(runSearchKiller);
+
+        const otpsukQuery = convertToOtpQuery(query.set(QUERY_PARAMS.LANGUAGE, lang));
 
         yield put(searchActions.startSearch(queryId));
         otpsukQuery.number = 0;
