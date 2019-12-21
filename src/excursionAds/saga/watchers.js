@@ -3,14 +3,13 @@ import { takeEvery } from 'redux-saga/effects';
 
 // Instruments
 import { actions } from '../actions';
-import { getOfficesWorker } from './workers/getOfficesWorker';
-import { getRegionsWorker } from './workers/getRegionsWorker';
+import { getAgenciesWorker } from './workers/getAgenciesWorker';
 
 export const watchers = Object.freeze({
     * getOfficesWatcher () {
-        yield takeEvery(actions.getOffices, getOfficesWorker);
+        yield takeEvery(actions.getOffices, getAgenciesWorker);
     },
     * getRegionsWatcher () {
-        yield takeEvery(actions.getRegions, getRegionsWorker);
+        yield takeEvery(actions.getRegions, getAgenciesWorker);
     },
 });

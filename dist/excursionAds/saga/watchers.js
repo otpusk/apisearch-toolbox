@@ -9,9 +9,7 @@ var _effects = require("redux-saga/effects");
 
 var _actions = require("../actions");
 
-var _getOfficesWorker = require("./workers/getOfficesWorker");
-
-var _getRegionsWorker = require("./workers/getRegionsWorker");
+var _getAgenciesWorker = require("./workers/getAgenciesWorker");
 
 // Core
 // Instruments
@@ -24,7 +22,7 @@ var watchers = Object.freeze({
         switch (_context.prev = _context.next) {
           case 0:
             _context.next = 2;
-            return (0, _effects.takeEvery)(_actions.actions.getOffices, _getOfficesWorker.getOfficesWorker);
+            return (0, _effects.takeEvery)(_actions.actions.getOffices, _getAgenciesWorker.getAgenciesWorker);
 
           case 2:
           case "end":
@@ -41,7 +39,7 @@ var watchers = Object.freeze({
         switch (_context2.prev = _context2.next) {
           case 0:
             _context2.next = 2;
-            return (0, _effects.takeEvery)(_actions.actions.getRegions, _getRegionsWorker.getRegionsWorker);
+            return (0, _effects.takeEvery)(_actions.actions.getRegions, _getAgenciesWorker.getAgenciesWorker);
 
           case 2:
           case "end":

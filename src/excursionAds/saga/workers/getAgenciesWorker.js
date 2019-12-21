@@ -5,13 +5,15 @@ import { call, put } from 'redux-saga/effects';
 import { actions } from '../../actions';
 import { getAgencies } from '@otpusk/excursion-api';
 
-export function* getOfficesWorker ({ payload: query }) {
+export function* getAgenciesWorker ({ payload: query }) {
     try {
-        const { offices } = yield call(getAgencies, query);
+        const { offices, regions } = yield call(getAgencies, query);
         const { cruiseId: tourId } = query.params;
 
+        yield put(actions.getRegionsSuccess(regions));
         yield put(actions.getOfficesSuccess(tourId, offices));
     } catch (error) {
+        yield put(actions.getRegionsFail(error));
         yield put(actions.getOfficesFail(error));
     }
 }
