@@ -16,7 +16,7 @@ var _marked =
 regeneratorRuntime.mark(getRegionsWorker);
 
 function getRegionsWorker(_ref) {
-  var query, _ref2, regions, tourId;
+  var query, _ref2, regions;
 
   return regeneratorRuntime.wrap(function getRegionsWorker$(_context) {
     while (1) {
@@ -30,24 +30,23 @@ function getRegionsWorker(_ref) {
         case 4:
           _ref2 = _context.sent;
           regions = _ref2.regions;
-          tourId = query.params.cruiseId;
-          _context.next = 9;
-          return (0, _effects.put)(_actions.actions.getRegionsSuccess(tourId, regions));
+          _context.next = 8;
+          return (0, _effects.put)(_actions.actions.getRegionsSuccess(regions));
 
-        case 9:
-          _context.next = 15;
+        case 8:
+          _context.next = 14;
           break;
 
-        case 11:
-          _context.prev = 11;
+        case 10:
+          _context.prev = 10;
           _context.t0 = _context["catch"](1);
-          _context.next = 15;
+          _context.next = 14;
           return (0, _effects.put)(_actions.actions.getRegionsFail(_context.t0));
 
-        case 15:
+        case 14:
         case "end":
           return _context.stop();
       }
     }
-  }, _marked, null, [[1, 11]]);
+  }, _marked, null, [[1, 10]]);
 }

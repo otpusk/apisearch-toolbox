@@ -24,9 +24,8 @@ var actions = (0, _reduxActions.createActions)({
   GET_REGIONS: function GET_REGIONS(query) {
     return query;
   },
-  GET_REGIONS_SUCCESS: function GET_REGIONS_SUCCESS(tourId, regions) {
+  GET_REGIONS_SUCCESS: function GET_REGIONS_SUCCESS(regions) {
     return {
-      tourId: tourId,
       regions: regions
     };
   },

@@ -25,9 +25,7 @@ var reducer = (0, _reduxActions.handleActions)((_handleActions = {}, _defineProp
       offices = _ref$payload.offices;
   return state.setIn(['offices', tourId], offices);
 }), _defineProperty(_handleActions, _actions.actions.getRegionsSuccess, function (state, _ref2) {
-  var _ref2$payload = _ref2.payload,
-      tourId = _ref2$payload.tourId,
-      regions = _ref2$payload.regions;
-  return state.setIn(['regions', tourId], regions);
+  var regions = _ref2.payload;
+  return state.setIn(['regions'], regions);
 }), _handleActions), initialState);
 exports.reducer = reducer;
