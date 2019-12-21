@@ -6,7 +6,6 @@ import { handleActions } from 'redux-actions';
 import { actions } from './actions';
 
 const initialState = Map({
-    regions: [],
     offices: {},
 });
 
