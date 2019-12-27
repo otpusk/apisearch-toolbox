@@ -16,12 +16,13 @@ var _marked =
 regeneratorRuntime.mark(getOfferWorker);
 
 function getOfferWorker(_ref) {
-  var offerId, token, offer;
+  var _ref$payload, offerId, fresh, token, offer;
+
   return regeneratorRuntime.wrap(function getOfferWorker$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
-          offerId = _ref.payload;
+          _ref$payload = _ref.payload, offerId = _ref$payload.offerId, fresh = _ref$payload.fresh;
           _context.prev = 1;
           _context.next = 4;
           return (0, _effects.put)(_actions.offersActions.setOfferStatus(offerId, 'pending'));
@@ -35,7 +36,7 @@ function getOfferWorker(_ref) {
         case 6:
           token = _context.sent;
           _context.next = 9;
-          return (0, _effects.call)(_jsonApi.getToursOffer, token, offerId);
+          return (0, _effects.call)(_jsonApi.getToursOffer, token, offerId, fresh);
 
         case 9:
           offer = _context.sent;

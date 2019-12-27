@@ -5,12 +5,12 @@ import { call, put, select } from 'redux-saga/effects';
 import { offersActions } from '../../actions';
 import { getToursOffer } from '@otpusk/json-api';
 
-export function* getOfferWorker ({ payload: offerId }) {
+export function* getOfferWorker ({ payload: { offerId, fresh }}) {
     try {
         yield put(offersActions.setOfferStatus(offerId, 'pending'));
 
         const token = yield select((state) => state.auth.getIn(['otpusk', 'token']));
-        const offer = yield call(getToursOffer, token, offerId);
+        const offer = yield call(getToursOffer, token, offerId, fresh);
 
         yield put(offersActions.setOffer(offer));
         yield put(offersActions.setOfferStatus(offer.id, 'alive'));
