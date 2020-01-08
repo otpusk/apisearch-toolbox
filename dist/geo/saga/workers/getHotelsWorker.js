@@ -16,12 +16,13 @@ var _marked =
 regeneratorRuntime.mark(getHotelsWorker);
 
 function getHotelsWorker(_ref) {
-  var countryId, token, hotels;
+  var _ref$payload, countryId, withPrice, token, hotels;
+
   return regeneratorRuntime.wrap(function getHotelsWorker$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
-          countryId = _ref.payload;
+          _ref$payload = _ref.payload, countryId = _ref$payload.countryId, withPrice = _ref$payload.withPrice;
           _context.prev = 1;
           _context.next = 4;
           return (0, _effects.select)(function (state) {
@@ -31,7 +32,9 @@ function getHotelsWorker(_ref) {
         case 4:
           token = _context.sent;
           _context.next = 7;
-          return (0, _effects.call)(_jsonApi.getToursHotels, token, countryId);
+          return (0, _effects.call)(_jsonApi.getToursHotels, token, countryId, {
+            withPrice: withPrice
+          });
 
         case 7:
           hotels = _context.sent;

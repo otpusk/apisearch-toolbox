@@ -59,7 +59,11 @@ var geoActions = (0, _reduxActions.createActions)({
     return error;
   },
   GET_HOTELS: function GET_HOTELS(countryId) {
-    return countryId;
+    var withPrice = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+    return {
+      countryId: countryId,
+      withPrice: withPrice
+    };
   },
   GET_HOTELS_SUCCESS: function GET_HOTELS_SUCCESS(countryId, hotels) {
     return {
