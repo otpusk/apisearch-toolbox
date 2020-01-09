@@ -20,7 +20,8 @@ var actions = (0, _reduxActions.createActions)({
   },
   GET_TOUR_FAIL: function GET_TOUR_FAIL(error) {
     return error;
-  }
+  },
+  GET_TOUR_PAGE: function GET_TOUR_PAGE() {}
 }, {
   prefix: '@apisearch/excursion'
 });

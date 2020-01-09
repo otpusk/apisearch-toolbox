@@ -5,4 +5,5 @@ export const actions = createActions({
     GET_TOUR:         (tourId) => tourId,
     GET_TOUR_SUCCESS: (tourId, tour) => ({ tourId, tour }),
     GET_TOUR_FAIL:    (error) => error,
+    GET_TOUR_PAGE:    () => {},
 }, { prefix: '@apisearch/excursion' });
