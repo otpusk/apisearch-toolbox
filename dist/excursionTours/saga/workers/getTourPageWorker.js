@@ -23,7 +23,7 @@ function getTourPageWorker() {
           _context.next = 3;
           return (0, _effects.select)(function (_ref) {
             var router = _ref.router;
-            return router.getIn(['location', 'pathname']);
+            return router.location.pathname;
           });
 
         case 3:
@@ -37,17 +37,16 @@ function getTourPageWorker() {
           return (0, _effects.put)(_actions.actions.getTour(tourId));
 
         case 9:
-          _context.next = 16;
+          _context.next = 15;
           break;
 
         case 11:
           _context.prev = 11;
           _context.t0 = _context["catch"](0);
-          console.log(_context.t0);
-          _context.next = 16;
+          _context.next = 15;
           return (0, _effects.put)(_actions.actions.getTourFail(_context.t0));
 
-        case 16:
+        case 15:
         case "end":
           return _context.stop();
       }
