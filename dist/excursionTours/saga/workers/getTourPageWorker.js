@@ -14,7 +14,7 @@ var _marked =
 regeneratorRuntime.mark(getTourPageWorker);
 
 function getTourPageWorker() {
-  var url, tourId, tour;
+  var url, tourId;
   return regeneratorRuntime.wrap(function getTourPageWorker$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
@@ -34,27 +34,22 @@ function getTourPageWorker() {
         case 6:
           tourId = _context.sent;
           _context.next = 9;
-          return (0, _effects.call)(_actions.actions.getTour, tourId);
+          return (0, _effects.put)(_actions.actions.getTour(tourId));
 
         case 9:
-          tour = _context.sent;
-          _context.next = 12;
-          return (0, _effects.put)(_actions.actions.getTourSuccess(tourId, tour));
-
-        case 12:
-          _context.next = 18;
+          _context.next = 15;
           break;
 
-        case 14:
-          _context.prev = 14;
+        case 11:
+          _context.prev = 11;
           _context.t0 = _context["catch"](0);
-          _context.next = 18;
+          _context.next = 15;
           return (0, _effects.put)(_actions.actions.getTourFail(_context.t0));
 
-        case 18:
+        case 15:
         case "end":
           return _context.stop();
       }
     }
-  }, _marked, null, [[0, 14]]);
+  }, _marked, null, [[0, 11]]);
 }
