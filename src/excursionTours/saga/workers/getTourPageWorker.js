@@ -11,6 +11,7 @@ export function* getTourPageWorker () {
 
         yield put(actions.getTour(tourId));
     } catch (error) {
+        console.log(error);
         yield put(actions.getTourFail(error));
     }
 }
