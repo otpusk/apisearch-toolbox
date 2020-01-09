@@ -7,10 +7,10 @@ import { getTourWorker } from './workers/getTourWorker';
 import { getTourPageWorker } from './workers/getTourPageWorker';
 
 export const watchers = Object.freeze({
-    * getTour () {
+    * getTourWatcher () {
         yield takeEvery(actions.getTour, getTourWorker);
     },
-    * getTourPage () {
+    * getTourPageWatcher () {
         yield takeEvery(actions.getTourPage, getTourPageWorker);
     },
 });
