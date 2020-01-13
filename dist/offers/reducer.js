@@ -24,7 +24,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 var initalState = (0, _immutable.Map)({
   store: (0, _immutable.Map)(),
   status: (0, _immutable.Map)(),
-  siblings: (0, _immutable.Map)()
+  siblings: (0, _immutable.Map)(),
+  validatedOfferCosts: (0, _immutable.Map)()
 });
 
 var mergeOffer = function mergeOffer(prev, next) {
@@ -55,6 +56,17 @@ var offersReducer = (0, _reduxActions.handleActions)((_handleActions = {}, _defi
       freshOffer = _ref4$payload.freshOffer;
   return state.updateIn(['siblings'], function (siblings) {
     return freshOffer ? siblings.set(offerId, freshOffer) : siblings;
+  });
+}), _defineProperty(_handleActions, _actions.offersActions.validateOfferAdditionalCostsSuccess, function (state, _ref5) {
+  var payload = _ref5.payload;
+  var newState = state.updateIn(['validatedOfferCosts', payload.offerId], function () {
+    var current = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    return (0, _immutable.Map)(current).mergeWith(mergeOffer, payload).toJS();
+  });
+  console.log('[REDUCER_validateOfferAdditionalCostsSuccess]', payload, newState);
+  return state.updateIn(['validatedOfferCosts', payload.offerId], function () {
+    var current = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    return (0, _immutable.Map)(current).mergeWith(mergeOffer, payload).toJS();
   });
 }), _handleActions), initalState);
 exports.offersReducer = offersReducer;

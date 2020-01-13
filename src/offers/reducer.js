@@ -6,9 +6,10 @@ import { handleActions } from 'redux-actions';
 import { offersActions } from './actions';
 
 const initalState = Map({
-    store:    Map(),
-    status:   Map(),
-    siblings: Map(),
+    store:               Map(),
+    status:              Map(),
+    siblings:            Map(),
+    validatedOfferCosts: Map(),
 });
 
 const mergeOffer = (prev, next) => next && typeof next === 'object' && !next[Symbol.iterator]
@@ -42,6 +43,24 @@ export const offersReducer = handleActions(
                 ? siblings.set(offerId, freshOffer)
                 : siblings
             );
+        },
+        [offersActions.validateOfferAdditionalCostsSuccess]: (state, { payload }) => {
+            const newState = state
+                .updateIn(['validatedOfferCosts', payload.offerId], (current = {}) =>
+                    Map(current)
+                        .mergeWith(mergeOffer, payload)
+                        .toJS()
+                );
+
+            console.log('[REDUCER_validateOfferAdditionalCostsSuccess]', payload, newState);
+
+
+            return state
+                .updateIn(['validatedOfferCosts', payload.offerId], (current = {}) =>
+                    Map(current)
+                        .mergeWith(mergeOffer, payload)
+                        .toJS()
+                );
         },
     },
     initalState

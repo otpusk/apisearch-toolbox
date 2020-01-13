@@ -48,6 +48,21 @@ var offersActions = (0, _reduxActions.createActions)({
   },
   CHECK_OFFER_STATUS_FAIL: function CHECK_OFFER_STATUS_FAIL(error) {
     return error;
+  },
+  VALIDATE_OFFER_ADDITIONAL_COSTS: function VALIDATE_OFFER_ADDITIONAL_COSTS(offerId) {
+    return {
+      offerId: offerId
+    };
+  },
+  VALIDATE_OFFER_ADDITIONAL_COSTS_SUCCESS: function VALIDATE_OFFER_ADDITIONAL_COSTS_SUCCESS(offerId, status, denormalizedOffer) {
+    return {
+      offerId: offerId,
+      status: status,
+      denormalizedOffer: denormalizedOffer
+    };
+  },
+  VALIDATE_OFFER_ADDITIONAL_COSTS_FAIL: function VALIDATE_OFFER_ADDITIONAL_COSTS_FAIL(error) {
+    return error;
   }
 });
 exports.offersActions = offersActions;
