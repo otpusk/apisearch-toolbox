@@ -10,8 +10,8 @@ export function* getAgenciesWorker ({ payload: query }) {
         const { offices, regions } = yield call(getAgencies, query);
         const { cruiseId: tourId } = query.params;
 
-        yield put(actions.getRegionsSuccess(regions ? regions : []));
-        yield put(actions.getOfficesSuccess(tourId, offices ? offices : []));
+        yield put(actions.getRegionsSuccess(regions ? regions : 'none'));
+        yield put(actions.getOfficesSuccess(tourId, offices ? offices : 'none'));
     } catch (error) {
         yield put(actions.getRegionsFail(error));
         yield put(actions.getOfficesFail(error));

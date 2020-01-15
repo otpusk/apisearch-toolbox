@@ -33,11 +33,11 @@ function getAgenciesWorker(_ref) {
           regions = _ref2.regions;
           tourId = query.params.cruiseId;
           _context.next = 10;
-          return (0, _effects.put)(_actions.actions.getRegionsSuccess(regions ? regions : []));
+          return (0, _effects.put)(_actions.actions.getRegionsSuccess(regions ? regions : 'none'));
 
         case 10:
           _context.next = 12;
-          return (0, _effects.put)(_actions.actions.getOfficesSuccess(tourId, offices ? offices : []));
+          return (0, _effects.put)(_actions.actions.getOfficesSuccess(tourId, offices ? offices : 'none'));
 
         case 12:
           _context.next = 20;
