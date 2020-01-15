@@ -16,28 +16,28 @@ var _marked =
 regeneratorRuntime.mark(getAgenciesWorker);
 
 function getAgenciesWorker(_ref) {
-  var query, _ref2, offices, regions, tourId;
+  var query, tourId, _ref2, offices, regions;
 
   return regeneratorRuntime.wrap(function getAgenciesWorker$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
           query = _ref.payload;
-          _context.prev = 1;
-          _context.next = 4;
+          tourId = query.params.cruiseId;
+          _context.prev = 2;
+          _context.next = 5;
           return (0, _effects.call)(_excursionApi.getAgencies, query);
 
-        case 4:
+        case 5:
           _ref2 = _context.sent;
           offices = _ref2.offices;
           regions = _ref2.regions;
-          tourId = query.params.cruiseId;
           _context.next = 10;
-          return (0, _effects.put)(_actions.actions.getRegionsSuccess(regions ? regions : 'none'));
+          return (0, _effects.put)(_actions.actions.getRegionsSuccess(regions));
 
         case 10:
           _context.next = 12;
-          return (0, _effects.put)(_actions.actions.getOfficesSuccess(tourId, offices ? offices : 'none'));
+          return (0, _effects.put)(_actions.actions.getOfficesSuccess(tourId, offices));
 
         case 12:
           _context.next = 20;
@@ -45,18 +45,18 @@ function getAgenciesWorker(_ref) {
 
         case 14:
           _context.prev = 14;
-          _context.t0 = _context["catch"](1);
+          _context.t0 = _context["catch"](2);
           _context.next = 18;
           return (0, _effects.put)(_actions.actions.getRegionsFail(_context.t0));
 
         case 18:
           _context.next = 20;
-          return (0, _effects.put)(_actions.actions.getOfficesFail(_context.t0));
+          return (0, _effects.put)(_actions.actions.getOfficesFail(tourId));
 
         case 20:
         case "end":
           return _context.stop();
       }
     }
-  }, _marked, null, [[1, 14]]);
+  }, _marked, null, [[2, 14]]);
 }

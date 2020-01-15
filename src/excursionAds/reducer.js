@@ -18,6 +18,9 @@ export const reducer = handleActions(
         [actions.getRegionsSuccess]: (state, { payload: { regions }}) => {
             return state.setIn(['regions'], regions);
         },
+        [actions.getOfficesFail]: (state, { payload : tourId }) => {
+            return state.setIn(['offices', tourId], []);
+        },
     },
     initialState
 );
