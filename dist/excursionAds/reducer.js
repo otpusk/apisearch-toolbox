@@ -27,5 +27,8 @@ var reducer = (0, _reduxActions.handleActions)((_handleActions = {}, _defineProp
 }), _defineProperty(_handleActions, _actions.actions.getRegionsSuccess, function (state, _ref2) {
   var regions = _ref2.payload.regions;
   return state.setIn(['regions'], regions);
+}), _defineProperty(_handleActions, _actions.actions.getOfficesFail, function (state, _ref3) {
+  var tourId = _ref3.payload;
+  return state.setIn(['offices', tourId], []);
 }), _handleActions), initialState);
 exports.reducer = reducer;

@@ -6,14 +6,15 @@ import { actions } from '../../actions';
 import { getAgencies } from '@otpusk/excursion-api';
 
 export function* getAgenciesWorker ({ payload: query }) {
+    const { cruiseId: tourId } = query.params;
+
     try {
         const { offices, regions } = yield call(getAgencies, query);
-        const { cruiseId: tourId } = query.params;
 
         yield put(actions.getRegionsSuccess(regions));
         yield put(actions.getOfficesSuccess(tourId, offices));
     } catch (error) {
         yield put(actions.getRegionsFail(error));
-        yield put(actions.getOfficesFail(error));
+        yield put(actions.getOfficesFail(tourId));
     }
 }
