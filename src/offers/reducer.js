@@ -32,7 +32,6 @@ const getValidatedTourNewPrice = (state, offerId, selectedFlights) => {
     const validatedFlights = state.getIn(['validatedTour', offerId, 'flights'], {});
     const selected = selectedFlights ? selectedFlights : state.getIn(['validatedTour', offerId, 'selectedFlights'], {});
 
-    console.log('[GET_TOUR_NEW_PRICE]', { validatedPrice, offerPrice, actualPrice });
     const newPrice = (validatedPrice || actualPrice || offerPrice)
         + getPriceChange(selected.inbound, validatedFlights)
         + getPriceChange(selected.outbound, validatedFlights);
@@ -78,20 +77,15 @@ export const offersReducer = handleActions(
                         .toJS()
                 );
 
-            console.log('[NEW_STATE_ADDITIONAL_COST]', newState.toJS());
-
             return newState;
         },
         [offersActions.validateOfferAdditionalCostsFail]: (state, { payload: { offerId, errorMsg }}) => {
-            console.log('[VALID_ERROR_PAYLOAD]', { offerId, errorMsg });
             const newState = state
                 .updateIn(['validatedTour', offerId], (current = {}) =>
                     Map(current)
                         .mergeWith(mergeOffer, { hasError: true, errorMsg })
                         .toJS()
                 );
-
-            console.log('[NEW_STATE_ADDITIONAL_COST_FAIL]', newState.toJS());
 
             return newState;
         },
@@ -104,8 +98,6 @@ export const offersReducer = handleActions(
                         .mergeWith(mergeOffer, { newPrice, selectedFlights })
                         .toJS()
                 );
-
-            console.log('[PAYLOAD_SET_PRICE]', { newState, newPrice, selectedFlights });
 
             return newState;
         },

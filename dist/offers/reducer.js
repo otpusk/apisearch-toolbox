@@ -47,11 +47,6 @@ var getValidatedTourNewPrice = function getValidatedTourNewPrice(state, offerId,
   var validatedPrice = state.getIn(['validatedTour', offerId, 'price'], 0);
   var validatedFlights = state.getIn(['validatedTour', offerId, 'flights'], {});
   var selected = selectedFlights ? selectedFlights : state.getIn(['validatedTour', offerId, 'selectedFlights'], {});
-  console.log('[GET_TOUR_NEW_PRICE]', {
-    validatedPrice: validatedPrice,
-    offerPrice: offerPrice,
-    actualPrice: actualPrice
-  });
   var newPrice = (validatedPrice || actualPrice || offerPrice) + getPriceChange(selected.inbound, validatedFlights) + getPriceChange(selected.outbound, validatedFlights);
   return newPrice;
 };
@@ -97,16 +92,11 @@ var offersReducer = (0, _reduxActions.handleActions)((_handleActions = {}, _defi
       errorMsg: ''
     })).toJS();
   });
-  console.log('[NEW_STATE_ADDITIONAL_COST]', newState.toJS());
   return newState;
 }), _defineProperty(_handleActions, _actions.offersActions.validateOfferAdditionalCostsFail, function (state, _ref8) {
   var _ref8$payload = _ref8.payload,
       offerId = _ref8$payload.offerId,
       errorMsg = _ref8$payload.errorMsg;
-  console.log('[VALID_ERROR_PAYLOAD]', {
-    offerId: offerId,
-    errorMsg: errorMsg
-  });
   var newState = state.updateIn(['validatedTour', offerId], function () {
     var current = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
     return (0, _immutable.Map)(current).mergeWith(mergeOffer, {
@@ -114,7 +104,6 @@ var offersReducer = (0, _reduxActions.handleActions)((_handleActions = {}, _defi
       errorMsg: errorMsg
     }).toJS();
   });
-  console.log('[NEW_STATE_ADDITIONAL_COST_FAIL]', newState.toJS());
   return newState;
 }), _defineProperty(_handleActions, _actions.offersActions.validateSetPrice, function (state, _ref9) {
   var _ref9$payload = _ref9.payload,
@@ -127,11 +116,6 @@ var offersReducer = (0, _reduxActions.handleActions)((_handleActions = {}, _defi
       newPrice: newPrice,
       selectedFlights: selectedFlights
     }).toJS();
-  });
-  console.log('[PAYLOAD_SET_PRICE]', {
-    newState: newState,
-    newPrice: newPrice,
-    selectedFlights: selectedFlights
   });
   return newState;
 }), _handleActions), initalState);
