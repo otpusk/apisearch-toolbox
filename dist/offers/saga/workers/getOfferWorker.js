@@ -40,35 +40,36 @@ function getOfferWorker(_ref) {
 
         case 9:
           offer = _context.sent;
-          _context.next = 12;
+          console.log('getOfferWorker offer', offer);
+          _context.next = 13;
           return (0, _effects.put)(_actions.offersActions.setOffer(offer));
 
-        case 12:
-          _context.next = 14;
+        case 13:
+          _context.next = 15;
           return (0, _effects.put)(_actions.offersActions.setOfferStatus(offer.id, 'alive'));
 
-        case 14:
-          _context.next = 16;
+        case 15:
+          _context.next = 17;
           return (0, _effects.put)(_actions.offersActions.getOfferSuccess());
 
-        case 16:
-          _context.next = 24;
+        case 17:
+          _context.next = 25;
           break;
 
-        case 18:
-          _context.prev = 18;
+        case 19:
+          _context.prev = 19;
           _context.t0 = _context["catch"](1);
-          _context.next = 22;
+          _context.next = 23;
           return (0, _effects.put)(_actions.offersActions.setOfferStatus(offerId, 'expired'));
 
-        case 22:
-          _context.next = 24;
+        case 23:
+          _context.next = 25;
           return (0, _effects.put)(_actions.offersActions.getOfferFail(_context.t0));
 
-        case 24:
+        case 25:
         case "end":
           return _context.stop();
       }
     }
-  }, _marked, null, [[1, 18]]);
+  }, _marked, null, [[1, 19]]);
 }
