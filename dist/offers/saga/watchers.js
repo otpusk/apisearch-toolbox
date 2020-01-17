@@ -47,6 +47,23 @@ var offersWatchers = Object.freeze({
         }
       }
     }, checkOfferStatusWatcher);
+  }),
+  validateOfferAdditionalCostsWatcher:
+  /*#__PURE__*/
+  regeneratorRuntime.mark(function validateOfferAdditionalCostsWatcher() {
+    return regeneratorRuntime.wrap(function validateOfferAdditionalCostsWatcher$(_context3) {
+      while (1) {
+        switch (_context3.prev = _context3.next) {
+          case 0:
+            _context3.next = 2;
+            return (0, _effects.takeEvery)(_actions.offersActions.validateOfferAdditionalCosts, _workers.validateOfferAdditionalCostsWorker);
+
+          case 2:
+          case "end":
+            return _context3.stop();
+        }
+      }
+    }, validateOfferAdditionalCostsWatcher);
   })
 });
 exports.offersWatchers = offersWatchers;

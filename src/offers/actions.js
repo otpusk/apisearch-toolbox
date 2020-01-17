@@ -13,5 +13,9 @@ export const offersActions = createActions({
     CHECK_OFFER_STATUS_FAIL:                 (error) => error,
     VALIDATE_OFFER_ADDITIONAL_COSTS:         (offerId) => ({ offerId }),
     VALIDATE_OFFER_ADDITIONAL_COSTS_SUCCESS: (offerId, validatedTour) => ({ offerId, ...validatedTour }),
-    VALIDATE_OFFER_ADDITIONAL_COSTS_FAIL:    (error) => error,
+    VALIDATE_OFFER_ADDITIONAL_COSTS_FAIL:    (offerId, errorMsg) => ({ offerId, errorMsg }),
+    SET_OFFER_ADDITIONAL_COSTS_STATUS:       (offerId, status) => ({ offerId, status }),
+    VALIDATE_SET_PRICE:                      (offerId, selectedFlights) => ({ offerId, selectedFlights }),
+    VALIDATE_SET_PRICE_SUCCESS:              (offerId, selectedFlights) => ({ offerId, selectedFlights }),
+    VALIDATE_SET_PRICE_FAIL:                 (error) => error,
 });

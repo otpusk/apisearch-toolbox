@@ -13,7 +13,6 @@ export const offersWatchers = Object.freeze({
         yield takeEvery(actions.checkOfferStatus, checkOfferStatusWorker);
     },
     * validateOfferAdditionalCostsWatcher () {
-        console.log('watcher CONFIRMED WORKER CALL');
         yield takeEvery(actions.validateOfferAdditionalCosts, validateOfferAdditionalCostsWorker);
     },
 });
