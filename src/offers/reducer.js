@@ -18,8 +18,8 @@ const mergeOffer = (prev, next) => next && typeof next === 'object' && !next[Sym
         ? next
         : prev;
 
-const getPriceChange = (selected, validatedFlights) => {
-    const { priceChange = 0 } = selected && validatedFlights[selected] || {};
+const getPriceChange = (selectedCode, validatedFlights) => {
+    const { priceChange = 0 } = selectedCode && validatedFlights[selectedCode] || {};
 
     return Number(priceChange);
 };
@@ -33,8 +33,8 @@ const getValidatedTourNewPrice = (state, offerId, selectedFlights) => {
     const selected = selectedFlights ? selectedFlights : state.getIn(['validatedTour', offerId, 'selectedFlights'], {});
 
     const newPrice = (validatedPrice || actualPrice || offerPrice)
-        + getPriceChange(selected.inbound, validatedFlights)
-        + getPriceChange(selected.outbound, validatedFlights);
+        + getPriceChange(selected.inbound && selected.inbound.split('_')[0], validatedFlights)
+        + getPriceChange(selected.outbound && selected.outbound.split('_')[0], validatedFlights);
 
     return newPrice;
 };
@@ -80,10 +80,11 @@ export const offersReducer = handleActions(
             return newState;
         },
         [offersActions.validateOfferAdditionalCostsFail]: (state, { payload: { offerId, errorMsg }}) => {
+            const newPrice = getValidatedTourNewPrice(state, offerId);
             const newState = state
                 .updateIn(['validatedTour', offerId], (current = {}) =>
                     Map(current)
-                        .mergeWith(mergeOffer, { hasError: true, errorMsg })
+                        .mergeWith(mergeOffer, { hasError: true, errorMsg, newPrice })
                         .toJS()
                 );
 

@@ -32,8 +32,8 @@ var mergeOffer = function mergeOffer(prev, next) {
   return next && _typeof(next) === 'object' && !next[Symbol.iterator] ? _objectSpread({}, prev, {}, next) : next ? next : prev;
 };
 
-var getPriceChange = function getPriceChange(selected, validatedFlights) {
-  var _ref = selected && validatedFlights[selected] || {},
+var getPriceChange = function getPriceChange(selectedCode, validatedFlights) {
+  var _ref = selectedCode && validatedFlights[selectedCode] || {},
       _ref$priceChange = _ref.priceChange,
       priceChange = _ref$priceChange === void 0 ? 0 : _ref$priceChange;
 
@@ -47,7 +47,7 @@ var getValidatedTourNewPrice = function getValidatedTourNewPrice(state, offerId,
   var validatedPrice = state.getIn(['validatedTour', offerId, 'price'], 0);
   var validatedFlights = state.getIn(['validatedTour', offerId, 'flights'], {});
   var selected = selectedFlights ? selectedFlights : state.getIn(['validatedTour', offerId, 'selectedFlights'], {});
-  var newPrice = (validatedPrice || actualPrice || offerPrice) + getPriceChange(selected.inbound, validatedFlights) + getPriceChange(selected.outbound, validatedFlights);
+  var newPrice = (validatedPrice || actualPrice || offerPrice) + getPriceChange(selected.inbound && selected.inbound.split('_')[0], validatedFlights) + getPriceChange(selected.outbound && selected.outbound.split('_')[0], validatedFlights);
   return newPrice;
 };
 
@@ -97,11 +97,13 @@ var offersReducer = (0, _reduxActions.handleActions)((_handleActions = {}, _defi
   var _ref8$payload = _ref8.payload,
       offerId = _ref8$payload.offerId,
       errorMsg = _ref8$payload.errorMsg;
+  var newPrice = getValidatedTourNewPrice(state, offerId);
   var newState = state.updateIn(['validatedTour', offerId], function () {
     var current = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
     return (0, _immutable.Map)(current).mergeWith(mergeOffer, {
       hasError: true,
-      errorMsg: errorMsg
+      errorMsg: errorMsg,
+      newPrice: newPrice
     }).toJS();
   });
   return newState;
