@@ -18,6 +18,10 @@ const mergeOffer = (prev, next) => next && typeof next === 'object' && !next[Sym
         ? next
         : prev;
 
+const mergeOfferNextPriority = (prev, next) => next && typeof next === 'object' && !next[Symbol.iterator]
+    ? { ...prev, ...next }
+    : next;
+
 const getPriceChange = (selectedCode, validatedFlights) => {
     const { priceChange = 0 } = selectedCode && validatedFlights[selectedCode] || {};
 
@@ -69,11 +73,11 @@ export const offersReducer = handleActions(
             );
         },
         [offersActions.validateOfferAdditionalCostsSuccess]: (state, { payload }) => {
-            const newPrice = getValidatedTourNewPrice(state, payload.offerId);
+            const newPrice = payload.price || getValidatedTourNewPrice(state, payload.offerId);
             const newState = state
                 .updateIn(['validatedTour', payload.offerId], (current = {}) =>
                     Map(current)
-                        .mergeWith(mergeOffer, { ...payload, newPrice, hasError: false, errorMsg: '' })
+                        .mergeWith(mergeOfferNextPriority, { ...payload, newPrice, hasError: false, errorMsg: '' })
                         .toJS()
                 );
 
@@ -84,7 +88,7 @@ export const offersReducer = handleActions(
             const newState = state
                 .updateIn(['validatedTour', offerId], (current = {}) =>
                     Map(current)
-                        .mergeWith(mergeOffer, { hasError: true, errorMsg, newPrice })
+                        .mergeWith(mergeOfferNextPriority, { hasError: true, errorMsg, newPrice })
                         .toJS()
                 );
 
@@ -96,7 +100,7 @@ export const offersReducer = handleActions(
             const newState = state
                 .updateIn(['validatedTour', offerId], (current = {}) =>
                     Map(current)
-                        .mergeWith(mergeOffer, { newPrice, selectedFlights })
+                        .mergeWith(mergeOfferNextPriority, { newPrice, selectedFlights })
                         .toJS()
                 );
 

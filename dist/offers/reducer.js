@@ -32,6 +32,10 @@ var mergeOffer = function mergeOffer(prev, next) {
   return next && _typeof(next) === 'object' && !next[Symbol.iterator] ? _objectSpread({}, prev, {}, next) : next ? next : prev;
 };
 
+var mergeOfferNextPriority = function mergeOfferNextPriority(prev, next) {
+  return next && _typeof(next) === 'object' && !next[Symbol.iterator] ? _objectSpread({}, prev, {}, next) : next;
+};
+
 var getPriceChange = function getPriceChange(selectedCode, validatedFlights) {
   var _ref = selectedCode && validatedFlights[selectedCode] || {},
       _ref$priceChange = _ref.priceChange,
@@ -83,10 +87,10 @@ var offersReducer = (0, _reduxActions.handleActions)((_handleActions = {}, _defi
   });
 }), _defineProperty(_handleActions, _actions.offersActions.validateOfferAdditionalCostsSuccess, function (state, _ref7) {
   var payload = _ref7.payload;
-  var newPrice = getValidatedTourNewPrice(state, payload.offerId);
+  var newPrice = payload.price || getValidatedTourNewPrice(state, payload.offerId);
   var newState = state.updateIn(['validatedTour', payload.offerId], function () {
     var current = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-    return (0, _immutable.Map)(current).mergeWith(mergeOffer, _objectSpread({}, payload, {
+    return (0, _immutable.Map)(current).mergeWith(mergeOfferNextPriority, _objectSpread({}, payload, {
       newPrice: newPrice,
       hasError: false,
       errorMsg: ''
@@ -100,7 +104,7 @@ var offersReducer = (0, _reduxActions.handleActions)((_handleActions = {}, _defi
   var newPrice = getValidatedTourNewPrice(state, offerId);
   var newState = state.updateIn(['validatedTour', offerId], function () {
     var current = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-    return (0, _immutable.Map)(current).mergeWith(mergeOffer, {
+    return (0, _immutable.Map)(current).mergeWith(mergeOfferNextPriority, {
       hasError: true,
       errorMsg: errorMsg,
       newPrice: newPrice
@@ -114,7 +118,7 @@ var offersReducer = (0, _reduxActions.handleActions)((_handleActions = {}, _defi
   var newPrice = getValidatedTourNewPrice(state, offerId, selectedFlights);
   var newState = state.updateIn(['validatedTour', offerId], function () {
     var current = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-    return (0, _immutable.Map)(current).mergeWith(mergeOffer, {
+    return (0, _immutable.Map)(current).mergeWith(mergeOfferNextPriority, {
       newPrice: newPrice,
       selectedFlights: selectedFlights
     }).toJS();
