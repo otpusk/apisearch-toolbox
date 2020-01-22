@@ -28,17 +28,23 @@ const getPriceChange = (selectedCode, validatedFlights) => {
     return Number(priceChange);
 };
 
+const getSelectedFlightsPriceChange = (state, offerId, { selectedFlights, flights }) => {
+    const validatedFlights = flights || state.getIn(['validatedTour', offerId, 'flights'], {});
+    const selected = selectedFlights || state.getIn(['validatedTour', offerId, 'selectedFlights'], {});
+    const selectedInbound = selected.inbound && selected.inbound.split('_')[0];
+    const selectedOutbound = selected.outbound && selected.outbound.split('_')[0];
+
+    return getPriceChange(selectedInbound, validatedFlights) + getPriceChange(selectedOutbound, validatedFlights);
+};
+
 const getValidatedTourNewPrice = (state, offerId, selectedFlights) => {
     const currency =  state.getIn(['siblings', offerId, 'currency']);
     const offerPrice =  state.getIn(['store', offerId, 'price', currency], 0);
     const actualPrice =  state.getIn(['siblings', offerId, 'price', currency], 0);
     const validatedPrice = state.getIn(['validatedTour', offerId, 'price'], 0);
-    const validatedFlights = state.getIn(['validatedTour', offerId, 'flights'], {});
-    const selected = selectedFlights ? selectedFlights : state.getIn(['validatedTour', offerId, 'selectedFlights'], {});
+    const selected = selectedFlights || state.getIn(['validatedTour', offerId, 'selectedFlights'], {});
 
-    const newPrice = (validatedPrice || actualPrice || offerPrice)
-        + getPriceChange(selected.inbound && selected.inbound.split('_')[0], validatedFlights)
-        + getPriceChange(selected.outbound && selected.outbound.split('_')[0], validatedFlights);
+    const newPrice = (validatedPrice || actualPrice || offerPrice) + getSelectedFlightsPriceChange(state, offerId, { selectedFlights: selected });
 
     return newPrice;
 };
@@ -72,12 +78,14 @@ export const offersReducer = handleActions(
                 : siblings
             );
         },
-        [offersActions.validateOfferAdditionalCostsSuccess]: (state, { payload }) => {
-            const newPrice = payload.price || getValidatedTourNewPrice(state, payload.offerId);
+        [offersActions.validateOfferAdditionalCostsSuccess]: (state, { payload: { offerId, price, flights, ...rest }}) => {
+            const newPrice = price ? price + getSelectedFlightsPriceChange(state, offerId, { flights })
+                : getValidatedTourNewPrice(state, offerId);
+
             const newState = state
-                .updateIn(['validatedTour', payload.offerId], (current = {}) =>
+                .updateIn(['validatedTour', offerId], (current = {}) =>
                     Map(current)
-                        .mergeWith(mergeOfferNextPriority, { ...payload, newPrice, hasError: false, errorMsg: '' })
+                        .mergeWith(mergeOfferNextPriority, { offerId, price, flights, newPrice, hasError: false, errorMsg: '', ...rest })
                         .toJS()
                 );
 
