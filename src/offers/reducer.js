@@ -38,10 +38,10 @@ const getSelectedFlightsPriceChange = (state, offerId, { selectedFlights, flight
 };
 
 const getValidatedTourNewPrice = (state, offerId, selectedFlights) => {
-    const currency =  state.getIn(['siblings', offerId, 'currency']);
+    const currency =  state.getIn(['siblings', offerId, 'currency'], 'usd');
     const offerPrice =  state.getIn(['store', offerId, 'price', currency], 0);
     const actualPrice =  state.getIn(['siblings', offerId, 'price', currency], 0);
-    const validatedPrice = state.getIn(['validatedTour', offerId, 'price'], 0);
+    const validatedPrice = state.getIn(['validatedTour', offerId, 'price', currency], 0);
     const selected = selectedFlights || state.getIn(['validatedTour', offerId, 'selectedFlights'], {});
 
     const newPrice = (validatedPrice || actualPrice || offerPrice) + getSelectedFlightsPriceChange(state, offerId, { selectedFlights: selected });
@@ -79,7 +79,8 @@ export const offersReducer = handleActions(
             );
         },
         [offersActions.validateOfferAdditionalCostsSuccess]: (state, { payload: { offerId, price, flights, ...rest }}) => {
-            const newPrice = price ? price + getSelectedFlightsPriceChange(state, offerId, { flights })
+            const currency =  state.getIn(['siblings', offerId, 'currency'], 'usd');
+            const newPrice = price[currency] ? price[currency] + getSelectedFlightsPriceChange(state, offerId, { flights })
                 : getValidatedTourNewPrice(state, offerId);
 
             const newState = state
@@ -93,6 +94,7 @@ export const offersReducer = handleActions(
         },
         [offersActions.validateOfferAdditionalCostsFail]: (state, { payload: { offerId, errorMsg }}) => {
             const newPrice = getValidatedTourNewPrice(state, offerId);
+
             const newState = state
                 .updateIn(['validatedTour', offerId], (current = {}) =>
                     Map(current)
