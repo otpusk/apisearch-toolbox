@@ -66,7 +66,7 @@ export const offersReducer = handleActions(
                         .toJS()
                 );
         },
-        [offersActions.setOffer]: (state, { payload: { offerId, status }}) => {
+        [offersActions.setOfferStatus]: (state, { payload: { offerId, status }}) => {
             return state.setIn(['status', offerId], status);
         },
         [offersActions.setOfferAdditionalCostsStatus]: (state, { payload: { offerId, status }}) => {

@@ -59,10 +59,10 @@ var getSelectedFlightsPriceChange = function getSelectedFlightsPriceChange(state
 };
 
 var getValidatedTourNewPrice = function getValidatedTourNewPrice(state, offerId, selectedFlights) {
-  var currency = state.getIn(['siblings', offerId, 'currency']);
+  var currency = state.getIn(['siblings', offerId, 'currency'], 'usd');
   var offerPrice = state.getIn(['store', offerId, 'price', currency], 0);
   var actualPrice = state.getIn(['siblings', offerId, 'price', currency], 0);
-  var validatedPrice = state.getIn(['validatedTour', offerId, 'price'], 0);
+  var validatedPrice = state.getIn(['validatedTour', offerId, 'price', currency], 0);
   var selected = selectedFlights || state.getIn(['validatedTour', offerId, 'selectedFlights'], {});
   var newPrice = (validatedPrice || actualPrice || offerPrice) + getSelectedFlightsPriceChange(state, offerId, {
     selectedFlights: selected
@@ -83,7 +83,7 @@ var offersReducer = (0, _reduxActions.handleActions)((_handleActions = {}, _defi
     var current = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
     return (0, _immutable.Map)(current).mergeWith(mergeOffer, offer).toJS();
   });
-}), _defineProperty(_handleActions, _actions.offersActions.setOffer, function (state, _ref5) {
+}), _defineProperty(_handleActions, _actions.offersActions.setOfferStatus, function (state, _ref5) {
   var _ref5$payload = _ref5.payload,
       offerId = _ref5$payload.offerId,
       status = _ref5$payload.status;
@@ -107,7 +107,8 @@ var offersReducer = (0, _reduxActions.handleActions)((_handleActions = {}, _defi
       flights = _ref8$payload.flights,
       rest = _objectWithoutProperties(_ref8$payload, ["offerId", "price", "flights"]);
 
-  var newPrice = price ? price + getSelectedFlightsPriceChange(state, offerId, {
+  var currency = state.getIn(['siblings', offerId, 'currency'], 'usd');
+  var newPrice = price[currency] ? price[currency] + getSelectedFlightsPriceChange(state, offerId, {
     flights: flights
   }) : getValidatedTourNewPrice(state, offerId);
   var newState = state.updateIn(['validatedTour', offerId], function () {
