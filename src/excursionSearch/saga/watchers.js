@@ -1,5 +1,5 @@
 // Core
-import { takeEvery } from 'redux-saga/effects';
+import { takeLeading, takeEvery } from 'redux-saga/effects';
 
 // Instruments
 import { actions } from '../actions';
@@ -7,14 +7,14 @@ import { runSearchWorker } from './workers/runSearchWorker';
 import {
     getSearchOperatorsWorker,
     getSearchTransportsWorker,
-    getSearchCategoriesWorker,
+    getSearchCategoriesWorker
 } from './workers/getSearchDictsWorkers';
 
 import { getSearchCountWorker } from './workers/getSearchCountWorker';
 
 export const watchers = Object.freeze({
     * runSearchWatcher () {
-        yield takeEvery([actions.runSearch, actions.runNextPageSearch], runSearchWorker);
+        yield takeLeading([actions.runSearch, actions.runNextPageSearch], runSearchWorker);
     },
     * getSearchOperatorsWatcher () {
         yield takeEvery(actions.getSearchOperators, getSearchOperatorsWorker);
