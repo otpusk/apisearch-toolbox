@@ -21,34 +21,34 @@ import {
  * Query string glue
  */
 export const GLUE = {
-    field: '/',
-    range: '-',
-    list: ',',
+    field:  '/',
+    range:  '-',
+    list:   ',',
     binary: '',
-    empty: '!',
-}
+    empty:  '!',
+};
 
 export class Query extends OrderedMap {
     static defaults = Object.freeze({
-        page:                    1,
-        departureCity:           null,
-        destCountry:             [],
-        destCity:                [],
-        destSight:               [],
-        dateFrom:                moment().add(7, 'days').locale('ru'),
-        dateTo:                  moment().add(14, 'days').locale('ru'),
-        lengthFrom:              1,
-        lengthTo:                null,
-        opId:                    [],
-        categories:              [],
-        transport:               [],
-        priceFrom:               null,
-        priceTo:                 null,
-        noNightMoves:            false,
-        sortPrice:               null,
-        sortLength:              null,
-        sortCitiesCnt:           null,
-        sortCountriesCnt:        null,
+        page:             1,
+        departureCity:    null,
+        destCountry:      [],
+        destCity:         [],
+        destSight:        [],
+        dateFrom:         moment().add(7, 'days').locale('ru'),
+        dateTo:           moment().add(14, 'days').locale('ru'),
+        lengthFrom:       1,
+        lengthTo:         null,
+        opId:             [],
+        categories:       [],
+        transport:        [],
+        priceFrom:        null,
+        priceTo:          null,
+        noNightMoves:     false,
+        sortPrice:        null,
+        sortLength:       null,
+        sortCitiesCnt:    null,
+        sortCountriesCnt: null,
     });
 
     constructor () {
@@ -171,7 +171,7 @@ export class Query extends OrderedMap {
             price = null,
             length = null,
             citiesCount = null,
-            countriesCount = null
+            countriesCount = null,
         } = sorts;
 
         return this
@@ -187,39 +187,39 @@ export class Query extends OrderedMap {
             price:          this.get('sortPrice'),
             length:         this.get('sortLength'),
             citiesCount:    this.get('sortCitiesCnt'),
-            countriesCount: this.get('sortCountriesCnt')
-        }
+            countriesCount: this.get('sortCountriesCnt'),
+        };
     }
 
     compileQuery () {
         const fieldsToCompilers = {
-            page:               numberCompiler,
-            departureCity:      numberCompiler,
-            destCountry:        arrayCompiler,
-            destCity:           arrayCompiler,
-            destSight:          arrayCompiler,
-            dateFrom:           dateCompiler,
-            dateTo:             dateCompiler,
-            lengthFrom:         numberCompiler,
-            lengthTo:           numberCompiler,
-            opId:               arrayCompiler,
-            categories:         arrayCompiler,
-            transport:          arrayCompiler,
-            priceFrom:          numberCompiler,
-            priceTo:            numberCompiler,
-            noNightMoves:       toStringCompiler,
-            sortPrice:          toStringCompiler,
-            sortLength:         toStringCompiler,
-            sortCitiesCnt:      toStringCompiler,
-            sortCountriesCnt:   toStringCompiler,
+            page:             numberCompiler,
+            departureCity:    numberCompiler,
+            destCountry:      arrayCompiler,
+            destCity:         arrayCompiler,
+            destSight:        arrayCompiler,
+            dateFrom:         dateCompiler,
+            dateTo:           dateCompiler,
+            lengthFrom:       numberCompiler,
+            lengthTo:         numberCompiler,
+            opId:             arrayCompiler,
+            categories:       arrayCompiler,
+            transport:        arrayCompiler,
+            priceFrom:        numberCompiler,
+            priceTo:          numberCompiler,
+            noNightMoves:     toStringCompiler,
+            sortPrice:        toStringCompiler,
+            sortLength:       toStringCompiler,
+            sortCitiesCnt:    toStringCompiler,
+            sortCountriesCnt: toStringCompiler,
         };
 
         return GLUE.field + this.map
-            ((value, field) => (
-                value && field in fieldsToCompilers
-                    ? fieldsToCompilers[field](value)
-                    : GLUE.empty
-            ))
+        ((value, field) =>
+            value && field in fieldsToCompilers
+                ? fieldsToCompilers[field](value)
+                : GLUE.empty
+        )
             .toList()
             .join(GLUE.field)
             .replace(new RegExp(`[${GLUE.field}${GLUE.empty}]+$`), '');
@@ -227,25 +227,25 @@ export class Query extends OrderedMap {
 
     parseQueryParam (currentValue, paramName, rawValue) {
         const paramsToParsers = {
-            page:               Number,
-            departureCity:      Number,
-            destCountry:        numbersArrayParser,
-            destCity:           numbersArrayParser,
-            destSight:          numbersArrayParser,
-            dateFrom:           dateParser,
-            dateTo:             dateParser,
-            lengthFrom:         Number,
-            lengthTo:           Number,
-            opId:               numbersArrayParser,
-            categories:         numbersArrayParser,
-            transport:          arrayParser,
-            priceFrom:          Number,
-            priceTo:            Number,
-            noNightMoves:       Number,
-            sortPrice:          String,
-            sortLength:         String,
-            sortCitiesCnt:      String,
-            sortCountriesCnt:   String,
+            page:             Number,
+            departureCity:    Number,
+            destCountry:      numbersArrayParser,
+            destCity:         numbersArrayParser,
+            destSight:        numbersArrayParser,
+            dateFrom:         dateParser,
+            dateTo:           dateParser,
+            lengthFrom:       Number,
+            lengthTo:         Number,
+            opId:             numbersArrayParser,
+            categories:       numbersArrayParser,
+            transport:        arrayParser,
+            priceFrom:        Number,
+            priceTo:          Number,
+            noNightMoves:     Number,
+            sortPrice:        String,
+            sortLength:       String,
+            sortCitiesCnt:    String,
+            sortCountriesCnt: String,
         };
 
         if (rawValue) {
@@ -286,4 +286,3 @@ function makeQuery (orderedMap) {
 
     return query;
 }
-

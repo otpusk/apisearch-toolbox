@@ -53,7 +53,7 @@ function runSearchWorker(_ref) {
 
         case 12:
           _context.next = 14;
-          return (0, _effects.put)(_actions.actions.finishSearch(queryId));
+          return (0, _effects.put)(_actions.actions.finishSearch(queryId, page));
 
         case 14:
           _context.next = 20;

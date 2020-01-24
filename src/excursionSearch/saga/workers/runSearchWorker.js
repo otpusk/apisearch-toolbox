@@ -19,7 +19,7 @@ export function* runSearchWorker ({ payload: queryId }) {
         const tours = yield call(getSearch, formattedQuery);
 
         yield put(actions.processSearch(queryId, page, tours));
-        yield put(actions.finishSearch(queryId));
+        yield put(actions.finishSearch(queryId, page));
     } catch (error) {
         yield put(actions.failSearch(queryId));
     }

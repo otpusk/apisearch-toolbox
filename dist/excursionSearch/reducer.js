@@ -39,8 +39,10 @@ var reducer = (0, _reduxActions.handleActions)((_handleActions = {}, _defineProp
       tours = _ref4$payload.tours;
   return state.setIn(['results', queryId, page], tours);
 }), _defineProperty(_handleActions, _actions.actions.finishSearch, function (state, _ref5) {
-  var queryId = _ref5.payload;
-  return state.setIn(['statuses', queryId], 'success');
+  var _ref5$payload = _ref5.payload,
+      queryId = _ref5$payload.queryId,
+      page = _ref5$payload.page;
+  return state.setIn(['statuses', queryId, page], 'success');
 }), _defineProperty(_handleActions, _actions.actions.failSearch, function (state, _ref6) {
   var queryId = _ref6.payload;
   return state.setIn(['statuses', queryId], 'failed');

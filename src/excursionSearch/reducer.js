@@ -27,8 +27,8 @@ export const reducer = handleActions({
     [actions.processSearch]: (state, { payload: { queryId, page, tours }}) => {
         return state.setIn(['results', queryId, page], tours);
     },
-    [actions.finishSearch]: (state, { payload: queryId }) => {
-        return state.setIn(['statuses', queryId], 'success');
+    [actions.finishSearch]: (state, { payload: { queryId, page }}) => {
+        return state.setIn(['statuses', queryId, page], 'success');
     },
     [actions.failSearch]: (state, { payload: queryId }) => {
         return state.setIn(['statuses', queryId], 'failed');
@@ -44,5 +44,5 @@ export const reducer = handleActions({
     },
     [actions.getExcursionsCountSuccess]: (state, { payload: { queryId, excursionsCount }}) => {
         return state.setIn(['searchCount', queryId], excursionsCount);
-    }
+    },
 }, initialState);
