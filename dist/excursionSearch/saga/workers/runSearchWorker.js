@@ -20,7 +20,7 @@ var _marked =
 regeneratorRuntime.mark(runSearchWorker);
 
 function runSearchWorker(_ref) {
-  var queryId, query, formattedQuery, page, tours;
+  var queryId, query, formattedQuery, page, tours, hash;
   return regeneratorRuntime.wrap(function runSearchWorker$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
@@ -48,27 +48,29 @@ function runSearchWorker(_ref) {
 
         case 9:
           tours = _context.sent;
-          _context.next = 12;
+          hash = query.compileQuery();
+          window.location.hash = hash;
+          _context.next = 14;
           return (0, _effects.put)(_actions.actions.processSearch(queryId, page, tours));
 
-        case 12:
-          _context.next = 14;
+        case 14:
+          _context.next = 16;
           return (0, _effects.put)(_actions.actions.finishSearch(queryId));
 
-        case 14:
-          _context.next = 20;
+        case 16:
+          _context.next = 22;
           break;
 
-        case 16:
-          _context.prev = 16;
+        case 18:
+          _context.prev = 18;
           _context.t0 = _context["catch"](1);
-          _context.next = 20;
+          _context.next = 22;
           return (0, _effects.put)(_actions.actions.failSearch(queryId));
 
-        case 20:
+        case 22:
         case "end":
           return _context.stop();
       }
     }
-  }, _marked, null, [[1, 16]]);
+  }, _marked, null, [[1, 18]]);
 }

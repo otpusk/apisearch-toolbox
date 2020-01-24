@@ -18,6 +18,9 @@ export function* runSearchWorker ({ payload: queryId }) {
         const { page } = formattedQuery;
         const tours = yield call(getSearch, formattedQuery);
 
+        const hash = query.compileQuery();
+
+        window.location.hash = hash;
         yield put(actions.processSearch(queryId, page, tours));
         yield put(actions.finishSearch(queryId));
     } catch (error) {
