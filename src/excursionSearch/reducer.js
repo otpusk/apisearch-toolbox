@@ -16,12 +16,12 @@ export const reducer = handleActions({
     [combineActions(actions.createQuery, actions.setQuery)]: (state, { payload: { queryId, query }}) => {
         return state.setIn(['queries', queryId], query);
     },
-    [actions.runSearch]: (state, { payload: queryId }) => {
+    [actions.runSearch]: (state, { payload: { queryId }}) => {
         return state
             .removeIn(['results', queryId])
             .setIn(['statuses', queryId], 'process');
     },
-    [actions.runNextPageSearch]: (state, { payload: queryId }) => {
+    [actions.runNextPageSearch]: (state, { payload: { queryId }}) => {
         return state.setIn(['statuses', queryId], 'process');
     },
     [actions.processSearch]: (state, { payload: { queryId, page, tours }}) => {
@@ -44,5 +44,5 @@ export const reducer = handleActions({
     },
     [actions.getExcursionsCountSuccess]: (state, { payload: { queryId, excursionsCount }}) => {
         return state.setIn(['searchCount', queryId], excursionsCount);
-    }
+    },
 }, initialState);
