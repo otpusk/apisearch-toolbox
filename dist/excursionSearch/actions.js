@@ -34,8 +34,11 @@ var actions = (0, _reduxActions.createActions)({
       tours: tours
     };
   },
-  FINISH_SEARCH: function FINISH_SEARCH(queryId) {
-    return queryId;
+  FINISH_SEARCH: function FINISH_SEARCH(queryId, page) {
+    return {
+      queryId: queryId,
+      page: page
+    };
   },
   FAIL_SEARCH: function FAIL_SEARCH(error) {
     return error;
