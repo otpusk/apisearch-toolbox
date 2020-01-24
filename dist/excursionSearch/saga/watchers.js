@@ -26,7 +26,7 @@ var watchers = Object.freeze({
         switch (_context.prev = _context.next) {
           case 0:
             _context.next = 2;
-            return (0, _effects.takeEvery)([_actions.actions.runSearch, _actions.actions.runNextPageSearch], _runSearchWorker.runSearchWorker);
+            return (0, _effects.takeLeading)([_actions.actions.runSearch, _actions.actions.runNextPageSearch], _runSearchWorker.runSearchWorker);
 
           case 2:
           case "end":
