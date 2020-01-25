@@ -60,7 +60,9 @@ function runSearchWorker(_ref) {
 
             if (showMore) {
               // disable scroll to top for runNextPageSearch
-              window.location.state.from = 'showMore';
+              window.history.pushState({
+                from: 'showMore'
+              });
             }
           }
 
