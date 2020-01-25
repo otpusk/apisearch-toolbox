@@ -27,10 +27,10 @@ var reducer = (0, _reduxActions.handleActions)((_handleActions = {}, _defineProp
       query = _ref$payload.query;
   return state.setIn(['queries', queryId], query);
 }), _defineProperty(_handleActions, _actions.actions.runSearch, function (state, _ref2) {
-  var queryId = _ref2.payload;
+  var queryId = _ref2.payload.queryId;
   return state.removeIn(['results', queryId]).setIn(['statuses', queryId], 'process');
 }), _defineProperty(_handleActions, _actions.actions.runNextPageSearch, function (state, _ref3) {
-  var queryId = _ref3.payload;
+  var queryId = _ref3.payload.queryId;
   return state.setIn(['statuses', queryId], 'process');
 }), _defineProperty(_handleActions, _actions.actions.processSearch, function (state, _ref4) {
   var _ref4$payload = _ref4.payload,

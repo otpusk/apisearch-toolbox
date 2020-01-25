@@ -6,7 +6,7 @@ import moment from 'moment';
 import { actions } from '../../actions';
 import { getSearch } from '@otpusk/excursion-api';
 
-export function* runSearchWorker ({ payload: queryId }) {
+export function* runSearchWorker ({ payload: { queryId, options : { withHash = true } = {}}}) {
     try {
         const query = yield select(({ excursionSearch }) => excursionSearch.getIn(['queries', queryId]));
         const formattedQuery = query.toMap()
@@ -17,6 +17,12 @@ export function* runSearchWorker ({ payload: queryId }) {
 
         const { page } = formattedQuery;
         const tours = yield call(getSearch, formattedQuery);
+
+        if (withHash) {
+            const hash = query.compileQuery();
+
+            window.location.hash = hash;
+        }
 
         yield put(actions.processSearch(queryId, page, tours));
         yield put(actions.finishSearch(queryId));

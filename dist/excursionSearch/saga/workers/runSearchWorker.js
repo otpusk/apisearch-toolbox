@@ -20,20 +20,23 @@ var _marked =
 regeneratorRuntime.mark(runSearchWorker);
 
 function runSearchWorker(_ref) {
-  var queryId, query, formattedQuery, page, tours;
+  var _ref$payload, queryId, _ref$payload$options, _ref$payload$options$, withHash, query, formattedQuery, page, tours, hash;
+
   return regeneratorRuntime.wrap(function runSearchWorker$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
-          queryId = _ref.payload;
-          _context.prev = 1;
-          _context.next = 4;
+          _ref$payload = _ref.payload, queryId = _ref$payload.queryId, _ref$payload$options = _ref$payload.options;
+          _ref$payload$options = _ref$payload$options === void 0 ? {} : _ref$payload$options;
+          _ref$payload$options$ = _ref$payload$options.withHash, withHash = _ref$payload$options$ === void 0 ? true : _ref$payload$options$;
+          _context.prev = 3;
+          _context.next = 6;
           return (0, _effects.select)(function (_ref2) {
             var excursionSearch = _ref2.excursionSearch;
             return excursionSearch.getIn(['queries', queryId]);
           });
 
-        case 4:
+        case 6:
           query = _context.sent;
           formattedQuery = query.toMap().map(function (value) {
             return _moment["default"].isMoment(value) ? value.format('YYYY-MM-DD') : value;
@@ -43,32 +46,38 @@ function runSearchWorker(_ref) {
             return Boolean(value);
           }).toJS();
           page = formattedQuery.page;
-          _context.next = 9;
+          _context.next = 11;
           return (0, _effects.call)(_excursionApi.getSearch, formattedQuery);
 
-        case 9:
+        case 11:
           tours = _context.sent;
-          _context.next = 12;
+
+          if (withHash) {
+            hash = query.compileQuery();
+            window.location.hash = hash;
+          }
+
+          _context.next = 15;
           return (0, _effects.put)(_actions.actions.processSearch(queryId, page, tours));
 
-        case 12:
-          _context.next = 14;
+        case 15:
+          _context.next = 17;
           return (0, _effects.put)(_actions.actions.finishSearch(queryId));
 
-        case 14:
-          _context.next = 20;
+        case 17:
+          _context.next = 23;
           break;
 
-        case 16:
-          _context.prev = 16;
-          _context.t0 = _context["catch"](1);
-          _context.next = 20;
+        case 19:
+          _context.prev = 19;
+          _context.t0 = _context["catch"](3);
+          _context.next = 23;
           return (0, _effects.put)(_actions.actions.failSearch(queryId));
 
-        case 20:
+        case 23:
         case "end":
           return _context.stop();
       }
     }
-  }, _marked, null, [[1, 16]]);
+  }, _marked, null, [[3, 19]]);
 }
