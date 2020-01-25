@@ -6,7 +6,7 @@ import moment from 'moment';
 import { actions } from '../../actions';
 import { getSearch } from '@otpusk/excursion-api';
 
-export function* runSearchWorker ({ payload: { queryId, withHash = true }}) {
+export function* runSearchWorker ({ payload: { queryId, options : { withHash = true, showMore = false }}}) {
     try {
         const query = yield select(({ excursionSearch }) => excursionSearch.getIn(['queries', queryId]));
         const formattedQuery = query.toMap()
@@ -22,6 +22,11 @@ export function* runSearchWorker ({ payload: { queryId, withHash = true }}) {
             const hash = query.compileQuery();
 
             window.location.hash = hash;
+        }
+
+        if (showMore) {
+            // disable scroll to top for runNextPageSearch
+            window.location.state.from = 'showMore';
         }
 
         yield put(actions.processSearch(queryId, page, tours));

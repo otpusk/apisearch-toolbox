@@ -20,13 +20,13 @@ var _marked =
 regeneratorRuntime.mark(runSearchWorker);
 
 function runSearchWorker(_ref) {
-  var _ref$payload, queryId, _ref$payload$withHash, withHash, query, formattedQuery, page, tours, hash;
+  var _ref$payload, queryId, _ref$payload$options, _ref$payload$options$, withHash, _ref$payload$options$2, showMore, query, formattedQuery, page, tours, hash;
 
   return regeneratorRuntime.wrap(function runSearchWorker$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
-          _ref$payload = _ref.payload, queryId = _ref$payload.queryId, _ref$payload$withHash = _ref$payload.withHash, withHash = _ref$payload$withHash === void 0 ? true : _ref$payload$withHash;
+          _ref$payload = _ref.payload, queryId = _ref$payload.queryId, _ref$payload$options = _ref$payload.options, _ref$payload$options$ = _ref$payload$options.withHash, withHash = _ref$payload$options$ === void 0 ? true : _ref$payload$options$, _ref$payload$options$2 = _ref$payload$options.showMore, showMore = _ref$payload$options$2 === void 0 ? false : _ref$payload$options$2;
           _context.prev = 1;
           _context.next = 4;
           return (0, _effects.select)(function (_ref2) {
@@ -55,27 +55,32 @@ function runSearchWorker(_ref) {
             window.location.hash = hash;
           }
 
-          _context.next = 13;
+          if (showMore) {
+            // disable scroll to top for runNextPageSearch
+            window.location.state.from = 'showMore';
+          }
+
+          _context.next = 14;
           return (0, _effects.put)(_actions.actions.processSearch(queryId, page, tours));
 
-        case 13:
-          _context.next = 15;
+        case 14:
+          _context.next = 16;
           return (0, _effects.put)(_actions.actions.finishSearch(queryId));
 
-        case 15:
-          _context.next = 21;
+        case 16:
+          _context.next = 22;
           break;
 
-        case 17:
-          _context.prev = 17;
+        case 18:
+          _context.prev = 18;
           _context.t0 = _context["catch"](1);
-          _context.next = 21;
+          _context.next = 22;
           return (0, _effects.put)(_actions.actions.failSearch(queryId));
 
-        case 21:
+        case 22:
         case "end":
           return _context.stop();
       }
     }
-  }, _marked, null, [[1, 17]]);
+  }, _marked, null, [[1, 18]]);
 }
