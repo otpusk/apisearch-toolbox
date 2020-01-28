@@ -31,8 +31,8 @@ const getPriceChange = (selectedCode, validatedFlights) => {
 const getSelectedFlightsPriceChange = (state, offerId, { selectedFlights, flights }) => {
     const validatedFlights = flights || state.getIn(['validatedTour', offerId, 'flights'], {});
     const selected = selectedFlights || state.getIn(['validatedTour', offerId, 'selectedFlights'], {});
-    const selectedInbound = selected.inbound && selected.inbound.split('_')[0];
-    const selectedOutbound = selected.outbound && selected.outbound.split('_')[0];
+    const selectedInbound = selected.inbound;
+    const selectedOutbound = selected.outbound;
 
     return getPriceChange(selectedInbound, validatedFlights) + getPriceChange(selectedOutbound, validatedFlights);
 };
