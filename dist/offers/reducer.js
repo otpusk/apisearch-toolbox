@@ -17,6 +17,14 @@ function _objectWithoutProperties(source, excluded) { if (source == null) return
 
 function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -53,18 +61,23 @@ var getSelectedFlightsPriceChange = function getSelectedFlightsPriceChange(state
       flights = _ref2.flights;
   var validatedFlights = flights || state.getIn(['validatedTour', offerId, 'flights'], {});
   var selected = selectedFlights || state.getIn(['validatedTour', offerId, 'selectedFlights'], {});
-  var selectedInbound = selected.inbound && selected.inbound.split('_')[0];
-  var selectedOutbound = selected.outbound && selected.outbound.split('_')[0];
+  var selectedInbound = selected.inbound;
+  var selectedOutbound = selected.outbound;
   return getPriceChange(selectedInbound, validatedFlights) + getPriceChange(selectedOutbound, validatedFlights);
+};
+
+var getValidatedTourPrice = function getValidatedTourPrice(state, offerId, currency) {
+  var offerPrice = state.getIn(['store', offerId, 'price'].concat(_toConsumableArray(currency ? [currency] : [])), 0);
+  var actualPrice = state.getIn(['siblings', offerId, 'price'].concat(_toConsumableArray(currency ? [currency] : [])), 0);
+  var validatedPrice = state.getIn(['validatedTour', offerId, 'price'].concat(_toConsumableArray(currency ? [currency] : [])), 0);
+  var price = validatedPrice || actualPrice || offerPrice;
+  return price;
 };
 
 var getValidatedTourNewPrice = function getValidatedTourNewPrice(state, offerId, selectedFlights) {
   var currency = state.getIn(['siblings', offerId, 'currency'], 'usd');
-  var offerPrice = state.getIn(['store', offerId, 'price', currency], 0);
-  var actualPrice = state.getIn(['siblings', offerId, 'price', currency], 0);
-  var validatedPrice = state.getIn(['validatedTour', offerId, 'price', currency], 0);
   var selected = selectedFlights || state.getIn(['validatedTour', offerId, 'selectedFlights'], {});
-  var newPrice = (validatedPrice || actualPrice || offerPrice) + getSelectedFlightsPriceChange(state, offerId, {
+  var newPrice = getValidatedTourPrice(state, offerId, currency) + getSelectedFlightsPriceChange(state, offerId, {
     selectedFlights: selected
   });
   return newPrice;
@@ -116,8 +129,8 @@ var offersReducer = (0, _reduxActions.handleActions)((_handleActions = {}, _defi
     return (0, _immutable.Map)(current).mergeWith(mergeOfferNextPriority, _objectSpread({
       offerId: offerId,
       price: price,
-      flights: flights,
       newPrice: newPrice,
+      flights: flights,
       hasError: false,
       errorMsg: ''
     }, rest)).toJS();
@@ -127,13 +140,11 @@ var offersReducer = (0, _reduxActions.handleActions)((_handleActions = {}, _defi
   var _ref9$payload = _ref9.payload,
       offerId = _ref9$payload.offerId,
       errorMsg = _ref9$payload.errorMsg;
-  var newPrice = getValidatedTourNewPrice(state, offerId);
   var newState = state.updateIn(['validatedTour', offerId], function () {
     var current = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
     return (0, _immutable.Map)(current).mergeWith(mergeOfferNextPriority, {
       hasError: true,
-      errorMsg: errorMsg,
-      newPrice: newPrice
+      errorMsg: errorMsg
     }).toJS();
   });
   return newState;
@@ -146,7 +157,8 @@ var offersReducer = (0, _reduxActions.handleActions)((_handleActions = {}, _defi
     var current = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
     return (0, _immutable.Map)(current).mergeWith(mergeOfferNextPriority, {
       newPrice: newPrice,
-      selectedFlights: selectedFlights
+      selectedFlights: selectedFlights,
+      hasError: false
     }).toJS();
   });
   return newState;

@@ -37,14 +37,19 @@ const getSelectedFlightsPriceChange = (state, offerId, { selectedFlights, flight
     return getPriceChange(selectedInbound, validatedFlights) + getPriceChange(selectedOutbound, validatedFlights);
 };
 
+const getValidatedTourPrice = (state, offerId, currency) => {
+    const offerPrice =  state.getIn(['store', offerId, 'price', ...currency ? [currency] : []], 0);
+    const actualPrice =  state.getIn(['siblings', offerId, 'price', ...currency ? [currency] : []], 0);
+    const validatedPrice = state.getIn(['validatedTour', offerId, 'price', ...currency ? [currency] : []], 0);
+    const price = validatedPrice || actualPrice || offerPrice;
+
+    return price;
+};
+
 const getValidatedTourNewPrice = (state, offerId, selectedFlights) => {
     const currency =  state.getIn(['siblings', offerId, 'currency'], 'usd');
-    const offerPrice =  state.getIn(['store', offerId, 'price', currency], 0);
-    const actualPrice =  state.getIn(['siblings', offerId, 'price', currency], 0);
-    const validatedPrice = state.getIn(['validatedTour', offerId, 'price', currency], 0);
     const selected = selectedFlights || state.getIn(['validatedTour', offerId, 'selectedFlights'], {});
-
-    const newPrice = (validatedPrice || actualPrice || offerPrice) + getSelectedFlightsPriceChange(state, offerId, { selectedFlights: selected });
+    const newPrice = getValidatedTourPrice(state, offerId, currency) + getSelectedFlightsPriceChange(state, offerId, { selectedFlights: selected });
 
     return newPrice;
 };
@@ -86,19 +91,17 @@ export const offersReducer = handleActions(
             const newState = state
                 .updateIn(['validatedTour', offerId], (current = {}) =>
                     Map(current)
-                        .mergeWith(mergeOfferNextPriority, { offerId, price, flights, newPrice, hasError: false, errorMsg: '', ...rest })
+                        .mergeWith(mergeOfferNextPriority, { offerId, price, newPrice, flights, hasError: false, errorMsg: '', ...rest })
                         .toJS()
                 );
 
             return newState;
         },
         [offersActions.validateOfferAdditionalCostsFail]: (state, { payload: { offerId, errorMsg }}) => {
-            const newPrice = getValidatedTourNewPrice(state, offerId);
-
             const newState = state
                 .updateIn(['validatedTour', offerId], (current = {}) =>
                     Map(current)
-                        .mergeWith(mergeOfferNextPriority, { hasError: true, errorMsg, newPrice })
+                        .mergeWith(mergeOfferNextPriority, { hasError: true, errorMsg })
                         .toJS()
                 );
 
@@ -110,7 +113,7 @@ export const offersReducer = handleActions(
             const newState = state
                 .updateIn(['validatedTour', offerId], (current = {}) =>
                     Map(current)
-                        .mergeWith(mergeOfferNextPriority, { newPrice, selectedFlights })
+                        .mergeWith(mergeOfferNextPriority, { newPrice, selectedFlights, hasError: false })
                         .toJS()
                 );
 
