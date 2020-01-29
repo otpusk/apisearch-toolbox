@@ -21,11 +21,17 @@ var actions = (0, _reduxActions.createActions)({
       query: query
     };
   },
-  RUN_SEARCH: function RUN_SEARCH(queryId) {
-    return queryId;
+  RUN_SEARCH: function RUN_SEARCH(queryId, options) {
+    return {
+      queryId: queryId,
+      options: options
+    };
   },
-  RUN_NEXT_PAGE_SEARCH: function RUN_NEXT_PAGE_SEARCH(queryId) {
-    return queryId;
+  RUN_NEXT_PAGE_SEARCH: function RUN_NEXT_PAGE_SEARCH(queryId, options) {
+    return {
+      queryId: queryId,
+      options: options
+    };
   },
   PROCESS_SEARCH: function PROCESS_SEARCH(queryId, page, tours) {
     return {

@@ -5,11 +5,11 @@ export const actions = createActions({
     CREATE_QUERY: (queryId, query) => ({ queryId, query }),
     SET_QUERY:    (queryId, query) => ({ queryId, query }),
 
-    RUN_SEARCH:     (queryId) => queryId,
-    RUN_NEXT_PAGE_SEARCH: (queryId) => queryId,
-    PROCESS_SEARCH: (queryId, page, tours) => ({ queryId, page, tours }),
-    FINISH_SEARCH:  (queryId) => queryId,
-    FAIL_SEARCH:    (error) => error,
+    RUN_SEARCH:           (queryId, options) => ({ queryId, options }),
+    RUN_NEXT_PAGE_SEARCH: (queryId, options) => ({ queryId, options }),
+    PROCESS_SEARCH:       (queryId, page, tours) => ({ queryId, page, tours }),
+    FINISH_SEARCH:        (queryId) => queryId,
+    FAIL_SEARCH:          (error) => error,
 
     GET_SEARCH_OPERATORS:         () => void 0,
     GET_SEARCH_OPERATORS_SUCCESS: (key, operators) => ({ key, operators }),
