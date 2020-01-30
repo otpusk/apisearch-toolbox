@@ -71,7 +71,7 @@ export const offersReducer = handleActions(
             return state
                 .updateIn(['validatedTour', offerId], (current = {}) =>
                     Map(current)
-                        .mergeWith(mergeOfferNextPriority, { newPrice, selectedFlights, hasError: false })
+                        .mergeWith(mergeOfferNextPriority, { newPrice, selectedFlights })
                         .toJS()
                 );
         },

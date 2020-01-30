@@ -105,8 +105,7 @@ var offersReducer = (0, _reduxActions.handleActions)((_handleActions = {}, _defi
     var current = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
     return (0, _immutable.Map)(current).mergeWith(_mergeOffer.mergeOfferNextPriority, {
       newPrice: newPrice,
-      selectedFlights: selectedFlights,
-      hasError: false
+      selectedFlights: selectedFlights
     }).toJS();
   });
 }), _handleActions), initalState);
