@@ -70,7 +70,7 @@ var offersReducer = (0, _reduxActions.handleActions)((_handleActions = {}, _defi
       flights = _ref6$payload.flights,
       rest = _objectWithoutProperties(_ref6$payload, ["offerId", "price", "flights"]);
 
-  var currency = state.getIn(['siblings', offerId, 'currency'], 'usd');
+  var currency = state.getIn(['store', offerId, 'currency'], 'usd');
   var newPrice = price[currency] ? price[currency] + (0, _getValidatedTourPrice.getSelectedFlightsPriceChange)(state, offerId, {
     flights: flights
   }) : (0, _getValidatedTourPrice.getValidatedTourNewPrice)(state, offerId);

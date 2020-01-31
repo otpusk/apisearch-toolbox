@@ -36,9 +36,9 @@ var getSelectedFlightsPriceChange = function getSelectedFlightsPriceChange(state
 exports.getSelectedFlightsPriceChange = getSelectedFlightsPriceChange;
 
 var getValidatedTourPrice = function getValidatedTourPrice(state, offerId, currency) {
-  var offerPrice = state.getIn(['store', offerId, 'price'].concat(_toConsumableArray(currency ? [currency] : [])), 0);
-  var actualPrice = state.getIn(['siblings', offerId, 'price'].concat(_toConsumableArray(currency ? [currency] : [])), 0);
-  var validatedPrice = state.getIn(['validatedTour', offerId, 'price'].concat(_toConsumableArray(currency ? [currency] : [])), 0);
+  var offerPrice = state.getIn(['store', offerId, 'price'].concat(_toConsumableArray(currency ? [currency] : [])), currency ? 0 : {});
+  var actualPrice = state.getIn(['siblings', offerId, 'price'].concat(_toConsumableArray(currency ? [currency] : [])), currency ? 0 : {});
+  var validatedPrice = state.getIn(['validatedTour', offerId, 'price'].concat(_toConsumableArray(currency ? [currency] : [])), currency ? 0 : {});
   var price = validatedPrice || actualPrice || offerPrice;
   return price;
 };
@@ -46,7 +46,7 @@ var getValidatedTourPrice = function getValidatedTourPrice(state, offerId, curre
 exports.getValidatedTourPrice = getValidatedTourPrice;
 
 var getValidatedTourNewPrice = function getValidatedTourNewPrice(state, offerId, selectedFlights) {
-  var currency = state.getIn(['siblings', offerId, 'currency'], 'usd');
+  var currency = state.getIn(['store', offerId, 'currency'], 'usd');
   var selected = selectedFlights || state.getIn(['validatedTour', offerId, 'selectedFlights'], {});
   var newPrice = getValidatedTourPrice(state, offerId, currency) + getSelectedFlightsPriceChange(state, offerId, {
     selectedFlights: selected
