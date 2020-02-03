@@ -82,18 +82,18 @@ var offersReducer = (0, _reduxActions.handleActions)((_handleActions = {}, _defi
       newPrice: newPrice,
       flights: flights,
       hasError: false,
-      errorMsg: ''
+      error: null
     }, rest)).toJS();
   });
 }), _defineProperty(_handleActions, _actions.offersActions.validateOfferAdditionalCostsFail, function (state, _ref7) {
   var _ref7$payload = _ref7.payload,
       offerId = _ref7$payload.offerId,
-      errorMsg = _ref7$payload.errorMsg;
+      error = _ref7$payload.error;
   return state.updateIn(['validatedTour', offerId], function () {
     var current = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
     return (0, _immutable.Map)(current).mergeWith(_mergeOffer.mergeOfferNextPriority, {
       hasError: true,
-      errorMsg: errorMsg
+      error: error
     }).toJS();
   });
 }), _defineProperty(_handleActions, _actions.offersActions.validateSetPrice, function (state, _ref8) {

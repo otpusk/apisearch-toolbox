@@ -20,7 +20,7 @@ var mergeOffer = function mergeOffer(prev, next) {
 exports.mergeOffer = mergeOffer;
 
 var mergeOfferNextPriority = function mergeOfferNextPriority(prev, next) {
-  return next && _typeof(next) === 'object' && !next[Symbol.iterator] ? _objectSpread({}, prev, {}, next) : next;
+  return next && _typeof(next) === 'object' && !next[Symbol.iterator] && !(next instanceof Error) ? _objectSpread({}, prev, {}, next) : next;
 };
 
 exports.mergeOfferNextPriority = mergeOfferNextPriority;

@@ -55,6 +55,7 @@ function validateOfferAdditionalCostsWorker(_ref) {
           _context.t0 = _context["catch"](1);
           console.log('[ERROR_VALIDATE_OFFER_ADD_COSTS]:', {
             offerId: offerId,
+            error: _context.t0,
             err: _context.t0.message
           });
           _context.next = 21;
@@ -62,7 +63,7 @@ function validateOfferAdditionalCostsWorker(_ref) {
 
         case 21:
           _context.next = 23;
-          return (0, _effects.put)(_actions.offersActions.validateOfferAdditionalCostsFail(offerId, _context.t0.message));
+          return (0, _effects.put)(_actions.offersActions.validateOfferAdditionalCostsFail(offerId, _context.t0));
 
         case 23:
         case "end":

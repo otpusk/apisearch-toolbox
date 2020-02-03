@@ -64,10 +64,10 @@ var offersActions = (0, _reduxActions.createActions)({
       offerId: offerId
     }, validatedTour);
   },
-  VALIDATE_OFFER_ADDITIONAL_COSTS_FAIL: function VALIDATE_OFFER_ADDITIONAL_COSTS_FAIL(offerId, errorMsg) {
+  VALIDATE_OFFER_ADDITIONAL_COSTS_FAIL: function VALIDATE_OFFER_ADDITIONAL_COSTS_FAIL(offerId, error) {
     return {
       offerId: offerId,
-      errorMsg: errorMsg
+      error: error
     };
   },
   SET_OFFER_ADDITIONAL_COSTS_STATUS: function SET_OFFER_ADDITIONAL_COSTS_STATUS(offerId, status) {
