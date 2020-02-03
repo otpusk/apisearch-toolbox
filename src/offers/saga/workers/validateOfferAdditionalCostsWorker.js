@@ -13,8 +13,8 @@ export function* validateOfferAdditionalCostsWorker ({ payload: { offerId }}) {
         yield put(offersActions.setOfferAdditionalCostsStatus(offerId, false));
         yield put(offersActions.validateOfferAdditionalCostsSuccess(offerId, validatedTour));
     } catch (error) {
-        console.log('[ERROR_VALIDATE_OFFER_ADD_COSTS]:', { offerId, err: error.message });
+        console.log('[ERROR_VALIDATE_OFFER_ADD_COSTS]:', { offerId, error, err: error.message });
         yield put(offersActions.setOfferAdditionalCostsStatus(offerId, false));
-        yield put(offersActions.validateOfferAdditionalCostsFail(offerId, error.message));
+        yield put(offersActions.validateOfferAdditionalCostsFail(offerId, error));
     }
 }

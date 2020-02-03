@@ -4,7 +4,7 @@ const mergeOffer = (prev, next) => next && typeof next === 'object' && !next[Sym
         ? next
         : prev;
 
-const mergeOfferNextPriority = (prev, next) => next && typeof next === 'object' && !next[Symbol.iterator]
+const mergeOfferNextPriority = (prev, next) => next && typeof next === 'object' && !next[Symbol.iterator] && !(next instanceof Error)
     ? { ...prev, ...next }
     : next;
 

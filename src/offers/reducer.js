@@ -53,15 +53,15 @@ export const offersReducer = handleActions(
             return state
                 .updateIn(['validatedTour', offerId], (current = {}) =>
                     Map(current)
-                        .mergeWith(mergeOfferNextPriority, { offerId, price, newPrice, flights, hasError: false, errorMsg: '', ...rest })
+                        .mergeWith(mergeOfferNextPriority, { offerId, price, newPrice, flights, hasError: false, error: null, ...rest })
                         .toJS()
                 );
         },
-        [offersActions.validateOfferAdditionalCostsFail]: (state, { payload: { offerId, errorMsg }}) => {
+        [offersActions.validateOfferAdditionalCostsFail]: (state, { payload: { offerId, error }}) => {
             return state
                 .updateIn(['validatedTour', offerId], (current = {}) =>
                     Map(current)
-                        .mergeWith(mergeOfferNextPriority, { hasError: true, errorMsg })
+                        .mergeWith(mergeOfferNextPriority, { hasError: true, error })
                         .toJS()
                 );
         },
