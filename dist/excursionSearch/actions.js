@@ -82,6 +82,18 @@ var actions = (0, _reduxActions.createActions)({
   GET_SEARCH_CATEGORIES_FAIL: function GET_SEARCH_CATEGORIES_FAIL(error) {
     return error;
   },
+  GET_SEARCH_PRICES: function GET_SEARCH_PRICES() {
+    return void 0;
+  },
+  GET_SEARCH_PRICES_SUCCESS: function GET_SEARCH_PRICES_SUCCESS(key, prices) {
+    return {
+      key: key,
+      prices: prices
+    };
+  },
+  GET_SEARCH_PRICES_FAIL: function GET_SEARCH_PRICES_FAIL(error) {
+    return error;
+  },
   GET_EXCURSIONS_COUNT: function GET_EXCURSIONS_COUNT(queryId) {
     return queryId;
   },

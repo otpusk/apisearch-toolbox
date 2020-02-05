@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.getSearchOperatorsWorker = getSearchOperatorsWorker;
 exports.getSearchTransportsWorker = getSearchTransportsWorker;
 exports.getSearchCategoriesWorker = getSearchCategoriesWorker;
+exports.getSearchPricesWorker = getSearchPricesWorker;
 
 var _effects = require("redux-saga/effects");
 
@@ -21,7 +22,10 @@ regeneratorRuntime.mark(getSearchOperatorsWorker),
 regeneratorRuntime.mark(getSearchTransportsWorker),
     _marked3 =
 /*#__PURE__*/
-regeneratorRuntime.mark(getSearchCategoriesWorker);
+regeneratorRuntime.mark(getSearchCategoriesWorker),
+    _marked4 =
+/*#__PURE__*/
+regeneratorRuntime.mark(getSearchPricesWorker);
 
 function getSearchOperatorsWorker() {
   var operators;
@@ -120,4 +124,37 @@ function getSearchCategoriesWorker() {
       }
     }
   }, _marked3, null, [[0, 8]]);
+}
+
+function getSearchPricesWorker() {
+  var prices;
+  return regeneratorRuntime.wrap(function getSearchPricesWorker$(_context4) {
+    while (1) {
+      switch (_context4.prev = _context4.next) {
+        case 0:
+          _context4.prev = 0;
+          _context4.next = 3;
+          return (0, _effects.call)(_excursionApi.getFilterPrice);
+
+        case 3:
+          prices = _context4.sent;
+          _context4.next = 6;
+          return (0, _effects.put)(_actions.actions.getSearchPricesSuccess(0, prices));
+
+        case 6:
+          _context4.next = 12;
+          break;
+
+        case 8:
+          _context4.prev = 8;
+          _context4.t0 = _context4["catch"](0);
+          _context4.next = 12;
+          return (0, _effects.put)(_actions.actions.getSearchPricesFail(_context4.t0));
+
+        case 12:
+        case "end":
+          return _context4.stop();
+      }
+    }
+  }, _marked4, null, [[0, 8]]);
 }
