@@ -59,10 +59,15 @@ var reducer = (0, _reduxActions.handleActions)((_handleActions = {}, _defineProp
       key = _ref9$payload.key,
       transports = _ref9$payload.transports;
   return state.setIn(['transports', key], transports);
-}), _defineProperty(_handleActions, _actions.actions.getExcursionsCountSuccess, function (state, _ref10) {
+}), _defineProperty(_handleActions, _actions.actions.getSearchPricesSuccess, function (state, _ref10) {
   var _ref10$payload = _ref10.payload,
-      queryId = _ref10$payload.queryId,
-      excursionsCount = _ref10$payload.excursionsCount;
+      key = _ref10$payload.key,
+      prices = _ref10$payload.prices;
+  return state.setIn(['prices', key], prices);
+}), _defineProperty(_handleActions, _actions.actions.getExcursionsCountSuccess, function (state, _ref11) {
+  var _ref11$payload = _ref11.payload,
+      queryId = _ref11$payload.queryId,
+      excursionsCount = _ref11$payload.excursionsCount;
   return state.setIn(['searchCount', queryId], excursionsCount);
 }), _handleActions), initialState);
 exports.reducer = reducer;

@@ -3,7 +3,7 @@ import { put, call } from 'redux-saga/effects';
 
 // Instruments
 import { actions } from '../../actions';
-import { getFilterTransport, getFilterCategories, getFilterOperators } from '@otpusk/excursion-api';
+import { getFilterTransport, getFilterCategories, getFilterOperators, getFilterPrice } from '@otpusk/excursion-api';
 
 export function* getSearchOperatorsWorker () {
     try {
@@ -32,5 +32,15 @@ export function* getSearchCategoriesWorker () {
         yield put(actions.getSearchCategoriesSuccess(0, categories));
     } catch (error) {
         yield put(actions.getSearchCategoriesFail(error));
+    }
+}
+
+export function* getSearchPricesWorker () {
+    try {
+        const prices = yield call(getFilterPrice);
+
+        yield put(actions.getSearchPricesSuccess(0, prices));
+    } catch (error) {
+        yield put(actions.getSearchPricesFail(error));
     }
 }
