@@ -82,7 +82,7 @@ function checkOfferStatusWorker(_ref) {
           freshOffer = _ref6.offer;
           code = _ref6.code;
           _context.t0 = code;
-          _context.next = _context.t0 === 5 ? 26 : _context.t0 === 4 ? 32 : _context.t0 === 3 ? 32 : 37;
+          _context.next = _context.t0 === 5 ? 26 : _context.t0 === 4 ? 32 : _context.t0 === 3 ? 32 : _context.t0 === 2 ? 32 : 37;
           break;
 
         case 26:

@@ -43,6 +43,7 @@ export function* checkOfferStatusWorker ({ payload: { offerId, hotelId }}) {
                 break;
             case 4:
             case 3:
+            case 2:
                 yield put(actions.setOfferStatus(offerId, 'dirty'));
                 yield put(actions.checkOfferStatusSuccess(offerId, freshOffer));
                 // yield put(analyticsActions.sendEvent('Страница тура', 'Актуализация', 'Тур не актуален', {
