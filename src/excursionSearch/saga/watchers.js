@@ -8,6 +8,7 @@ import {
     getSearchOperatorsWorker,
     getSearchTransportsWorker,
     getSearchCategoriesWorker,
+    getSearchPricesWorker
 } from './workers/getSearchDictsWorkers';
 
 import { getSearchCountWorker } from './workers/getSearchCountWorker';
@@ -24,6 +25,9 @@ export const watchers = Object.freeze({
     },
     * getSearchCategoriesWatcher () {
         yield takeEvery(actions.getSearchCategories, getSearchCategoriesWorker);
+    },
+    * getSearchPricesWatcher () {
+        yield takeEvery(actions.getSearchPrices, getSearchPricesWorker);
     },
     * getSearchCountWatcher () {
         yield takeEvery(actions.getExcursionsCount, getSearchCountWorker);

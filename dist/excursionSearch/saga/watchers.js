@@ -86,19 +86,36 @@ var watchers = Object.freeze({
       }
     }, getSearchCategoriesWatcher);
   }),
-  getSearchCountWatcher:
+  getSearchPricesWatcher:
   /*#__PURE__*/
-  regeneratorRuntime.mark(function getSearchCountWatcher() {
-    return regeneratorRuntime.wrap(function getSearchCountWatcher$(_context5) {
+  regeneratorRuntime.mark(function getSearchPricesWatcher() {
+    return regeneratorRuntime.wrap(function getSearchPricesWatcher$(_context5) {
       while (1) {
         switch (_context5.prev = _context5.next) {
           case 0:
             _context5.next = 2;
-            return (0, _effects.takeEvery)(_actions.actions.getExcursionsCount, _getSearchCountWorker.getSearchCountWorker);
+            return (0, _effects.takeEvery)(_actions.actions.getSearchPrices, _getSearchDictsWorkers.getSearchPricesWorker);
 
           case 2:
           case "end":
             return _context5.stop();
+        }
+      }
+    }, getSearchPricesWatcher);
+  }),
+  getSearchCountWatcher:
+  /*#__PURE__*/
+  regeneratorRuntime.mark(function getSearchCountWatcher() {
+    return regeneratorRuntime.wrap(function getSearchCountWatcher$(_context6) {
+      while (1) {
+        switch (_context6.prev = _context6.next) {
+          case 0:
+            _context6.next = 2;
+            return (0, _effects.takeEvery)(_actions.actions.getExcursionsCount, _getSearchCountWorker.getSearchCountWorker);
+
+          case 2:
+          case "end":
+            return _context6.stop();
         }
       }
     }, getSearchCountWatcher);
