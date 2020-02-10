@@ -14,7 +14,9 @@ function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
 
 var getPriceChange = function getPriceChange(selectedCode, validatedFlights) {
-  var _ref = selectedCode && validatedFlights[selectedCode] || {},
+  var selectedCodeWithoutIndex = selectedCode && selectedCode.split(/_/).slice(0, -1).join('_');
+
+  var _ref = validatedFlights[selectedCodeWithoutIndex] || {},
       _ref$priceChange = _ref.priceChange,
       priceChange = _ref$priceChange === void 0 ? 0 : _ref$priceChange;
 
