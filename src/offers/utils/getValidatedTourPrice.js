@@ -1,5 +1,6 @@
 const getPriceChange = (selectedCode, validatedFlights) => {
-    const { priceChange = 0 } = selectedCode && validatedFlights[selectedCode] || {};
+    const selectedCodeWithoutIndex = selectedCode && selectedCode.split(/_/).slice(0, -1).join('_');
+    const { priceChange = 0 } = validatedFlights[selectedCodeWithoutIndex] || {};
 
     return Number(priceChange);
 };
