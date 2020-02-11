@@ -51,7 +51,10 @@ export class Query extends OrderedMap {
         sortCountriesCnt: null,
     });
 
-    constructor () {
+    constructor (query) {
+        if (query) {
+            return makeQuery(query);
+        }
         return makeQuery(OrderedMap(Query.defaults));
     }
 

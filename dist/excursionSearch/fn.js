@@ -64,10 +64,14 @@ var Query =
 function (_OrderedMap) {
   _inherits(Query, _OrderedMap);
 
-  function Query() {
+  function Query(query) {
     var _this;
 
     _classCallCheck(this, Query);
+
+    if (query) {
+      return _possibleConstructorReturn(_this, makeQuery(query));
+    }
 
     return _possibleConstructorReturn(_this, makeQuery((0, _immutable.OrderedMap)(Query.defaults)));
   }
