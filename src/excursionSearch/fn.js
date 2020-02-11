@@ -35,8 +35,8 @@ export class Query extends OrderedMap {
         destCountry:      [],
         destCity:         [],
         destSight:        [],
-        dateFrom:         moment().add(7, 'days').locale('ru'),
-        dateTo:           moment().add(14, 'days').locale('ru'),
+        dateFrom:         moment().add(7, 'days').locale('ru').format('YYYY-MM-DD'),
+        dateTo:           moment().add(14, 'days').locale('ru').format('YYYY-MM-DD'),
         lengthFrom:       1,
         lengthTo:         null,
         opId:             [],
@@ -51,7 +51,10 @@ export class Query extends OrderedMap {
         sortCountriesCnt: null,
     });
 
-    constructor () {
+    constructor (query) {
+        if (query) {
+            return makeQuery(query);
+        }
         return makeQuery(OrderedMap(Query.defaults));
     }
 

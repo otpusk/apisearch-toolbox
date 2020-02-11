@@ -39,7 +39,7 @@ function runSearchWorker(_ref) {
         case 6:
           query = _context.sent;
           formattedQuery = query.toMap().map(function (value) {
-            return _moment["default"].isMoment(value) ? value.format('YYYY-MM-DD') : value;
+            return (0, _moment["default"])(value, 'YYYY-MM-DD', true).isValid() ? (0, _moment["default"])(value).format('YYYY-MM-DD') : value;
           }).map(function (value) {
             return Array.isArray(value) && value.length === 0 ? false : value;
           }).filter(function (value) {

@@ -15,7 +15,7 @@ var _parsers = require("./parsers");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
 
@@ -64,10 +64,14 @@ var Query =
 function (_OrderedMap) {
   _inherits(Query, _OrderedMap);
 
-  function Query() {
+  function Query(query) {
     var _this;
 
     _classCallCheck(this, Query);
+
+    if (query) {
+      return _possibleConstructorReturn(_this, makeQuery(query));
+    }
 
     return _possibleConstructorReturn(_this, makeQuery((0, _immutable.OrderedMap)(Query.defaults)));
   }
@@ -344,8 +348,8 @@ _defineProperty(Query, "defaults", Object.freeze({
   destCountry: [],
   destCity: [],
   destSight: [],
-  dateFrom: (0, _moment["default"])().add(7, 'days').locale('ru'),
-  dateTo: (0, _moment["default"])().add(14, 'days').locale('ru'),
+  dateFrom: (0, _moment["default"])().add(7, 'days').locale('ru').format('YYYY-MM-DD'),
+  dateTo: (0, _moment["default"])().add(14, 'days').locale('ru').format('YYYY-MM-DD'),
   lengthFrom: 1,
   lengthTo: null,
   opId: [],

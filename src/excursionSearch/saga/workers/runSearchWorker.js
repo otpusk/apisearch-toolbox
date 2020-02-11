@@ -10,7 +10,7 @@ export function* runSearchWorker ({ payload: { queryId, options : { withHash = t
     try {
         const query = yield select(({ excursionSearch }) => excursionSearch.getIn(['queries', queryId]));
         const formattedQuery = query.toMap()
-            .map((value) => moment.isMoment(value) ? value.format('YYYY-MM-DD') : value)
+            .map((value) => moment(value, 'YYYY-MM-DD', true).isValid() ? moment(value).format('YYYY-MM-DD') : value)
             .map((value) => Array.isArray(value) && value.length === 0 ? false : value)
             .filter((value) => Boolean(value))
             .toJS();
