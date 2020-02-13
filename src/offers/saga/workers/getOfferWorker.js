@@ -12,7 +12,9 @@ export function* getOfferWorker ({ payload: { offerId, fresh }}) {
         const token = yield select((state) => state.auth.getIn(['otpusk', 'token']));
         const offer = yield call(getToursOffer, token, offerId, fresh);
 
-        console.log('getOfferWorker offer', offer);
+        if (offer.error) {
+            throw new Error(offer.error);
+        }
         yield put(offersActions.setOffer(offer));
         yield put(offersActions.setOfferStatus(offer.id, 'alive'));
         yield put(offersActions.getOfferSuccess());

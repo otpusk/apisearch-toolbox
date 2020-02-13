@@ -21,90 +21,66 @@ var _actions3 = require("../../../offers/actions");
 
 var _marked =
 /*#__PURE__*/
-regeneratorRuntime.mark(runSearchKiller),
-    _marked2 =
-/*#__PURE__*/
 regeneratorRuntime.mark(runSearchWorker);
-
-function runSearchKiller() {
-  return regeneratorRuntime.wrap(function runSearchKiller$(_context) {
-    while (1) {
-      switch (_context.prev = _context.next) {
-        case 0:
-          _context.next = 2;
-          return (0, _effects.delay)(35000);
-
-        case 2:
-        case "end":
-          return _context.stop();
-      }
-    }
-  }, _marked);
-}
 
 function runSearchWorker(_ref) {
   var queryId;
-  return regeneratorRuntime.wrap(function runSearchWorker$(_context4) {
+  return regeneratorRuntime.wrap(function runSearchWorker$(_context3) {
     while (1) {
-      switch (_context4.prev = _context4.next) {
+      switch (_context3.prev = _context3.next) {
         case 0:
           queryId = _ref.payload;
-          _context4.prev = 1;
-          return _context4.delegateYield(
+          _context3.prev = 1;
+          return _context3.delegateYield(
           /*#__PURE__*/
           regeneratorRuntime.mark(function _callee() {
-            var query, lang, token, killer, otpsukQuery, _loop, _ret;
+            var query, lang, token, otpsukQuery, _loop, _ret;
 
-            return regeneratorRuntime.wrap(function _callee$(_context3) {
+            return regeneratorRuntime.wrap(function _callee$(_context2) {
               while (1) {
-                switch (_context3.prev = _context3.next) {
+                switch (_context2.prev = _context2.next) {
                   case 0:
-                    _context3.next = 2;
+                    _context2.next = 2;
                     return (0, _effects.select)(function (state) {
                       return state.queries.get(queryId);
                     });
 
                   case 2:
-                    query = _context3.sent;
-                    _context3.next = 5;
+                    query = _context2.sent;
+                    _context2.next = 5;
                     return (0, _effects.select)(function (state) {
                       return state.auth.getIn(['otpusk', 'lang'], null);
                     });
 
                   case 5:
-                    lang = _context3.sent;
-                    _context3.next = 8;
+                    lang = _context2.sent;
+                    _context2.next = 8;
                     return (0, _effects.select)(function (state) {
                       return state.auth.getIn(['otpusk', 'token']);
                     });
 
                   case 8:
-                    token = _context3.sent;
-                    _context3.next = 11;
-                    return (0, _effects.fork)(runSearchKiller);
-
-                  case 11:
-                    killer = _context3.sent;
+                    token = _context2.sent;
                     otpsukQuery = (0, _fn.convertToOtpQuery)(query.set(_fn.QUERY_PARAMS.LANGUAGE, lang));
-                    _context3.next = 15;
+                    _context2.next = 12;
                     return (0, _effects.put)(_actions.searchActions.startSearch(queryId));
 
-                  case 15:
+                  case 12:
                     otpsukQuery.number = 0;
                     _loop =
                     /*#__PURE__*/
                     regeneratorRuntime.mark(function _loop() {
                       var _ref2, finished, result, country, operators, total, meta, getPriceValueByOfferId, hotels, offers;
 
-                      return regeneratorRuntime.wrap(function _loop$(_context2) {
+                      return regeneratorRuntime.wrap(function _loop$(_context) {
                         while (1) {
-                          switch (_context2.prev = _context2.next) {
+                          switch (_context.prev = _context.next) {
                             case 0:
-                              _context2.next = 2;
+                              _context.next = 2;
                               return (0, _effects.call)(_jsonApi.getToursSearch, token, otpsukQuery);
 
                             case 2:
-                              _ref2 = _context2.sent;
+                              _ref2 = _context.sent;
                               finished = _ref2.lastResult;
                               result = _ref2.result;
                               country = _ref2.country;
@@ -140,19 +116,19 @@ function runSearchWorker(_ref) {
                               });
 
                               if (!(hotels && offers)) {
-                                _context2.next = 17;
+                                _context.next = 17;
                                 break;
                               }
 
-                              _context2.next = 15;
+                              _context.next = 15;
                               return (0, _effects.put)(_actions2.hotelsActions.addHotels(hotels));
 
                             case 15:
-                              _context2.next = 17;
+                              _context.next = 17;
                               return (0, _effects.put)(_actions3.offersActions.addOffers(offers));
 
                             case 17:
-                              _context2.next = 19;
+                              _context.next = 19;
                               return (0, _effects.put)(_actions.searchActions.processSearch(queryId, {
                                 operators: operators,
                                 hotels: hotels.map(function (_ref6) {
@@ -167,76 +143,76 @@ function runSearchWorker(_ref) {
 
                             case 19:
                               if (!finished) {
-                                _context2.next = 21;
+                                _context.next = 21;
                                 break;
                               }
 
-                              return _context2.abrupt("return", "break");
+                              return _context.abrupt("return", "break");
 
                             case 21:
-                              _context2.next = 23;
+                              _context.next = 23;
                               return (0, _effects.delay)(5000);
 
                             case 23:
-                              otpsukQuery.number += 1;
+                              otpsukQuery.number += 1; // result gets filled despite any progress status on steps 1 and 7
 
                             case 24:
                             case "end":
-                              return _context2.stop();
+                              return _context.stop();
                           }
                         }
                       }, _loop);
                     });
 
-                  case 17:
-                    return _context3.delegateYield(_loop(), "t0", 18);
+                  case 14:
+                    return _context2.delegateYield(_loop(), "t0", 15);
 
-                  case 18:
-                    _ret = _context3.t0;
+                  case 15:
+                    _ret = _context2.t0;
 
                     if (!(_ret === "break")) {
-                      _context3.next = 21;
+                      _context2.next = 18;
                       break;
                     }
 
-                    return _context3.abrupt("break", 22);
+                    return _context2.abrupt("break", 19);
 
-                  case 21:
-                    if (killer.isRunning()) {
-                      _context3.next = 17;
+                  case 18:
+                    if (otpsukQuery.number <= 7) {
+                      _context2.next = 14;
                       break;
                     }
 
-                  case 22:
-                    _context3.next = 24;
+                  case 19:
+                    _context2.next = 21;
                     return (0, _effects.delay)(200);
 
-                  case 24:
-                    _context3.next = 26;
+                  case 21:
+                    _context2.next = 23;
                     return (0, _effects.put)(_actions.searchActions.finishSearch(queryId));
 
-                  case 26:
+                  case 23:
                   case "end":
-                    return _context3.stop();
+                    return _context2.stop();
                 }
               }
             }, _callee);
           })(), "t0", 3);
 
         case 3:
-          _context4.next = 9;
+          _context3.next = 9;
           break;
 
         case 5:
-          _context4.prev = 5;
-          _context4.t1 = _context4["catch"](1);
-          _context4.next = 9;
+          _context3.prev = 5;
+          _context3.t1 = _context3["catch"](1);
+          _context3.next = 9;
           return (0, _effects.put)(_actions.searchActions.failSearch(queryId));
 
         case 9:
         case "end":
-          return _context4.stop();
+          return _context3.stop();
       }
     }
-  }, _marked2, null, [[1, 5]]);
+  }, _marked, null, [[1, 5]]);
 }

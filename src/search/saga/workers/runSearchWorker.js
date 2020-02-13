@@ -1,5 +1,5 @@
 // Core
-import { call, put, select, fork, delay } from 'redux-saga/effects';
+import { call, put, select, delay } from 'redux-saga/effects';
 import { Map, fromJS } from 'immutable';
 import { getToursSearch } from '@otpusk/json-api';
 
@@ -9,16 +9,11 @@ import { searchActions } from '../../../search/actions';
 import { hotelsActions } from '../../../hotels/actions';
 import { offersActions } from '../../../offers/actions';
 
-function* runSearchKiller () {
-    yield delay(35000);
-}
-
 export function* runSearchWorker ({ payload: queryId }) {
     try {
         const query = yield select((state) => state.queries.get(queryId));
         const lang = yield select((state) => state.auth.getIn(['otpusk', 'lang'], null));
         const token = yield select((state) => state.auth.getIn(['otpusk', 'token']));
-        const killer = yield fork(runSearchKiller);
 
         const otpsukQuery = convertToOtpQuery(query.set(QUERY_PARAMS.LANGUAGE, lang));
 
@@ -69,7 +64,8 @@ export function* runSearchWorker ({ payload: queryId }) {
             yield delay(5000);
 
             otpsukQuery.number+=1;
-        } while (killer.isRunning());
+        // result gets filled despite any progress status on steps 1 and 7
+        } while (otpsukQuery.number <= 7);
 
         yield delay(200);
         yield put(searchActions.finishSearch(queryId));
