@@ -24,41 +24,50 @@ function getAgenciesWorker(_ref) {
         case 0:
           query = _ref.payload;
           tourId = query.cruiseId;
-          _context.prev = 2;
+          console.log({
+            query: query
+          });
+          _context.prev = 3;
           formdata = new FormData();
           formdata.append('s', query);
-          _context.next = 7;
+          console.log({
+            formdata: formdata
+          });
+          _context.next = 9;
           return (0, _effects.call)(_excursionApi.getAgencies, formdata);
 
-        case 7:
+        case 9:
           _ref2 = _context.sent;
           offices = _ref2.offices;
           regions = _ref2.regions;
-          _context.next = 12;
+          _context.next = 14;
           return (0, _effects.put)(_actions.actions.getRegionsSuccess(regions));
 
-        case 12:
-          _context.next = 14;
+        case 14:
+          _context.next = 16;
           return (0, _effects.put)(_actions.actions.getOfficesSuccess(tourId, offices));
 
-        case 14:
-          _context.next = 22;
+        case 16:
+          _context.next = 25;
           break;
 
-        case 16:
-          _context.prev = 16;
-          _context.t0 = _context["catch"](2);
-          _context.next = 20;
+        case 18:
+          _context.prev = 18;
+          _context.t0 = _context["catch"](3);
+          console.log({
+            error: _context.t0
+          });
+          _context.next = 23;
           return (0, _effects.put)(_actions.actions.getRegionsFail(_context.t0));
 
-        case 20:
-          _context.next = 22;
+        case 23:
+          _context.next = 25;
           return (0, _effects.put)(_actions.actions.getOfficesFail(tourId));
 
-        case 22:
+        case 25:
         case "end":
           return _context.stop();
       }
     }
-  }, _marked, null, [[2, 16]]);
+  }, _marked, null, [[3, 18]]);
 }
