@@ -14,6 +14,7 @@ export function* getAgenciesWorker ({ payload: query }) {
         yield put(actions.getRegionsSuccess(regions));
         yield put(actions.getOfficesSuccess(tourId, offices));
     } catch (error) {
+        console.log(error);
         yield put(actions.getRegionsFail(error));
         yield put(actions.getOfficesFail(tourId));
     }

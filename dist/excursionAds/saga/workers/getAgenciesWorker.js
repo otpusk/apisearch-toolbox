@@ -40,20 +40,21 @@ function getAgenciesWorker(_ref) {
           return (0, _effects.put)(_actions.actions.getOfficesSuccess(tourId, offices));
 
         case 12:
-          _context.next = 20;
+          _context.next = 21;
           break;
 
         case 14:
           _context.prev = 14;
           _context.t0 = _context["catch"](2);
-          _context.next = 18;
+          console.log(_context.t0);
+          _context.next = 19;
           return (0, _effects.put)(_actions.actions.getRegionsFail(_context.t0));
 
-        case 18:
-          _context.next = 20;
+        case 19:
+          _context.next = 21;
           return (0, _effects.put)(_actions.actions.getOfficesFail(tourId));
 
-        case 20:
+        case 21:
         case "end":
           return _context.stop();
       }
