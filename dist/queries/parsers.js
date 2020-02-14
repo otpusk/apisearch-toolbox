@@ -164,15 +164,15 @@ exports.numbersArrayParser = numbersArrayParser;
 var geoParser =
 /*#__PURE__*/
 function () {
-  var _ref5 = _asyncToGenerator(
+  var _ref4 = _asyncToGenerator(
   /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee(value, _ref4) {
+  regeneratorRuntime.mark(function _callee(value, _ref5) {
     var token, location;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            token = _ref4.token;
+            token = _ref5.token;
             _context.next = 3;
             return (0, _jsonApi.getToursGeoById)(token, value);
 
@@ -189,7 +189,7 @@ function () {
   }));
 
   return function geoParser(_x, _x2) {
-    return _ref5.apply(this, arguments);
+    return _ref4.apply(this, arguments);
   };
 }();
 /* parse boolean values that presented as a string */

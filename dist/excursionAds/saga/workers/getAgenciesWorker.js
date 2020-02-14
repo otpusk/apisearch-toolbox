@@ -16,7 +16,7 @@ var _marked =
 regeneratorRuntime.mark(getAgenciesWorker);
 
 function getAgenciesWorker(_ref) {
-  var query, tourId, formdata, _ref2, offices, regions;
+  var query, tourId, formdata, _ref2, regions, offices;
 
   return regeneratorRuntime.wrap(function getAgenciesWorker$(_context) {
     while (1) {
@@ -24,50 +24,41 @@ function getAgenciesWorker(_ref) {
         case 0:
           query = _ref.payload;
           tourId = query.cruiseId;
-          console.log({
-            query: query
-          });
-          _context.prev = 3;
+          _context.prev = 2;
           formdata = new FormData();
-          formdata.append('s', query);
-          console.log({
-            formdata: formdata
-          });
-          _context.next = 9;
+          formdata.append('s', JSON.stringify(query));
+          _context.next = 7;
           return (0, _effects.call)(_excursionApi.getAgencies, formdata);
 
-        case 9:
+        case 7:
           _ref2 = _context.sent;
-          offices = _ref2.offices;
           regions = _ref2.regions;
-          _context.next = 14;
+          offices = _ref2.offices;
+          _context.next = 12;
           return (0, _effects.put)(_actions.actions.getRegionsSuccess(regions));
 
-        case 14:
-          _context.next = 16;
+        case 12:
+          _context.next = 14;
           return (0, _effects.put)(_actions.actions.getOfficesSuccess(tourId, offices));
 
-        case 16:
-          _context.next = 25;
+        case 14:
+          _context.next = 22;
           break;
 
-        case 18:
-          _context.prev = 18;
-          _context.t0 = _context["catch"](3);
-          console.log({
-            error: _context.t0
-          });
-          _context.next = 23;
+        case 16:
+          _context.prev = 16;
+          _context.t0 = _context["catch"](2);
+          _context.next = 20;
           return (0, _effects.put)(_actions.actions.getRegionsFail(_context.t0));
 
-        case 23:
-          _context.next = 25;
+        case 20:
+          _context.next = 22;
           return (0, _effects.put)(_actions.actions.getOfficesFail(tourId));
 
-        case 25:
+        case 22:
         case "end":
           return _context.stop();
       }
     }
-  }, _marked, null, [[3, 18]]);
+  }, _marked, null, [[2, 16]]);
 }
