@@ -5,9 +5,10 @@ import { excursionWatchers } from '../src/excursion';
 import { excursionSearchWatchers } from '../src/excursionSearch';
 import { excursionToursWatchers } from '../src/excursionTours';
 import { servicesWatchers } from '../src/services';
+import { excursionAdsWatchers } from '../src/excursionAds';
 
 export function* saga () {
-    const tasks = [excursionGeoWatchers, excursionWatchers, excursionToursWatchers, servicesWatchers, excursionSearchWatchers]
+    const tasks = [excursionGeoWatchers, excursionWatchers, excursionToursWatchers, servicesWatchers, excursionSearchWatchers, excursionAdsWatchers]
         .map((watchers) => Object.values(watchers).map((watcher) => watcher()))
         .reduce((watchers, group) => [...watchers, ...group], []);
 

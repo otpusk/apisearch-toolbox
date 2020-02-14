@@ -16,47 +16,49 @@ var _marked =
 regeneratorRuntime.mark(getAgenciesWorker);
 
 function getAgenciesWorker(_ref) {
-  var query, tourId, _ref2, offices, regions;
+  var query, tourId, formdata, _ref2, regions, offices;
 
   return regeneratorRuntime.wrap(function getAgenciesWorker$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
           query = _ref.payload;
-          tourId = query.params.cruiseId;
+          tourId = query.cruiseId;
           _context.prev = 2;
-          _context.next = 5;
-          return (0, _effects.call)(_excursionApi.getAgencies, query);
+          formdata = new FormData();
+          formdata.append('s', JSON.stringify(query));
+          _context.next = 7;
+          return (0, _effects.call)(_excursionApi.getAgencies, formdata);
 
-        case 5:
+        case 7:
           _ref2 = _context.sent;
-          offices = _ref2.offices;
           regions = _ref2.regions;
-          _context.next = 10;
+          offices = _ref2.offices;
+          _context.next = 12;
           return (0, _effects.put)(_actions.actions.getRegionsSuccess(regions));
 
-        case 10:
-          _context.next = 12;
+        case 12:
+          _context.next = 14;
           return (0, _effects.put)(_actions.actions.getOfficesSuccess(tourId, offices));
 
-        case 12:
-          _context.next = 20;
+        case 14:
+          _context.next = 22;
           break;
 
-        case 14:
-          _context.prev = 14;
+        case 16:
+          _context.prev = 16;
           _context.t0 = _context["catch"](2);
-          _context.next = 18;
+          _context.next = 20;
           return (0, _effects.put)(_actions.actions.getRegionsFail(_context.t0));
 
-        case 18:
-          _context.next = 20;
+        case 20:
+          _context.next = 22;
           return (0, _effects.put)(_actions.actions.getOfficesFail(tourId));
 
-        case 20:
+        case 22:
         case "end":
           return _context.stop();
       }
     }
-  }, _marked, null, [[2, 14]]);
+  }, _marked, null, [[2, 16]]);
 }
