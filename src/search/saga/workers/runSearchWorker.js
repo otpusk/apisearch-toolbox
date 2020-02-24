@@ -9,6 +9,9 @@ import { searchActions } from '../../../search/actions';
 import { hotelsActions } from '../../../hotels/actions';
 import { offersActions } from '../../../offers/actions';
 
+// current result gets filled despite any operators progress status on step 7
+const GUARANTEED_RESULT_STEP = 7;
+
 export function* runSearchWorker ({ payload: queryId }) {
     try {
         const query = yield select((state) => state.queries.get(queryId));
@@ -64,8 +67,7 @@ export function* runSearchWorker ({ payload: queryId }) {
             yield delay(5000);
 
             otpsukQuery.number+=1;
-        // result gets filled despite any progress status on steps 1 and 7
-        } while (otpsukQuery.number <= 7);
+        } while (otpsukQuery.number <= GUARANTEED_RESULT_STEP);
 
         yield delay(200);
         yield put(searchActions.finishSearch(queryId));

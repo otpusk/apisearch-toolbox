@@ -23,6 +23,9 @@ var _marked =
 /*#__PURE__*/
 regeneratorRuntime.mark(runSearchWorker);
 
+// current result gets filled despite any operators progress status on step 7
+var GUARANTEED_RESULT_STEP = 7;
+
 function runSearchWorker(_ref) {
   var queryId;
   return regeneratorRuntime.wrap(function runSearchWorker$(_context3) {
@@ -154,7 +157,7 @@ function runSearchWorker(_ref) {
                               return (0, _effects.delay)(5000);
 
                             case 23:
-                              otpsukQuery.number += 1; // result gets filled despite any progress status on steps 1 and 7
+                              otpsukQuery.number += 1;
 
                             case 24:
                             case "end":
@@ -178,7 +181,7 @@ function runSearchWorker(_ref) {
                     return _context2.abrupt("break", 19);
 
                   case 18:
-                    if (otpsukQuery.number <= 7) {
+                    if (otpsukQuery.number <= GUARANTEED_RESULT_STEP) {
                       _context2.next = 14;
                       break;
                     }

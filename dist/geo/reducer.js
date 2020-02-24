@@ -21,7 +21,8 @@ var initalState = (0, _immutable.Map)({
   departures: (0, _immutable.Map)(),
   cities: (0, _immutable.Map)(),
   hotels: (0, _immutable.Map)(),
-  operators: (0, _immutable.Map)()
+  operators: (0, _immutable.Map)(),
+  statuses: (0, _immutable.Map)()
 });
 var geoReducer = (0, _reduxActions.handleActions)((_handleActions = {}, _defineProperty(_handleActions, _actions.geoActions.getSuggestsSuccess, function (state, _ref) {
   var _ref$payload = _ref.payload,
@@ -30,7 +31,9 @@ var geoReducer = (0, _reduxActions.handleActions)((_handleActions = {}, _defineP
   return state.setIn(['suggestions', key], (0, _immutable.Map)(suggestions));
 }), _defineProperty(_handleActions, _actions.geoActions.getCountriesSuccess, function (state, _ref2) {
   var countries = _ref2.payload;
-  return state.set('countries', (0, _immutable.List)(countries));
+  return state.set('countries', (0, _immutable.List)(countries)).setIn(['statuses', 'countries'], 'loaded');
+}), _defineProperty(_handleActions, _actions.geoActions.getCountriesFail, function (state) {
+  return state.setIn(['statuses', 'countries'], 'failed');
 }), _defineProperty(_handleActions, _actions.geoActions.getDepartureCitiesSuccess, function (state, _ref3) {
   var _ref3$payload = _ref3.payload,
       countryId = _ref3$payload.countryId,

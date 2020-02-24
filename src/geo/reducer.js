@@ -12,6 +12,7 @@ const initalState = Map({
     cities:      Map(),
     hotels:      Map(),
     operators:   Map(),
+    statuses:    Map(),
 });
 
 export const geoReducer = handleActions(
@@ -20,7 +21,10 @@ export const geoReducer = handleActions(
             return state.setIn(['suggestions', key], Map(suggestions));
         },
         [geoActions.getCountriesSuccess]: (state, { payload: countries }) => {
-            return state.set('countries', List(countries));
+            return state.set('countries', List(countries)).setIn(['statuses', 'countries'], 'loaded');
+        },
+        [geoActions.getCountriesFail]: (state) => {
+            return state.setIn(['statuses', 'countries'], 'failed');
         },
         [geoActions.getDepartureCitiesSuccess]: (state, { payload: { countryId, departures }}) => {
             return state.setIn(['departures', countryId], List(departures));
