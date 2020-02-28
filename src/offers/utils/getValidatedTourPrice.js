@@ -23,8 +23,7 @@ const getValidatedTourPrice = (state, offerId, currency) => {
     return price;
 };
 
-const getValidatedTourNewPrice = (state, offerId, selectedFlights) => {
-    const currency =  state.getIn(['store', offerId, 'currency'], 'usd');
+const getValidatedTourNewPrice = (state, offerId, selectedFlights, currency = 'usd') => {
     const selected = selectedFlights || state.getIn(['validatedTour', offerId, 'selectedFlights'], {});
     const newPrice = getValidatedTourPrice(state, offerId, currency) + getSelectedFlightsPriceChange(state, offerId, { selectedFlights: selected }, currency);
 

@@ -45,10 +45,9 @@ export const offersReducer = handleActions(
                     : siblings
                 );
         },
-        [offersActions.validateOfferAdditionalCostsSuccess]: (state, { payload: { offerId, price, flights, ...rest }}) => {
-            const currency =  state.getIn(['store', offerId, 'currency'], 'usd');
-            const newPrice = price[currency] ? price[currency] + getSelectedFlightsPriceChange(state, offerId, { flights }, currency)
-                : getValidatedTourNewPrice(state, offerId);
+        [offersActions.validateOfferAdditionalCostsSuccess]: (state, { payload: { offerId, price, flights, queryCurrency, ...rest }}) => {
+            const newPrice = price[queryCurrency] ? price[queryCurrency] + getSelectedFlightsPriceChange(state, offerId, { flights }, queryCurrency)
+                : getValidatedTourNewPrice(state, offerId, null, queryCurrency);
 
             return state
                 .updateIn(['validatedTour', offerId], (current = {}) =>
@@ -65,8 +64,8 @@ export const offersReducer = handleActions(
                         .toJS()
                 );
         },
-        [offersActions.validateSetPrice]: (state, { payload: { offerId, selectedFlights }}) => {
-            const newPrice = getValidatedTourNewPrice(state, offerId, selectedFlights);
+        [offersActions.validateSetPrice]: (state, { payload: { offerId, selectedFlights, queryCurrency }}) => {
+            const newPrice = getValidatedTourNewPrice(state, offerId, selectedFlights, queryCurrency);
 
             return state
                 .updateIn(['validatedTour', offerId], (current = {}) =>
