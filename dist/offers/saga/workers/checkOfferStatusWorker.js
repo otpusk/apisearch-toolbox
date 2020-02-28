@@ -17,9 +17,7 @@ var _dictionary = require("@otpusk/json-api/dist/dictionary");
 
 var _fn = require("../../../queries/fn");
 
-var _marked =
-/*#__PURE__*/
-regeneratorRuntime.mark(checkOfferStatusWorker);
+var _marked = /*#__PURE__*/regeneratorRuntime.mark(checkOfferStatusWorker);
 
 function checkOfferStatusWorker(_ref) {
   var _ref$payload, offerId, hotelId, hotel, currentOffer, adults, children, tourists, token, _ref6, freshOffer, code, isTouched;

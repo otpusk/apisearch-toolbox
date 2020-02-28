@@ -13,9 +13,7 @@ var _actions = require("../../../search/actions");
 
 var _actions2 = require("../../../queries/actions");
 
-var _marked =
-/*#__PURE__*/
-regeneratorRuntime.mark(submitSearchWorker);
+var _marked = /*#__PURE__*/regeneratorRuntime.mark(submitSearchWorker);
 
 function submitSearchWorker(_ref) {
   var _ref$payload, queryId, _ref$payload$targetPa, targetPage, _ref2, query, location, searchCountryId;

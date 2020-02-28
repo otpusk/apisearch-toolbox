@@ -13,9 +13,7 @@ var _workers = require("./workers");
 
 // actions
 var operatorsWatchers = Object.freeze({
-  getOperators:
-  /*#__PURE__*/
-  regeneratorRuntime.mark(function getOperators() {
+  getOperators: /*#__PURE__*/regeneratorRuntime.mark(function getOperators() {
     return regeneratorRuntime.wrap(function getOperators$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {

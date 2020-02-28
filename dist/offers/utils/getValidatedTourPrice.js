@@ -53,7 +53,7 @@ var getValidatedTourPrice = function getValidatedTourPrice(state, offerId, curre
 exports.getValidatedTourPrice = getValidatedTourPrice;
 
 var getValidatedTourNewPrice = function getValidatedTourNewPrice(state, offerId, selectedFlights) {
-  var currency = state.getIn(['store', offerId, 'currency'], 'usd');
+  var currency = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 'usd';
   var selected = selectedFlights || state.getIn(['validatedTour', offerId, 'selectedFlights'], {});
   var newPrice = getValidatedTourPrice(state, offerId, currency) + getSelectedFlightsPriceChange(state, offerId, {
     selectedFlights: selected
