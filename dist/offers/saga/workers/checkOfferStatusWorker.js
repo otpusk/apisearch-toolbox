@@ -20,13 +20,13 @@ var _fn = require("../../../queries/fn");
 var _marked = /*#__PURE__*/regeneratorRuntime.mark(checkOfferStatusWorker);
 
 function checkOfferStatusWorker(_ref) {
-  var _ref$payload, offerId, hotelId, hotel, currentOffer, adults, children, tourists, token, _ref6, freshOffer, code, isTouched;
+  var _ref$payload, offerId, hotelId, queryId, hotel, currentOffer, adults, children, tourists, token, _ref6, freshOffer, code, isTouched;
 
   return regeneratorRuntime.wrap(function checkOfferStatusWorker$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
-          _ref$payload = _ref.payload, offerId = _ref$payload.offerId, hotelId = _ref$payload.hotelId;
+          _ref$payload = _ref.payload, offerId = _ref$payload.offerId, hotelId = _ref$payload.hotelId, queryId = _ref$payload.queryId;
           _context.next = 3;
           return (0, _effects.select)(function (_ref2) {
             var hotels = _ref2.hotels;
@@ -47,7 +47,7 @@ function checkOfferStatusWorker(_ref) {
           _context.next = 10;
           return (0, _effects.select)(function (_ref4) {
             var queries = _ref4.queries;
-            return queries.getIn(['form', _fn.QUERY_PARAMS.ADULTS]);
+            return queries.getIn([queryId, _fn.QUERY_PARAMS.ADULTS]);
           });
 
         case 10:
@@ -55,7 +55,7 @@ function checkOfferStatusWorker(_ref) {
           _context.next = 13;
           return (0, _effects.select)(function (_ref5) {
             var queries = _ref5.queries;
-            return queries.getIn(['form', _fn.QUERY_PARAMS.CHILDREN], (0, _immutable.Range)(0, currentOffer.children).toArray().map(function () {
+            return queries.getIn([queryId, _fn.QUERY_PARAMS.CHILDREN], (0, _immutable.Range)(0, currentOffer.children).toArray().map(function () {
               return Number(currentOffer.childrenAge.replace(/\D.*/, '').replace(/^(\d)$/, '0$1'));
             }));
           });

@@ -39,10 +39,11 @@ var offersActions = (0, _reduxActions.createActions)({
       status: status
     };
   },
-  CHECK_OFFER_STATUS: function CHECK_OFFER_STATUS(offerId, hotelId) {
+  CHECK_OFFER_STATUS: function CHECK_OFFER_STATUS(offerId, hotelId, queryId) {
     return {
       offerId: offerId,
-      hotelId: hotelId
+      hotelId: hotelId,
+      queryId: queryId
     };
   },
   CHECK_OFFER_STATUS_SUCCESS: function CHECK_OFFER_STATUS_SUCCESS(offerId, freshOffer) {

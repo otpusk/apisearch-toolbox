@@ -8,15 +8,15 @@ import { getToursActual } from '@otpusk/json-api';
 import { getOperatorById } from '@otpusk/json-api/dist/dictionary';
 import { QUERY_PARAMS } from '../../../queries/fn';
 
-export function* checkOfferStatusWorker ({ payload: { offerId, hotelId }}) {
+export function* checkOfferStatusWorker ({ payload: { offerId, hotelId, queryId }}) {
     const hotel = yield select(({ hotels }) => hotels.getIn(['store', hotelId]));
     const currentOffer = yield select(({ offers }) => offers.getIn(['store', offerId]));
 
     try {
-        const adults = yield select(({ queries }) => queries.getIn(['form', QUERY_PARAMS.ADULTS]));
+        const adults = yield select(({ queries }) => queries.getIn([queryId, QUERY_PARAMS.ADULTS]));
         const children = yield select(
             ({ queries }) => queries.getIn(
-                ['form', QUERY_PARAMS.CHILDREN],
+                [queryId, QUERY_PARAMS.CHILDREN],
                 Range(0, currentOffer.children).toArray().map(() => Number(currentOffer.childrenAge.replace(/\D.*/, '').replace(/^(\d)$/, '0$1')))
             ));
         const tourists = `${adults}${children.map((age) => age >= 10 ? age : `0${age}`).join('')}`;
