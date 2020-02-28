@@ -73,7 +73,7 @@ var offersReducer = (0, _reduxActions.handleActions)((_handleActions = {}, _defi
   var currency = state.getIn(['store', offerId, 'currency'], 'usd');
   var newPrice = price[currency] ? price[currency] + (0, _getValidatedTourPrice.getSelectedFlightsPriceChange)(state, offerId, {
     flights: flights
-  }) : (0, _getValidatedTourPrice.getValidatedTourNewPrice)(state, offerId);
+  }, currency) : (0, _getValidatedTourPrice.getValidatedTourNewPrice)(state, offerId);
   return state.updateIn(['validatedTour', offerId], function () {
     var current = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
     return (0, _immutable.Map)(current).mergeWith(_mergeOffer.mergeOfferNextPriority, _objectSpread({

@@ -18,9 +18,13 @@ var getPriceChange = function getPriceChange(selectedCode, validatedFlights) {
 
   var _ref = validatedFlights[selectedCodeWithoutIndex] || {},
       _ref$priceChange = _ref.priceChange,
-      priceChange = _ref$priceChange === void 0 ? 0 : _ref$priceChange;
+      priceChange = _ref$priceChange === void 0 ? {
+    usd: 0,
+    eur: 0,
+    uah: 0
+  } : _ref$priceChange;
 
-  return Number(priceChange);
+  return priceChange;
 };
 
 exports.getPriceChange = getPriceChange;
@@ -28,11 +32,12 @@ exports.getPriceChange = getPriceChange;
 var getSelectedFlightsPriceChange = function getSelectedFlightsPriceChange(state, offerId, _ref2) {
   var selectedFlights = _ref2.selectedFlights,
       flights = _ref2.flights;
+  var currency = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 'usd';
   var validatedFlights = flights || state.getIn(['validatedTour', offerId, 'flights'], {});
   var selected = selectedFlights || state.getIn(['validatedTour', offerId, 'selectedFlights'], {});
   var selectedInbound = selected.inbound;
   var selectedOutbound = selected.outbound;
-  return getPriceChange(selectedInbound, validatedFlights) + getPriceChange(selectedOutbound, validatedFlights);
+  return getPriceChange(selectedInbound, validatedFlights)[currency] + getPriceChange(selectedOutbound, validatedFlights)[currency];
 };
 
 exports.getSelectedFlightsPriceChange = getSelectedFlightsPriceChange;
@@ -52,7 +57,7 @@ var getValidatedTourNewPrice = function getValidatedTourNewPrice(state, offerId,
   var selected = selectedFlights || state.getIn(['validatedTour', offerId, 'selectedFlights'], {});
   var newPrice = getValidatedTourPrice(state, offerId, currency) + getSelectedFlightsPriceChange(state, offerId, {
     selectedFlights: selected
-  });
+  }, currency);
   return newPrice;
 };
 

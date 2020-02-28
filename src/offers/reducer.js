@@ -47,7 +47,7 @@ export const offersReducer = handleActions(
         },
         [offersActions.validateOfferAdditionalCostsSuccess]: (state, { payload: { offerId, price, flights, ...rest }}) => {
             const currency =  state.getIn(['store', offerId, 'currency'], 'usd');
-            const newPrice = price[currency] ? price[currency] + getSelectedFlightsPriceChange(state, offerId, { flights })
+            const newPrice = price[currency] ? price[currency] + getSelectedFlightsPriceChange(state, offerId, { flights }, currency)
                 : getValidatedTourNewPrice(state, offerId);
 
             return state

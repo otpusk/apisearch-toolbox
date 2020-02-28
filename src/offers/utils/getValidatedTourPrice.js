@@ -1,17 +1,17 @@
 const getPriceChange = (selectedCode, validatedFlights) => {
     const selectedCodeWithoutIndex = selectedCode && selectedCode.split(/_/).slice(0, -1).join('_');
-    const { priceChange = 0 } = validatedFlights[selectedCodeWithoutIndex] || {};
+    const { priceChange = { usd: 0, eur: 0, uah: 0 }} = validatedFlights[selectedCodeWithoutIndex] || {};
 
-    return Number(priceChange);
+    return priceChange;
 };
 
-const getSelectedFlightsPriceChange = (state, offerId, { selectedFlights, flights }) => {
+const getSelectedFlightsPriceChange = (state, offerId, { selectedFlights, flights }, currency = 'usd') => {
     const validatedFlights = flights || state.getIn(['validatedTour', offerId, 'flights'], {});
     const selected = selectedFlights || state.getIn(['validatedTour', offerId, 'selectedFlights'], {});
     const selectedInbound = selected.inbound;
     const selectedOutbound = selected.outbound;
 
-    return getPriceChange(selectedInbound, validatedFlights) + getPriceChange(selectedOutbound, validatedFlights);
+    return getPriceChange(selectedInbound, validatedFlights)[currency] + getPriceChange(selectedOutbound, validatedFlights)[currency];
 };
 
 const getValidatedTourPrice = (state, offerId, currency) => {
@@ -26,7 +26,7 @@ const getValidatedTourPrice = (state, offerId, currency) => {
 const getValidatedTourNewPrice = (state, offerId, selectedFlights) => {
     const currency =  state.getIn(['store', offerId, 'currency'], 'usd');
     const selected = selectedFlights || state.getIn(['validatedTour', offerId, 'selectedFlights'], {});
-    const newPrice = getValidatedTourPrice(state, offerId, currency) + getSelectedFlightsPriceChange(state, offerId, { selectedFlights: selected });
+    const newPrice = getValidatedTourPrice(state, offerId, currency) + getSelectedFlightsPriceChange(state, offerId, { selectedFlights: selected }, currency);
 
     return newPrice;
 };
