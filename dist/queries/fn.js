@@ -166,13 +166,11 @@ exports.GLUE = GLUE;
 
 function createQuery() {
   var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  console.log('[CREATE_QUERY]', new _immutable.OrderedMap(_objectSpread({}, DEFAULTS)).merge(params), params);
   return new _immutable.OrderedMap(_objectSpread({}, DEFAULTS)).merge(params);
 }
 
 function createSearchQuery() {
   var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  console.log('[CREATE_SEARCH_QUERY]', new _immutable.OrderedMap(_objectSpread({}, DEFAULTS, {}, DEFAULTS_SEARCH)).mergeDeep(params), params);
   return new _immutable.OrderedMap(_objectSpread({}, DEFAULTS, {}, DEFAULTS_SEARCH)).mergeDeep(params);
 }
 /**
@@ -216,20 +214,12 @@ function compileSearchQuery(query) {
   var startDelimeter = GLUE.question;
   var emptyDelimeter = GLUE.empty;
   var delimeter = GLUE.and;
-  console.log('COMPILE_SEARCH_QUERY', {
-    query: query.toJS()
-  });
   return startDelimeter + query.map(function (value, field) {
     var composeValue = function composeValue(val) {
       return "".concat([SHORT_QUERY_NAMES[field]], "=").concat(val);
     };
 
     var val = value && field in fieldsToCompilers ? composeValue(fieldsToCompilers[field](value)) : composeValue(emptyDelimeter);
-    console.log({
-      val: val,
-      value: (0, _immutable.isImmutable)(value) && value.toJS() || value,
-      field: field
-    });
     return val;
   }).toList().map(function (v) {
     return v.replace('!', '');
@@ -371,20 +361,11 @@ function parseQueryParam(currentValue, paramName, rawValue) {
   var _paramsToParsers;
 
   var paramsToParsers = (_paramsToParsers = {}, _defineProperty(_paramsToParsers, QUERY_PARAMS.AUTOSTART, Boolean), _defineProperty(_paramsToParsers, QUERY_PARAMS.DEPARTURE, Number), _defineProperty(_paramsToParsers, QUERY_PARAMS.CATEGORY, _parsers.binaryParser), _defineProperty(_paramsToParsers, QUERY_PARAMS.TRANSPORT, _parsers.binaryParser), _defineProperty(_paramsToParsers, QUERY_PARAMS.FOOD, _parsers.binaryParser), _defineProperty(_paramsToParsers, QUERY_PARAMS.DATES, _parsers.datesParser), _defineProperty(_paramsToParsers, QUERY_PARAMS.DURATION, _parsers.rangeParser), _defineProperty(_paramsToParsers, QUERY_PARAMS.ADULTS, Number), _defineProperty(_paramsToParsers, QUERY_PARAMS.CHILDREN, (0, _parsers.createImmutableNumbersArrayParser)(_immutable.List)), _defineProperty(_paramsToParsers, QUERY_PARAMS.COUNTRY, String), _defineProperty(_paramsToParsers, QUERY_PARAMS.CITIES, (0, _parsers.createImmutableNumbersArrayParser)(_immutable.Set)), _defineProperty(_paramsToParsers, QUERY_PARAMS.HOTELS, (0, _parsers.createImmutableNumbersArrayParser)(_immutable.Set)), _defineProperty(_paramsToParsers, QUERY_PARAMS.PRICE, _parsers.rangeParser), _defineProperty(_paramsToParsers, QUERY_PARAMS.SERVICES, (0, _parsers.createImmutableArrayParser)(_immutable.Set)), _defineProperty(_paramsToParsers, QUERY_PARAMS.RATING, _parsers.rangeParser), _defineProperty(_paramsToParsers, QUERY_PARAMS.CURRENCY, String), _defineProperty(_paramsToParsers, QUERY_PARAMS.WITHOUT_SPO, _parsers.parseStringIntengerToBoolean), _defineProperty(_paramsToParsers, QUERY_PARAMS.FLIGHT_AVAILABILITY, (0, _parsers.createImmutableArrayParser)(_immutable.Set)), _defineProperty(_paramsToParsers, QUERY_PARAMS.HOTEL_AVAILABILITY, (0, _parsers.createImmutableArrayParser)(_immutable.Set)), _defineProperty(_paramsToParsers, QUERY_PARAMS.PAGE, Number), _defineProperty(_paramsToParsers, QUERY_PARAMS.OPERATORS, (0, _parsers.createImmutableArrayParser)(_immutable.Set)), _paramsToParsers);
-  console.log('[PARSE_RAW]', {
-    rawValue: rawValue,
-    currentValue: currentValue
-  });
 
   if (rawValue) {
     if (rawValue === GLUE.empty) {
       return DEFAULTS[paramName];
     }
-
-    console.log('[PARSE]', {
-      paramName: paramName,
-      paramsToParsers: paramsToParsers
-    });
 
     if (paramName in paramsToParsers) {
       return paramsToParsers[paramName](rawValue, {
@@ -424,13 +405,6 @@ function parseQueryString(queryString, baseQuery) {
       return f === paramName;
     });
     var rawValue = position in params ? params[position] : null;
-    console.log('[PQS]', {
-      pos: position,
-      'is-in': position in params,
-      raw: rawValue,
-      curVal: (0, _immutable.isImmutable)(currentValue) && currentValue.toJS() || currentValue,
-      parName: paramName
-    });
     return rawValue ? parseQueryParam(currentValue, paramName, rawValue, !isDelimetersEmpty) : DEFAULTS[paramName];
   });
 }

@@ -1,5 +1,5 @@
 // Core
-import { OrderedMap, Map, Set, List, isImmutable } from 'immutable';
+import { OrderedMap, Map, Set, List } from 'immutable';
 import moment from 'moment';
 
 // Instruments
@@ -165,20 +165,12 @@ const GLUE = {
  * @returns {OrderedMap} query
  */
 function createQuery (params = {}) {
-    console.log('[CREATE_QUERY]', new OrderedMap({
-        ...DEFAULTS,
-    }).merge(params), params);
-
     return new OrderedMap({
         ...DEFAULTS,
     }).merge(params);
 }
 
 function createSearchQuery (params = {}) {
-    console.log('[CREATE_SEARCH_QUERY]', new OrderedMap({
-        ...DEFAULTS, ...DEFAULTS_SEARCH,
-    }).mergeDeep(params), params);
-
     return new OrderedMap({
         ...DEFAULTS, ...DEFAULTS_SEARCH,
     }).mergeDeep(params);
@@ -270,8 +262,6 @@ function compileSearchQuery (query) {
     const emptyDelimeter = GLUE.empty;
     const delimeter = GLUE.and;
 
-    console.log('COMPILE_SEARCH_QUERY', { query: query.toJS() });
-
     return startDelimeter + query
         .map(
             (value, field) => {
@@ -280,8 +270,6 @@ function compileSearchQuery (query) {
                 const val = value && field in fieldsToCompilers
                     ? composeValue(fieldsToCompilers[field](value))
                     : composeValue(emptyDelimeter);
-
-                console.log({ val, value: isImmutable(value) && value.toJS() || value, field });
 
                 return val;
             }
@@ -373,14 +361,11 @@ function parseQueryParam (currentValue, paramName, rawValue) {
         [QUERY_PARAMS.OPERATORS]:           createImmutableArrayParser(Set),
     };
 
-    console.log('[PARSE_RAW]', { rawValue, currentValue });
-
     if (rawValue) {
         if (rawValue === GLUE.empty) {
             return DEFAULTS[paramName];
         }
 
-        console.log('[PARSE]', { paramName, paramsToParsers });
         if (paramName in paramsToParsers) {
             return paramsToParsers[paramName](rawValue, { prevValue: currentValue });
         }
@@ -409,13 +394,6 @@ function parseQueryString (queryString, baseQuery, delimeters = {}) {
     return query.map((currentValue, paramName) => {
         const position = query.keySeq().findIndex((f) => f === paramName);
         const rawValue = position in params ? params[position] : null;
-
-        console.log('[PQS]', {
-            pos:     position,
-            'is-in': position in params,
-            raw:     rawValue,
-            curVal:  isImmutable(currentValue) && currentValue.toJS() || currentValue,
-            parName: paramName });
 
         return rawValue
             ? parseQueryParam(currentValue, paramName, rawValue, !isDelimetersEmpty)
