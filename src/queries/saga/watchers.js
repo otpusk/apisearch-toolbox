@@ -10,7 +10,7 @@ import {
 } from './workers';
 
 export const queriesWatchers = Object.freeze({
-    *  compileQueryStringWatcher () {
+    * compileQueryStringWatcher () {
         yield takeEvery(queriesActions.compileQueryString, compileQueryStringWorker);
     },
     * parseQueryStringWatcher () {

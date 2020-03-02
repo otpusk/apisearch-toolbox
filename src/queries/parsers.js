@@ -56,7 +56,7 @@ export const rangeParser =  (value) => {
 export const datesParser =  (value) => {
     const [from, to] = value
         .split(GLUE.range)
-        .map((str) => moment(str, 'DD-MM-YYYY'))
+        .map((str) => moment(str, 'DD-MM-YYYY').locale('ru'))
         .map((date) => date.isValid() ? date : null);
 
     return Map({ from, to });

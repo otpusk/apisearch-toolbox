@@ -5,14 +5,14 @@ import { handleActions } from 'redux-actions';
 
 // Instruments
 import { queriesActions } from './actions';
-import { createQuery, QUERY_PARAMS, parseOSQueryHash, parseQueryString } from './fn';
+import { createQuery, QUERY_PARAMS, parseOSQueryHash, parseQueryString, createSearchQuery } from './fn';
 
 const initalState = Map({});
 
 export const queriesReducer = handleActions(
     {
-        [queriesActions.createQuery]: (state, { payload: { queryId, initialParams }}) => {
-            return state.set(queryId, createQuery(initialParams));
+        [queriesActions.createQuery]: (state, { payload: { queryId, initialParams, isUrl }}) => {
+            return state.set(queryId, isUrl ? createSearchQuery(initialParams) : createQuery(initialParams));
         },
         [queriesActions.setQuery]: (state, { payload: { queryId, query }}) => {
             return state.set(queryId, query);

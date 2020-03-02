@@ -15,9 +15,7 @@ var _excursionApi = require("@otpusk/excursion-api");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-var _marked =
-/*#__PURE__*/
-regeneratorRuntime.mark(getSearchCountWorker);
+var _marked = /*#__PURE__*/regeneratorRuntime.mark(getSearchCountWorker);
 
 function getSearchCountWorker(_ref) {
   var queryId, query, formattedQuery, excursionsCount;

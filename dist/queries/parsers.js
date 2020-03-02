@@ -111,7 +111,7 @@ exports.rangeParser = rangeParser;
 
 var datesParser = function datesParser(value) {
   var _value$split$map$map = value.split(_fn.GLUE.range).map(function (str) {
-    return (0, _moment["default"])(str, 'DD-MM-YYYY');
+    return (0, _moment["default"])(str, 'DD-MM-YYYY').locale('ru');
   }).map(function (date) {
     return date.isValid() ? date : null;
   }),
@@ -161,12 +161,8 @@ var numbersArrayParser = function numbersArrayParser(value) {
 
 exports.numbersArrayParser = numbersArrayParser;
 
-var geoParser =
-/*#__PURE__*/
-function () {
-  var _ref4 = _asyncToGenerator(
-  /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee(value, _ref5) {
+var geoParser = /*#__PURE__*/function () {
+  var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(value, _ref5) {
     var token, location;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {

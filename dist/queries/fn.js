@@ -4,8 +4,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.createQuery = createQuery;
+exports.createSearchQuery = createSearchQuery;
 exports.createResultBones = createResultBones;
 exports.compileQuery = compileQuery;
+exports.compileSearchQuery = compileSearchQuery;
 exports.convertToOtpQuery = convertToOtpQuery;
 exports.parseOSQueryHash = parseOSQueryHash;
 exports.parseQueryString = parseQueryString;
@@ -19,9 +21,15 @@ var _compilers = require("./compilers");
 
 var _parsers = require("./parsers");
 
-var _DEFAULTS;
+var _DEFAULTS, _DEFAULTS_SEARCH;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
 
@@ -30,12 +38,6 @@ function _nonIterableRest() { throw new TypeError("Invalid attempt to destructur
 function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 /**
  * Query params names
@@ -65,13 +67,43 @@ var QUERY_PARAMS = {
   WITHOUT_SPO: 'withoutSPO',
   LANGUAGE: 'language'
 };
+exports.QUERY_PARAMS = QUERY_PARAMS;
+
+var getShortQueryParams = function getShortQueryParams() {
+  var isParam = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+  var uniqKeys = new _immutable.Set();
+  var result = {};
+
+  for (var _i = 0, _Object$entries = Object.entries(QUERY_PARAMS); _i < _Object$entries.length; _i++) {
+    var _Object$entries$_i = _slicedToArray(_Object$entries[_i], 2),
+        key = _Object$entries$_i[0],
+        val = _Object$entries$_i[1];
+
+    var count = 1;
+
+    while (count < val.length) {
+      if (!uniqKeys.has(val.slice(0, count))) {
+        break;
+      }
+
+      count += 1;
+    }
+
+    uniqKeys = uniqKeys.add(val.slice(0, count));
+    result[isParam ? key : val] = val.slice(0, count);
+  }
+
+  return result;
+};
+
+var SHORT_QUERY_NAMES = getShortQueryParams();
+var SHORT_QUERY_PARAMS = getShortQueryParams(true);
 /**
  * Query defaults
  */
 
-exports.QUERY_PARAMS = QUERY_PARAMS;
 var DEFAULTS = (_DEFAULTS = {}, _defineProperty(_DEFAULTS, QUERY_PARAMS.AUTOSTART, false), _defineProperty(_DEFAULTS, QUERY_PARAMS.DEPARTURE, '1544'), _defineProperty(_DEFAULTS, QUERY_PARAMS.COUNTRY, null), _defineProperty(_DEFAULTS, QUERY_PARAMS.CATEGORY, (0, _immutable.Map)({
-  1: true,
+  // 1: true,
   2: true,
   3: true,
   4: true,
@@ -96,6 +128,20 @@ var DEFAULTS = (_DEFAULTS = {}, _defineProperty(_DEFAULTS, QUERY_PARAMS.AUTOSTAR
   'ship': true,
   'no': false
 })), _defineProperty(_DEFAULTS, QUERY_PARAMS.CITIES, (0, _immutable.Set)()), _defineProperty(_DEFAULTS, QUERY_PARAMS.HOTELS, (0, _immutable.Set)()), _defineProperty(_DEFAULTS, QUERY_PARAMS.PRICE, (0, _immutable.Map)()), _defineProperty(_DEFAULTS, QUERY_PARAMS.PAGE, 1), _defineProperty(_DEFAULTS, QUERY_PARAMS.SERVICES, (0, _immutable.Set)()), _defineProperty(_DEFAULTS, QUERY_PARAMS.SHORT, null), _defineProperty(_DEFAULTS, QUERY_PARAMS.RATING, (0, _immutable.Map)()), _defineProperty(_DEFAULTS, QUERY_PARAMS.CURRENCY, null), _defineProperty(_DEFAULTS, QUERY_PARAMS.OPERATORS, (0, _immutable.Set)()), _defineProperty(_DEFAULTS, QUERY_PARAMS.FLIGHT_AVAILABILITY, (0, _immutable.Set)()), _defineProperty(_DEFAULTS, QUERY_PARAMS.HOTEL_AVAILABILITY, (0, _immutable.Set)()), _defineProperty(_DEFAULTS, QUERY_PARAMS.WITHOUT_SPO, false), _defineProperty(_DEFAULTS, QUERY_PARAMS.LANGUAGE, null), _DEFAULTS);
+var DEFAULTS_SEARCH = (_DEFAULTS_SEARCH = {}, _defineProperty(_DEFAULTS_SEARCH, QUERY_PARAMS.FOOD, (0, _immutable.Map)({
+  'uai': false,
+  'ai': false,
+  'fb': false,
+  'hb': false,
+  'bb': false,
+  'ob': false
+})), _defineProperty(_DEFAULTS_SEARCH, QUERY_PARAMS.TRANSPORT, (0, _immutable.Map)({
+  'air': true,
+  'bus': false,
+  'train': false,
+  'ship': false,
+  'no': false
+})), _DEFAULTS_SEARCH);
 /**
  * Query string glue
  */
@@ -105,7 +151,9 @@ var GLUE = {
   range: '-',
   list: ',',
   binary: '',
-  empty: '!'
+  empty: '!',
+  and: '&',
+  question: '?'
 };
 /**
  * Create query with params from defautls
@@ -118,7 +166,14 @@ exports.GLUE = GLUE;
 
 function createQuery() {
   var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  console.log('[CREATE_QUERY]', new _immutable.OrderedMap(_objectSpread({}, DEFAULTS)).merge(params), params);
   return new _immutable.OrderedMap(_objectSpread({}, DEFAULTS)).merge(params);
+}
+
+function createSearchQuery() {
+  var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  console.log('[CREATE_SEARCH_QUERY]', new _immutable.OrderedMap(_objectSpread({}, DEFAULTS, {}, DEFAULTS_SEARCH)).mergeDeep(params), params);
+  return new _immutable.OrderedMap(_objectSpread({}, DEFAULTS, {}, DEFAULTS_SEARCH)).mergeDeep(params);
 }
 /**
  * Create search result bones
@@ -152,6 +207,33 @@ function compileQuery(query) {
   return GLUE.field + query.map(function (value, field) {
     return value && field in fieldsToCompilers ? fieldsToCompilers[field](value) : GLUE.empty;
   }).toList().join(GLUE.field).replace(new RegExp("[".concat(GLUE.field).concat(GLUE.empty, "]+$")), '');
+}
+
+function compileSearchQuery(query) {
+  var _fieldsToCompilers2;
+
+  var fieldsToCompilers = (_fieldsToCompilers2 = {}, _defineProperty(_fieldsToCompilers2, QUERY_PARAMS.AUTOSTART, _compilers.numberCompiler), _defineProperty(_fieldsToCompilers2, QUERY_PARAMS.DEPARTURE, _compilers.toStringCompiler), _defineProperty(_fieldsToCompilers2, QUERY_PARAMS.COUNTRY, _compilers.numberCompiler), _defineProperty(_fieldsToCompilers2, QUERY_PARAMS.CITIES, _compilers.immutableArrayCompiler), _defineProperty(_fieldsToCompilers2, QUERY_PARAMS.HOTELS, _compilers.immutableArrayCompiler), _defineProperty(_fieldsToCompilers2, QUERY_PARAMS.CATEGORY, _compilers.binaryCompiler), _defineProperty(_fieldsToCompilers2, QUERY_PARAMS.DATES, _compilers.datesCompiler), _defineProperty(_fieldsToCompilers2, QUERY_PARAMS.DURATION, _compilers.rangeCompiler), _defineProperty(_fieldsToCompilers2, QUERY_PARAMS.ADULTS, _compilers.toStringCompiler), _defineProperty(_fieldsToCompilers2, QUERY_PARAMS.CHILDREN, _compilers.immutableArrayCompiler), _defineProperty(_fieldsToCompilers2, QUERY_PARAMS.FOOD, _compilers.binaryCompiler), _defineProperty(_fieldsToCompilers2, QUERY_PARAMS.TRANSPORT, _compilers.binaryCompiler), _defineProperty(_fieldsToCompilers2, QUERY_PARAMS.PRICE, _compilers.rangeCompiler), _defineProperty(_fieldsToCompilers2, QUERY_PARAMS.SERVICES, _compilers.immutableArrayCompiler), _defineProperty(_fieldsToCompilers2, QUERY_PARAMS.RATING, _compilers.rangeCompiler), _defineProperty(_fieldsToCompilers2, QUERY_PARAMS.CURRENCY, _compilers.toStringCompiler), _defineProperty(_fieldsToCompilers2, QUERY_PARAMS.WITHOUT_SPO, _compilers.numberCompiler), _defineProperty(_fieldsToCompilers2, QUERY_PARAMS.FLIGHT_AVAILABILITY, _compilers.immutableArrayCompiler), _defineProperty(_fieldsToCompilers2, QUERY_PARAMS.HOTEL_AVAILABILITY, _compilers.immutableArrayCompiler), _defineProperty(_fieldsToCompilers2, QUERY_PARAMS.PAGE, _compilers.numberCompiler), _defineProperty(_fieldsToCompilers2, QUERY_PARAMS.OPERATORS, _compilers.immutableArrayCompiler), _fieldsToCompilers2);
+  var startDelimeter = GLUE.question;
+  var emptyDelimeter = GLUE.empty;
+  var delimeter = GLUE.and;
+  console.log('COMPILE_SEARCH_QUERY', {
+    query: query.toJS()
+  });
+  return startDelimeter + query.map(function (value, field) {
+    var composeValue = function composeValue(val) {
+      return "".concat([SHORT_QUERY_NAMES[field]], "=").concat(val);
+    };
+
+    var val = value && field in fieldsToCompilers ? composeValue(fieldsToCompilers[field](value)) : composeValue(emptyDelimeter);
+    console.log({
+      val: val,
+      value: (0, _immutable.isImmutable)(value) && value.toJS() || value,
+      field: field
+    });
+    return val;
+  }).toList().map(function (v) {
+    return v.replace('!', '');
+  }).join(delimeter).replace(new RegExp("[".concat(delimeter).concat(emptyDelimeter, "]+$")), '');
 }
 /**
  * Compile query to string
@@ -273,10 +355,10 @@ function convertToOtpQuery(query) {
   }).map(function (value, param) {
     return value ? converters[param](value) : {};
   }).reduce(function (summary, values) {
-    for (var _i = 0, _Object$entries = Object.entries(values); _i < _Object$entries.length; _i++) {
-      var _Object$entries$_i = _slicedToArray(_Object$entries[_i], 2),
-          param = _Object$entries$_i[0],
-          value = _Object$entries$_i[1];
+    for (var _i2 = 0, _Object$entries2 = Object.entries(values); _i2 < _Object$entries2.length; _i2++) {
+      var _Object$entries2$_i = _slicedToArray(_Object$entries2[_i2], 2),
+          param = _Object$entries2$_i[0],
+          value = _Object$entries2$_i[1];
 
       value && Object.assign(summary, _defineProperty({}, param, param in summary ? summary[param] + value : value));
     }
@@ -288,12 +370,21 @@ function convertToOtpQuery(query) {
 function parseQueryParam(currentValue, paramName, rawValue) {
   var _paramsToParsers;
 
-  var paramsToParsers = (_paramsToParsers = {}, _defineProperty(_paramsToParsers, QUERY_PARAMS.AUTOSTART, Boolean), _defineProperty(_paramsToParsers, QUERY_PARAMS.DEPARTURE, Number), _defineProperty(_paramsToParsers, QUERY_PARAMS.CATEGORY, _parsers.binaryParser), _defineProperty(_paramsToParsers, QUERY_PARAMS.TRANSPORT, _parsers.binaryParser), _defineProperty(_paramsToParsers, QUERY_PARAMS.FOOD, _parsers.binaryParser), _defineProperty(_paramsToParsers, QUERY_PARAMS.DATES, _parsers.datesParser), _defineProperty(_paramsToParsers, QUERY_PARAMS.DURATION, _parsers.rangeParser), _defineProperty(_paramsToParsers, QUERY_PARAMS.ADULTS, Number), _defineProperty(_paramsToParsers, QUERY_PARAMS.CHILDREN, (0, _parsers.createImmutableNumbersArrayParser)(_immutable.List)), _defineProperty(_paramsToParsers, QUERY_PARAMS.COUNTRY, String), _defineProperty(_paramsToParsers, QUERY_PARAMS.CITIES, (0, _parsers.createImmutableNumbersArrayParser)(_immutable.Set)), _defineProperty(_paramsToParsers, QUERY_PARAMS.HOTELS, (0, _parsers.createImmutableNumbersArrayParser)(_immutable.Set)), _defineProperty(_paramsToParsers, QUERY_PARAMS.PRICE, _parsers.rangeParser), _defineProperty(_paramsToParsers, QUERY_PARAMS.SERVICES, (0, _parsers.createImmutableArrayParser)(_immutable.Set)), _defineProperty(_paramsToParsers, QUERY_PARAMS.RATING, _parsers.rangeParser), _defineProperty(_paramsToParsers, QUERY_PARAMS.CURRENCY, String), _defineProperty(_paramsToParsers, QUERY_PARAMS.WITHOUT_SPO, _parsers.parseStringIntengerToBoolean), _defineProperty(_paramsToParsers, QUERY_PARAMS.FLIGHT_AVAILABILITY, (0, _parsers.createImmutableArrayParser)(_immutable.Set)), _defineProperty(_paramsToParsers, QUERY_PARAMS.HOTEL_AVAILABILITY, (0, _parsers.createImmutableArrayParser)(_immutable.Set)), _paramsToParsers);
+  var paramsToParsers = (_paramsToParsers = {}, _defineProperty(_paramsToParsers, QUERY_PARAMS.AUTOSTART, Boolean), _defineProperty(_paramsToParsers, QUERY_PARAMS.DEPARTURE, Number), _defineProperty(_paramsToParsers, QUERY_PARAMS.CATEGORY, _parsers.binaryParser), _defineProperty(_paramsToParsers, QUERY_PARAMS.TRANSPORT, _parsers.binaryParser), _defineProperty(_paramsToParsers, QUERY_PARAMS.FOOD, _parsers.binaryParser), _defineProperty(_paramsToParsers, QUERY_PARAMS.DATES, _parsers.datesParser), _defineProperty(_paramsToParsers, QUERY_PARAMS.DURATION, _parsers.rangeParser), _defineProperty(_paramsToParsers, QUERY_PARAMS.ADULTS, Number), _defineProperty(_paramsToParsers, QUERY_PARAMS.CHILDREN, (0, _parsers.createImmutableNumbersArrayParser)(_immutable.List)), _defineProperty(_paramsToParsers, QUERY_PARAMS.COUNTRY, String), _defineProperty(_paramsToParsers, QUERY_PARAMS.CITIES, (0, _parsers.createImmutableNumbersArrayParser)(_immutable.Set)), _defineProperty(_paramsToParsers, QUERY_PARAMS.HOTELS, (0, _parsers.createImmutableNumbersArrayParser)(_immutable.Set)), _defineProperty(_paramsToParsers, QUERY_PARAMS.PRICE, _parsers.rangeParser), _defineProperty(_paramsToParsers, QUERY_PARAMS.SERVICES, (0, _parsers.createImmutableArrayParser)(_immutable.Set)), _defineProperty(_paramsToParsers, QUERY_PARAMS.RATING, _parsers.rangeParser), _defineProperty(_paramsToParsers, QUERY_PARAMS.CURRENCY, String), _defineProperty(_paramsToParsers, QUERY_PARAMS.WITHOUT_SPO, _parsers.parseStringIntengerToBoolean), _defineProperty(_paramsToParsers, QUERY_PARAMS.FLIGHT_AVAILABILITY, (0, _parsers.createImmutableArrayParser)(_immutable.Set)), _defineProperty(_paramsToParsers, QUERY_PARAMS.HOTEL_AVAILABILITY, (0, _parsers.createImmutableArrayParser)(_immutable.Set)), _defineProperty(_paramsToParsers, QUERY_PARAMS.PAGE, Number), _defineProperty(_paramsToParsers, QUERY_PARAMS.OPERATORS, (0, _parsers.createImmutableArrayParser)(_immutable.Set)), _paramsToParsers);
+  console.log('[PARSE_RAW]', {
+    rawValue: rawValue,
+    currentValue: currentValue
+  });
 
   if (rawValue) {
     if (rawValue === GLUE.empty) {
       return DEFAULTS[paramName];
     }
+
+    console.log('[PARSE]', {
+      paramName: paramName,
+      paramsToParsers: paramsToParsers
+    });
 
     if (paramName in paramsToParsers) {
       return paramsToParsers[paramName](rawValue, {
@@ -308,20 +399,39 @@ function parseQueryParam(currentValue, paramName, rawValue) {
  * Parse query string to query map
  * @param {string} queryString input
  * @param {OrderedMap} baseQuery base
+ * @param {Object} delimeters optional delimeters object
  *
  * @returns {OrderedMap} query
  */
 
 
 function parseQueryString(queryString, baseQuery) {
-  var query = baseQuery || createQuery();
-  var params = queryString.replace('#/', '').split('/');
+  var delimeters = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+  var isDelimetersEmpty = Object.keys(delimeters).length === 0;
+  var query = baseQuery || (isDelimetersEmpty ? createQuery() : createSearchQuery());
+  var _delimeters$startDeli = delimeters.startDelimeter,
+      startDelimeter = _delimeters$startDeli === void 0 ? '#/' : _delimeters$startDeli,
+      _delimeters$delimeter = delimeters.delimeter,
+      delimeter = _delimeters$delimeter === void 0 ? '/' : _delimeters$delimeter;
+  var params = queryString.replace(startDelimeter, '').split(delimeter);
+  console.log({
+    params: params,
+    query: query.toJS(),
+    keySeq: query.keySeq().toJS()
+  });
   return query.map(function (currentValue, paramName) {
     var position = query.keySeq().findIndex(function (f) {
       return f === paramName;
     });
     var rawValue = position in params ? params[position] : null;
-    return rawValue ? parseQueryParam(currentValue, paramName, rawValue) : currentValue;
+    console.log('[PQS]', {
+      pos: position,
+      'is-in': position in params,
+      raw: rawValue,
+      curVal: (0, _immutable.isImmutable)(currentValue) && currentValue.toJS() || currentValue,
+      parName: paramName
+    });
+    return rawValue ? parseQueryParam(currentValue, paramName, rawValue, !isDelimetersEmpty) : DEFAULTS[paramName];
   });
 }
 

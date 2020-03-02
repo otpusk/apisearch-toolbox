@@ -11,9 +11,7 @@ var _actions = require("../../actions");
 
 var _jsonApi = require("@otpusk/json-api");
 
-var _marked =
-/*#__PURE__*/
-regeneratorRuntime.mark(getSimilarHotelsWorker);
+var _marked = /*#__PURE__*/regeneratorRuntime.mark(getSimilarHotelsWorker);
 
 function getSimilarHotelsWorker(_ref) {
   var hotelId, token, similar;

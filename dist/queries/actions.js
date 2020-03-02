@@ -10,9 +10,11 @@ var _reduxActions = require("redux-actions");
 // Core
 var queriesActions = (0, _reduxActions.createActions)({
   CREATE_QUERY: function CREATE_QUERY(queryId, initialParams) {
+    var isUrl = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
     return {
       queryId: queryId,
-      initialParams: initialParams
+      initialParams: initialParams,
+      isUrl: isUrl
     };
   },
   SET_QUERY: function SET_QUERY(queryId, query) {

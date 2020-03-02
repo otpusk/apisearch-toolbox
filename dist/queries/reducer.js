@@ -29,8 +29,9 @@ var initalState = (0, _immutable.Map)({});
 var queriesReducer = (0, _reduxActions.handleActions)((_handleActions = {}, _defineProperty(_handleActions, _actions.queriesActions.createQuery, function (state, _ref) {
   var _ref$payload = _ref.payload,
       queryId = _ref$payload.queryId,
-      initialParams = _ref$payload.initialParams;
-  return state.set(queryId, (0, _fn.createQuery)(initialParams));
+      initialParams = _ref$payload.initialParams,
+      isUrl = _ref$payload.isUrl;
+  return state.set(queryId, isUrl ? (0, _fn.createSearchQuery)(initialParams) : (0, _fn.createQuery)(initialParams));
 }), _defineProperty(_handleActions, _actions.queriesActions.setQuery, function (state, _ref2) {
   var _ref2$payload = _ref2.payload,
       queryId = _ref2$payload.queryId,

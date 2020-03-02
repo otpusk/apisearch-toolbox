@@ -15,9 +15,7 @@ var _excursionApi = require("@otpusk/excursion-api");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-var _marked =
-/*#__PURE__*/
-regeneratorRuntime.mark(runSearchWorker);
+var _marked = /*#__PURE__*/regeneratorRuntime.mark(runSearchWorker);
 
 function runSearchWorker(_ref) {
   var _ref$payload, queryId, _ref$payload$options, _ref$payload$options$, withHash, query, formattedQuery, page, tours, hash;

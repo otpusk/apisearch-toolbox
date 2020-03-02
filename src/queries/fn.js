@@ -1,5 +1,5 @@
 // Core
-import { OrderedMap, Map, Set, List } from 'immutable';
+import { OrderedMap, Map, Set, List, isImmutable } from 'immutable';
 import moment from 'moment';
 
 // Instruments
@@ -49,6 +49,30 @@ const QUERY_PARAMS = {
     LANGUAGE:            'language',
 };
 
+const getShortQueryParams = (isParam = false) => {
+    let uniqKeys = new Set();
+    const result = {};
+
+    for (const [key, val] of Object.entries(QUERY_PARAMS)) {
+        let count = 1;
+
+        while (count < val.length) {
+            if (!uniqKeys.has(val.slice(0, count))) {
+                break;
+            }
+            count+=1;
+        }
+
+        uniqKeys = uniqKeys.add(val.slice(0, count));
+        result[isParam ? key : val] = val.slice(0, count);
+    }
+
+    return result;
+};
+
+const SHORT_QUERY_NAMES = getShortQueryParams();
+const SHORT_QUERY_PARAMS = getShortQueryParams(true);
+
 /**
  * Query defaults
  */
@@ -57,7 +81,7 @@ const DEFAULTS = {
     [QUERY_PARAMS.DEPARTURE]: '1544',
     [QUERY_PARAMS.COUNTRY]:   null,
     [QUERY_PARAMS.CATEGORY]:  Map({
-        1: true,
+        // 1: true,
         2: true,
         3: true,
         4: true,
@@ -103,15 +127,35 @@ const DEFAULTS = {
     [QUERY_PARAMS.LANGUAGE]:            null,
 };
 
+const DEFAULTS_SEARCH = {
+    [QUERY_PARAMS.FOOD]: Map({
+        'uai': false,
+        'ai':  false,
+        'fb':  false,
+        'hb':  false,
+        'bb':  false,
+        'ob':  false,
+    }),
+    [QUERY_PARAMS.TRANSPORT]: Map({
+        'air':   true,
+        'bus':   false,
+        'train': false,
+        'ship':  false,
+        'no':    false,
+    }),
+};
+
 /**
  * Query string glue
  */
 const GLUE = {
-    field:  '/',
-    range:  '-',
-    list:   ',',
-    binary: '',
-    empty:  '!',
+    field:    '/',
+    range:    '-',
+    list:     ',',
+    binary:   '',
+    empty:    '!',
+    and:      '&',
+    question: '?',
 };
 
 /**
@@ -121,9 +165,23 @@ const GLUE = {
  * @returns {OrderedMap} query
  */
 function createQuery (params = {}) {
+    console.log('[CREATE_QUERY]', new OrderedMap({
+        ...DEFAULTS,
+    }).merge(params), params);
+
     return new OrderedMap({
         ...DEFAULTS,
     }).merge(params);
+}
+
+function createSearchQuery (params = {}) {
+    console.log('[CREATE_SEARCH_QUERY]', new OrderedMap({
+        ...DEFAULTS, ...DEFAULTS_SEARCH,
+    }).mergeDeep(params), params);
+
+    return new OrderedMap({
+        ...DEFAULTS, ...DEFAULTS_SEARCH,
+    }).mergeDeep(params);
 }
 
 /**
@@ -181,6 +239,57 @@ function compileQuery (query) {
         .toList()
         .join(GLUE.field)
         .replace(new RegExp(`[${GLUE.field}${GLUE.empty}]+$`), '');
+}
+
+function compileSearchQuery (query) {
+    const fieldsToCompilers = {
+        [QUERY_PARAMS.AUTOSTART]:           numberCompiler,
+        [QUERY_PARAMS.DEPARTURE]:           toStringCompiler,
+        [QUERY_PARAMS.COUNTRY]:             numberCompiler,
+        [QUERY_PARAMS.CITIES]:              immutableArrayCompiler,
+        [QUERY_PARAMS.HOTELS]:              immutableArrayCompiler,
+        [QUERY_PARAMS.CATEGORY]:            binaryCompiler,
+        [QUERY_PARAMS.DATES]:               datesCompiler,
+        [QUERY_PARAMS.DURATION]:            rangeCompiler,
+        [QUERY_PARAMS.ADULTS]:              toStringCompiler,
+        [QUERY_PARAMS.CHILDREN]:            immutableArrayCompiler,
+        [QUERY_PARAMS.FOOD]:                binaryCompiler,
+        [QUERY_PARAMS.TRANSPORT]:           binaryCompiler,
+        [QUERY_PARAMS.PRICE]:               rangeCompiler,
+        [QUERY_PARAMS.SERVICES]:            immutableArrayCompiler,
+        [QUERY_PARAMS.RATING]:              rangeCompiler,
+        [QUERY_PARAMS.CURRENCY]:            toStringCompiler,
+        [QUERY_PARAMS.WITHOUT_SPO]:         numberCompiler,
+        [QUERY_PARAMS.FLIGHT_AVAILABILITY]: immutableArrayCompiler,
+        [QUERY_PARAMS.HOTEL_AVAILABILITY]:  immutableArrayCompiler,
+        [QUERY_PARAMS.PAGE]:                numberCompiler,
+        [QUERY_PARAMS.OPERATORS]:           immutableArrayCompiler,
+    };
+
+    const startDelimeter = GLUE.question;
+    const emptyDelimeter = GLUE.empty;
+    const delimeter = GLUE.and;
+
+    console.log('COMPILE_SEARCH_QUERY', { query: query.toJS() });
+
+    return startDelimeter + query
+        .map(
+            (value, field) => {
+                const composeValue = (val) => `${[SHORT_QUERY_NAMES[field]]}=${val}`;
+
+                const val = value && field in fieldsToCompilers
+                    ? composeValue(fieldsToCompilers[field](value))
+                    : composeValue(emptyDelimeter);
+
+                console.log({ val, value: isImmutable(value) && value.toJS() || value, field });
+
+                return val;
+            }
+        )
+        .toList()
+        .map((v) => v.replace('!', ''))
+        .join(delimeter)
+        .replace(new RegExp(`[${delimeter}${emptyDelimeter}]+$`), '');
 }
 
 /**
@@ -260,13 +369,18 @@ function parseQueryParam (currentValue, paramName, rawValue) {
         [QUERY_PARAMS.WITHOUT_SPO]:         parseStringIntengerToBoolean,
         [QUERY_PARAMS.FLIGHT_AVAILABILITY]: createImmutableArrayParser(Set),
         [QUERY_PARAMS.HOTEL_AVAILABILITY]:  createImmutableArrayParser(Set),
+        [QUERY_PARAMS.PAGE]:                Number,
+        [QUERY_PARAMS.OPERATORS]:           createImmutableArrayParser(Set),
     };
+
+    console.log('[PARSE_RAW]', { rawValue, currentValue });
 
     if (rawValue) {
         if (rawValue === GLUE.empty) {
             return DEFAULTS[paramName];
         }
 
+        console.log('[PARSE]', { paramName, paramsToParsers });
         if (paramName in paramsToParsers) {
             return paramsToParsers[paramName](rawValue, { prevValue: currentValue });
         }
@@ -279,20 +393,33 @@ function parseQueryParam (currentValue, paramName, rawValue) {
  * Parse query string to query map
  * @param {string} queryString input
  * @param {OrderedMap} baseQuery base
+ * @param {Object} delimeters optional delimeters object
  *
  * @returns {OrderedMap} query
  */
-function parseQueryString (queryString, baseQuery) {
-    const query = baseQuery || createQuery();
-    const params = queryString.replace('#/', '').split('/');
+function parseQueryString (queryString, baseQuery, delimeters = {}) {
+    const isDelimetersEmpty = Object.keys(delimeters).length === 0;
+    const query = baseQuery || (isDelimetersEmpty ? createQuery() : createSearchQuery());
+
+    const { startDelimeter = '#/', delimeter = '/' } = delimeters;
+    const params = queryString.replace(startDelimeter, '').split(delimeter);
+
+    console.log({ params, query: query.toJS(), keySeq: query.keySeq().toJS() });
 
     return query.map((currentValue, paramName) => {
         const position = query.keySeq().findIndex((f) => f === paramName);
         const rawValue = position in params ? params[position] : null;
 
+        console.log('[PQS]', {
+            pos:     position,
+            'is-in': position in params,
+            raw:     rawValue,
+            curVal:  isImmutable(currentValue) && currentValue.toJS() || currentValue,
+            parName: paramName });
+
         return rawValue
-            ? parseQueryParam(currentValue, paramName, rawValue)
-            : currentValue;
+            ? parseQueryParam(currentValue, paramName, rawValue, !isDelimetersEmpty)
+            : DEFAULTS[paramName];
     });
 }
 
@@ -335,8 +462,10 @@ export {
     QUERY_PARAMS,
     GLUE,
     createQuery,
+    createSearchQuery,
     createResultBones,
     compileQuery,
+    compileSearchQuery,
     convertToOtpQuery,
     parseOSQueryHash,
     parseQueryString

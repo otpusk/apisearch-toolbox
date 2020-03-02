@@ -11,9 +11,7 @@ var _actions = require("../../actions");
 
 var _dist = require("@otpusk/json-api/dist");
 
-var _marked =
-/*#__PURE__*/
-regeneratorRuntime.mark(validateOfferAdditionalCostsWorker);
+var _marked = /*#__PURE__*/regeneratorRuntime.mark(validateOfferAdditionalCostsWorker);
 
 function validateOfferAdditionalCostsWorker(_ref) {
   var offerId, token, validatedTour;
