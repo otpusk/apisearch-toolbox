@@ -395,11 +395,6 @@ function parseQueryString(queryString, baseQuery) {
       _delimeters$delimeter = delimeters.delimeter,
       delimeter = _delimeters$delimeter === void 0 ? '/' : _delimeters$delimeter;
   var params = queryString.replace(startDelimeter, '').split(delimeter);
-  console.log({
-    params: params,
-    query: query.toJS(),
-    keySeq: query.keySeq().toJS()
-  });
   return query.map(function (currentValue, paramName) {
     var position = query.keySeq().findIndex(function (f) {
       return f === paramName;

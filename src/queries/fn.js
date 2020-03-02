@@ -389,8 +389,6 @@ function parseQueryString (queryString, baseQuery, delimeters = {}) {
     const { startDelimeter = '#/', delimeter = '/' } = delimeters;
     const params = queryString.replace(startDelimeter, '').split(delimeter);
 
-    console.log({ params, query: query.toJS(), keySeq: query.keySeq().toJS() });
-
     return query.map((currentValue, paramName) => {
         const position = query.keySeq().findIndex((f) => f === paramName);
         const rawValue = position in params ? params[position] : null;
