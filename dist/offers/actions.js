@@ -39,10 +39,11 @@ var offersActions = (0, _reduxActions.createActions)({
       status: status
     };
   },
-  CHECK_OFFER_STATUS: function CHECK_OFFER_STATUS(offerId, hotelId) {
+  CHECK_OFFER_STATUS: function CHECK_OFFER_STATUS(offerId, hotelId, queryId) {
     return {
       offerId: offerId,
-      hotelId: hotelId
+      hotelId: hotelId,
+      queryId: queryId
     };
   },
   CHECK_OFFER_STATUS_SUCCESS: function CHECK_OFFER_STATUS_SUCCESS(offerId, freshOffer) {
@@ -54,14 +55,16 @@ var offersActions = (0, _reduxActions.createActions)({
   CHECK_OFFER_STATUS_FAIL: function CHECK_OFFER_STATUS_FAIL(error) {
     return error;
   },
-  VALIDATE_OFFER_ADDITIONAL_COSTS: function VALIDATE_OFFER_ADDITIONAL_COSTS(offerId) {
+  VALIDATE_OFFER_ADDITIONAL_COSTS: function VALIDATE_OFFER_ADDITIONAL_COSTS(offerId, queryId) {
     return {
-      offerId: offerId
+      offerId: offerId,
+      queryId: queryId
     };
   },
-  VALIDATE_OFFER_ADDITIONAL_COSTS_SUCCESS: function VALIDATE_OFFER_ADDITIONAL_COSTS_SUCCESS(offerId, validatedTour) {
+  VALIDATE_OFFER_ADDITIONAL_COSTS_SUCCESS: function VALIDATE_OFFER_ADDITIONAL_COSTS_SUCCESS(offerId, validatedTour, queryCurrency) {
     return _objectSpread({
-      offerId: offerId
+      offerId: offerId,
+      queryCurrency: queryCurrency
     }, validatedTour);
   },
   VALIDATE_OFFER_ADDITIONAL_COSTS_FAIL: function VALIDATE_OFFER_ADDITIONAL_COSTS_FAIL(offerId, error) {
@@ -76,10 +79,11 @@ var offersActions = (0, _reduxActions.createActions)({
       status: status
     };
   },
-  VALIDATE_SET_PRICE: function VALIDATE_SET_PRICE(offerId, selectedFlights) {
+  VALIDATE_SET_PRICE: function VALIDATE_SET_PRICE(offerId, selectedFlights, queryCurrency) {
     return {
       offerId: offerId,
-      selectedFlights: selectedFlights
+      selectedFlights: selectedFlights,
+      queryCurrency: queryCurrency
     };
   },
   VALIDATE_SET_PRICE_SUCCESS: function VALIDATE_SET_PRICE_SUCCESS(offerId, selectedFlights) {

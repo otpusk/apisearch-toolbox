@@ -14,12 +14,13 @@ var _dist = require("@otpusk/json-api/dist");
 var _marked = /*#__PURE__*/regeneratorRuntime.mark(validateOfferAdditionalCostsWorker);
 
 function validateOfferAdditionalCostsWorker(_ref) {
-  var offerId, token, validatedTour;
+  var _ref$payload, offerId, queryId, token, queryCurrency, validatedTour;
+
   return regeneratorRuntime.wrap(function validateOfferAdditionalCostsWorker$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
-          offerId = _ref.payload.offerId;
+          _ref$payload = _ref.payload, offerId = _ref$payload.offerId, queryId = _ref$payload.queryId;
           _context.prev = 1;
           _context.next = 4;
           return (0, _effects.put)(_actions.offersActions.setOfferAdditionalCostsStatus(offerId, true));
@@ -33,40 +34,48 @@ function validateOfferAdditionalCostsWorker(_ref) {
         case 6:
           token = _context.sent;
           _context.next = 9;
-          return (0, _effects.call)(_dist.getToursValidate, token, offerId);
+          return (0, _effects.select)(function (_ref2) {
+            var queries = _ref2.queries;
+            return queries.getIn([queryId, 'currency']);
+          });
 
         case 9:
-          validatedTour = _context.sent;
+          queryCurrency = _context.sent;
           _context.next = 12;
-          return (0, _effects.put)(_actions.offersActions.setOfferAdditionalCostsStatus(offerId, false));
+          return (0, _effects.call)(_dist.getToursValidate, token, offerId);
 
         case 12:
-          _context.next = 14;
-          return (0, _effects.put)(_actions.offersActions.validateOfferAdditionalCostsSuccess(offerId, validatedTour));
+          validatedTour = _context.sent;
+          _context.next = 15;
+          return (0, _effects.put)(_actions.offersActions.setOfferAdditionalCostsStatus(offerId, false));
 
-        case 14:
-          _context.next = 23;
+        case 15:
+          _context.next = 17;
+          return (0, _effects.put)(_actions.offersActions.validateOfferAdditionalCostsSuccess(offerId, validatedTour, queryCurrency));
+
+        case 17:
+          _context.next = 26;
           break;
 
-        case 16:
-          _context.prev = 16;
+        case 19:
+          _context.prev = 19;
           _context.t0 = _context["catch"](1);
           console.log('[ERROR_VALIDATE_OFFER_ADD_COSTS]:', {
             offerId: offerId,
             error: _context.t0,
             err: _context.t0.message
           });
-          _context.next = 21;
+          _context.next = 24;
           return (0, _effects.put)(_actions.offersActions.setOfferAdditionalCostsStatus(offerId, false));
 
-        case 21:
-          _context.next = 23;
+        case 24:
+          _context.next = 26;
           return (0, _effects.put)(_actions.offersActions.validateOfferAdditionalCostsFail(offerId, _context.t0));
 
-        case 23:
+        case 26:
         case "end":
           return _context.stop();
       }
     }
-  }, _marked, null, [[1, 16]]);
+  }, _marked, null, [[1, 19]]);
 }
