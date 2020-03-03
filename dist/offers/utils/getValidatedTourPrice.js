@@ -16,7 +16,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 var getPriceChange = function getPriceChange(selectedCode, validatedFlights) {
   var selectedCodeWithoutIndex = selectedCode && selectedCode.split(/_/).slice(0, -1).join('_');
 
-  var _ref = validatedFlights[selectedCodeWithoutIndex] || {},
+  var _ref = validatedFlights && validatedFlights[selectedCodeWithoutIndex] || {},
       _ref$priceChange = _ref.priceChange,
       priceChange = _ref$priceChange === void 0 ? {
     usd: 0,
