@@ -1,3 +1,15 @@
+const sumByKey = (obj1, obj2) => {
+    const res = {};
+
+    for (const [key, value] of Object.entries(obj1)) {
+        if (obj2.hasOwnProperty(key)) {
+            res[key] = Number(value) + Number(obj2[key]);
+        }
+    }
+
+    return res;
+};
+
 const getPriceChange = (selectedCode, validatedFlights) => {
     const selectedCodeWithoutIndex = selectedCode && selectedCode.split(/_/).slice(0, -1).join('_');
     const { priceChange = { usd: 0, eur: 0, uah: 0 }} = validatedFlights && validatedFlights[selectedCodeWithoutIndex] || {};
@@ -5,13 +17,13 @@ const getPriceChange = (selectedCode, validatedFlights) => {
     return priceChange;
 };
 
-const getSelectedFlightsPriceChange = (state, offerId, { selectedFlights, flights }, currency = 'usd') => {
+const getSelectedFlightsPriceChange = (state, offerId, { selectedFlights, flights }) => {
     const validatedFlights = flights || state.getIn(['validatedTour', offerId, 'flights'], {});
     const selected = selectedFlights || state.getIn(['validatedTour', offerId, 'selectedFlights'], {});
     const selectedInbound = selected.inbound;
     const selectedOutbound = selected.outbound;
 
-    return getPriceChange(selectedInbound, validatedFlights)[currency] + getPriceChange(selectedOutbound, validatedFlights)[currency];
+    return sumByKey(getPriceChange(selectedInbound, validatedFlights), getPriceChange(selectedOutbound, validatedFlights));
 };
 
 const getValidatedTourPrice = (state, offerId, currency) => {
@@ -23,9 +35,9 @@ const getValidatedTourPrice = (state, offerId, currency) => {
     return price;
 };
 
-const getValidatedTourNewPrice = (state, offerId, selectedFlights, currency = 'usd') => {
+const getValidatedTourNewPrice = (state, offerId, selectedFlights) => {
     const selected = selectedFlights || state.getIn(['validatedTour', offerId, 'selectedFlights'], {});
-    const newPrice = getValidatedTourPrice(state, offerId, currency) + getSelectedFlightsPriceChange(state, offerId, { selectedFlights: selected }, currency);
+    const newPrice = sumByKey(getValidatedTourPrice(state, offerId), getSelectedFlightsPriceChange(state, offerId, { selectedFlights: selected }));
 
     return newPrice;
 };
@@ -34,5 +46,6 @@ export {
     getPriceChange,
     getSelectedFlightsPriceChange,
     getValidatedTourPrice,
-    getValidatedTourNewPrice
+    getValidatedTourNewPrice,
+    sumByKey
 };

@@ -55,16 +55,14 @@ var offersActions = (0, _reduxActions.createActions)({
   CHECK_OFFER_STATUS_FAIL: function CHECK_OFFER_STATUS_FAIL(error) {
     return error;
   },
-  VALIDATE_OFFER_ADDITIONAL_COSTS: function VALIDATE_OFFER_ADDITIONAL_COSTS(offerId, queryId) {
+  VALIDATE_OFFER_ADDITIONAL_COSTS: function VALIDATE_OFFER_ADDITIONAL_COSTS(offerId) {
     return {
-      offerId: offerId,
-      queryId: queryId
+      offerId: offerId
     };
   },
-  VALIDATE_OFFER_ADDITIONAL_COSTS_SUCCESS: function VALIDATE_OFFER_ADDITIONAL_COSTS_SUCCESS(offerId, validatedTour, queryCurrency) {
+  VALIDATE_OFFER_ADDITIONAL_COSTS_SUCCESS: function VALIDATE_OFFER_ADDITIONAL_COSTS_SUCCESS(offerId, validatedTour) {
     return _objectSpread({
-      offerId: offerId,
-      queryCurrency: queryCurrency
+      offerId: offerId
     }, validatedTour);
   },
   VALIDATE_OFFER_ADDITIONAL_COSTS_FAIL: function VALIDATE_OFFER_ADDITIONAL_COSTS_FAIL(offerId, error) {
@@ -79,11 +77,10 @@ var offersActions = (0, _reduxActions.createActions)({
       status: status
     };
   },
-  VALIDATE_SET_PRICE: function VALIDATE_SET_PRICE(offerId, selectedFlights, queryCurrency) {
+  VALIDATE_SET_PRICE: function VALIDATE_SET_PRICE(offerId, selectedFlights) {
     return {
       offerId: offerId,
-      selectedFlights: selectedFlights,
-      queryCurrency: queryCurrency
+      selectedFlights: selectedFlights
     };
   },
   VALIDATE_SET_PRICE_SUCCESS: function VALIDATE_SET_PRICE_SUCCESS(offerId, selectedFlights) {

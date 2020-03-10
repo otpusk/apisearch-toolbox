@@ -6,7 +6,7 @@ import { handleActions } from 'redux-actions';
 import { offersActions } from './actions';
 
 import { mergeOffer, mergeOfferNextPriority } from './utils/mergeOffer';
-import { getSelectedFlightsPriceChange, getValidatedTourNewPrice } from './utils/getValidatedTourPrice';
+import { getSelectedFlightsPriceChange, getValidatedTourNewPrice, sumByKey } from './utils/getValidatedTourPrice';
 
 const initalState = Map({
     store:         Map(),
@@ -45,9 +45,9 @@ export const offersReducer = handleActions(
                     : siblings
                 );
         },
-        [offersActions.validateOfferAdditionalCostsSuccess]: (state, { payload: { offerId, price, flights, queryCurrency, ...rest }}) => {
-            const newPrice = price[queryCurrency] ? price[queryCurrency] + getSelectedFlightsPriceChange(state, offerId, { flights }, queryCurrency)
-                : getValidatedTourNewPrice(state, offerId, null, queryCurrency);
+        [offersActions.validateOfferAdditionalCostsSuccess]: (state, { payload: { offerId, price, flights, ...rest }}) => {
+            const newPrice = price && !Object.values(price).some((v) => !v) ? sumByKey(price, getSelectedFlightsPriceChange(state, offerId, { flights }))
+                : getValidatedTourNewPrice(state, offerId, null);
 
             return state
                 .updateIn(['validatedTour', offerId], (current = {}) =>
@@ -64,8 +64,8 @@ export const offersReducer = handleActions(
                         .toJS()
                 );
         },
-        [offersActions.validateSetPrice]: (state, { payload: { offerId, selectedFlights, queryCurrency }}) => {
-            const newPrice = getValidatedTourNewPrice(state, offerId, selectedFlights, queryCurrency);
+        [offersActions.validateSetPrice]: (state, { payload: { offerId, selectedFlights }}) => {
+            const newPrice = getValidatedTourNewPrice(state, offerId, selectedFlights);
 
             return state
                 .updateIn(['validatedTour', offerId], (current = {}) =>

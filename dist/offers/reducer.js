@@ -68,12 +68,13 @@ var offersReducer = (0, _reduxActions.handleActions)((_handleActions = {}, _defi
       offerId = _ref6$payload.offerId,
       price = _ref6$payload.price,
       flights = _ref6$payload.flights,
-      queryCurrency = _ref6$payload.queryCurrency,
-      rest = _objectWithoutProperties(_ref6$payload, ["offerId", "price", "flights", "queryCurrency"]);
+      rest = _objectWithoutProperties(_ref6$payload, ["offerId", "price", "flights"]);
 
-  var newPrice = price[queryCurrency] ? price[queryCurrency] + (0, _getValidatedTourPrice.getSelectedFlightsPriceChange)(state, offerId, {
+  var newPrice = price && !Object.values(price).some(function (v) {
+    return !v;
+  }) ? (0, _getValidatedTourPrice.sumByKey)(price, (0, _getValidatedTourPrice.getSelectedFlightsPriceChange)(state, offerId, {
     flights: flights
-  }, queryCurrency) : (0, _getValidatedTourPrice.getValidatedTourNewPrice)(state, offerId, null, queryCurrency);
+  })) : (0, _getValidatedTourPrice.getValidatedTourNewPrice)(state, offerId, null);
   return state.updateIn(['validatedTour', offerId], function () {
     var current = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
     return (0, _immutable.Map)(current).mergeWith(_mergeOffer.mergeOfferNextPriority, _objectSpread({
@@ -99,9 +100,8 @@ var offersReducer = (0, _reduxActions.handleActions)((_handleActions = {}, _defi
 }), _defineProperty(_handleActions, _actions.offersActions.validateSetPrice, function (state, _ref8) {
   var _ref8$payload = _ref8.payload,
       offerId = _ref8$payload.offerId,
-      selectedFlights = _ref8$payload.selectedFlights,
-      queryCurrency = _ref8$payload.queryCurrency;
-  var newPrice = (0, _getValidatedTourPrice.getValidatedTourNewPrice)(state, offerId, selectedFlights, queryCurrency);
+      selectedFlights = _ref8$payload.selectedFlights;
+  var newPrice = (0, _getValidatedTourPrice.getValidatedTourNewPrice)(state, offerId, selectedFlights);
   return state.updateIn(['validatedTour', offerId], function () {
     var current = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
     return (0, _immutable.Map)(current).mergeWith(_mergeOffer.mergeOfferNextPriority, {
