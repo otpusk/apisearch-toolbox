@@ -36,7 +36,7 @@ var initalState = (0, _immutable.Map)({
 var offersReducer = (0, _reduxActions.handleActions)((_handleActions = {}, _defineProperty(_handleActions, _actions.offersActions.addOffers, function (state, _ref) {
   var newOffers = _ref.payload;
   return state.updateIn(['store'], function (offers) {
-    return offers.mergeWith(_mergeOffer.mergeOffer, newOffers);
+    return offers.mergeWith(_mergeOffer.mergeObjectDeepWithoutArrays, newOffers);
   }).mergeIn(['status'], (0, _immutable.Map)(newOffers).map(function (offer, id) {
     return state.getIn(['status', id], 'alive');
   }));
@@ -44,7 +44,7 @@ var offersReducer = (0, _reduxActions.handleActions)((_handleActions = {}, _defi
   var offer = _ref2.payload;
   return state.updateIn(['store', offer.id], function () {
     var current = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-    return (0, _immutable.Map)(current).mergeWith(_mergeOffer.mergeOffer, offer).toJS();
+    return (0, _immutable.Map)(current).mergeWith(_mergeOffer.mergeObjectDeepWithoutArrays, offer).toJS();
   });
 }), _defineProperty(_handleActions, _actions.offersActions.setOfferStatus, function (state, _ref3) {
   var _ref3$payload = _ref3.payload,

@@ -5,7 +5,7 @@ import { handleActions } from 'redux-actions';
 // Instruments
 import { offersActions } from './actions';
 
-import { mergeOffer, mergeOfferNextPriority } from './utils/mergeOffer';
+import { mergeObjectDeepWithoutArrays, mergeOfferNextPriority } from './utils/mergeOffer';
 import { getSelectedFlightsPriceChange, getValidatedTourNewPrice, sumByKey } from './utils/getValidatedTourPrice';
 
 const initalState = Map({
@@ -20,7 +20,7 @@ export const offersReducer = handleActions(
         [offersActions.addOffers]: (state, { payload: newOffers }) => {
             return state
                 .updateIn(['store'], (offers) =>
-                    offers.mergeWith(mergeOffer, newOffers)
+                    offers.mergeWith(mergeObjectDeepWithoutArrays, newOffers)
                 )
                 .mergeIn(['status'], Map(newOffers).map((offer, id) => state.getIn(['status', id], 'alive')));
         },
@@ -28,7 +28,7 @@ export const offersReducer = handleActions(
             return state
                 .updateIn(['store', offer.id], (current = {}) =>
                     Map(current)
-                        .mergeWith(mergeOffer, offer)
+                        .mergeWith(mergeObjectDeepWithoutArrays, offer)
                         .toJS()
                 );
         },
