@@ -5,11 +5,9 @@ import { Range } from 'immutable';
 // Instruments
 import { offersActions as actions } from '../../actions';
 import { getToursActual } from '@otpusk/json-api';
-import { getOperatorById } from '@otpusk/json-api/dist/dictionary';
 import { QUERY_PARAMS } from '../../../queries/fn';
 
-export function* checkOfferStatusWorker ({ payload: { offerId, hotelId, queryId }}) {
-    const hotel = yield select(({ hotels }) => hotels.getIn(['store', hotelId]));
+export function* checkOfferStatusWorker ({ payload: { offerId, queryId }}) {
     const currentOffer = yield select(({ offers }) => offers.getIn(['store', offerId]));
 
     try {
@@ -36,30 +34,18 @@ export function* checkOfferStatusWorker ({ payload: { offerId, hotelId, queryId 
 
                 yield put(actions.setOfferStatus(offerId, isTouched ? 'touched' : 'fresh'));
                 yield put(actions.checkOfferStatusSuccess(offerId, freshOffer));
-                // yield put(analyticsActions.sendEvent('Страница тура', 'Актуализация', 'Тур актуален', {
-                //     'dimension1': getOperatorById(currentOffer.operator).name,
-                //     'dimension2': hotel.country.name,
-                // }));
                 break;
             case 4:
             case 3:
             case 2:
                 yield put(actions.setOfferStatus(offerId, 'dirty'));
                 yield put(actions.checkOfferStatusSuccess(offerId, freshOffer));
-                // yield put(analyticsActions.sendEvent('Страница тура', 'Актуализация', 'Тур не актуален', {
-                //     'dimension1': getOperatorById(currentOffer.operator).name,
-                //     'dimension2': hotel.country.name,
-                // }));
                 break;
             default:
                 throw new Error('Ошибка актуализации');
         }
     } catch (error) {
         yield put(actions.setOfferStatus(offerId, 'failed'));
-        // yield put(analyticsActions.sendEvent('Страница тура', 'Актуализация', 'Ошибка актуализации', {
-        //     'dimension1': getOperatorById(currentOffer.operator).name,
-        //     'dimension2': hotel.country.name,
-        // }));
         yield put(actions.checkOfferStatusFail(error));
     }
 }
