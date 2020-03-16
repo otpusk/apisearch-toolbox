@@ -47,6 +47,7 @@ const QUERY_PARAMS = {
     HOTEL_AVAILABILITY:  'hotelAvailability',
     WITHOUT_SPO:         'withoutSPO',
     LANGUAGE:            'language',
+    NO_AGENCY_STATS:     'noAgencyStats',
 };
 
 const getShortQueryParams = (isParam = false) => {
@@ -395,7 +396,7 @@ function parseQueryString (queryString, baseQuery, delimeters = {}) {
 
         return rawValue
             ? parseQueryParam(currentValue, paramName, rawValue, !isDelimetersEmpty)
-            : DEFAULTS[paramName];
+            : query.get(paramName, DEFAULTS[paramName]);
     });
 }
 
@@ -428,6 +429,8 @@ function parseOSQueryHash (queryHash, baseQuery) {
                     return query.set(QUERY_PARAMS.TRANSPORT, convertListToBooleanMap(value));
                 case 'o':
                     return query.set(QUERY_PARAMS.FOOD, convertListToBooleanMap(value));
+                case 'nst':
+                    return query.set(QUERY_PARAMS.NO_AGENCY_STATS, Boolean(value));
                 default:
                     return query;
             }

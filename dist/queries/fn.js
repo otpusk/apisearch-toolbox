@@ -65,7 +65,8 @@ var QUERY_PARAMS = {
   FLIGHT_AVAILABILITY: 'flightAvailability',
   HOTEL_AVAILABILITY: 'hotelAvailability',
   WITHOUT_SPO: 'withoutSPO',
-  LANGUAGE: 'language'
+  LANGUAGE: 'language',
+  NO_AGENCY_STATS: 'noAgencyStats'
 };
 exports.QUERY_PARAMS = QUERY_PARAMS;
 
@@ -400,7 +401,7 @@ function parseQueryString(queryString, baseQuery) {
       return f === paramName;
     });
     var rawValue = position in params ? params[position] : null;
-    return rawValue ? parseQueryParam(currentValue, paramName, rawValue, !isDelimetersEmpty) : DEFAULTS[paramName];
+    return rawValue ? parseQueryParam(currentValue, paramName, rawValue, !isDelimetersEmpty) : query.get(paramName, DEFAULTS[paramName]);
   });
 }
 
@@ -451,6 +452,9 @@ function parseOSQueryHash(queryHash, baseQuery) {
 
       case 'o':
         return query.set(QUERY_PARAMS.FOOD, convertListToBooleanMap(value));
+
+      case 'nst':
+        return query.set(QUERY_PARAMS.NO_AGENCY_STATS, Boolean(value));
 
       default:
         return query;
