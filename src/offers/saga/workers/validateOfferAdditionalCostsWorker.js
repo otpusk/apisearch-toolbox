@@ -3,12 +3,17 @@ import { call, put, select } from 'redux-saga/effects';
 import { offersActions } from '../../actions';
 import { getToursValidate } from '@otpusk/json-api/dist';
 
-export function* validateOfferAdditionalCostsWorker ({ payload: { offerId }}) {
+export function* validateOfferAdditionalCostsWorker ({ payload: { offerId, queryId }}) {
     try {
+        const { departure, isBus } = yield select(({ queries }) => ({
+            departure: queries.getIn([queryId, 'departure']),
+            isBus:     queries.getIn([queryId, 'transport', 'bus'], false),
+        }));
+
         yield put(offersActions.setOfferAdditionalCostsStatus(offerId, true));
         const token = yield select((state) => state.auth.getIn(['otpusk', 'token']));
 
-        const validatedTour = yield call(getToursValidate, token, offerId);
+        const validatedTour = yield call(getToursValidate, { ...isBus ? { ...token, city: Number(departure) } : token }, offerId);
 
         yield put(offersActions.setOfferAdditionalCostsStatus(offerId, false));
         yield put(offersActions.validateOfferAdditionalCostsSuccess(offerId, validatedTour));
