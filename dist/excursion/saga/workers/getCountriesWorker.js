@@ -11,7 +11,9 @@ var _actions = require("../../actions");
 
 var _excursionApi = require("@otpusk/excursion-api");
 
-var _marked = /*#__PURE__*/regeneratorRuntime.mark(getCountriesWorker);
+var _marked =
+/*#__PURE__*/
+regeneratorRuntime.mark(getCountriesWorker);
 
 function getCountriesWorker() {
   var countries;

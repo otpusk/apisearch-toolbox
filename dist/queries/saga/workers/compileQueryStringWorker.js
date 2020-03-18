@@ -9,7 +9,9 @@ var _effects = require("redux-saga/effects");
 
 var _fn = require("../../fn");
 
-var _marked = /*#__PURE__*/regeneratorRuntime.mark(compileQueryStringWorker);
+var _marked =
+/*#__PURE__*/
+regeneratorRuntime.mark(compileQueryStringWorker);
 
 function compileQueryStringWorker(_ref) {
   var queryId, query;
