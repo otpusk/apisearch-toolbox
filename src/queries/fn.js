@@ -82,7 +82,7 @@ const DEFAULTS = {
     [QUERY_PARAMS.DEPARTURE]: '1544',
     [QUERY_PARAMS.COUNTRY]:   null,
     [QUERY_PARAMS.CATEGORY]:  Map({
-        // 1: true,
+        1: true,
         2: true,
         3: true,
         4: true,
