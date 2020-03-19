@@ -11,9 +11,7 @@ var _jsonApi = require("@otpusk/json-api");
 
 var _actions = require("../../actions");
 
-var _marked =
-/*#__PURE__*/
-regeneratorRuntime.mark(getServicesWorker);
+var _marked = /*#__PURE__*/regeneratorRuntime.mark(getServicesWorker);
 
 function getServicesWorker(_ref) {
   var countryId, _ref2, token, lang, services;

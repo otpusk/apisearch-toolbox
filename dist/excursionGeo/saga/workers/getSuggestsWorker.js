@@ -11,9 +11,7 @@ var _excursionApi = require("@otpusk/excursion-api");
 
 var _actions = require("../../actions");
 
-var _marked =
-/*#__PURE__*/
-regeneratorRuntime.mark(getSuggestsWorker);
+var _marked = /*#__PURE__*/regeneratorRuntime.mark(getSuggestsWorker);
 
 function getSuggestsWorker(_ref) {
   var text, suggestions;

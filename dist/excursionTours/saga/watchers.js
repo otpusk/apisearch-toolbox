@@ -14,9 +14,7 @@ var _getTourWorker = require("./workers/getTourWorker");
 // Core
 // Instruments
 var watchers = Object.freeze({
-  getExcursionWatcher:
-  /*#__PURE__*/
-  regeneratorRuntime.mark(function getExcursionWatcher() {
+  getExcursionWatcher: /*#__PURE__*/regeneratorRuntime.mark(function getExcursionWatcher() {
     return regeneratorRuntime.wrap(function getExcursionWatcher$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
