@@ -172,9 +172,14 @@ function createQuery (params = {}) {
 }
 
 function createSearchQuery (params = {}) {
-    return new OrderedMap({
+    const searchQuery = new OrderedMap({
         ...DEFAULTS, ...DEFAULTS_SEARCH,
     }).mergeDeep(params);
+
+    return searchQuery.setIn(
+        [QUERY_PARAMS.CATEGORY],
+        searchQuery.get(QUERY_PARAMS.CATEGORY).filter((v, k) => k !== '1')
+    );
 }
 
 /**
