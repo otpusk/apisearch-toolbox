@@ -76,6 +76,7 @@ export function* runSearchWorker ({ payload: queryId }) {
         yield delay(200);
         yield put(searchActions.finishSearch(queryId, { total: totalResults }));
     } catch (error) {
+        console.log(error);
         yield put(searchActions.failSearch(queryId));
     }
 }
