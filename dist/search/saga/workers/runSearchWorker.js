@@ -213,7 +213,7 @@ function runSearchWorker(_ref) {
         case 5:
           _context3.prev = 5;
           _context3.t1 = _context3["catch"](1);
-          console.log(_context3.t1);
+          console.error(_context3.t1);
           _context3.next = 10;
           return (0, _effects.put)(_actions.searchActions.failSearch(queryId));
 
