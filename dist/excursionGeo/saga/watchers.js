@@ -16,7 +16,9 @@ var _getDepartureCitiesWorker = require("./workers/getDepartureCitiesWorker");
 // Core
 // Instruments
 var watchers = Object.freeze({
-  getSuggestsWatcher: /*#__PURE__*/regeneratorRuntime.mark(function getSuggestsWatcher() {
+  getSuggestsWatcher:
+  /*#__PURE__*/
+  regeneratorRuntime.mark(function getSuggestsWatcher() {
     return regeneratorRuntime.wrap(function getSuggestsWatcher$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
@@ -31,7 +33,9 @@ var watchers = Object.freeze({
       }
     }, getSuggestsWatcher);
   }),
-  getDepartureCitiesWatcher: /*#__PURE__*/regeneratorRuntime.mark(function getDepartureCitiesWatcher() {
+  getDepartureCitiesWatcher:
+  /*#__PURE__*/
+  regeneratorRuntime.mark(function getDepartureCitiesWatcher() {
     return regeneratorRuntime.wrap(function getDepartureCitiesWatcher$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {

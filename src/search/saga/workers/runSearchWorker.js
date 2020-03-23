@@ -22,6 +22,8 @@ export function* runSearchWorker ({ payload: queryId }) {
 
         yield put(searchActions.startSearch(queryId));
         otpsukQuery.number = 0;
+        let totalResults = 0;
+
         do {
             const {
                 lastResult: finished,
@@ -52,6 +54,8 @@ export function* runSearchWorker ({ payload: queryId }) {
                 yield put(offersActions.addOffers(offers));
             }
 
+            totalResults = total;
+
             yield put(searchActions.processSearch(queryId, {
                 operators,
                 hotels: hotels.map(({ offers: hotelOffers }) => hotelOffers),
@@ -70,7 +74,7 @@ export function* runSearchWorker ({ payload: queryId }) {
         } while (otpsukQuery.number <= GUARANTEED_RESULT_STEP);
 
         yield delay(200);
-        yield put(searchActions.finishSearch(queryId));
+        yield put(searchActions.finishSearch(queryId, { total: totalResults }));
     } catch (error) {
         yield put(searchActions.failSearch(queryId));
     }

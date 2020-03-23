@@ -36,8 +36,10 @@ var searchActions = (0, _reduxActions.createActions)({
       queryId: queryId
     }, payload);
   },
-  FINISH_SEARCH: function FINISH_SEARCH(queryId) {
-    return queryId;
+  FINISH_SEARCH: function FINISH_SEARCH(queryId, payload) {
+    return _objectSpread({
+      queryId: queryId
+    }, payload);
   },
   FAIL_SEARCH: function FAIL_SEARCH(queryId) {
     return queryId;

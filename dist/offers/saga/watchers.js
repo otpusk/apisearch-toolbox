@@ -14,7 +14,9 @@ var _workers = require("./workers");
 // Core
 // Instruments
 var offersWatchers = Object.freeze({
-  getOfferWatcher: /*#__PURE__*/regeneratorRuntime.mark(function getOfferWatcher() {
+  getOfferWatcher:
+  /*#__PURE__*/
+  regeneratorRuntime.mark(function getOfferWatcher() {
     return regeneratorRuntime.wrap(function getOfferWatcher$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
@@ -29,7 +31,9 @@ var offersWatchers = Object.freeze({
       }
     }, getOfferWatcher);
   }),
-  checkOfferStatusWatcher: /*#__PURE__*/regeneratorRuntime.mark(function checkOfferStatusWatcher() {
+  checkOfferStatusWatcher:
+  /*#__PURE__*/
+  regeneratorRuntime.mark(function checkOfferStatusWatcher() {
     return regeneratorRuntime.wrap(function checkOfferStatusWatcher$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
@@ -44,7 +48,9 @@ var offersWatchers = Object.freeze({
       }
     }, checkOfferStatusWatcher);
   }),
-  validateOfferAdditionalCostsWatcher: /*#__PURE__*/regeneratorRuntime.mark(function validateOfferAdditionalCostsWatcher() {
+  validateOfferAdditionalCostsWatcher:
+  /*#__PURE__*/
+  regeneratorRuntime.mark(function validateOfferAdditionalCostsWatcher() {
     return regeneratorRuntime.wrap(function validateOfferAdditionalCostsWatcher$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {

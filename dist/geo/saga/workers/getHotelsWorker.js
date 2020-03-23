@@ -11,7 +11,9 @@ var _actions = require("../../actions");
 
 var _jsonApi = require("@otpusk/json-api");
 
-var _marked = /*#__PURE__*/regeneratorRuntime.mark(getHotelsWorker);
+var _marked =
+/*#__PURE__*/
+regeneratorRuntime.mark(getHotelsWorker);
 
 function getHotelsWorker(_ref) {
   var _ref$payload, countryId, withPrice, token, hotels;

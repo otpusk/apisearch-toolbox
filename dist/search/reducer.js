@@ -45,8 +45,10 @@ var searchReducer = (0, _reduxActions.handleActions)((_handleActions = {}, _defi
     return value ? value : country;
   }).setIn(['results', queryId, 'hotels', page], hotels);
 }), _defineProperty(_handleActions, _actions.searchActions.finishSearch, function (state, _ref4) {
-  var queryId = _ref4.payload;
-  return state.setIn(['results', queryId, 'status'], 'done');
+  var _ref4$payload = _ref4.payload,
+      queryId = _ref4$payload.queryId,
+      total = _ref4$payload.total;
+  return state.setIn(['results', queryId, 'status'], 'done').setIn(['results', queryId, 'total'], total);
 }), _defineProperty(_handleActions, _actions.searchActions.failSearch, function (state, _ref5) {
   var queryId = _ref5.payload;
   return state.setIn(['results', queryId, 'status'], 'failed');
