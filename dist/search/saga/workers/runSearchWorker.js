@@ -19,7 +19,9 @@ var _actions2 = require("../../../hotels/actions");
 
 var _actions3 = require("../../../offers/actions");
 
-var _marked = /*#__PURE__*/regeneratorRuntime.mark(runSearchWorker);
+var _marked =
+/*#__PURE__*/
+regeneratorRuntime.mark(runSearchWorker);
 
 // current result gets filled despite any operators progress status on step 7
 var GUARANTEED_RESULT_STEP = 7;
@@ -32,8 +34,10 @@ function runSearchWorker(_ref) {
         case 0:
           queryId = _ref.payload;
           _context3.prev = 1;
-          return _context3.delegateYield( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-            var query, lang, token, otpsukQuery, _loop, _ret;
+          return _context3.delegateYield(
+          /*#__PURE__*/
+          regeneratorRuntime.mark(function _callee() {
+            var query, lang, token, otpsukQuery, totalResults, _loop, _ret;
 
             return regeneratorRuntime.wrap(function _callee$(_context2) {
               while (1) {
@@ -66,7 +70,10 @@ function runSearchWorker(_ref) {
 
                   case 12:
                     otpsukQuery.number = 0;
-                    _loop = /*#__PURE__*/regeneratorRuntime.mark(function _loop() {
+                    totalResults = 0;
+                    _loop =
+                    /*#__PURE__*/
+                    regeneratorRuntime.mark(function _loop() {
                       var _ref2, finished, result, country, operators, total, meta, getPriceValueByOfferId, hotels, offers;
 
                       return regeneratorRuntime.wrap(function _loop$(_context) {
@@ -125,7 +132,8 @@ function runSearchWorker(_ref) {
                               return (0, _effects.put)(_actions3.offersActions.addOffers(offers));
 
                             case 17:
-                              _context.next = 19;
+                              totalResults = total;
+                              _context.next = 20;
                               return (0, _effects.put)(_actions.searchActions.processSearch(queryId, {
                                 operators: operators,
                                 hotels: hotels.map(function (_ref6) {
@@ -138,22 +146,22 @@ function runSearchWorker(_ref) {
                                 page: otpsukQuery.page
                               }));
 
-                            case 19:
+                            case 20:
                               if (!finished) {
-                                _context.next = 21;
+                                _context.next = 22;
                                 break;
                               }
 
                               return _context.abrupt("return", "break");
 
-                            case 21:
-                              _context.next = 23;
+                            case 22:
+                              _context.next = 24;
                               return (0, _effects.delay)(5000);
 
-                            case 23:
+                            case 24:
                               otpsukQuery.number += 1;
 
-                            case 24:
+                            case 25:
                             case "end":
                               return _context.stop();
                           }
@@ -161,34 +169,36 @@ function runSearchWorker(_ref) {
                       }, _loop);
                     });
 
-                  case 14:
-                    return _context2.delegateYield(_loop(), "t0", 15);
-
                   case 15:
+                    return _context2.delegateYield(_loop(), "t0", 16);
+
+                  case 16:
                     _ret = _context2.t0;
 
                     if (!(_ret === "break")) {
-                      _context2.next = 18;
+                      _context2.next = 19;
                       break;
                     }
 
-                    return _context2.abrupt("break", 19);
-
-                  case 18:
-                    if (otpsukQuery.number <= GUARANTEED_RESULT_STEP) {
-                      _context2.next = 14;
-                      break;
-                    }
+                    return _context2.abrupt("break", 20);
 
                   case 19:
-                    _context2.next = 21;
+                    if (otpsukQuery.number <= GUARANTEED_RESULT_STEP) {
+                      _context2.next = 15;
+                      break;
+                    }
+
+                  case 20:
+                    _context2.next = 22;
                     return (0, _effects.delay)(200);
 
-                  case 21:
-                    _context2.next = 23;
-                    return (0, _effects.put)(_actions.searchActions.finishSearch(queryId));
+                  case 22:
+                    _context2.next = 24;
+                    return (0, _effects.put)(_actions.searchActions.finishSearch(queryId, {
+                      total: totalResults
+                    }));
 
-                  case 23:
+                  case 24:
                   case "end":
                     return _context2.stop();
                 }

@@ -14,7 +14,9 @@ var _getServicesWorker = require("./workers/getServicesWorker");
 // Core
 // Instruments
 var servicesWatchers = Object.freeze({
-  getServicesWatcher: /*#__PURE__*/regeneratorRuntime.mark(function getServicesWatcher() {
+  getServicesWatcher:
+  /*#__PURE__*/
+  regeneratorRuntime.mark(function getServicesWatcher() {
     return regeneratorRuntime.wrap(function getServicesWatcher$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
