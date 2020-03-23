@@ -44,8 +44,11 @@ var searchActions = (0, _reduxActions.createActions)({
   FAIL_SEARCH: function FAIL_SEARCH(queryId) {
     return queryId;
   },
-  GET_PRICE_CHART: function GET_PRICE_CHART(queryId) {
-    return queryId;
+  GET_PRICE_CHART: function GET_PRICE_CHART(queryId, duration) {
+    return {
+      queryId: queryId,
+      duration: duration
+    };
   },
   GET_PRICE_CHART_SUCCESS: function GET_PRICE_CHART_SUCCESS(queryId, chart) {
     return {
