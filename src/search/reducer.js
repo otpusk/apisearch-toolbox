@@ -36,10 +36,9 @@ export const searchReducer = handleActions(
                 .updateIn(['results', queryId, 'country'], (value) => value ? value : country)
                 .setIn(['results', queryId, 'hotels', page], hotels);
         },
-        [actions.finishSearch]: (state, { payload: { queryId, total }}) => {
+        [actions.finishSearch]: (state, { payload: queryId }) => {
             return state
-                .setIn(['results', queryId, 'status'], 'done')
-                .setIn(['results', queryId, 'total'], total);
+                .setIn(['results', queryId, 'status'], 'done');
         },
         [actions.failSearch]: (state, { payload: queryId }) => {
             return state.setIn(['results', queryId, 'status'], 'failed');
