@@ -18,9 +18,7 @@ var _getSearchCountWorker = require("./workers/getSearchCountWorker");
 // Core
 // Instruments
 var watchers = Object.freeze({
-  runSearchWatcher:
-  /*#__PURE__*/
-  regeneratorRuntime.mark(function runSearchWatcher() {
+  runSearchWatcher: /*#__PURE__*/regeneratorRuntime.mark(function runSearchWatcher() {
     return regeneratorRuntime.wrap(function runSearchWatcher$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
@@ -35,9 +33,7 @@ var watchers = Object.freeze({
       }
     }, runSearchWatcher);
   }),
-  getSearchOperatorsWatcher:
-  /*#__PURE__*/
-  regeneratorRuntime.mark(function getSearchOperatorsWatcher() {
+  getSearchOperatorsWatcher: /*#__PURE__*/regeneratorRuntime.mark(function getSearchOperatorsWatcher() {
     return regeneratorRuntime.wrap(function getSearchOperatorsWatcher$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
@@ -52,9 +48,7 @@ var watchers = Object.freeze({
       }
     }, getSearchOperatorsWatcher);
   }),
-  getSearchTransportsWatcher:
-  /*#__PURE__*/
-  regeneratorRuntime.mark(function getSearchTransportsWatcher() {
+  getSearchTransportsWatcher: /*#__PURE__*/regeneratorRuntime.mark(function getSearchTransportsWatcher() {
     return regeneratorRuntime.wrap(function getSearchTransportsWatcher$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
@@ -69,9 +63,7 @@ var watchers = Object.freeze({
       }
     }, getSearchTransportsWatcher);
   }),
-  getSearchCategoriesWatcher:
-  /*#__PURE__*/
-  regeneratorRuntime.mark(function getSearchCategoriesWatcher() {
+  getSearchCategoriesWatcher: /*#__PURE__*/regeneratorRuntime.mark(function getSearchCategoriesWatcher() {
     return regeneratorRuntime.wrap(function getSearchCategoriesWatcher$(_context4) {
       while (1) {
         switch (_context4.prev = _context4.next) {
@@ -86,9 +78,7 @@ var watchers = Object.freeze({
       }
     }, getSearchCategoriesWatcher);
   }),
-  getSearchPricesWatcher:
-  /*#__PURE__*/
-  regeneratorRuntime.mark(function getSearchPricesWatcher() {
+  getSearchPricesWatcher: /*#__PURE__*/regeneratorRuntime.mark(function getSearchPricesWatcher() {
     return regeneratorRuntime.wrap(function getSearchPricesWatcher$(_context5) {
       while (1) {
         switch (_context5.prev = _context5.next) {
@@ -103,9 +93,7 @@ var watchers = Object.freeze({
       }
     }, getSearchPricesWatcher);
   }),
-  getSearchCountWatcher:
-  /*#__PURE__*/
-  regeneratorRuntime.mark(function getSearchCountWatcher() {
+  getSearchCountWatcher: /*#__PURE__*/regeneratorRuntime.mark(function getSearchCountWatcher() {
     return regeneratorRuntime.wrap(function getSearchCountWatcher$(_context6) {
       while (1) {
         switch (_context6.prev = _context6.next) {

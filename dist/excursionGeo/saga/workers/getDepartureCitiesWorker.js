@@ -11,9 +11,7 @@ var _excursionApi = require("@otpusk/excursion-api");
 
 var _actions = require("../../actions");
 
-var _marked =
-/*#__PURE__*/
-regeneratorRuntime.mark(getDepartureCitiesWorker);
+var _marked = /*#__PURE__*/regeneratorRuntime.mark(getDepartureCitiesWorker);
 
 function getDepartureCitiesWorker(_ref) {
   var countryId, cities;

@@ -11,9 +11,7 @@ var _actions = require("../../actions");
 
 var _dist = require("@otpusk/json-api/dist");
 
-var _marked =
-/*#__PURE__*/
-regeneratorRuntime.mark(validateOfferAdditionalCostsWorker);
+var _marked = /*#__PURE__*/regeneratorRuntime.mark(validateOfferAdditionalCostsWorker);
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
@@ -22,20 +20,20 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function validateOfferAdditionalCostsWorker(_ref) {
-  var _ref$payload, offerId, queryId, _ref2, departure, isBus, token, validatedTour;
+  var offerId, _ref2, departure, isBus, token, validatedTour;
 
   return regeneratorRuntime.wrap(function validateOfferAdditionalCostsWorker$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
-          _ref$payload = _ref.payload, offerId = _ref$payload.offerId, queryId = _ref$payload.queryId;
+          offerId = _ref.payload.offerId;
           _context.prev = 1;
           _context.next = 4;
           return (0, _effects.select)(function (_ref3) {
-            var queries = _ref3.queries;
+            var offers = _ref3.offers;
             return {
-              departure: queries.getIn([queryId, 'departure']),
-              isBus: queries.getIn([queryId, 'transport', 'bus'], false)
+              departure: offers.getIn(['store', offerId, 'departure']),
+              isBus: offers.getIn(['store', offerId, 'transport'], 'air') === 'bus'
             };
           });
 

@@ -15,9 +15,7 @@ var _jsonApi = require("@otpusk/json-api");
 
 var _fn = require("../../../queries/fn");
 
-var _marked =
-/*#__PURE__*/
-regeneratorRuntime.mark(checkOfferStatusWorker);
+var _marked = /*#__PURE__*/regeneratorRuntime.mark(checkOfferStatusWorker);
 
 function checkOfferStatusWorker(_ref) {
   var _ref$payload, offerId, queryId, currentOffer, adults, children, tourists, token, _ref5, freshOffer, code, isTouched;
