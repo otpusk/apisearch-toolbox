@@ -25,12 +25,8 @@ function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) ||
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
-var _marked =
-/*#__PURE__*/
-regeneratorRuntime.mark(parseQueryParam),
-    _marked2 =
-/*#__PURE__*/
-regeneratorRuntime.mark(parseQueryStringWorker);
+var _marked = /*#__PURE__*/regeneratorRuntime.mark(parseQueryParam),
+    _marked2 = /*#__PURE__*/regeneratorRuntime.mark(parseQueryStringWorker);
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -109,9 +105,7 @@ function parseQueryStringWorker(_ref) {
           _didIteratorError = false;
           _iteratorError = undefined;
           _context3.prev = 9;
-          _loop =
-          /*#__PURE__*/
-          regeneratorRuntime.mark(function _loop() {
+          _loop = /*#__PURE__*/regeneratorRuntime.mark(function _loop() {
             var _step$value, paramName, position, rawValue;
 
             return regeneratorRuntime.wrap(function _loop$(_context2) {
