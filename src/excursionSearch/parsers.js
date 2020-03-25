@@ -1,7 +1,7 @@
 // Core
 import moment from 'moment';
 
-export { numbersArrayParser, arrayParser} from '../queries/parsers';
+export { numbersArrayParser, arrayParser } from '../queries/parsers';
 
 /**
  * Parse date
@@ -9,8 +9,9 @@ export { numbersArrayParser, arrayParser} from '../queries/parsers';
  * @param {string} value date
  * @returns {Date} date
  */
-export const dateParser = value => {
+export const dateParser = (value) => {
     const parsedDate = moment(value, "DD-MM-YYYY");
+
+
     return parsedDate.isValid() ? parsedDate : null;
 };
-

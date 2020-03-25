@@ -55,6 +55,7 @@ export class Query extends OrderedMap {
         if (query) {
             return makeQuery(query);
         }
+
         return makeQuery(OrderedMap(Query.defaults));
     }
 
