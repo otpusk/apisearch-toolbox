@@ -207,17 +207,16 @@ function runSearchWorker(_ref) {
           })(), "t0", 3);
 
         case 3:
-          _context3.next = 10;
+          _context3.next = 9;
           break;
 
         case 5:
           _context3.prev = 5;
           _context3.t1 = _context3["catch"](1);
-          console.error(_context3.t1);
-          _context3.next = 10;
+          _context3.next = 9;
           return (0, _effects.put)(_actions.searchActions.failSearch(queryId));
 
-        case 10:
+        case 9:
         case "end":
           return _context3.stop();
       }
