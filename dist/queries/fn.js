@@ -8,9 +8,11 @@ exports.createSearchQuery = createSearchQuery;
 exports.createResultBones = createResultBones;
 exports.compileQuery = compileQuery;
 exports.compileSearchQuery = compileSearchQuery;
+exports.compileQueryToHash = compileQueryToHash;
 exports.convertToOtpQuery = convertToOtpQuery;
 exports.parseOSQueryHash = parseOSQueryHash;
 exports.parseQueryString = parseQueryString;
+exports.parseHashToQuery = parseHashToQuery;
 exports.GLUE = exports.QUERY_PARAMS = void 0;
 
 var _immutable = require("immutable");
@@ -463,4 +465,48 @@ function parseOSQueryHash(queryHash, baseQuery) {
         return query;
     }
   }, base);
+} // компилирует запрос в новый вид хеша (как на новой экскурсионке)
+
+
+function compileQueryToHash(query) {
+  var _fieldsToCompilers3;
+
+  var fieldsToCompilers = (_fieldsToCompilers3 = {}, _defineProperty(_fieldsToCompilers3, QUERY_PARAMS.AUTOSTART, _compilers.numberCompiler), _defineProperty(_fieldsToCompilers3, QUERY_PARAMS.DEPARTURE, _compilers.toStringCompiler), _defineProperty(_fieldsToCompilers3, QUERY_PARAMS.COUNTRY, _compilers.numberCompiler), _defineProperty(_fieldsToCompilers3, QUERY_PARAMS.CITIES, _compilers.immutableArrayCompiler), _defineProperty(_fieldsToCompilers3, QUERY_PARAMS.HOTELS, _compilers.immutableArrayCompiler), _defineProperty(_fieldsToCompilers3, QUERY_PARAMS.CATEGORY, _compilers.binaryCompiler), _defineProperty(_fieldsToCompilers3, QUERY_PARAMS.DATES, _compilers.datesCompiler), _defineProperty(_fieldsToCompilers3, QUERY_PARAMS.DURATION, _compilers.rangeCompiler), _defineProperty(_fieldsToCompilers3, QUERY_PARAMS.ADULTS, _compilers.toStringCompiler), _defineProperty(_fieldsToCompilers3, QUERY_PARAMS.CHILDREN, _compilers.immutableArrayCompiler), _defineProperty(_fieldsToCompilers3, QUERY_PARAMS.FOOD, _compilers.binaryCompiler), _defineProperty(_fieldsToCompilers3, QUERY_PARAMS.TRANSPORT, _compilers.binaryCompiler), _defineProperty(_fieldsToCompilers3, QUERY_PARAMS.PRICE, _compilers.rangeCompiler), _defineProperty(_fieldsToCompilers3, QUERY_PARAMS.SERVICES, _compilers.immutableArrayCompiler), _defineProperty(_fieldsToCompilers3, QUERY_PARAMS.RATING, _compilers.rangeCompiler), _defineProperty(_fieldsToCompilers3, QUERY_PARAMS.CURRENCY, _compilers.toStringCompiler), _defineProperty(_fieldsToCompilers3, QUERY_PARAMS.WITHOUT_SPO, _compilers.numberCompiler), _defineProperty(_fieldsToCompilers3, QUERY_PARAMS.FLIGHT_AVAILABILITY, _compilers.immutableArrayCompiler), _defineProperty(_fieldsToCompilers3, QUERY_PARAMS.HOTEL_AVAILABILITY, _compilers.immutableArrayCompiler), _defineProperty(_fieldsToCompilers3, QUERY_PARAMS.PAGE, _compilers.numberCompiler), _defineProperty(_fieldsToCompilers3, QUERY_PARAMS.OPERATORS, _compilers.immutableArrayCompiler), _fieldsToCompilers3);
+  return GLUE.field + query.map(function (value, field) {
+    return value && field in fieldsToCompilers ? fieldsToCompilers[field](value) : GLUE.empty;
+  }).toList().join(GLUE.field).replace(new RegExp("[".concat(GLUE.field).concat(GLUE.empty, "]+$")), '');
+} // новый хеш в квери
+
+
+function parseHashToQuery(queryString) {
+  var query = createQuery();
+  var params = queryString.replace('#/', '').split('/');
+
+  var parseQueryParam = function parseQueryParam(currentValue, paramName, rawValue) {
+    var _paramsToParsers2;
+
+    var paramsToParsers = (_paramsToParsers2 = {}, _defineProperty(_paramsToParsers2, QUERY_PARAMS.AUTOSTART, Boolean), _defineProperty(_paramsToParsers2, QUERY_PARAMS.DEPARTURE, Number), _defineProperty(_paramsToParsers2, QUERY_PARAMS.CATEGORY, _parsers.binaryParser), _defineProperty(_paramsToParsers2, QUERY_PARAMS.TRANSPORT, _parsers.binaryParser), _defineProperty(_paramsToParsers2, QUERY_PARAMS.FOOD, _parsers.binaryParser), _defineProperty(_paramsToParsers2, QUERY_PARAMS.DATES, _parsers.datesParser), _defineProperty(_paramsToParsers2, QUERY_PARAMS.DURATION, _parsers.rangeParser), _defineProperty(_paramsToParsers2, QUERY_PARAMS.ADULTS, Number), _defineProperty(_paramsToParsers2, QUERY_PARAMS.CHILDREN, (0, _parsers.createImmutableNumbersArrayParser)(_immutable.List)), _defineProperty(_paramsToParsers2, QUERY_PARAMS.COUNTRY, String), _defineProperty(_paramsToParsers2, QUERY_PARAMS.CITIES, (0, _parsers.createImmutableNumbersArrayParser)(_immutable.Set)), _defineProperty(_paramsToParsers2, QUERY_PARAMS.HOTELS, (0, _parsers.createImmutableNumbersArrayParser)(_immutable.Set)), _defineProperty(_paramsToParsers2, QUERY_PARAMS.PRICE, _parsers.rangeParser), _defineProperty(_paramsToParsers2, QUERY_PARAMS.SERVICES, (0, _parsers.createImmutableArrayParser)(_immutable.Set)), _defineProperty(_paramsToParsers2, QUERY_PARAMS.RATING, _parsers.rangeParser), _defineProperty(_paramsToParsers2, QUERY_PARAMS.CURRENCY, String), _defineProperty(_paramsToParsers2, QUERY_PARAMS.WITHOUT_SPO, _parsers.parseStringIntengerToBoolean), _defineProperty(_paramsToParsers2, QUERY_PARAMS.FLIGHT_AVAILABILITY, (0, _parsers.createImmutableArrayParser)(_immutable.Set)), _defineProperty(_paramsToParsers2, QUERY_PARAMS.HOTEL_AVAILABILITY, (0, _parsers.createImmutableArrayParser)(_immutable.Set)), _defineProperty(_paramsToParsers2, QUERY_PARAMS.PAGE, Number), _defineProperty(_paramsToParsers2, QUERY_PARAMS.OPERATORS, (0, _parsers.createImmutableArrayParser)(_immutable.Set)), _paramsToParsers2);
+
+    if (rawValue) {
+      if (rawValue === GLUE.empty) {
+        return DEFAULTS[paramName];
+      }
+
+      if (paramName in paramsToParsers) {
+        return paramsToParsers[paramName](rawValue, {
+          prevValue: currentValue
+        });
+      }
+    }
+
+    return currentValue;
+  };
+
+  return query.map(function (currentValue, paramName) {
+    var position = query.keySeq().findIndex(function (f) {
+      return f === paramName;
+    });
+    var rawValue = position in params ? params[position] : null;
+    return rawValue ? parseQueryParam(currentValue, paramName, rawValue) : currentValue;
+  });
 }

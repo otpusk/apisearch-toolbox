@@ -442,6 +442,95 @@ function parseOSQueryHash (queryHash, baseQuery) {
         }, base);
 }
 
+// компилирует запрос в новый вид хеша (как на новой экскурсионке)
+function compileQueryToHash (query) {
+    const fieldsToCompilers = {
+        [QUERY_PARAMS.AUTOSTART]:           numberCompiler,
+        [QUERY_PARAMS.DEPARTURE]:           toStringCompiler,
+        [QUERY_PARAMS.COUNTRY]:             numberCompiler,
+        [QUERY_PARAMS.CITIES]:              immutableArrayCompiler,
+        [QUERY_PARAMS.HOTELS]:              immutableArrayCompiler,
+        [QUERY_PARAMS.CATEGORY]:            binaryCompiler,
+        [QUERY_PARAMS.DATES]:               datesCompiler,
+        [QUERY_PARAMS.DURATION]:            rangeCompiler,
+        [QUERY_PARAMS.ADULTS]:              toStringCompiler,
+        [QUERY_PARAMS.CHILDREN]:            immutableArrayCompiler,
+        [QUERY_PARAMS.FOOD]:                binaryCompiler,
+        [QUERY_PARAMS.TRANSPORT]:           binaryCompiler,
+        [QUERY_PARAMS.PRICE]:               rangeCompiler,
+        [QUERY_PARAMS.SERVICES]:            immutableArrayCompiler,
+        [QUERY_PARAMS.RATING]:              rangeCompiler,
+        [QUERY_PARAMS.CURRENCY]:            toStringCompiler,
+        [QUERY_PARAMS.WITHOUT_SPO]:         numberCompiler,
+        [QUERY_PARAMS.FLIGHT_AVAILABILITY]: immutableArrayCompiler,
+        [QUERY_PARAMS.HOTEL_AVAILABILITY]:  immutableArrayCompiler,
+        [QUERY_PARAMS.PAGE]:                numberCompiler,
+        [QUERY_PARAMS.OPERATORS]:           immutableArrayCompiler,
+    };
+
+    return GLUE.field + query.map((value, field) =>
+        value && field in fieldsToCompilers
+            ? fieldsToCompilers[field](value)
+            : GLUE.empty
+    )
+        .toList()
+        .join(GLUE.field)
+        .replace(new RegExp(`[${GLUE.field}${GLUE.empty}]+$`), '');
+}
+
+// новый хеш в квери
+function parseHashToQuery (queryString) {
+    const query = createQuery();
+    const params = queryString.replace('#/', '').split('/');
+
+    const parseQueryParam = (currentValue, paramName, rawValue) => {
+        const paramsToParsers = {
+            [QUERY_PARAMS.AUTOSTART]:           Boolean,
+            [QUERY_PARAMS.DEPARTURE]:           Number,
+            [QUERY_PARAMS.CATEGORY]:            binaryParser,
+            [QUERY_PARAMS.TRANSPORT]:           binaryParser,
+            [QUERY_PARAMS.FOOD]:                binaryParser,
+            [QUERY_PARAMS.DATES]:               datesParser,
+            [QUERY_PARAMS.DURATION]:            rangeParser,
+            [QUERY_PARAMS.ADULTS]:              Number,
+            [QUERY_PARAMS.CHILDREN]:            createImmutableNumbersArrayParser(List),
+            [QUERY_PARAMS.COUNTRY]:             String,
+            [QUERY_PARAMS.CITIES]:              createImmutableNumbersArrayParser(Set),
+            [QUERY_PARAMS.HOTELS]:              createImmutableNumbersArrayParser(Set),
+            [QUERY_PARAMS.PRICE]:               rangeParser,
+            [QUERY_PARAMS.SERVICES]:            createImmutableArrayParser(Set),
+            [QUERY_PARAMS.RATING]:              rangeParser,
+            [QUERY_PARAMS.CURRENCY]:            String,
+            [QUERY_PARAMS.WITHOUT_SPO]:         parseStringIntengerToBoolean,
+            [QUERY_PARAMS.FLIGHT_AVAILABILITY]: createImmutableArrayParser(Set),
+            [QUERY_PARAMS.HOTEL_AVAILABILITY]:  createImmutableArrayParser(Set),
+            [QUERY_PARAMS.PAGE]:                Number,
+            [QUERY_PARAMS.OPERATORS]:           createImmutableArrayParser(Set),
+        };
+
+        if (rawValue) {
+            if (rawValue === GLUE.empty) {
+                return DEFAULTS[paramName];
+            }
+
+            if (paramName in paramsToParsers) {
+                return paramsToParsers[paramName](rawValue, { prevValue: currentValue });
+            }
+        }
+
+        return currentValue;
+    };
+
+    return query.map((currentValue, paramName) => {
+        const position = query.keySeq().findIndex((f) => f === paramName);
+        const rawValue = position in params ? params[position] : null;
+
+        return rawValue
+            ? parseQueryParam(currentValue, paramName, rawValue)
+            : currentValue;
+    });
+}
+
 export {
     QUERY_PARAMS,
     GLUE,
@@ -450,7 +539,9 @@ export {
     createResultBones,
     compileQuery,
     compileSearchQuery,
+    compileQueryToHash,
     convertToOtpQuery,
     parseOSQueryHash,
-    parseQueryString
+    parseQueryString,
+    parseHashToQuery
 };
