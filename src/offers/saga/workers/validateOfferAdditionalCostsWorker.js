@@ -3,11 +3,11 @@ import { call, put, select } from 'redux-saga/effects';
 import { offersActions } from '../../actions';
 import { getToursValidate } from '@otpusk/json-api/dist';
 
-export function* validateOfferAdditionalCostsWorker ({ payload: { offerId, queryId }}) {
+export function* validateOfferAdditionalCostsWorker ({ payload: { offerId }}) {
     try {
-        const { departure, isBus } = yield select(({ queries }) => ({
-            departure: queries.getIn([queryId, 'departure']),
-            isBus:     queries.getIn([queryId, 'transport', 'bus'], false),
+        const { departure, isBus } = yield select(({ offers }) => ({
+            departure: offers.getIn(['store', offerId, 'departure']),
+            isBus:     offers.getIn(['store', offerId, 'transport'], 'air') === 'bus',
         }));
 
         yield put(offersActions.setOfferAdditionalCostsStatus(offerId, true));

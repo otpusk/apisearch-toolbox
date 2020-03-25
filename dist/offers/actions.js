@@ -55,10 +55,9 @@ var offersActions = (0, _reduxActions.createActions)({
   CHECK_OFFER_STATUS_FAIL: function CHECK_OFFER_STATUS_FAIL(error) {
     return error;
   },
-  VALIDATE_OFFER_ADDITIONAL_COSTS: function VALIDATE_OFFER_ADDITIONAL_COSTS(offerId, queryId) {
+  VALIDATE_OFFER_ADDITIONAL_COSTS: function VALIDATE_OFFER_ADDITIONAL_COSTS(offerId) {
     return {
-      offerId: offerId,
-      queryId: queryId
+      offerId: offerId
     };
   },
   VALIDATE_OFFER_ADDITIONAL_COSTS_SUCCESS: function VALIDATE_OFFER_ADDITIONAL_COSTS_SUCCESS(offerId, validatedTour) {

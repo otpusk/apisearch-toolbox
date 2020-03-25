@@ -15,9 +15,7 @@ var _actions = require("../../actions");
 
 var _fn = require("../../../queries/fn");
 
-var _marked =
-/*#__PURE__*/
-regeneratorRuntime.mark(getPriceChartWorker);
+var _marked = /*#__PURE__*/regeneratorRuntime.mark(getPriceChartWorker);
 
 var computedToParam = function computedToParam(query) {
   var IS_SET_SINGLE_HOTEL = query.get(_fn.QUERY_PARAMS.HOTELS, (0, _immutable.Set)()).size === 1;
