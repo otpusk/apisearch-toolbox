@@ -14,7 +14,9 @@ var _workers = require("./workers");
 // Core
 // Instruments
 var hotelsWatchers = Object.freeze({
-  getHotelWatcher: /*#__PURE__*/regeneratorRuntime.mark(function getHotelWatcher() {
+  getHotelWatcher:
+  /*#__PURE__*/
+  regeneratorRuntime.mark(function getHotelWatcher() {
     return regeneratorRuntime.wrap(function getHotelWatcher$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
@@ -29,7 +31,9 @@ var hotelsWatchers = Object.freeze({
       }
     }, getHotelWatcher);
   }),
-  getHotelsMarkersWatcher: /*#__PURE__*/regeneratorRuntime.mark(function getHotelsMarkersWatcher() {
+  getHotelsMarkersWatcher:
+  /*#__PURE__*/
+  regeneratorRuntime.mark(function getHotelsMarkersWatcher() {
     return regeneratorRuntime.wrap(function getHotelsMarkersWatcher$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
@@ -44,7 +48,9 @@ var hotelsWatchers = Object.freeze({
       }
     }, getHotelsMarkersWatcher);
   }),
-  getSimilarHotelsWatcher: /*#__PURE__*/regeneratorRuntime.mark(function getSimilarHotelsWatcher() {
+  getSimilarHotelsWatcher:
+  /*#__PURE__*/
+  regeneratorRuntime.mark(function getSimilarHotelsWatcher() {
     return regeneratorRuntime.wrap(function getSimilarHotelsWatcher$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {

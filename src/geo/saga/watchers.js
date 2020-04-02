@@ -9,6 +9,7 @@ import { getCitiesWorker } from './workers/getCitiesWorker';
 import { getHotelsWorker } from './workers/getHotelsWorker';
 import { getDepartureCitiesWorker } from './workers/getDepartureCitiesWorker';
 import { getOperatorsWorker } from './workers/getOperatorsWorker';
+import { getGeoTreeWorker } from './workers/getGeoTreeWorker';
 
 export const geoWatchers =  Object.freeze({
     * getSuggestsWatcher () {
@@ -28,5 +29,8 @@ export const geoWatchers =  Object.freeze({
     },
     * getOperatorsWatcher () {
         yield takeEvery(geoActions.getOperators, getOperatorsWorker);
+    },
+    * getGeoTreeWatcher () {
+        yield takeEvery(geoActions.getGeoTree, getGeoTreeWorker);
     },
 });

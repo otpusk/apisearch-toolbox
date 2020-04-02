@@ -38,6 +38,9 @@ export const geoReducer = handleActions(
         [geoActions.getOperatorsSuccess]: (state, { payload: { countryId, operators }}) => {
             return state.setIn(['operators', countryId], operators);
         },
+        [geoActions.getGeoTreeSuccess]: (state, { payload: { geoTree }}) => {
+            return state.set('geoTree', geoTree);
+        },
     },
     initalState
 );

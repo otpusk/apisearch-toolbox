@@ -11,7 +11,9 @@ var _actions = require("../../actions");
 
 var _excursionApi = require("@otpusk/excursion-api");
 
-var _marked = /*#__PURE__*/regeneratorRuntime.mark(getTourWorker);
+var _marked =
+/*#__PURE__*/
+regeneratorRuntime.mark(getTourWorker);
 
 function getTourWorker(_ref) {
   var tourId, tour;

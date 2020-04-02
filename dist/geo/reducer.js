@@ -54,5 +54,8 @@ var geoReducer = (0, _reduxActions.handleActions)((_handleActions = {}, _defineP
       countryId = _ref6$payload.countryId,
       operators = _ref6$payload.operators;
   return state.setIn(['operators', countryId], operators);
+}), _defineProperty(_handleActions, _actions.geoActions.getGeoTreeSuccess, function (state, _ref7) {
+  var geoTree = _ref7.payload.geoTree;
+  return state.set('geoTree', geoTree);
 }), _handleActions), initalState);
 exports.geoReducer = geoReducer;

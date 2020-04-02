@@ -19,7 +19,9 @@ var _actions2 = require("../../../hotels/actions");
 
 var _actions3 = require("../../../offers/actions");
 
-var _marked = /*#__PURE__*/regeneratorRuntime.mark(runSearchWorker);
+var _marked =
+/*#__PURE__*/
+regeneratorRuntime.mark(runSearchWorker);
 
 // current result gets filled despite any operators progress status on step 7
 var GUARANTEED_RESULT_STEP = 7;
@@ -32,7 +34,9 @@ function runSearchWorker(_ref) {
         case 0:
           queryId = _ref.payload;
           _context3.prev = 1;
-          return _context3.delegateYield( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+          return _context3.delegateYield(
+          /*#__PURE__*/
+          regeneratorRuntime.mark(function _callee() {
             var query, lang, token, otpsukQuery, totalResults, _loop, _ret;
 
             return regeneratorRuntime.wrap(function _callee$(_context2) {
@@ -67,7 +71,9 @@ function runSearchWorker(_ref) {
                   case 12:
                     otpsukQuery.number = 0;
                     totalResults = 0;
-                    _loop = /*#__PURE__*/regeneratorRuntime.mark(function _loop() {
+                    _loop =
+                    /*#__PURE__*/
+                    regeneratorRuntime.mark(function _loop() {
                       var _ref2, finished, result, country, operators, total, meta, getPriceValueByOfferId, hotels, offers;
 
                       return regeneratorRuntime.wrap(function _loop$(_context) {

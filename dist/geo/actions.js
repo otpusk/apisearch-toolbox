@@ -85,6 +85,17 @@ var geoActions = (0, _reduxActions.createActions)({
   },
   GET_OPERATORS_FAIL: function GET_OPERATORS_FAIL(error) {
     return error;
+  },
+  GET_GEO_TREE: function GET_GEO_TREE() {
+    return void 0;
+  },
+  GET_GEO_TREE_SUCCESS: function GET_GEO_TREE_SUCCESS(geoTree) {
+    return {
+      geoTree: geoTree
+    };
+  },
+  GET_GEO_TREE_FAIL: function GET_GEO_TREE_FAIL(error) {
+    return error;
   }
 });
 exports.geoActions = geoActions;
