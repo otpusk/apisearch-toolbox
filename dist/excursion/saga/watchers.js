@@ -16,7 +16,9 @@ var _getCountriesWorker = require("./workers/getCountriesWorker");
 // Core
 // Instruments
 var watchers = Object.freeze({
-  getMainpageWatcher: /*#__PURE__*/regeneratorRuntime.mark(function getMainpageWatcher() {
+  getMainpageWatcher:
+  /*#__PURE__*/
+  regeneratorRuntime.mark(function getMainpageWatcher() {
     return regeneratorRuntime.wrap(function getMainpageWatcher$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
@@ -31,7 +33,9 @@ var watchers = Object.freeze({
       }
     }, getMainpageWatcher);
   }),
-  getCountriesWatcher: /*#__PURE__*/regeneratorRuntime.mark(function getCountriesWatcher() {
+  getCountriesWatcher:
+  /*#__PURE__*/
+  regeneratorRuntime.mark(function getCountriesWatcher() {
     return regeneratorRuntime.wrap(function getCountriesWatcher$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {

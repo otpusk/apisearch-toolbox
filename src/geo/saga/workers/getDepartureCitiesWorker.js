@@ -9,7 +9,7 @@ export function* getDepartureCitiesWorker ({ payload: countryId }) {
     try {
         const { token, lang } = yield select(({ auth }) => ({
             token: auth.getIn(['otpusk', 'token']),
-            lang: auth.getIn(['otpusk', 'lang'], 'rus'),
+            lang:  auth.getIn(['otpusk', 'lang'], 'rus'),
         }));
         const departures = yield call(getToursDepartureCities, token, { geoId: countryId, lang });
 

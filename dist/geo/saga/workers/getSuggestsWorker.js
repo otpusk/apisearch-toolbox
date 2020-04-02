@@ -11,7 +11,9 @@ var _actions = require("../../actions");
 
 var _jsonApi = require("@otpusk/json-api");
 
-var _marked = /*#__PURE__*/regeneratorRuntime.mark(getSuggestsWorker);
+var _marked =
+/*#__PURE__*/
+regeneratorRuntime.mark(getSuggestsWorker);
 
 function getSuggestsWorker(_ref) {
   var key, token, lang, suggestions;

@@ -25,4 +25,8 @@ export const geoActions = createActions({
     GET_OPERATORS:         (countryId) => countryId,
     GET_OPERATORS_SUCCESS: (countryId, operators) => ({ countryId, operators }),
     GET_OPERATORS_FAIL:    (error) => error,
+
+    GET_GEO_TREE:         () => void 0,
+    GET_GEO_TREE_SUCCESS: (geoTree) => ({ geoTree }),
+    GET_GEO_TREE_FAIL:    (error) => error,
 });

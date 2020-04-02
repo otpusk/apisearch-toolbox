@@ -59,7 +59,9 @@ var GLUE = {
 };
 exports.GLUE = GLUE;
 
-var Query = /*#__PURE__*/function (_OrderedMap) {
+var Query =
+/*#__PURE__*/
+function (_OrderedMap) {
   _inherits(Query, _OrderedMap);
 
   function Query(query) {

@@ -14,10 +14,18 @@ var _actions = require("../../actions");
 
 var _excursionApi = require("@otpusk/excursion-api");
 
-var _marked = /*#__PURE__*/regeneratorRuntime.mark(getSearchOperatorsWorker),
-    _marked2 = /*#__PURE__*/regeneratorRuntime.mark(getSearchTransportsWorker),
-    _marked3 = /*#__PURE__*/regeneratorRuntime.mark(getSearchCategoriesWorker),
-    _marked4 = /*#__PURE__*/regeneratorRuntime.mark(getSearchPricesWorker);
+var _marked =
+/*#__PURE__*/
+regeneratorRuntime.mark(getSearchOperatorsWorker),
+    _marked2 =
+/*#__PURE__*/
+regeneratorRuntime.mark(getSearchTransportsWorker),
+    _marked3 =
+/*#__PURE__*/
+regeneratorRuntime.mark(getSearchCategoriesWorker),
+    _marked4 =
+/*#__PURE__*/
+regeneratorRuntime.mark(getSearchPricesWorker);
 
 function getSearchOperatorsWorker() {
   var operators;
