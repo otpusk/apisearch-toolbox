@@ -15,9 +15,7 @@ var _actions = require("../../actions");
 
 var _fn = require("../../../queries/fn");
 
-var _marked =
-/*#__PURE__*/
-regeneratorRuntime.mark(getPriceChartWorker);
+var _marked = /*#__PURE__*/regeneratorRuntime.mark(getPriceChartWorker);
 
 var computedToParam = function computedToParam(query) {
   var IS_SET_SINGLE_HOTEL = query.get(_fn.QUERY_PARAMS.HOTELS, (0, _immutable.Set)()).size === 1;
@@ -35,7 +33,7 @@ var computedToParam = function computedToParam(query) {
 };
 
 function getPriceChartWorker(_ref) {
-  var payload, queryId, duration, _ref2, query, token, params, chart;
+  var payload, queryId, duration, _yield$select, query, token, params, chart;
 
   return regeneratorRuntime.wrap(function getPriceChartWorker$(_context) {
     while (1) {
@@ -45,9 +43,9 @@ function getPriceChartWorker(_ref) {
           queryId = payload.queryId, duration = payload.duration;
           _context.prev = 2;
           _context.next = 5;
-          return (0, _effects.select)(function (_ref3) {
-            var queries = _ref3.queries,
-                auth = _ref3.auth;
+          return (0, _effects.select)(function (_ref2) {
+            var queries = _ref2.queries,
+                auth = _ref2.auth;
             return {
               query: queries.get(queryId),
               token: auth.getIn(['otpusk', 'token'])
@@ -55,9 +53,9 @@ function getPriceChartWorker(_ref) {
           });
 
         case 5:
-          _ref2 = _context.sent;
-          query = _ref2.query;
-          token = _ref2.token;
+          _yield$select = _context.sent;
+          query = _yield$select.query;
+          token = _yield$select.token;
           params = {
             to: computedToParam(query),
             from: query.get(_fn.QUERY_PARAMS.DEPARTURE),

@@ -11,12 +11,10 @@ var _jsonApi = require("@otpusk/json-api");
 
 var _actions = require("../../actions");
 
-var _marked =
-/*#__PURE__*/
-regeneratorRuntime.mark(getServicesWorker);
+var _marked = /*#__PURE__*/regeneratorRuntime.mark(getServicesWorker);
 
 function getServicesWorker(_ref) {
-  var countryId, _ref2, token, lang, services;
+  var countryId, _yield$select, token, lang, services;
 
   return regeneratorRuntime.wrap(function getServicesWorker$(_context) {
     while (1) {
@@ -25,8 +23,8 @@ function getServicesWorker(_ref) {
           countryId = _ref.payload;
           _context.prev = 1;
           _context.next = 4;
-          return (0, _effects.select)(function (_ref3) {
-            var auth = _ref3.auth;
+          return (0, _effects.select)(function (_ref2) {
+            var auth = _ref2.auth;
             return {
               token: auth.getIn(['otpusk', 'token']),
               lang: auth.getIn(['otpusk', 'lang'])
@@ -34,9 +32,9 @@ function getServicesWorker(_ref) {
           });
 
         case 4:
-          _ref2 = _context.sent;
-          token = _ref2.token;
-          lang = _ref2.lang;
+          _yield$select = _context.sent;
+          token = _yield$select.token;
+          lang = _yield$select.lang;
           _context.next = 9;
           return (0, _effects.call)(_jsonApi.getToursServices, token, countryId, lang);
 

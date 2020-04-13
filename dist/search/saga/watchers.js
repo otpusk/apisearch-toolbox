@@ -14,9 +14,7 @@ var _workers = require("./workers");
 // Core
 // Instruments
 var searchWatchers = Object.freeze({
-  runSearchWatcher:
-  /*#__PURE__*/
-  regeneratorRuntime.mark(function runSearchWatcher() {
+  runSearchWatcher: /*#__PURE__*/regeneratorRuntime.mark(function runSearchWatcher() {
     return regeneratorRuntime.wrap(function runSearchWatcher$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
@@ -31,9 +29,7 @@ var searchWatchers = Object.freeze({
       }
     }, runSearchWatcher);
   }),
-  submitSearchWatcher:
-  /*#__PURE__*/
-  regeneratorRuntime.mark(function submitSearchWatcher() {
+  submitSearchWatcher: /*#__PURE__*/regeneratorRuntime.mark(function submitSearchWatcher() {
     return regeneratorRuntime.wrap(function submitSearchWatcher$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
@@ -48,9 +44,7 @@ var searchWatchers = Object.freeze({
       }
     }, submitSearchWatcher);
   }),
-  getPriceChartWatcher:
-  /*#__PURE__*/
-  regeneratorRuntime.mark(function getPriceChartWatcher() {
+  getPriceChartWatcher: /*#__PURE__*/regeneratorRuntime.mark(function getPriceChartWatcher() {
     return regeneratorRuntime.wrap(function getPriceChartWatcher$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
@@ -64,6 +58,21 @@ var searchWatchers = Object.freeze({
         }
       }
     }, getPriceChartWatcher);
+  }),
+  getAvailableDatesWorker: /*#__PURE__*/regeneratorRuntime.mark(function getAvailableDatesWorker() {
+    return regeneratorRuntime.wrap(function getAvailableDatesWorker$(_context4) {
+      while (1) {
+        switch (_context4.prev = _context4.next) {
+          case 0:
+            _context4.next = 2;
+            return (0, _effects.takeEvery)(_actions.searchActions.getAvailableDates, _workers.getAvailableDatesWorker);
+
+          case 2:
+          case "end":
+            return _context4.stop();
+        }
+      }
+    }, getAvailableDatesWorker);
   })
 });
 exports.searchWatchers = searchWatchers;

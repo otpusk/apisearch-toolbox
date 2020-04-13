@@ -11,9 +11,7 @@ var _actions = require("../../actions");
 
 var _jsonApi = require("@otpusk/json-api");
 
-var _marked =
-/*#__PURE__*/
-regeneratorRuntime.mark(getCitiesWorker);
+var _marked = /*#__PURE__*/regeneratorRuntime.mark(getCitiesWorker);
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
@@ -22,7 +20,7 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function getCitiesWorker(_ref) {
-  var _ref$payload, countryId, _ref$payload$options, options, _ref2, token, lang, cities;
+  var _ref$payload, countryId, _ref$payload$options, options, _yield$select, token, lang, cities;
 
   return regeneratorRuntime.wrap(function getCitiesWorker$(_context) {
     while (1) {
@@ -33,8 +31,8 @@ function getCitiesWorker(_ref) {
           } : _ref$payload$options;
           _context.prev = 1;
           _context.next = 4;
-          return (0, _effects.select)(function (_ref3) {
-            var auth = _ref3.auth;
+          return (0, _effects.select)(function (_ref2) {
+            var auth = _ref2.auth;
             return {
               token: auth.getIn(['otpusk', 'token']),
               lang: auth.getIn(['otpusk', 'lang'], 'rus')
@@ -42,9 +40,9 @@ function getCitiesWorker(_ref) {
           });
 
         case 4:
-          _ref2 = _context.sent;
-          token = _ref2.token;
-          lang = _ref2.lang;
+          _yield$select = _context.sent;
+          token = _yield$select.token;
+          lang = _yield$select.lang;
           _context.next = 9;
           return (0, _effects.call)(_jsonApi.getToursCities, token, countryId, _objectSpread({
             lang: lang

@@ -11,9 +11,7 @@ var _actions = require("../../actions");
 
 var _jsonApi = require("@otpusk/json-api");
 
-var _marked =
-/*#__PURE__*/
-regeneratorRuntime.mark(getGeoTreeWorker);
+var _marked = /*#__PURE__*/regeneratorRuntime.mark(getGeoTreeWorker);
 
 function getGeoTreeWorker() {
   var token, lang, geoTree;

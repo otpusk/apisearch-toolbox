@@ -15,12 +15,10 @@ var _jsonApi = require("@otpusk/json-api");
 
 var _fn = require("../../../queries/fn");
 
-var _marked =
-/*#__PURE__*/
-regeneratorRuntime.mark(checkOfferStatusWorker);
+var _marked = /*#__PURE__*/regeneratorRuntime.mark(checkOfferStatusWorker);
 
 function checkOfferStatusWorker(_ref) {
-  var _ref$payload, offerId, queryId, currentOffer, adults, children, tourists, token, _ref5, freshOffer, code, isTouched;
+  var _ref$payload, offerId, queryId, currentOffer, adults, children, tourists, token, _yield$call, freshOffer, code, isTouched;
 
   return regeneratorRuntime.wrap(function checkOfferStatusWorker$(_context) {
     while (1) {
@@ -68,9 +66,9 @@ function checkOfferStatusWorker(_ref) {
           return (0, _effects.call)(_jsonApi.getToursActual, token, offerId, tourists);
 
         case 17:
-          _ref5 = _context.sent;
-          freshOffer = _ref5.offer;
-          code = _ref5.code;
+          _yield$call = _context.sent;
+          freshOffer = _yield$call.offer;
+          code = _yield$call.code;
           _context.t0 = code;
           _context.next = _context.t0 === 5 ? 23 : _context.t0 === 4 ? 29 : _context.t0 === 3 ? 29 : _context.t0 === 2 ? 29 : 34;
           break;

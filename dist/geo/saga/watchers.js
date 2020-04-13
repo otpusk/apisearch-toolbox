@@ -26,9 +26,7 @@ var _getGeoTreeWorker = require("./workers/getGeoTreeWorker");
 // Core
 // Instruments
 var geoWatchers = Object.freeze({
-  getSuggestsWatcher:
-  /*#__PURE__*/
-  regeneratorRuntime.mark(function getSuggestsWatcher() {
+  getSuggestsWatcher: /*#__PURE__*/regeneratorRuntime.mark(function getSuggestsWatcher() {
     return regeneratorRuntime.wrap(function getSuggestsWatcher$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
@@ -43,9 +41,7 @@ var geoWatchers = Object.freeze({
       }
     }, getSuggestsWatcher);
   }),
-  getCountriesWatcher:
-  /*#__PURE__*/
-  regeneratorRuntime.mark(function getCountriesWatcher() {
+  getCountriesWatcher: /*#__PURE__*/regeneratorRuntime.mark(function getCountriesWatcher() {
     return regeneratorRuntime.wrap(function getCountriesWatcher$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
@@ -60,9 +56,7 @@ var geoWatchers = Object.freeze({
       }
     }, getCountriesWatcher);
   }),
-  getCitiesWatcher:
-  /*#__PURE__*/
-  regeneratorRuntime.mark(function getCitiesWatcher() {
+  getCitiesWatcher: /*#__PURE__*/regeneratorRuntime.mark(function getCitiesWatcher() {
     return regeneratorRuntime.wrap(function getCitiesWatcher$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
@@ -77,9 +71,7 @@ var geoWatchers = Object.freeze({
       }
     }, getCitiesWatcher);
   }),
-  getHotelsWatcher:
-  /*#__PURE__*/
-  regeneratorRuntime.mark(function getHotelsWatcher() {
+  getHotelsWatcher: /*#__PURE__*/regeneratorRuntime.mark(function getHotelsWatcher() {
     return regeneratorRuntime.wrap(function getHotelsWatcher$(_context4) {
       while (1) {
         switch (_context4.prev = _context4.next) {
@@ -94,9 +86,7 @@ var geoWatchers = Object.freeze({
       }
     }, getHotelsWatcher);
   }),
-  getDepartureCitiesWatcher:
-  /*#__PURE__*/
-  regeneratorRuntime.mark(function getDepartureCitiesWatcher() {
+  getDepartureCitiesWatcher: /*#__PURE__*/regeneratorRuntime.mark(function getDepartureCitiesWatcher() {
     return regeneratorRuntime.wrap(function getDepartureCitiesWatcher$(_context5) {
       while (1) {
         switch (_context5.prev = _context5.next) {
@@ -111,9 +101,7 @@ var geoWatchers = Object.freeze({
       }
     }, getDepartureCitiesWatcher);
   }),
-  getOperatorsWatcher:
-  /*#__PURE__*/
-  regeneratorRuntime.mark(function getOperatorsWatcher() {
+  getOperatorsWatcher: /*#__PURE__*/regeneratorRuntime.mark(function getOperatorsWatcher() {
     return regeneratorRuntime.wrap(function getOperatorsWatcher$(_context6) {
       while (1) {
         switch (_context6.prev = _context6.next) {
@@ -128,9 +116,7 @@ var geoWatchers = Object.freeze({
       }
     }, getOperatorsWatcher);
   }),
-  getGeoTreeWatcher:
-  /*#__PURE__*/
-  regeneratorRuntime.mark(function getGeoTreeWatcher() {
+  getGeoTreeWatcher: /*#__PURE__*/regeneratorRuntime.mark(function getGeoTreeWatcher() {
     return regeneratorRuntime.wrap(function getGeoTreeWatcher$(_context7) {
       while (1) {
         switch (_context7.prev = _context7.next) {

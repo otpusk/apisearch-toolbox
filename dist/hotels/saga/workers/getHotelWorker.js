@@ -11,12 +11,10 @@ var _actions = require("../../actions");
 
 var _jsonApi = require("@otpusk/json-api");
 
-var _marked =
-/*#__PURE__*/
-regeneratorRuntime.mark(getHotelWorker);
+var _marked = /*#__PURE__*/regeneratorRuntime.mark(getHotelWorker);
 
 function getHotelWorker(_ref) {
-  var hotelId, _ref2, token, lang, _ref4, hotel;
+  var hotelId, _yield$select, token, lang, _yield$call, hotel;
 
   return regeneratorRuntime.wrap(function getHotelWorker$(_context) {
     while (1) {
@@ -25,8 +23,8 @@ function getHotelWorker(_ref) {
           hotelId = _ref.payload;
           _context.prev = 1;
           _context.next = 4;
-          return (0, _effects.select)(function (_ref3) {
-            var auth = _ref3.auth;
+          return (0, _effects.select)(function (_ref2) {
+            var auth = _ref2.auth;
             return {
               token: auth.getIn(['otpusk', 'token']),
               lang: auth.getIn(['otpusk', 'lang'], 'ru')
@@ -34,15 +32,15 @@ function getHotelWorker(_ref) {
           });
 
         case 4:
-          _ref2 = _context.sent;
-          token = _ref2.token;
-          lang = _ref2.lang;
+          _yield$select = _context.sent;
+          token = _yield$select.token;
+          lang = _yield$select.lang;
           _context.next = 9;
           return (0, _effects.call)(_jsonApi.getToursHotel, token, hotelId, lang);
 
         case 9:
-          _ref4 = _context.sent;
-          hotel = _ref4.hotel;
+          _yield$call = _context.sent;
+          hotel = _yield$call.hotel;
           _context.next = 13;
           return (0, _effects.put)(_actions.hotelsActions.getHotelSuccess(hotel));
 

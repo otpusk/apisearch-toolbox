@@ -21,9 +21,17 @@ Object.defineProperty(exports, "getPriceChartWorker", {
     return _getPriceChartWorker.getPriceChartWorker;
   }
 });
+Object.defineProperty(exports, "getAvailableDatesWorker", {
+  enumerable: true,
+  get: function get() {
+    return _getAvailableDatesWorker.getAvailableDatesWorker;
+  }
+});
 
 var _runSearchWorker = require("./runSearchWorker");
 
 var _submitSearchWorker = require("./submitSearchWorker");
 
 var _getPriceChartWorker = require("./getPriceChartWorker");
+
+var _getAvailableDatesWorker = require("./getAvailableDatesWorker");

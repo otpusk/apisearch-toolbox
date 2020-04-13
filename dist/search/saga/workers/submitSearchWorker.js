@@ -13,12 +13,10 @@ var _actions = require("../../../search/actions");
 
 var _actions2 = require("../../../queries/actions");
 
-var _marked =
-/*#__PURE__*/
-regeneratorRuntime.mark(submitSearchWorker);
+var _marked = /*#__PURE__*/regeneratorRuntime.mark(submitSearchWorker);
 
 function submitSearchWorker(_ref) {
-  var _ref$payload, queryId, _ref$payload$targetPa, targetPage, _ref2, query, location, searchCountryId;
+  var _ref$payload, queryId, _ref$payload$targetPa, targetPage, _yield$select, query, location, searchCountryId;
 
   return regeneratorRuntime.wrap(function submitSearchWorker$(_context) {
     while (1) {
@@ -34,9 +32,9 @@ function submitSearchWorker(_ref) {
           });
 
         case 3:
-          _ref2 = _context.sent;
-          query = _ref2.query;
-          location = _ref2.location;
+          _yield$select = _context.sent;
+          query = _yield$select.query;
+          location = _yield$select.location;
           searchCountryId = query.get(_fn.QUERY_PARAMS.COUNTRY);
 
           if (!searchCountryId) {

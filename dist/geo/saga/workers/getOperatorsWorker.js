@@ -13,9 +13,7 @@ var _actions = require("../../actions");
 
 var _jsonApi = require("@otpusk/json-api");
 
-var _marked =
-/*#__PURE__*/
-regeneratorRuntime.mark(getOperatorsWorker);
+var _marked = /*#__PURE__*/regeneratorRuntime.mark(getOperatorsWorker);
 
 function getOperatorsWorker(_ref) {
   var countryId, token, operators;

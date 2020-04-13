@@ -17,20 +17,22 @@ var _fn = require("../../fn");
 
 var _parsers = require("../../parsers");
 
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 
-function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
-var _marked =
-/*#__PURE__*/
-regeneratorRuntime.mark(parseQueryParam),
-    _marked2 =
-/*#__PURE__*/
-regeneratorRuntime.mark(parseQueryStringWorker);
+function _createForOfIteratorHelper(o) { if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (o = _unsupportedIterableToArray(o))) { var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e2) { throw _e2; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var it, normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e3) { didErr = true; err = _e3; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(n); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+var _marked = /*#__PURE__*/regeneratorRuntime.mark(parseQueryParam),
+    _marked2 = /*#__PURE__*/regeneratorRuntime.mark(parseQueryStringWorker);
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -89,7 +91,7 @@ function parseQueryParam(paramName, rawValue, queryId) {
 }
 
 function parseQueryStringWorker(_ref) {
-  var _ref$payload, queryString, queryId, baseQuery, queryParams, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _loop, _iterator, _step, resultQuery;
+  var _ref$payload, queryString, queryId, baseQuery, queryParams, _iterator, _step, _loop, resultQuery;
 
   return regeneratorRuntime.wrap(function parseQueryStringWorker$(_context3) {
     while (1) {
@@ -105,13 +107,9 @@ function parseQueryStringWorker(_ref) {
           baseQuery = _context3.sent;
           queryParams = queryString.replace('#/', '').split('/');
           _context3.prev = 5;
-          _iteratorNormalCompletion = true;
-          _didIteratorError = false;
-          _iteratorError = undefined;
-          _context3.prev = 9;
-          _loop =
-          /*#__PURE__*/
-          regeneratorRuntime.mark(function _loop() {
+          _iterator = _createForOfIteratorHelper(baseQuery);
+          _context3.prev = 7;
+          _loop = /*#__PURE__*/regeneratorRuntime.mark(function _loop() {
             var _step$value, paramName, position, rawValue;
 
             return regeneratorRuntime.wrap(function _loop$(_context2) {
@@ -139,90 +137,73 @@ function parseQueryStringWorker(_ref) {
               }
             }, _loop);
           });
-          _iterator = baseQuery[Symbol.iterator]();
 
-        case 12:
-          if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
-            _context3.next = 17;
+          _iterator.s();
+
+        case 10:
+          if ((_step = _iterator.n()).done) {
+            _context3.next = 14;
             break;
           }
 
-          return _context3.delegateYield(_loop(), "t0", 14);
+          return _context3.delegateYield(_loop(), "t0", 12);
+
+        case 12:
+          _context3.next = 10;
+          break;
 
         case 14:
-          _iteratorNormalCompletion = true;
-          _context3.next = 12;
+          _context3.next = 19;
           break;
 
-        case 17:
-          _context3.next = 23;
-          break;
+        case 16:
+          _context3.prev = 16;
+          _context3.t1 = _context3["catch"](7);
+
+          _iterator.e(_context3.t1);
 
         case 19:
           _context3.prev = 19;
-          _context3.t1 = _context3["catch"](9);
-          _didIteratorError = true;
-          _iteratorError = _context3.t1;
 
-        case 23:
-          _context3.prev = 23;
-          _context3.prev = 24;
+          _iterator.f();
 
-          if (!_iteratorNormalCompletion && _iterator["return"] != null) {
-            _iterator["return"]();
-          }
+          return _context3.finish(19);
+
+        case 22:
+          _context3.next = 24;
+          return (0, _effects.put)(_actions.queriesActions.parseQueryStringSuccess(queryId));
+
+        case 24:
+          _context3.next = 30;
+          break;
 
         case 26:
           _context3.prev = 26;
-
-          if (!_didIteratorError) {
-            _context3.next = 29;
-            break;
-          }
-
-          throw _iteratorError;
-
-        case 29:
-          return _context3.finish(26);
-
-        case 30:
-          return _context3.finish(23);
-
-        case 31:
-          _context3.next = 33;
-          return (0, _effects.put)(_actions.queriesActions.parseQueryStringSuccess(queryId));
-
-        case 33:
-          _context3.next = 39;
-          break;
-
-        case 35:
-          _context3.prev = 35;
           _context3.t2 = _context3["catch"](5);
-          _context3.next = 39;
+          _context3.next = 30;
           return (0, _effects.put)(_actions.queriesActions.parseQueryStringFail(_context3.t2));
 
-        case 39:
-          _context3.next = 41;
+        case 30:
+          _context3.next = 32;
           return (0, _effects.select)(function (state) {
             return state.queries.get(queryId);
           });
 
-        case 41:
+        case 32:
           resultQuery = _context3.sent;
 
           if (!(resultQuery.get(_fn.QUERY_PARAMS.AUTOSTART) === true)) {
-            _context3.next = 45;
+            _context3.next = 36;
             break;
           }
 
-          _context3.next = 45;
+          _context3.next = 36;
           return (0, _effects.put)(_actions2.searchActions.runSearch(queryId));
 
-        case 45:
+        case 36:
         case "end":
           return _context3.stop();
       }
     }
-  }, _marked2, null, [[5, 35], [9, 19, 23, 31], [24,, 26, 30]]);
+  }, _marked2, null, [[5, 26], [7, 16, 19, 22]]);
 }

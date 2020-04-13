@@ -19,9 +19,7 @@ var _actions2 = require("../../../hotels/actions");
 
 var _actions3 = require("../../../offers/actions");
 
-var _marked =
-/*#__PURE__*/
-regeneratorRuntime.mark(runSearchWorker);
+var _marked = /*#__PURE__*/regeneratorRuntime.mark(runSearchWorker);
 
 // current result gets filled despite any operators progress status on step 7
 var GUARANTEED_RESULT_STEP = 7;
@@ -34,9 +32,7 @@ function runSearchWorker(_ref) {
         case 0:
           queryId = _ref.payload;
           _context3.prev = 1;
-          return _context3.delegateYield(
-          /*#__PURE__*/
-          regeneratorRuntime.mark(function _callee() {
+          return _context3.delegateYield( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
             var query, lang, token, otpsukQuery, totalResults, _loop, _ret;
 
             return regeneratorRuntime.wrap(function _callee$(_context2) {
@@ -71,10 +67,8 @@ function runSearchWorker(_ref) {
                   case 12:
                     otpsukQuery.number = 0;
                     totalResults = 0;
-                    _loop =
-                    /*#__PURE__*/
-                    regeneratorRuntime.mark(function _loop() {
-                      var _ref2, finished, result, country, operators, total, meta, getPriceValueByOfferId, hotels, offers;
+                    _loop = /*#__PURE__*/regeneratorRuntime.mark(function _loop() {
+                      var _yield$call, finished, result, country, operators, total, meta, getPriceValueByOfferId, hotels, offers;
 
                       return regeneratorRuntime.wrap(function _loop$(_context) {
                         while (1) {
@@ -84,13 +78,13 @@ function runSearchWorker(_ref) {
                               return (0, _effects.call)(_jsonApi.getToursSearch, token, otpsukQuery);
 
                             case 2:
-                              _ref2 = _context.sent;
-                              finished = _ref2.lastResult;
-                              result = _ref2.result;
-                              country = _ref2.country;
-                              operators = _ref2.progress;
-                              total = _ref2.total;
-                              meta = _ref2.meta;
+                              _yield$call = _context.sent;
+                              finished = _yield$call.lastResult;
+                              result = _yield$call.result;
+                              country = _yield$call.country;
+                              operators = _yield$call.progress;
+                              total = _yield$call.total;
+                              meta = _yield$call.meta;
 
                               getPriceValueByOfferId = function getPriceValueByOfferId(id) {
                                 var _result$offers$id = result.offers[id],
@@ -99,8 +93,8 @@ function runSearchWorker(_ref) {
                                 return currency in price ? price[currency] : price.uah;
                               };
 
-                              hotels = (0, _immutable.Map)(result.hotels).filter(function (_ref3) {
-                                var name = _ref3.name;
+                              hotels = (0, _immutable.Map)(result.hotels).filter(function (_ref2) {
+                                var name = _ref2.name;
                                 return Boolean(name) || query.get(_fn.QUERY_PARAMS.SHORT);
                               }).map(function (hotel) {
                                 return (0, _immutable.fromJS)(hotel).updateIn(['offers'], function (offers) {
@@ -111,10 +105,10 @@ function runSearchWorker(_ref) {
                               }).map(function (hotel) {
                                 return hotel.toJS();
                               });
-                              offers = (0, _immutable.Map)(result.offers).filter(function (_ref4) {
-                                var id = _ref4.id;
-                                return hotels.some(function (_ref5) {
-                                  var hotelOffers = _ref5.offers;
+                              offers = (0, _immutable.Map)(result.offers).filter(function (_ref3) {
+                                var id = _ref3.id;
+                                return hotels.some(function (_ref4) {
+                                  var hotelOffers = _ref4.offers;
                                   return hotelOffers.includes(id);
                                 });
                               });
@@ -136,8 +130,8 @@ function runSearchWorker(_ref) {
                               _context.next = 20;
                               return (0, _effects.put)(_actions.searchActions.processSearch(queryId, {
                                 operators: operators,
-                                hotels: hotels.map(function (_ref6) {
-                                  var hotelOffers = _ref6.offers;
+                                hotels: hotels.map(function (_ref5) {
+                                  var hotelOffers = _ref5.offers;
                                   return hotelOffers;
                                 }),
                                 country: country,

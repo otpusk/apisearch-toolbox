@@ -1,5 +1,5 @@
 // Core
-import { Map } from 'immutable';
+import { Map, List } from 'immutable';
 import { handleActions } from 'redux-actions';
 
 // Instruments
@@ -9,6 +9,7 @@ import { createResultBones } from '../queries/fn';
 const initialState = Map({
     results: Map(),
     charts:  Map(),
+    dates:   List(),
 });
 
 export const searchReducer = handleActions(
@@ -46,6 +47,9 @@ export const searchReducer = handleActions(
         },
         [actions.getPriceChartSuccess]: (state, { payload: { queryId, chart }}) => {
             return state.setIn(['charts', queryId], chart);
+        },
+        [actions.getAvailableDatesSuccess]: (state, { payload: { dates }}) => {
+            return state.set('dates', dates);
         },
     },
     initialState

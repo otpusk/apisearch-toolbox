@@ -3,7 +3,7 @@ import { takeEvery } from 'redux-saga/effects';
 
 // Instruments
 import { searchActions as actions } from '../actions';
-import { runSearchWorker, submitSearchWorker, getPriceChartWorker } from './workers';
+import { runSearchWorker, submitSearchWorker, getPriceChartWorker, getAvailableDatesWorker } from './workers';
 
 export const searchWatchers =  Object.freeze({
     * runSearchWatcher () {
@@ -14,5 +14,8 @@ export const searchWatchers =  Object.freeze({
     },
     * getPriceChartWatcher () {
         yield takeEvery(actions.getPriceChart, getPriceChartWorker);
+    },
+    * getAvailableDatesWorker () {
+        yield takeEvery(actions.getAvailableDates, getAvailableDatesWorker);
     },
 });

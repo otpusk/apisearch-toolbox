@@ -58,6 +58,21 @@ var searchActions = (0, _reduxActions.createActions)({
   },
   GET_PRICE_CHART_FAIL: function GET_PRICE_CHART_FAIL(error) {
     return error;
+  },
+  GET_AVAILABLE_DATES: function GET_AVAILABLE_DATES(options) {
+    return {
+      options: options
+    };
+  },
+  GET_AVAILABLE_DATES_SUCCESS: function GET_AVAILABLE_DATES_SUCCESS(dates) {
+    return {
+      dates: dates
+    };
+  },
+  GET_AVAILABLE_DATES_FAIL: function GET_AVAILABLE_DATES_FAIL(error) {
+    return {
+      error: error
+    };
   }
 });
 exports.searchActions = searchActions;

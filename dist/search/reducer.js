@@ -19,7 +19,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 var initialState = (0, _immutable.Map)({
   results: (0, _immutable.Map)(),
-  charts: (0, _immutable.Map)()
+  charts: (0, _immutable.Map)(),
+  dates: (0, _immutable.List)()
 });
 var searchReducer = (0, _reduxActions.handleActions)((_handleActions = {}, _defineProperty(_handleActions, _actions.searchActions.resetSearch, function (state, _ref) {
   var queryId = _ref.payload;
@@ -57,5 +58,8 @@ var searchReducer = (0, _reduxActions.handleActions)((_handleActions = {}, _defi
       queryId = _ref6$payload.queryId,
       chart = _ref6$payload.chart;
   return state.setIn(['charts', queryId], chart);
+}), _defineProperty(_handleActions, _actions.searchActions.getAvailableDatesSuccess, function (state, _ref7) {
+  var dates = _ref7.payload.dates;
+  return state.set('dates', dates);
 }), _handleActions), initialState);
 exports.searchReducer = searchReducer;
