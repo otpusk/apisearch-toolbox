@@ -464,7 +464,6 @@ function compileQueryToHash (query) {
         [QUERY_PARAMS.WITHOUT_SPO]:         numberCompiler,
         [QUERY_PARAMS.FLIGHT_AVAILABILITY]: immutableArrayCompiler,
         [QUERY_PARAMS.HOTEL_AVAILABILITY]:  immutableArrayCompiler,
-        [QUERY_PARAMS.PAGE]:                numberCompiler,
         [QUERY_PARAMS.OPERATORS]:           immutableArrayCompiler,
     };
 
@@ -504,7 +503,6 @@ function parseHashToQuery (queryString) {
             [QUERY_PARAMS.WITHOUT_SPO]:         parseStringIntengerToBoolean,
             [QUERY_PARAMS.FLIGHT_AVAILABILITY]: createImmutableArrayParser(Set),
             [QUERY_PARAMS.HOTEL_AVAILABILITY]:  createImmutableArrayParser(Set),
-            [QUERY_PARAMS.PAGE]:                Number,
             [QUERY_PARAMS.OPERATORS]:           createImmutableArrayParser(Set),
         };
 

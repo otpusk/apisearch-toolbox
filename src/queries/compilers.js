@@ -1,5 +1,6 @@
 // Instruments
 import { GLUE } from './fn';
+import moment from 'moment';
 
 /**
  * Compile boolean list
@@ -30,7 +31,7 @@ export const rangeCompiler = (value) => {
  */
 export const datesCompiler = (value) => {
     return [value.get('from'), value.get('to')]
-        .map((date) => date ? date.format('D.M.Y') : GLUE.empty)
+        .map((date) => date ? moment(date).format('D.M.Y') : GLUE.empty)
         .join(GLUE.range);
 };
 

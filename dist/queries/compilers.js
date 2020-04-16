@@ -7,6 +7,10 @@ exports.immutableArrayCompiler = exports.numberCompiler = exports.toStringCompil
 
 var _fn = require("./fn");
 
+var _moment = _interopRequireDefault(require("moment"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
 // Instruments
 
 /**
@@ -51,7 +55,7 @@ exports.rangeCompiler = rangeCompiler;
 
 var datesCompiler = function datesCompiler(value) {
   return [value.get('from'), value.get('to')].map(function (date) {
-    return date ? date.format('D.M.Y') : _fn.GLUE.empty;
+    return date ? (0, _moment["default"])(date).format('D.M.Y') : _fn.GLUE.empty;
   }).join(_fn.GLUE.range);
 };
 /**
