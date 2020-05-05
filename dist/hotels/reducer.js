@@ -46,7 +46,7 @@ var mergeTwoHotels = function mergeTwoHotels(fresh, base) {
         value = _Object$entries$_i[1];
 
     if (Array.isArray(merged[key])) {
-      merged[key] = merged[key].concat(value);
+      merged[key] = (0, _immutable.Set)(merged[key]).union(value).toArray();
     } else {
       merged[key] = value;
     }

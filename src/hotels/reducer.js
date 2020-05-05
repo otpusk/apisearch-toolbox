@@ -16,7 +16,7 @@ const mergeTwoHotels = (fresh, base) => {
 
     for (const [key, value] of Object.entries(fresh)) {
         if (Array.isArray(merged[key])) {
-            merged[key] = merged[key].concat(value);
+            merged[key] = Set(merged[key]).union(value).toArray();
         } else {
             merged[key] = value;
         }
