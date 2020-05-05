@@ -46,7 +46,11 @@ var mergeTwoHotels = function mergeTwoHotels(fresh, base) {
         value = _Object$entries$_i[1];
 
     if (Array.isArray(merged[key])) {
-      merged[key] = (0, _immutable.Set)(merged[key]).union(value).toArray();
+      merged[key] = merged[key].concat(value).filter(function (el, i, arr) {
+        return i === arr.findIndex(function (_) {
+          return JSON.stringify(_) === JSON.stringify(el);
+        });
+      });
     } else {
       merged[key] = value;
     }

@@ -1,5 +1,5 @@
 // Core
-import { Map, Set } from 'immutable';
+import { Map } from 'immutable';
 import { handleActions, combineActions } from 'redux-actions';
 
 // Instruments
@@ -16,7 +16,9 @@ const mergeTwoHotels = (fresh, base) => {
 
     for (const [key, value] of Object.entries(fresh)) {
         if (Array.isArray(merged[key])) {
-            merged[key] = Set(merged[key]).union(value).toArray();
+            merged[key] = merged[key]
+                .concat(value)
+                .filter((el, i, arr) => i === arr.findIndex((_) => JSON.stringify(_) === JSON.stringify(el)));
         } else {
             merged[key] = value;
         }

@@ -1,6 +1,6 @@
 {
   "name": "@otpusk/apisearch-toolbox",
-  "version": "0.2.152",
+  "version": "0.2.153",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
