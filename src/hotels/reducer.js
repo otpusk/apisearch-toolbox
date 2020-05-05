@@ -11,15 +11,18 @@ const initalState = Map({
     'similar': Map(),
 });
 
-const mergeTwoHotelsWithOffers = (fresh, base) => {
-    const { offers: offersFresh } = fresh;
-    const { offers: offersBase } = base;
+const mergeTwoHotels = (fresh, base) => {
+    const merged = { ...base };
 
-    return {
-        ...base,
-        ...fresh,
-        offers: Set(offersFresh).union(offersBase).toArray(),
-    };
+    for (const [key, value] of Object.entries(fresh)) {
+        if (Array.isArray(merged[key])) {
+            merged[key] = merged[key].concat(value);
+        } else {
+            merged[key] = value;
+        }
+    }
+
+    return merged;
 };
 
 export const hotelsReducer = handleActions(
@@ -28,7 +31,7 @@ export const hotelsReducer = handleActions(
             return state.updateIn(
                 ['store', String(hotel.id)],
                 (current) => current
-                    ? mergeTwoHotelsWithOffers(hotel, current)
+                    ? mergeTwoHotels(hotel, current)
                     : hotel
             );
         },
@@ -36,7 +39,7 @@ export const hotelsReducer = handleActions(
             return state
                 .updateIn(
                     ['store'],
-                    (store) => store.mergeWith(mergeTwoHotelsWithOffers, hotels));
+                    (store) => store.mergeWith(mergeTwoHotels, hotels));
         },
         [actions.getHotelsMarkersSuccess]: (state, { payload: markers }) => {
             return state.mergeIn(['markers'], markers);
