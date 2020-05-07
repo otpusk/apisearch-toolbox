@@ -6,6 +6,7 @@ import { excursionSearchReducer as excursionSearch } from '../src/excursionSearc
 import { excursionToursReducer as excursionTours } from '../src/excursionTours';
 import { servicesReducer as services } from '../src/services';
 import { searchReducer } from "../src/search";
+import { geoReducer } from "../src/geo";
 
 export const reducer = combineReducers({
     excursionGeo,
@@ -14,4 +15,5 @@ export const reducer = combineReducers({
     excursionSearch,
     excursionTours,
     searchReducer,
+    geoReducer,
 });

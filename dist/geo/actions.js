@@ -96,6 +96,20 @@ var geoActions = (0, _reduxActions.createActions)({
   },
   GET_GEO_TREE_FAIL: function GET_GEO_TREE_FAIL(error) {
     return error;
+  },
+  GET_LOCATION_DATA: function GET_LOCATION_DATA(id) {
+    return {
+      id: id
+    };
+  },
+  GET_LOCATION_DATA_SUCCESS: function GET_LOCATION_DATA_SUCCESS(id, data) {
+    return {
+      id: id,
+      data: data
+    };
+  },
+  GET_LOCATION_DATA_FAIL: function GET_LOCATION_DATA_FAIL(error) {
+    return error;
   }
 });
 exports.geoActions = geoActions;

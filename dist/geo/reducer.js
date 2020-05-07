@@ -57,5 +57,10 @@ var geoReducer = (0, _reduxActions.handleActions)((_handleActions = {}, _defineP
 }), _defineProperty(_handleActions, _actions.geoActions.getGeoTreeSuccess, function (state, _ref7) {
   var geoTree = _ref7.payload.geoTree;
   return state.set('geoTree', geoTree);
+}), _defineProperty(_handleActions, _actions.geoActions.getLocationDataSuccess, function (state, _ref8) {
+  var _ref8$payload = _ref8.payload,
+      id = _ref8$payload.id,
+      data = _ref8$payload.data;
+  return state.setIn(['locations', id], data);
 }), _handleActions), initalState);
 exports.geoReducer = geoReducer;

@@ -23,6 +23,8 @@ var _getOperatorsWorker = require("./workers/getOperatorsWorker");
 
 var _getGeoTreeWorker = require("./workers/getGeoTreeWorker");
 
+var _getLocationDataWorker = require("./workers/getLocationDataWorker");
+
 // Core
 // Instruments
 var geoWatchers = Object.freeze({
@@ -130,6 +132,21 @@ var geoWatchers = Object.freeze({
         }
       }
     }, getGeoTreeWatcher);
+  }),
+  getLocationDataWatcher: /*#__PURE__*/regeneratorRuntime.mark(function getLocationDataWatcher() {
+    return regeneratorRuntime.wrap(function getLocationDataWatcher$(_context8) {
+      while (1) {
+        switch (_context8.prev = _context8.next) {
+          case 0:
+            _context8.next = 2;
+            return (0, _effects.takeEvery)(_actions.geoActions.getLocationData, _getLocationDataWorker.getLocationDataWorker);
+
+          case 2:
+          case "end":
+            return _context8.stop();
+        }
+      }
+    }, getLocationDataWatcher);
   })
 });
 exports.geoWatchers = geoWatchers;

@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.createImmutableNumbersArrayParser = exports.createImmutableArrayParser = exports.parseStringIntengerToBoolean = exports.geoParser = exports.numbersArrayParser = exports.arrayParser = exports.datesParser = exports.rangeParser = exports.binaryParser = void 0;
+exports.countryParser = exports.createImmutableNumbersArrayParser = exports.createImmutableArrayParser = exports.parseStringIntengerToBoolean = exports.geoParser = exports.numbersArrayParser = exports.arrayParser = exports.datesParser = exports.rangeParser = exports.binaryParser = void 0;
 
 var _immutable = require("immutable");
 
@@ -220,3 +220,7 @@ var createImmutableNumbersArrayParser = function createImmutableNumbersArrayPars
 };
 
 exports.createImmutableNumbersArrayParser = createImmutableNumbersArrayParser;
+
+var countryParser = function countryParser(value) {};
+
+exports.countryParser = countryParser;
