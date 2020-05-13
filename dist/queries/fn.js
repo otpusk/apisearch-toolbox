@@ -179,9 +179,7 @@ function createQuery() {
 function createSearchQuery() {
   var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   var searchQuery = new _immutable.OrderedMap(_objectSpread({}, DEFAULTS, {}, DEFAULTS_SEARCH)).mergeDeep(params);
-  return searchQuery.setIn([QUERY_PARAMS.CATEGORY], searchQuery.get(QUERY_PARAMS.CATEGORY).filter(function (v, k) {
-    return k !== '1';
-  }));
+  return searchQuery;
 }
 /**
  * Create search result bones

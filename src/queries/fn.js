@@ -176,10 +176,7 @@ function createSearchQuery (params = {}) {
         ...DEFAULTS, ...DEFAULTS_SEARCH,
     }).mergeDeep(params);
 
-    return searchQuery.setIn(
-        [QUERY_PARAMS.CATEGORY],
-        searchQuery.get(QUERY_PARAMS.CATEGORY).filter((v, k) => k !== '1')
-    );
+    return searchQuery;
 }
 
 /**
