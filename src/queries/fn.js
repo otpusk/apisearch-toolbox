@@ -89,8 +89,8 @@ const DEFAULTS = {
         5: true,
     }),
     [QUERY_PARAMS.DATES]: Map({
-        from: moment().locale('ru').add(7, 'days'),
-        to:   moment().locale('ru').add(14, 'days'),
+        from: moment().add(7, 'days'),
+        to:   moment().add(14, 'days'),
     }),
     [QUERY_PARAMS.DURATION]: Map({
         from: 7,

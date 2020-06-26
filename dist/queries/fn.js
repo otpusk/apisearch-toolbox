@@ -116,8 +116,8 @@ var DEFAULTS = (_DEFAULTS = {}, _defineProperty(_DEFAULTS, QUERY_PARAMS.AUTOSTAR
   4: true,
   5: true
 })), _defineProperty(_DEFAULTS, QUERY_PARAMS.DATES, (0, _immutable.Map)({
-  from: (0, _moment["default"])().locale('ru').add(7, 'days'),
-  to: (0, _moment["default"])().locale('ru').add(14, 'days')
+  from: (0, _moment["default"])().add(7, 'days'),
+  to: (0, _moment["default"])().add(14, 'days')
 })), _defineProperty(_DEFAULTS, QUERY_PARAMS.DURATION, (0, _immutable.Map)({
   from: 7,
   to: 9
