@@ -5,6 +5,7 @@ import { Map } from 'immutable';
 import { operatorsActions as actions } from './actions';
 
 const initialState = Map({
+    'rates': {},
     'store': Map(),
     'ui':    Map(),
 });
@@ -19,5 +20,10 @@ export const operatorsReducer = handleActions({
         const { path, value } = payload;
 
         return state.setIn(['ui', ...path], value);
+    },
+    [actions.getCurrencyRatesSuccess]: (state, { payload }) => {
+        const { key, rates } = payload;
+
+        return state.setIn(['rates', key], rates);
     },
 }, initialState);
