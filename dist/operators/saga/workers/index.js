@@ -9,5 +9,13 @@ Object.defineProperty(exports, "getOperatorsWorker", {
     return _getOperators.getOperatorsWorker;
   }
 });
+Object.defineProperty(exports, "getCurrencyRatesWorker", {
+  enumerable: true,
+  get: function get() {
+    return _getCurrencyRates.getCurrencyRatesWorker;
+  }
+});
 
 var _getOperators = require("./getOperators");
+
+var _getCurrencyRates = require("./getCurrencyRates");

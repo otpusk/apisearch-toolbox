@@ -23,6 +23,23 @@ var operatorsActions = (0, _reduxActions.createActions)({
   GET_OPERATORS_FAIL: function GET_OPERATORS_FAIL(error) {
     return error;
   },
+  // rates
+  GET_CURRENCY_RATES: function GET_CURRENCY_RATES(dateFrom, dateTo, options) {
+    return {
+      dateFrom: dateFrom,
+      dateTo: dateTo,
+      options: options
+    };
+  },
+  GET_CURRENCY_RATES_SUCCESS: function GET_CURRENCY_RATES_SUCCESS(key, rates) {
+    return {
+      key: key,
+      rates: rates
+    };
+  },
+  GET_CURRENCY_RATES_FAIL: function GET_CURRENCY_RATES_FAIL(error) {
+    return error;
+  },
   SET_UI_FLAG: function SET_UI_FLAG(path, value) {
     return {
       path: path,

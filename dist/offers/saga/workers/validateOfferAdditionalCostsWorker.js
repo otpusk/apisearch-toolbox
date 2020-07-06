@@ -53,7 +53,7 @@ function validateOfferAdditionalCostsWorker(_ref) {
         case 11:
           token = _context.sent;
           _context.next = 14;
-          return (0, _effects.call)(_dist.getToursValidate, _objectSpread({}, isBus ? _objectSpread({}, token, {
+          return (0, _effects.call)(_dist.getToursValidate, _objectSpread({}, isBus ? _objectSpread(_objectSpread({}, token), {}, {
             city: Number(departure)
           }) : token), offerId);
 

@@ -27,6 +27,21 @@ var operatorsWatchers = Object.freeze({
         }
       }
     }, getOperators);
+  }),
+  getCurrencyRates: /*#__PURE__*/regeneratorRuntime.mark(function getCurrencyRates() {
+    return regeneratorRuntime.wrap(function getCurrencyRates$(_context2) {
+      while (1) {
+        switch (_context2.prev = _context2.next) {
+          case 0:
+            _context2.next = 2;
+            return (0, _effects.takeEvery)(_actions.operatorsActions.getCurrencyRates, _workers.getCurrencyRatesWorker);
+
+          case 2:
+          case "end":
+            return _context2.stop();
+        }
+      }
+    }, getCurrencyRates);
   })
 });
 exports.operatorsWatchers = operatorsWatchers;

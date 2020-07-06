@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getOperatorsWorker = getOperatorsWorker;
+exports.getCurrencyRatesWorker = getCurrencyRatesWorker;
 
 var _effects = require("redux-saga/effects");
 
@@ -11,7 +11,9 @@ var _jsonApi = require("@otpusk/json-api");
 
 var _actions = require("../../actions");
 
-var _marked = /*#__PURE__*/regeneratorRuntime.mark(getOperatorsWorker);
+var _helpers = require("./../../helpers");
+
+var _marked = /*#__PURE__*/regeneratorRuntime.mark(getCurrencyRatesWorker);
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
@@ -31,15 +33,15 @@ function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
-function getOperatorsWorker(_ref) {
-  var payload, countryId, _payload$options, options, _yield$select, _yield$select2, token, lang, operators;
+function getCurrencyRatesWorker(_ref) {
+  var payload, dateFrom, dateTo, _payload$options, options, _yield$select, _yield$select2, token, lang, hash, rates;
 
-  return regeneratorRuntime.wrap(function getOperatorsWorker$(_context) {
+  return regeneratorRuntime.wrap(function getCurrencyRatesWorker$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
           payload = _ref.payload;
-          countryId = payload.countryId, _payload$options = payload.options, options = _payload$options === void 0 ? {} : _payload$options;
+          dateFrom = payload.dateFrom, dateTo = payload.dateTo, _payload$options = payload.options, options = _payload$options === void 0 ? {} : _payload$options;
           _context.next = 4;
           return (0, _effects.select)(function (_ref2) {
             var auth = _ref2.auth;
@@ -51,60 +53,64 @@ function getOperatorsWorker(_ref) {
           _yield$select2 = _slicedToArray(_yield$select, 2);
           token = _yield$select2[0];
           lang = _yield$select2[1];
-          _context.next = 10;
-          return (0, _effects.put)(_actions.operatorsActions.setUiFlag([countryId], {
+          hash = (0, _helpers.createRateHash)(dateFrom, dateTo);
+          _context.next = 11;
+          return (0, _effects.put)(_actions.operatorsActions.setUiFlag([hash], {
             loading: true,
             error: false,
             completed: false,
             message: null
           }));
 
-        case 10:
-          _context.prev = 10;
-          _context.next = 13;
-          return (0, _effects.call)(_jsonApi.getToursOperators, token, countryId, _objectSpread({
+        case 11:
+          _context.prev = 11;
+          _context.next = 14;
+          return (0, _effects.call)(_jsonApi.getToursCurrencyRates, token, {
+            from: dateFrom,
+            to: dateTo
+          }, _objectSpread({
             lang: lang
           }, options));
 
-        case 13:
-          operators = _context.sent;
-          _context.next = 16;
-          return (0, _effects.put)(_actions.operatorsActions.getOperatorsSuccess(countryId, operators));
+        case 14:
+          rates = _context.sent;
+          _context.next = 17;
+          return (0, _effects.put)(_actions.operatorsActions.getCurrencyRatesSuccess(hash, rates));
 
-        case 16:
-          _context.next = 26;
+        case 17:
+          _context.next = 27;
           break;
 
-        case 18:
-          _context.prev = 18;
-          _context.t0 = _context["catch"](10);
-          _context.next = 22;
-          return (0, _effects.put)(_actions.operatorsActions.getOperatorsFail(_context.t0));
+        case 19:
+          _context.prev = 19;
+          _context.t0 = _context["catch"](11);
+          _context.next = 23;
+          return (0, _effects.put)(_actions.operatorsActions.getCurrencyRatesFail(_context.t0));
 
-        case 22:
-          _context.next = 24;
-          return (0, _effects.put)(_actions.operatorsActions.setUiFlag([countryId, 'error'], true));
+        case 23:
+          _context.next = 25;
+          return (0, _effects.put)(_actions.operatorsActions.setUiFlag([hash, 'error'], true));
 
-        case 24:
-          _context.next = 26;
-          return (0, _effects.put)(_actions.operatorsActions.setUiFlag([countryId, 'message'], _context.t0.message));
+        case 25:
+          _context.next = 27;
+          return (0, _effects.put)(_actions.operatorsActions.setUiFlag([hash, 'message'], _context.t0.message));
 
-        case 26:
-          _context.prev = 26;
-          _context.next = 29;
-          return (0, _effects.put)(_actions.operatorsActions.setUiFlag([countryId, 'loading'], false));
+        case 27:
+          _context.prev = 27;
+          _context.next = 30;
+          return (0, _effects.put)(_actions.operatorsActions.setUiFlag([hash, 'loading'], false));
 
-        case 29:
-          _context.next = 31;
-          return (0, _effects.put)(_actions.operatorsActions.setUiFlag([countryId, 'completed'], true));
-
-        case 31:
-          return _context.finish(26);
+        case 30:
+          _context.next = 32;
+          return (0, _effects.put)(_actions.operatorsActions.setUiFlag([hash, 'completed'], true));
 
         case 32:
+          return _context.finish(27);
+
+        case 33:
         case "end":
           return _context.stop();
       }
     }
-  }, _marked, null, [[10, 18, 26, 32]]);
+  }, _marked, null, [[11, 19, 27, 33]]);
 }
