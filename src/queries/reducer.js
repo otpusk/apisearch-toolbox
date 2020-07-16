@@ -17,6 +17,9 @@ export const queriesReducer = handleActions(
         [queriesActions.setQuery]: (state, { payload: { queryId, query }}) => {
             return state.set(queryId, query);
         },
+        [queriesActions.removeQuery]: (state, { payload: queryId }) => {
+            return state.remove(queryId);
+        },
         [queriesActions.createQueryFromOffer]: (state, { payload: { queryId, hotel, offer, overrides = {}}}) => {
             const defaultQuery = createQuery();
 

@@ -37,15 +37,18 @@ var queriesReducer = (0, _reduxActions.handleActions)((_handleActions = {}, _def
       queryId = _ref2$payload.queryId,
       query = _ref2$payload.query;
   return state.set(queryId, query);
-}), _defineProperty(_handleActions, _actions.queriesActions.createQueryFromOffer, function (state, _ref3) {
+}), _defineProperty(_handleActions, _actions.queriesActions.removeQuery, function (state, _ref3) {
+  var queryId = _ref3.payload;
+  return state.remove(queryId);
+}), _defineProperty(_handleActions, _actions.queriesActions.createQueryFromOffer, function (state, _ref4) {
   var _objectSpread2;
 
-  var _ref3$payload = _ref3.payload,
-      queryId = _ref3$payload.queryId,
-      hotel = _ref3$payload.hotel,
-      offer = _ref3$payload.offer,
-      _ref3$payload$overrid = _ref3$payload.overrides,
-      overrides = _ref3$payload$overrid === void 0 ? {} : _ref3$payload$overrid;
+  var _ref4$payload = _ref4.payload,
+      queryId = _ref4$payload.queryId,
+      hotel = _ref4$payload.hotel,
+      offer = _ref4$payload.offer,
+      _ref4$payload$overrid = _ref4$payload.overrides,
+      overrides = _ref4$payload$overrid === void 0 ? {} : _ref4$payload$overrid;
   var defaultQuery = (0, _fn.createQuery)();
   return state.set(queryId, (0, _fn.createQuery)(_objectSpread((_objectSpread2 = {}, _defineProperty(_objectSpread2, _fn.QUERY_PARAMS.COUNTRY, hotel.country.id), _defineProperty(_objectSpread2, _fn.QUERY_PARAMS.DEPARTURE, String(offer.departure)), _defineProperty(_objectSpread2, _fn.QUERY_PARAMS.DURATION, (0, _immutable.Map)({
     from: offer.days,
@@ -62,33 +65,33 @@ var queriesReducer = (0, _reduxActions.handleActions)((_handleActions = {}, _def
   }).merge(_defineProperty({}, offer.transport, true))), _defineProperty(_objectSpread2, _fn.QUERY_PARAMS.FOOD, defaultQuery.get(_fn.QUERY_PARAMS.FOOD).map(function () {
     return false;
   }).merge(_defineProperty({}, offer.food, true))), _defineProperty(_objectSpread2, _fn.QUERY_PARAMS.CURRENCY, offer.currency), _objectSpread2), overrides)));
-}), _defineProperty(_handleActions, _actions.queriesActions.changeQueryParam, function (state, _ref4) {
-  var _ref4$payload = _ref4.payload,
-      queryId = _ref4$payload.queryId,
-      paramName = _ref4$payload.paramName,
-      paramValue = _ref4$payload.paramValue;
-  return state.setIn([queryId, paramName], paramValue);
-}), _defineProperty(_handleActions, _actions.queriesActions.changeQueryParams, function (state, _ref5) {
+}), _defineProperty(_handleActions, _actions.queriesActions.changeQueryParam, function (state, _ref5) {
   var _ref5$payload = _ref5.payload,
       queryId = _ref5$payload.queryId,
-      paramValues = _ref5$payload.paramValues;
-  return state.mergeIn([queryId], paramValues);
-}), _defineProperty(_handleActions, _actions.queriesActions.resetQueryParam, function (state, _ref6) {
+      paramName = _ref5$payload.paramName,
+      paramValue = _ref5$payload.paramValue;
+  return state.setIn([queryId, paramName], paramValue);
+}), _defineProperty(_handleActions, _actions.queriesActions.changeQueryParams, function (state, _ref6) {
   var _ref6$payload = _ref6.payload,
       queryId = _ref6$payload.queryId,
-      paramName = _ref6$payload.paramName;
-  return state.setIn([queryId, paramName], (0, _fn.createQuery)().get(paramName));
-}), _defineProperty(_handleActions, _actions.queriesActions.parseOsQueryString, function (state, _ref7) {
+      paramValues = _ref6$payload.paramValues;
+  return state.mergeIn([queryId], paramValues);
+}), _defineProperty(_handleActions, _actions.queriesActions.resetQueryParam, function (state, _ref7) {
   var _ref7$payload = _ref7.payload,
-      targetQueryId = _ref7$payload.targetQueryId,
-      queryString = _ref7$payload.queryString;
+      queryId = _ref7$payload.queryId,
+      paramName = _ref7$payload.paramName;
+  return state.setIn([queryId, paramName], (0, _fn.createQuery)().get(paramName));
+}), _defineProperty(_handleActions, _actions.queriesActions.parseOsQueryString, function (state, _ref8) {
+  var _ref8$payload = _ref8.payload,
+      targetQueryId = _ref8$payload.targetQueryId,
+      queryString = _ref8$payload.queryString;
   return state.update(function (queries) {
     return queryString ? queries.set(targetQueryId, (0, _fn.parseOSQueryHash)(queryString, queries.get(targetQueryId))) : queries;
   });
-}), _defineProperty(_handleActions, _actions.queriesActions.parseQueryString, function (state, _ref8) {
-  var _ref8$payload = _ref8.payload,
-      queryId = _ref8$payload.queryId,
-      queryString = _ref8$payload.queryString;
+}), _defineProperty(_handleActions, _actions.queriesActions.parseQueryString, function (state, _ref9) {
+  var _ref9$payload = _ref9.payload,
+      queryId = _ref9$payload.queryId,
+      queryString = _ref9$payload.queryString;
   return state.update(function (queries) {
     return queryString ? queries.set(queryId, (0, _fn.parseQueryString)(queryString, queries.get(queryId))) : queries;
   });

@@ -23,6 +23,9 @@ var queriesActions = (0, _reduxActions.createActions)({
       query: query
     };
   },
+  REMOVE_QUERY: function REMOVE_QUERY(queryId) {
+    return queryId;
+  },
   CREATE_QUERY_FROM_OFFER: function CREATE_QUERY_FROM_OFFER(queryId, hotel, offer, overrides) {
     return {
       queryId: queryId,
