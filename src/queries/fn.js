@@ -225,6 +225,7 @@ function compileQuery (query) {
         [QUERY_PARAMS.FLIGHT_AVAILABILITY]: immutableArrayCompiler,
         [QUERY_PARAMS.HOTEL_AVAILABILITY]:  immutableArrayCompiler,
         [QUERY_PARAMS.IGNORE_SERVICES]:     immutableArrayCompiler,
+        [QUERY_PARAMS.OPERATORS]:           immutableArrayCompiler,
     };
 
     return GLUE.field + query
