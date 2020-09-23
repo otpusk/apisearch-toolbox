@@ -23,6 +23,7 @@ Object.defineProperty(exports, "searchWatchers", {
     return _watchers.searchWatchers;
   }
 });
+exports.searchSelectors = void 0;
 
 var _actions = require("./actions");
 
@@ -30,7 +31,9 @@ var _reducer = require("./reducer");
 
 var _watchers = require("./saga/watchers");
 
-var searchSelectors = _interopRequireWildcard(require("./selectors"));
+var _searchSelectors = _interopRequireWildcard(require("./selectors"));
+
+exports.searchSelectors = _searchSelectors;
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
