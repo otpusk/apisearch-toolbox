@@ -4,7 +4,7 @@ import * as R from 'ramda';
 import { Map } from 'immutable';
 
 // Instruments
-import { offersSelectors } from 'bus/offers';
+import { offersSelectors } from './../offers';
 
 const domain = (_) => _.search;
 

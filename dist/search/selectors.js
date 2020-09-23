@@ -13,7 +13,7 @@ var R = _interopRequireWildcard(require("ramda"));
 
 var _immutable = require("immutable");
 
-var _offers = require("bus/offers");
+var _offers = require("./../offers");
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
