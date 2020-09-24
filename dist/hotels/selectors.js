@@ -17,7 +17,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 // Core
 var domain = function domain(_) {
-  return _.hotels.get('store');
+  return _.hotels;
 };
 
 var hotelKey = function hotelKey(_, key) {

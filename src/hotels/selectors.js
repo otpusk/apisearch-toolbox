@@ -2,7 +2,7 @@
 import { createSelector } from 'reselect';
 import * as R from 'ramda';
 
-const domain = (_) => _.hotels.get('store');
+const domain = (_) => _.hotels;
 const hotelKey = (_, key) => key;
 
 export const hotelsHub = createSelector(
