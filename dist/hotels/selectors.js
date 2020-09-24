@@ -5,7 +5,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getOffer = exports.offersHub = void 0;
+exports.getHotel = exports.hotelsHub = void 0;
 
 var _reselect = require("reselect");
 
@@ -17,14 +17,14 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 // Core
 var domain = function domain(_) {
-  return _.offers;
+  return _.hotels.get('store');
 };
 
-var offerKey = function offerKey(_, key) {
+var hotelKey = function hotelKey(_, key) {
   return key;
 };
 
-var offersHub = (0, _reselect.createSelector)(domain, R.pipe(function (hub) {
+var hotelsHub = (0, _reselect.createSelector)(domain, R.pipe(function (hub) {
   return hub.get('store');
 }, R.ifElse(function (v) {
   return v.isEmpty();
@@ -33,12 +33,12 @@ var offersHub = (0, _reselect.createSelector)(domain, R.pipe(function (hub) {
 }, function (v) {
   return v.toJS();
 })));
-exports.offersHub = offersHub;
+exports.hotelsHub = hotelsHub;
 
-var getOffer = function getOffer() {
-  return (0, _reselect.createSelector)(offersHub, offerKey, function (hub, key) {
+var getHotel = function getHotel() {
+  return (0, _reselect.createSelector)(hotelsHub, hotelKey, function (hub, key) {
     return R.prop(key, hub);
   });
 };
 
-exports.getOffer = getOffer;
+exports.getHotel = getHotel;

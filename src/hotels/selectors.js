@@ -2,10 +2,10 @@
 import { createSelector } from 'reselect';
 import * as R from 'ramda';
 
-const domain = (_) => _.offers;
-const offerKey = (_, key) => key;
+const domain = (_) => _.hotels.get('store');
+const hotelKey = (_, key) => key;
 
-export const offersHub = createSelector(
+export const hotelsHub = createSelector(
     domain,
     R.pipe(
         (hub) => hub.get('store'),
@@ -17,9 +17,8 @@ export const offersHub = createSelector(
     )
 );
 
-
-export const getOffer = () => createSelector(
-    offersHub,
-    offerKey,
+export const getHotel = () => createSelector(
+    hotelsHub,
+    hotelKey,
     (hub, key) => R.prop(key, hub)
 );
