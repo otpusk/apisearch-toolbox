@@ -22,12 +22,12 @@ var geoActions = (0, _reduxActions.createActions)({
   GET_SUGGESTS_FAIL: function GET_SUGGESTS_FAIL(error) {
     return error;
   },
-  GET_DEPARTURE_CITIES: function GET_DEPARTURE_CITIES(countryId) {
-    return countryId;
+  GET_DEPARTURE_CITIES: function GET_DEPARTURE_CITIES(geoID) {
+    return geoID;
   },
-  GET_DEPARTURE_CITIES_SUCCESS: function GET_DEPARTURE_CITIES_SUCCESS(countryId, departures) {
+  GET_DEPARTURE_CITIES_SUCCESS: function GET_DEPARTURE_CITIES_SUCCESS(key, departures) {
     return {
-      countryId: countryId,
+      key: key,
       departures: departures
     };
   },

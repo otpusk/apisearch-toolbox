@@ -36,9 +36,9 @@ var geoReducer = (0, _reduxActions.handleActions)((_handleActions = {}, _defineP
   return state.setIn(['statuses', 'countries'], 'failed');
 }), _defineProperty(_handleActions, _actions.geoActions.getDepartureCitiesSuccess, function (state, _ref3) {
   var _ref3$payload = _ref3.payload,
-      countryId = _ref3$payload.countryId,
+      key = _ref3$payload.key,
       departures = _ref3$payload.departures;
-  return state.setIn(['departures', countryId], (0, _immutable.List)(departures));
+  return state.setIn(['departures', key], (0, _immutable.List)(departures));
 }), _defineProperty(_handleActions, _actions.geoActions.getCitiesSuccess, function (state, _ref4) {
   var _ref4$payload = _ref4.payload,
       countryId = _ref4$payload.countryId,

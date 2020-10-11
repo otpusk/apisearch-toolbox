@@ -26,8 +26,8 @@ export const geoReducer = handleActions(
         [geoActions.getCountriesFail]: (state) => {
             return state.setIn(['statuses', 'countries'], 'failed');
         },
-        [geoActions.getDepartureCitiesSuccess]: (state, { payload: { countryId, departures }}) => {
-            return state.setIn(['departures', countryId], List(departures));
+        [geoActions.getDepartureCitiesSuccess]: (state, { payload: { key, departures }}) => {
+            return state.setIn(['departures', key], List(departures));
         },
         [geoActions.getCitiesSuccess]: (state, { payload: { countryId, cities }}) => {
             return state.setIn(['cities', countryId], List(cities));

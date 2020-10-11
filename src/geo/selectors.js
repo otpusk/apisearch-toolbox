@@ -1,6 +1,35 @@
 // Core
 import { createSelector } from 'reselect';
 import { List, Map } from 'immutable';
+import * as R from 'ramda';
+
+// defaults
+const emptyList = List();
+
+const domain = (_) => _.geo;
+const departureGeoID = (_, { geoID }) => geoID;
+const getIATA = (_, { iata }) => iata;
+
+const departureHUB = createSelector(
+    domain,
+    (geo) => geo.get('departures')
+);
+
+export const departures = () => createSelector(
+    departureHUB,
+    departureGeoID,
+    (map, geoID) => map.get(geoID, emptyList).toArray()
+);
+
+export const getDepartureByIATA = () => createSelector(
+    departures,
+    getIATA,
+    (list, code) => R.find(
+        R.pipe(R.prop('iata'), R.equals(code)),
+        list
+    )
+);
+
 
 /**
  * Select countries from locations store

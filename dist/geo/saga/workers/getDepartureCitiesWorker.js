@@ -14,13 +14,13 @@ var _jsonApi = require("@otpusk/json-api");
 var _marked = /*#__PURE__*/regeneratorRuntime.mark(getDepartureCitiesWorker);
 
 function getDepartureCitiesWorker(_ref) {
-  var countryId, _yield$select, token, lang, departures;
+  var geoID, _yield$select, token, lang, departures;
 
   return regeneratorRuntime.wrap(function getDepartureCitiesWorker$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
-          countryId = _ref.payload;
+          geoID = _ref.payload;
           _context.prev = 1;
           _context.next = 4;
           return (0, _effects.select)(function (_ref2) {
@@ -37,14 +37,14 @@ function getDepartureCitiesWorker(_ref) {
           lang = _yield$select.lang;
           _context.next = 9;
           return (0, _effects.call)(_jsonApi.getToursDepartureCities, token, {
-            geoId: countryId,
+            geoId: geoID,
             lang: lang
           });
 
         case 9:
           departures = _context.sent;
           _context.next = 12;
-          return (0, _effects.put)(_actions.geoActions.getDepartureCitiesSuccess(countryId, departures));
+          return (0, _effects.put)(_actions.geoActions.getDepartureCitiesSuccess(geoID, departures));
 
         case 12:
           _context.next = 18;
