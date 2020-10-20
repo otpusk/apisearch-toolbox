@@ -22,7 +22,8 @@ var initalState = (0, _immutable.Map)({
   cities: (0, _immutable.Map)(),
   hotels: (0, _immutable.Map)(),
   operators: (0, _immutable.Map)(),
-  statuses: (0, _immutable.Map)()
+  statuses: (0, _immutable.Map)(),
+  flightPorts: {}
 });
 var geoReducer = (0, _reduxActions.handleActions)((_handleActions = {}, _defineProperty(_handleActions, _actions.geoActions.getSuggestsSuccess, function (state, _ref) {
   var _ref$payload = _ref.payload,
@@ -62,5 +63,10 @@ var geoReducer = (0, _reduxActions.handleActions)((_handleActions = {}, _defineP
       id = _ref8$payload.id,
       data = _ref8$payload.data;
   return state.setIn(['locations', id], data);
+}), _defineProperty(_handleActions, _actions.geoActions.getFlightPortSuccess, function (state, _ref9) {
+  var payload = _ref9.payload;
+  var key = payload.key,
+      port = payload.port;
+  return state.setIn(['flightPorts', key], port);
 }), _handleActions), initalState);
 exports.geoReducer = geoReducer;

@@ -110,6 +110,18 @@ var geoActions = (0, _reduxActions.createActions)({
   },
   GET_LOCATION_DATA_FAIL: function GET_LOCATION_DATA_FAIL(error) {
     return error;
+  },
+  GET_FLIGHT_PORT: function GET_FLIGHT_PORT(iata) {
+    return iata;
+  },
+  GET_FLIGHT_PORT_SUCCESS: function GET_FLIGHT_PORT_SUCCESS(key, port) {
+    return {
+      key: key,
+      port: port
+    };
+  },
+  GET_FLIGHT_PORT_FAIL: function GET_FLIGHT_PORT_FAIL(error) {
+    return error;
   }
 });
 exports.geoActions = geoActions;

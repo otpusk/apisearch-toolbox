@@ -5,7 +5,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.selectHotelsByCountry = exports.selectCitiesByCountry = exports.selectCountries = exports.getDepartureByIATA = exports.departures = void 0;
+exports.selectHotelsByCountry = exports.selectCitiesByCountry = exports.selectCountries = exports.getFlightPort = exports.getFlightPorts = exports.getDepartureByIATA = exports.departures = void 0;
 
 var _reselect = require("reselect");
 
@@ -52,12 +52,24 @@ var getDepartureByIATA = function getDepartureByIATA() {
     return R.find(R.pipe(R.prop('iata'), R.equals(code)), list);
   });
 };
+
+exports.getDepartureByIATA = getDepartureByIATA;
+var getFlightPorts = (0, _reselect.createSelector)(domain, function (geo) {
+  return geo.get('flightPorts');
+});
+exports.getFlightPorts = getFlightPorts;
+
+var getFlightPort = function getFlightPort() {
+  return (0, _reselect.createSelector)(getFlightPorts, getIATA, function (ports, iata) {
+    return R.prop(iata, ports);
+  });
+};
 /**
  * Select countries from locations store
  */
 
 
-exports.getDepartureByIATA = getDepartureByIATA;
+exports.getFlightPort = getFlightPort;
 var selectCountries = (0, _reselect.createSelector)(function (state) {
   return state.getIn(['keys', 'countries'], (0, _immutable.List)());
 }, function (state) {

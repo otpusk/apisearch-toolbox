@@ -25,6 +25,8 @@ var _getGeoTreeWorker = require("./workers/getGeoTreeWorker");
 
 var _getLocationDataWorker = require("./workers/getLocationDataWorker");
 
+var _getFlightPortWorker = require("./workers/getFlightPortWorker");
+
 // Core
 // Instruments
 var geoWatchers = Object.freeze({
@@ -147,6 +149,21 @@ var geoWatchers = Object.freeze({
         }
       }
     }, getLocationDataWatcher);
+  }),
+  getFlightPortWatcher: /*#__PURE__*/regeneratorRuntime.mark(function getFlightPortWatcher() {
+    return regeneratorRuntime.wrap(function getFlightPortWatcher$(_context9) {
+      while (1) {
+        switch (_context9.prev = _context9.next) {
+          case 0:
+            _context9.next = 2;
+            return (0, _effects.takeEvery)(_actions.geoActions.getFlightPort, _getFlightPortWorker.getFlightPortWorker);
+
+          case 2:
+          case "end":
+            return _context9.stop();
+        }
+      }
+    }, getFlightPortWatcher);
   })
 });
 exports.geoWatchers = geoWatchers;

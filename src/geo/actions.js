@@ -33,4 +33,8 @@ export const geoActions = createActions({
     GET_LOCATION_DATA:         (id) => ({ id }),
     GET_LOCATION_DATA_SUCCESS: (id, data) => ({ id, data }),
     GET_LOCATION_DATA_FAIL:    (error) => error,
+
+    GET_FLIGHT_PORT:         (iata) => iata,
+    GET_FLIGHT_PORT_SUCCESS: (key, port) => ({ key, port }),
+    GET_FLIGHT_PORT_FAIL:    (error) => error,
 });

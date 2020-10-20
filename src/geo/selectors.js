@@ -30,6 +30,17 @@ export const getDepartureByIATA = () => createSelector(
     )
 );
 
+export const getFlightPorts = createSelector(
+    domain,
+    (geo) => geo.get('flightPorts')
+);
+
+export const getFlightPort = () => createSelector(
+    getFlightPorts,
+    getIATA,
+    (ports, iata) => R.prop(iata, ports)
+);
+
 
 /**
  * Select countries from locations store

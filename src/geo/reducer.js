@@ -13,6 +13,7 @@ const initalState = Map({
     hotels:      Map(),
     operators:   Map(),
     statuses:    Map(),
+    flightPorts: {},
 });
 
 export const geoReducer = handleActions(
@@ -43,6 +44,11 @@ export const geoReducer = handleActions(
         },
         [geoActions.getLocationDataSuccess]: (state, { payload : { id, data }}) => {
             return state.setIn(['locations', id], data);
+        },
+        [geoActions.getFlightPortSuccess]: (state, { payload }) => {
+            const { key, port } = payload;
+
+            return state.setIn(['flightPorts', key], port);
         },
     },
     initalState
