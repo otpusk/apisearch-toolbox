@@ -43,7 +43,7 @@ function getFlightPortWorker(_ref) {
         case 9:
           port = _context.sent;
           _context.next = 12;
-          return (0, _effects.put)(_actions.geoActions.getDepartureCitiesSuccess(iata, port));
+          return (0, _effects.put)(_actions.geoActions.getFlightPortSuccess(iata, port));
 
         case 12:
           _context.next = 18;
@@ -53,7 +53,7 @@ function getFlightPortWorker(_ref) {
           _context.prev = 14;
           _context.t0 = _context["catch"](1);
           _context.next = 18;
-          return (0, _effects.put)(_actions.geoActions.getDepartureCitiesFail(_context.t0));
+          return (0, _effects.put)(_actions.geoActions.getFlightPortFail(_context.t0));
 
         case 18:
         case "end":

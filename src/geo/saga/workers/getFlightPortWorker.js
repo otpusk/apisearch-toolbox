@@ -13,8 +13,8 @@ export function* getFlightPortWorker ({ payload: iata }) {
         }));
         const port = yield call(getToursFlightPort, token, iata, { lang });
 
-        yield put(geoActions.getDepartureCitiesSuccess(iata, port));
+        yield put(geoActions.getFlightPortSuccess(iata, port));
     } catch (error) {
-        yield put(geoActions.getDepartureCitiesFail(error));
+        yield put(geoActions.getFlightPortFail(error));
     }
 }
