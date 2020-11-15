@@ -55,7 +55,7 @@ var searchWatchers = Object.freeze({
                       return (0, _effects.race)([(0, _effects.take)(function (action) {
                         return R.and(R.equals(action.type, _actions.searchActions.cancelledSearch.toString()), R.equals(action.payload, queryId));
                       }), (0, _effects.take)(function (action) {
-                        return R.and(R.equals(action.type, _actions.searchActions.finishSearch.toString()), R.equals(action.payload.queryId, queryId));
+                        return R.and(R.equals(action.type, _actions.searchActions.finishSearch.toString()), R.equals(R.prop('queryId', action.payload), queryId));
                       }), (0, _effects.take)(function (action) {
                         return R.and(R.equals(action.type, _actions.searchActions.failSearch.toString()), R.equals(action.payload, queryId));
                       })]);

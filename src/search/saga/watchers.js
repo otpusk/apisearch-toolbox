@@ -20,7 +20,7 @@ export const searchWatchers =  Object.freeze({
                 )),
                 take((action) => R.and(
                     R.equals(action.type, actions.finishSearch.toString()),
-                    R.equals(action.payload.queryId, queryId)
+                    R.equals(R.prop('queryId', action.payload), queryId)
                 )),
                 take((action) => R.and(
                     R.equals(action.type, actions.failSearch.toString()),
