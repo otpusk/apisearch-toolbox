@@ -211,9 +211,26 @@ function runSearchWorker(_ref) {
           return (0, _effects.put)(_actions.searchActions.failSearch(queryId));
 
         case 9:
+          _context3.prev = 9;
+          _context3.next = 12;
+          return (0, _effects.cancelled)();
+
+        case 12:
+          if (!_context3.sent) {
+            _context3.next = 15;
+            break;
+          }
+
+          _context3.next = 15;
+          return (0, _effects.put)(_actions.searchActions.resetSearch(queryId));
+
+        case 15:
+          return _context3.finish(9);
+
+        case 16:
         case "end":
           return _context3.stop();
       }
     }
-  }, _marked, null, [[1, 5]]);
+  }, _marked, null, [[1, 5, 9, 16]]);
 }

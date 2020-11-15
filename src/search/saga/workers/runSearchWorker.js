@@ -1,5 +1,5 @@
 // Core
-import { call, put, select, delay } from 'redux-saga/effects';
+import { call, put, select, delay, cancelled } from 'redux-saga/effects';
 import { Map, fromJS } from 'immutable';
 import { getToursSearch } from '@otpusk/json-api';
 
@@ -77,5 +77,9 @@ export function* runSearchWorker ({ payload: queryId }) {
         yield put(searchActions.finishSearch(queryId, { total: totalResults }));
     } catch (error) {
         yield put(searchActions.failSearch(queryId));
+    } finally {
+        if (yield cancelled()) {
+            yield put(searchActions.resetSearch(queryId));
+        }
     }
 }

@@ -9,6 +9,7 @@ export const searchActions = createActions({
     PROCESS_SEARCH:              (queryId, payload) => ({ queryId, ...payload }),
     FINISH_SEARCH:               (queryId, payload) => ({ queryId, ...payload }),
     FAIL_SEARCH:                 (queryId) => queryId,
+    CANCELLED_SEARCH:            (queryId) => queryId,
     GET_PRICE_CHART:             (queryId, duration) => ({ queryId, duration }),
     GET_PRICE_CHART_SUCCESS:     (queryId, chart) => ({ queryId, chart }),
     GET_PRICE_CHART_FAIL:        (error) => error,

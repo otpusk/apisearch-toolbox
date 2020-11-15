@@ -1,5 +1,6 @@
 // Core
-import { takeEvery } from 'redux-saga/effects';
+import { take, fork, race, takeEvery, cancel } from 'redux-saga/effects';
+import * as R from 'ramda';
 
 // Instruments
 import { searchActions as actions } from '../actions';
@@ -7,7 +8,28 @@ import { runSearchWorker, submitSearchWorker, getPriceChartWorker, getAvailableD
 
 export const searchWatchers =  Object.freeze({
     * runSearchWatcher () {
-        yield takeEvery(actions.runSearch, runSearchWorker);
+        yield takeEvery(actions.runSearch, function* (actionArgs) {
+            const searchTask = yield fork(runSearchWorker, actionArgs);
+
+            const { payload: queryId } = actionArgs;
+
+            const [cancelledTask] = yield race([
+                take((action) => R.and(
+                    R.equals(action.type, actions.cancelledSearch.toString()),
+                    R.equals(action.payload, queryId)
+                )),
+                take((action) => R.and(
+                    R.equals(action.type, actions.finishSearch.toString()),
+                    R.equals(action.payload.queryId, queryId)
+                )),
+                take((action) => R.and(
+                    R.equals(action.type, actions.failSearch.toString()),
+                    R.equals(action.payload, queryId)
+                ))
+            ]);
+
+            cancelledTask && (yield cancel(searchTask));
+        });
     },
     * submitSearchWatcher () {
         yield takeEvery(actions.submitSearch, submitSearchWorker);
