@@ -8,8 +8,7 @@ import { getToursGeoById } from '@otpusk/json-api';
 export function* getLocationDataWorker ({ payload: { id }}) {
     try {
         const token = yield select((state) => state.auth.getIn(['otpusk', 'token']));
-        const data = yield call(getToursGeoById, token, id);
-
+        const data = yield call(getToursGeoById, token, id, { with: 'price', nsv: 1 });
         yield put(geoActions.getLocationDataSuccess(id, data));
     } catch (error) {
         yield put(geoActions.getLocationDataFail(error));

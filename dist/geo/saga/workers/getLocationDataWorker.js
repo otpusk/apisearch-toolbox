@@ -29,7 +29,10 @@ function getLocationDataWorker(_ref) {
         case 4:
           token = _context.sent;
           _context.next = 7;
-          return (0, _effects.call)(_jsonApi.getToursGeoById, token, id);
+          return (0, _effects.call)(_jsonApi.getToursGeoById, token, id, {
+            "with": 'price',
+            nsv: 1
+          });
 
         case 7:
           data = _context.sent;

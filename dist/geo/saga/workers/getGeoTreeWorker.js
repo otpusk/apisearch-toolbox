@@ -37,7 +37,8 @@ function getGeoTreeWorker() {
           _context.next = 9;
           return (0, _effects.call)(_jsonApi.getToursSuggests, token, null, {
             lang: lang,
-            'with': 'price&city'
+            'with': 'price&city',
+            nsv: 1
           });
 
         case 9:
