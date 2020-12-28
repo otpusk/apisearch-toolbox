@@ -67,7 +67,7 @@ var hotelsReducer = (0, _reduxActions.handleActions)((_handleActions = {}, _defi
 }), _defineProperty(_handleActions, _actions.hotelsActions.addHotels, function (state, _ref2) {
   var hotels = _ref2.payload;
   return state.updateIn(['store'], function (store) {
-    return store.mergeWith(mergeTwoHotels, hotels);
+    return store.merge(hotels);
   });
 }), _defineProperty(_handleActions, _actions.hotelsActions.getHotelsMarkersSuccess, function (state, _ref3) {
   var markers = _ref3.payload;

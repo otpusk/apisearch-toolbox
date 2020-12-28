@@ -41,7 +41,7 @@ export const hotelsReducer = handleActions(
             return state
                 .updateIn(
                     ['store'],
-                    (store) => store.mergeWith(mergeTwoHotels, hotels));
+                    (store) => store.merge(hotels));
         },
         [actions.getHotelsMarkersSuccess]: (state, { payload: markers }) => {
             return state.mergeIn(['markers'], markers);
