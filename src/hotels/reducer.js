@@ -1,6 +1,7 @@
 // Core
 import { Map } from 'immutable';
 import { handleActions, combineActions } from 'redux-actions';
+import * as R from 'ramda';
 
 // Instruments
 import { hotelsActions as actions } from './actions';
@@ -41,7 +42,12 @@ export const hotelsReducer = handleActions(
             return state
                 .updateIn(
                     ['store'],
-                    (store) => store.merge(hotels));
+                    (store) => store
+                        .mergeDeep(hotels)
+                        .map(R.pipe(
+                            R.over(R.lensProp('photos'), R.uniq)
+                        ))
+                );
         },
         [actions.getHotelsMarkersSuccess]: (state, { payload: markers }) => {
             return state.mergeIn(['markers'], markers);
