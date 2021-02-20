@@ -128,7 +128,8 @@ var DEFAULTS = (_DEFAULTS = {}, _defineProperty(_DEFAULTS, QUERY_PARAMS.AUTOSTAR
   'fb': true,
   'hb': true,
   'bb': true,
-  'ob': true
+  'ob': true,
+  'ro': false
 })), _defineProperty(_DEFAULTS, QUERY_PARAMS.TRANSPORT, (0, _immutable.Map)({
   'air': true,
   'bus': true,
