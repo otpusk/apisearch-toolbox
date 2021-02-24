@@ -139,6 +139,7 @@ const DEFAULTS_SEARCH = {
         'hb':  false,
         'bb':  false,
         'ob':  false,
+        'ro':  false,
     }),
     [QUERY_PARAMS.TRANSPORT]: Map({
         'air':   true,

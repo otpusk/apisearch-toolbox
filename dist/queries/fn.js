@@ -143,7 +143,8 @@ var DEFAULTS_SEARCH = (_DEFAULTS_SEARCH = {}, _defineProperty(_DEFAULTS_SEARCH, 
   'fb': false,
   'hb': false,
   'bb': false,
-  'ob': false
+  'ob': false,
+  'ro': false
 })), _defineProperty(_DEFAULTS_SEARCH, QUERY_PARAMS.TRANSPORT, (0, _immutable.Map)({
   'air': true,
   'bus': false,
