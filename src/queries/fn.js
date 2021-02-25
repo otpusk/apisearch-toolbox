@@ -298,7 +298,7 @@ function compileSearchQuery (query) {
  */
 function convertToOtpQuery (query) {
     const converters = {
-        [QUERY_PARAMS.DEPARTURE]: (value) => ({ 'deptCity': value }),
+        [QUERY_PARAMS.DEPARTURE]: (value) => ({ 'from': value }),
         [QUERY_PARAMS.COUNTRY]:   (value) => ({ 'to': value }),
         [QUERY_PARAMS.CATEGORY]:  (value) => {
             const selected = value.filter((status) => status).keySeq().toList();

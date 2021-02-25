@@ -249,7 +249,7 @@ function convertToOtpQuery(query) {
 
   var converters = (_converters = {}, _defineProperty(_converters, QUERY_PARAMS.DEPARTURE, function (value) {
     return {
-      'deptCity': value
+      'from': value
     };
   }), _defineProperty(_converters, QUERY_PARAMS.COUNTRY, function (value) {
     return {
