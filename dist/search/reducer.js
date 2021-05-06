@@ -53,13 +53,18 @@ var searchReducer = (0, _reduxActions.handleActions)((_handleActions = {}, _defi
 }), _defineProperty(_handleActions, _actions.searchActions.failSearch, function (state, _ref5) {
   var queryId = _ref5.payload;
   return state.setIn(['results', queryId, 'status'], 'failed');
-}), _defineProperty(_handleActions, _actions.searchActions.getPriceChartSuccess, function (state, _ref6) {
+}), _defineProperty(_handleActions, _actions.searchActions.setFailSearchError, function (state, _ref6) {
   var _ref6$payload = _ref6.payload,
       queryId = _ref6$payload.queryId,
-      chart = _ref6$payload.chart;
+      error = _ref6$payload.error;
+  return state.setIn(['results', queryId, 'error'], error);
+}), _defineProperty(_handleActions, _actions.searchActions.getPriceChartSuccess, function (state, _ref7) {
+  var _ref7$payload = _ref7.payload,
+      queryId = _ref7$payload.queryId,
+      chart = _ref7$payload.chart;
   return state.setIn(['charts', queryId], chart);
-}), _defineProperty(_handleActions, _actions.searchActions.getAvailableDatesSuccess, function (state, _ref7) {
-  var dates = _ref7.payload.dates;
+}), _defineProperty(_handleActions, _actions.searchActions.getAvailableDatesSuccess, function (state, _ref8) {
+  var dates = _ref8.payload.dates;
   return state.set('dates', dates);
 }), _handleActions), initialState);
 exports.searchReducer = searchReducer;

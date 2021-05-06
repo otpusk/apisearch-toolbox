@@ -23,6 +23,7 @@ var _marked = /*#__PURE__*/regeneratorRuntime.mark(runSearchWorker);
 
 // current result gets filled despite any operators progress status on step 7
 var GUARANTEED_RESULT_STEP = 7;
+var DEFAULT_ERROR_STATUS_CODE = 500;
 
 function runSearchWorker(_ref) {
   var queryId;
@@ -201,7 +202,7 @@ function runSearchWorker(_ref) {
           })(), "t0", 3);
 
         case 3:
-          _context3.next = 9;
+          _context3.next = 11;
           break;
 
         case 5:
@@ -211,26 +212,33 @@ function runSearchWorker(_ref) {
           return (0, _effects.put)(_actions.searchActions.failSearch(queryId));
 
         case 9:
-          _context3.prev = 9;
-          _context3.next = 12;
+          _context3.next = 11;
+          return (0, _effects.put)(_actions.searchActions.setFailSearchError(queryId, {
+            message: _context3.t1.message,
+            statusCode: parseInt(_context3.t1.message, 10) || DEFAULT_ERROR_STATUS_CODE
+          }));
+
+        case 11:
+          _context3.prev = 11;
+          _context3.next = 14;
           return (0, _effects.cancelled)();
 
-        case 12:
+        case 14:
           if (!_context3.sent) {
-            _context3.next = 15;
+            _context3.next = 17;
             break;
           }
 
-          _context3.next = 15;
+          _context3.next = 17;
           return (0, _effects.put)(_actions.searchActions.resetSearch(queryId));
 
-        case 15:
-          return _context3.finish(9);
+        case 17:
+          return _context3.finish(11);
 
-        case 16:
+        case 18:
         case "end":
           return _context3.stop();
       }
     }
-  }, _marked, null, [[1, 5, 9, 16]]);
+  }, _marked, null, [[1, 5, 11, 18]]);
 }

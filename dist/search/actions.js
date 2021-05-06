@@ -44,6 +44,12 @@ var searchActions = (0, _reduxActions.createActions)({
   FAIL_SEARCH: function FAIL_SEARCH(queryId) {
     return queryId;
   },
+  SET_FAIL_SEARCH_ERROR: function SET_FAIL_SEARCH_ERROR(queryId, error) {
+    return {
+      queryId: queryId,
+      error: error
+    };
+  },
   CANCELLED_SEARCH: function CANCELLED_SEARCH(queryId) {
     return queryId;
   },

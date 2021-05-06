@@ -5,7 +5,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.selectOperatorsWithMinPrice = exports.selectOperators = exports.offersByKey = exports.hotelsByKey = exports.searchByKey = void 0;
+exports.getError = exports.selectOperatorsWithMinPrice = exports.selectOperators = exports.offersByKey = exports.hotelsByKey = exports.searchByKey = void 0;
 
 var _reselect = require("reselect");
 
@@ -88,3 +88,9 @@ var selectOperatorsWithMinPrice = function selectOperatorsWithMinPrice() {
 };
 
 exports.selectOperatorsWithMinPrice = selectOperatorsWithMinPrice;
+
+var getError = function getError() {
+  return (0, _reselect.createSelector)(searchByKey(), R.prop('error'));
+};
+
+exports.getError = getError;
