@@ -11,6 +11,7 @@ import { offersActions } from '../../../offers/actions';
 
 // current result gets filled despite any operators progress status on step 7
 const GUARANTEED_RESULT_STEP = 7;
+const DEFAULT_ERROR_STATUS_CODE = 500;
 
 export function* runSearchWorker ({ payload: queryId }) {
     try {
@@ -30,7 +31,9 @@ export function* runSearchWorker ({ payload: queryId }) {
                 result,
                 country,
                 progress: operators,
-                total, meta } = yield call(getToursSearch, token, otpsukQuery);
+                total,
+                meta,
+            } = yield call(getToursSearch, token, otpsukQuery);
 
             const getPriceValueByOfferId = (id) => {
                 const { currency, price } = result.offers[id];
@@ -77,6 +80,10 @@ export function* runSearchWorker ({ payload: queryId }) {
         yield put(searchActions.finishSearch(queryId, { total: totalResults }));
     } catch (error) {
         yield put(searchActions.failSearch(queryId));
+        yield put(searchActions.setFailSearchError(queryId, {
+            message:    error.message,
+            statusCode: parseInt(error.message, 10) || DEFAULT_ERROR_STATUS_CODE,
+        }));
     } finally {
         if (yield cancelled()) {
             yield put(searchActions.resetSearch(queryId));

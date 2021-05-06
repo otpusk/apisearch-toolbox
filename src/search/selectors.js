@@ -66,3 +66,7 @@ export const selectOperatorsWithMinPrice = () => createSelector(
         ])
     )(offers)
 );
+
+export const getError = () => createSelector(
+    searchByKey(), R.prop('error')
+);

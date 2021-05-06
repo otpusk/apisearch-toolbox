@@ -45,6 +45,9 @@ export const searchReducer = handleActions(
         [actions.failSearch]: (state, { payload: queryId }) => {
             return state.setIn(['results', queryId, 'status'], 'failed');
         },
+        [actions.setFailSearchError]: (state, { payload: { queryId, error }}) => {
+            return state.setIn(['results', queryId, 'error'], error);
+        },
         [actions.getPriceChartSuccess]: (state, { payload: { queryId, chart }}) => {
             return state.setIn(['charts', queryId], chart);
         },
