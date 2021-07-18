@@ -47,6 +47,6 @@ var servicesReducer = (0, _reduxActions.handleActions)((_handleActions = {}, _de
   return state.setIn(['groups'], services).setIn(['countries', countryId], services).mergeIn(['labels'], labels);
 }), _defineProperty(_handleActions, _actions.servicesActions.setLabels, function (state, _ref2) {
   var labels = _ref2.payload;
-  return state.set(labels, labels);
+  return state.set('labels', labels);
 }), _handleActions), initialState);
 exports.servicesReducer = servicesReducer;

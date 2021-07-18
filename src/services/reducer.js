@@ -32,7 +32,7 @@ export const servicesReducer = handleActions(
                 .setIn(['countries', countryId], services)
                 .mergeIn(['labels'], labels);
         },
-        [servicesActions.setLabels]: (state, { payload: labels }) => state.set(labels, labels),
+        [servicesActions.setLabels]: (state, { payload: labels }) => state.set('labels', labels),
     },
     initialState
 );
