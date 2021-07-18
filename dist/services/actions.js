@@ -21,6 +21,9 @@ var servicesActions = (0, _reduxActions.createActions)({
   },
   GET_SERVICES_FAIL: function GET_SERVICES_FAIL(error) {
     return error;
+  },
+  SET_LABELS: function SET_LABELS(labels) {
+    return labels;
   }
 });
 exports.servicesActions = servicesActions;

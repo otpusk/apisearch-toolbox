@@ -11,6 +11,8 @@ var _reduxActions = require("redux-actions");
 
 var _actions = require("./actions");
 
+var _handleActions;
+
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var initialState = (0, _immutable.Map)({
@@ -29,7 +31,7 @@ var initialState = (0, _immutable.Map)({
   groups: (0, _immutable.Map)(),
   countries: (0, _immutable.Map)()
 });
-var servicesReducer = (0, _reduxActions.handleActions)(_defineProperty({}, _actions.servicesActions.getServicesSuccess, function (state, _ref) {
+var servicesReducer = (0, _reduxActions.handleActions)((_handleActions = {}, _defineProperty(_handleActions, _actions.servicesActions.getServicesSuccess, function (state, _ref) {
   var _ref$payload = _ref.payload,
       countryId = _ref$payload.countryId,
       raw = _ref$payload.services;
@@ -43,5 +45,8 @@ var servicesReducer = (0, _reduxActions.handleActions)(_defineProperty({}, _acti
     return list.merge(group);
   }, (0, _immutable.Map)());
   return state.setIn(['groups'], services).setIn(['countries', countryId], services).mergeIn(['labels'], labels);
-}), initialState);
+}), _defineProperty(_handleActions, _actions.servicesActions.setLabels, function (state, _ref2) {
+  var labels = _ref2.payload;
+  return state.set(labels, labels);
+}), _handleActions), initialState);
 exports.servicesReducer = servicesReducer;
