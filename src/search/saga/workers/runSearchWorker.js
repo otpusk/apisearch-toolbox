@@ -2,6 +2,7 @@
 import { call, put, select, delay, cancelled } from 'redux-saga/effects';
 import { Map, fromJS } from 'immutable';
 import { getToursSearch } from '@otpusk/json-api';
+import * as R from 'ramda';
 
 // Instruments
 import { convertToOtpQuery, QUERY_PARAMS } from '../../../queries/fn';
@@ -13,11 +14,12 @@ import { offersActions } from '../../../offers/actions';
 const GUARANTEED_RESULT_STEP = 7;
 const DEFAULT_ERROR_STATUS_CODE = 500;
 
-export function* runSearchWorker ({ payload: queryId }) {
+export function* runSearchWorker ({ payload: queryId, meta: actionMeta }) {
     try {
         const query = yield select((state) => state.queries.get(queryId));
         const lang = yield select((state) => state.auth.getIn(['otpusk', 'lang'], null));
         const token = yield select((state) => state.auth.getIn(['otpusk', 'token']));
+        const steps = R.prop('resultSteps', actionMeta) || GUARANTEED_RESULT_STEP;
 
         const otpsukQuery = convertToOtpQuery(query.set(QUERY_PARAMS.LANGUAGE, lang));
 
@@ -74,7 +76,7 @@ export function* runSearchWorker ({ payload: queryId }) {
             yield delay(5000);
 
             otpsukQuery.number+=1;
-        } while (otpsukQuery.number <= GUARANTEED_RESULT_STEP);
+        } while (otpsukQuery.number <= steps);
 
         yield delay(200);
         yield put(searchActions.finishSearch(queryId, { total: totalResults }));
