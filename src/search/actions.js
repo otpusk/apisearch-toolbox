@@ -5,7 +5,7 @@ export const searchActions = createActions({
     SUBMIT_SEARCH: (queryId = 'main', targetPage) => ({ queryId, targetPage }),
     RUN_SEARCH:    [
         (queryId) => queryId,
-        (queryId, resultSteps) => ({ queryId, resultSteps })
+        (_, maxSearchingSecondsTime) => ({ maxSearchingSecondsTime })
     ],
     RESET_SEARCH:                (queryId) => queryId,
     START_SEARCH:                (queryId) => queryId,
