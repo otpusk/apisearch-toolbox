@@ -1,5 +1,7 @@
 "use strict";
 
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -11,6 +13,8 @@ var _immutable = require("immutable");
 
 var _jsonApi = require("@otpusk/json-api");
 
+var R = _interopRequireWildcard(require("ramda"));
+
 var _fn = require("../../../queries/fn");
 
 var _actions = require("../../../search/actions");
@@ -19,22 +23,35 @@ var _actions2 = require("../../../hotels/actions");
 
 var _actions3 = require("../../../offers/actions");
 
+function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
+
+function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
 var _marked = /*#__PURE__*/regeneratorRuntime.mark(runSearchWorker);
 
-// current result gets filled despite any operators progress status on step 7
-var GUARANTEED_RESULT_STEP = 7;
+var ONE_STEP_DELAY_SECONDS = 5;
+var ONE_STEP_DELAY_MS = 5 * 1000;
+var DEFAULT_MAX_SEARCHING_SECONDS_TIME = ONE_STEP_DELAY_SECONDS * 24;
 var DEFAULT_ERROR_STATUS_CODE = 500;
 
+var convertSecondsToSteps = function convertSecondsToSteps(seconds) {
+  return seconds / ONE_STEP_DELAY_SECONDS;
+};
+
+var getSteps = function getSteps(meta) {
+  return R.call(R.pipe(R.propOr(DEFAULT_MAX_SEARCHING_SECONDS_TIME, 'maxSearchingSecondsTime'), convertSecondsToSteps), meta);
+};
+
 function runSearchWorker(_ref) {
-  var queryId;
+  var queryId, actionMeta;
   return regeneratorRuntime.wrap(function runSearchWorker$(_context3) {
     while (1) {
       switch (_context3.prev = _context3.next) {
         case 0:
-          queryId = _ref.payload;
+          queryId = _ref.payload, actionMeta = _ref.meta;
           _context3.prev = 1;
           return _context3.delegateYield( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-            var query, lang, token, otpsukQuery, totalResults, _loop, _ret;
+            var query, lang, token, steps, otpsukQuery, totalResults, _loop, _ret;
 
             return regeneratorRuntime.wrap(function _callee$(_context2) {
               while (1) {
@@ -61,11 +78,12 @@ function runSearchWorker(_ref) {
 
                   case 8:
                     token = _context2.sent;
+                    steps = getSteps(actionMeta);
                     otpsukQuery = (0, _fn.convertToOtpQuery)(query.set(_fn.QUERY_PARAMS.LANGUAGE, lang));
-                    _context2.next = 12;
+                    _context2.next = 13;
                     return (0, _effects.put)(_actions.searchActions.startSearch(queryId));
 
-                  case 12:
+                  case 13:
                     otpsukQuery.number = 0;
                     totalResults = 0;
                     _loop = /*#__PURE__*/regeneratorRuntime.mark(function _loop() {
@@ -151,7 +169,7 @@ function runSearchWorker(_ref) {
 
                             case 22:
                               _context.next = 24;
-                              return (0, _effects.delay)(5000);
+                              return (0, _effects.delay)(ONE_STEP_DELAY_MS);
 
                             case 24:
                               otpsukQuery.number += 1;
@@ -164,36 +182,36 @@ function runSearchWorker(_ref) {
                       }, _loop);
                     });
 
-                  case 15:
-                    return _context2.delegateYield(_loop(), "t0", 16);
-
                   case 16:
+                    return _context2.delegateYield(_loop(), "t0", 17);
+
+                  case 17:
                     _ret = _context2.t0;
 
                     if (!(_ret === "break")) {
-                      _context2.next = 19;
+                      _context2.next = 20;
                       break;
                     }
 
-                    return _context2.abrupt("break", 20);
-
-                  case 19:
-                    if (otpsukQuery.number <= GUARANTEED_RESULT_STEP) {
-                      _context2.next = 15;
-                      break;
-                    }
+                    return _context2.abrupt("break", 21);
 
                   case 20:
-                    _context2.next = 22;
+                    if (otpsukQuery.number <= steps) {
+                      _context2.next = 16;
+                      break;
+                    }
+
+                  case 21:
+                    _context2.next = 23;
                     return (0, _effects.delay)(200);
 
-                  case 22:
-                    _context2.next = 24;
+                  case 23:
+                    _context2.next = 25;
                     return (0, _effects.put)(_actions.searchActions.finishSearch(queryId, {
                       total: totalResults
                     }));
 
-                  case 24:
+                  case 25:
                   case "end":
                     return _context2.stop();
                 }
