@@ -1,24 +1,36 @@
-// Core
 import { call, put, select, delay, cancelled } from 'redux-saga/effects';
 import { Map, fromJS } from 'immutable';
 import { getToursSearch } from '@otpusk/json-api';
+import * as R from 'ramda';
 
-// Instruments
 import { convertToOtpQuery, QUERY_PARAMS } from '../../../queries/fn';
 import { searchActions } from '../../../search/actions';
 import { hotelsActions } from '../../../hotels/actions';
 import { offersActions } from '../../../offers/actions';
 
-// current result gets filled despite any operators progress status on step 7
-const GUARANTEED_RESULT_STEP = 7;
+const ONE_STEP_DELAY_SECONDS = 5;
+const ONE_STEP_DELAY_MS = 5 * 1000;
+const DEFAULT_MAX_SEARCHING_SECONDS_TIME = ONE_STEP_DELAY_SECONDS * 24;
+
 const DEFAULT_ERROR_STATUS_CODE = 500;
 
-export function* runSearchWorker ({ payload: queryId }) {
+const convertSecondsToSteps = (seconds) => seconds / ONE_STEP_DELAY_SECONDS;
+
+const getSteps = (meta) => R.call(
+    R.pipe(
+        R.propOr(DEFAULT_MAX_SEARCHING_SECONDS_TIME, 'maxSearchingSecondsTime'),
+        convertSecondsToSteps
+    ),
+    meta
+);
+
+export function* runSearchWorker ({ payload: queryId, meta: actionMeta }) {
     try {
         const query = yield select((state) => state.queries.get(queryId));
         const lang = yield select((state) => state.auth.getIn(['otpusk', 'lang'], null));
         const token = yield select((state) => state.auth.getIn(['otpusk', 'token']));
 
+        const steps = getSteps(actionMeta);
         const otpsukQuery = convertToOtpQuery(query.set(QUERY_PARAMS.LANGUAGE, lang));
 
         yield put(searchActions.startSearch(queryId));
@@ -71,10 +83,10 @@ export function* runSearchWorker ({ payload: queryId }) {
             if (finished) {
                 break;
             }
-            yield delay(5000);
+            yield delay(ONE_STEP_DELAY_MS);
 
             otpsukQuery.number+=1;
-        } while (otpsukQuery.number <= GUARANTEED_RESULT_STEP);
+        } while (otpsukQuery.number <= steps);
 
         yield delay(200);
         yield put(searchActions.finishSearch(queryId, { total: totalResults }));
