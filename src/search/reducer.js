@@ -30,10 +30,10 @@ export const searchReducer = handleActions(
             return state
                 .mergeIn(['results', queryId], Map({
                     operators,
-                    total:  total ? total : state.getIn(['results', queryId, 'total']),
-                    status: 'processing',
+                    total: total ? total : state.getIn(['results', queryId, 'total']),
                     meta,
                 }))
+                .updateIn(['results', queryId, 'status'], (prevStatus) => prevStatus || 'processing')
                 .updateIn(['results', queryId, 'country'], (value) => value ? value : country)
                 .setIn(['results', queryId, 'hotels', page], hotels);
         },
@@ -47,6 +47,9 @@ export const searchReducer = handleActions(
         },
         [actions.setFailSearchError]: (state, { payload: { queryId, error }}) => {
             return state.setIn(['results', queryId, 'error'], error);
+        },
+        [actions.setSearchStatus]: (state, { payload: { queryID, status }}) => {
+            return state.setIn(['results', queryID, 'status'], status);
         },
         [actions.getPriceChartSuccess]: (state, { payload: { queryId, chart }}) => {
             return state.setIn(['charts', queryId], chart);
