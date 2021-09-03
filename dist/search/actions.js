@@ -22,13 +22,9 @@ var searchActions = (0, _reduxActions.createActions)({
       targetPage: targetPage
     };
   },
-  RUN_SEARCH: [function (queryId) {
+  RUN_SEARCH: function RUN_SEARCH(queryId) {
     return queryId;
-  }, function (_, maxSearchingSecondsTime) {
-    return {
-      maxSearchingSecondsTime: maxSearchingSecondsTime
-    };
-  }],
+  },
   RESET_SEARCH: function RESET_SEARCH(queryId) {
     return queryId;
   },
@@ -56,6 +52,12 @@ var searchActions = (0, _reduxActions.createActions)({
   },
   CANCELLED_SEARCH: function CANCELLED_SEARCH(queryId) {
     return queryId;
+  },
+  SET_SEARCH_STATUS: function SET_SEARCH_STATUS(queryID, status) {
+    return {
+      queryID: queryID,
+      status: status
+    };
   },
   GET_PRICE_CHART: function GET_PRICE_CHART(queryId, duration) {
     return {

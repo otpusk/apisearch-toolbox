@@ -40,9 +40,10 @@ var searchReducer = (0, _reduxActions.handleActions)((_handleActions = {}, _defi
   return state.mergeIn(['results', queryId], (0, _immutable.Map)({
     operators: operators,
     total: total ? total : state.getIn(['results', queryId, 'total']),
-    status: 'processing',
     meta: meta
-  })).updateIn(['results', queryId, 'country'], function (value) {
+  })).updateIn(['results', queryId, 'status'], function (prevStatus) {
+    return prevStatus || 'processing';
+  }).updateIn(['results', queryId, 'country'], function (value) {
     return value ? value : country;
   }).setIn(['results', queryId, 'hotels', page], hotels);
 }), _defineProperty(_handleActions, _actions.searchActions.finishSearch, function (state, _ref4) {
@@ -58,13 +59,18 @@ var searchReducer = (0, _reduxActions.handleActions)((_handleActions = {}, _defi
       queryId = _ref6$payload.queryId,
       error = _ref6$payload.error;
   return state.setIn(['results', queryId, 'error'], error);
-}), _defineProperty(_handleActions, _actions.searchActions.getPriceChartSuccess, function (state, _ref7) {
+}), _defineProperty(_handleActions, _actions.searchActions.setSearchStatus, function (state, _ref7) {
   var _ref7$payload = _ref7.payload,
-      queryId = _ref7$payload.queryId,
-      chart = _ref7$payload.chart;
+      queryID = _ref7$payload.queryID,
+      status = _ref7$payload.status;
+  return state.setIn(['results', queryID, 'status'], status);
+}), _defineProperty(_handleActions, _actions.searchActions.getPriceChartSuccess, function (state, _ref8) {
+  var _ref8$payload = _ref8.payload,
+      queryId = _ref8$payload.queryId,
+      chart = _ref8$payload.chart;
   return state.setIn(['charts', queryId], chart);
-}), _defineProperty(_handleActions, _actions.searchActions.getAvailableDatesSuccess, function (state, _ref8) {
-  var dates = _ref8.payload.dates;
+}), _defineProperty(_handleActions, _actions.searchActions.getAvailableDatesSuccess, function (state, _ref9) {
+  var dates = _ref9.payload.dates;
   return state.set('dates', dates);
 }), _handleActions), initialState);
 exports.searchReducer = searchReducer;
