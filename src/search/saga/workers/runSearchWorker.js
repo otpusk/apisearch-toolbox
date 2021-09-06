@@ -8,7 +8,7 @@ import { hotelsActions } from '../../../hotels/actions';
 import { offersActions } from '../../../offers/actions';
 
 const ONE_STEP_DELAY_MS = 5000;
-const GUARANTEED_RESULT_STEP = 23;
+const GUARANTEED_RESULT_STEP = 18; /* 90 seconds */
 const DEFAULT_ERROR_STATUS_CODE = 500;
 
 export function* runSearchWorker ({ payload: queryId }) {
@@ -72,7 +72,7 @@ export function* runSearchWorker ({ payload: queryId }) {
             yield delay(ONE_STEP_DELAY_MS);
 
             otpsukQuery.number+=1;
-        } while (otpsukQuery.number <= GUARANTEED_RESULT_STEP);
+        } while (otpsukQuery.number < GUARANTEED_RESULT_STEP);
 
         yield delay(200);
         yield put(searchActions.finishSearch(queryId, { total: totalResults }));

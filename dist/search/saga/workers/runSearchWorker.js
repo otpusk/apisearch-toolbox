@@ -22,7 +22,9 @@ var _actions3 = require("../../../offers/actions");
 var _marked = /*#__PURE__*/regeneratorRuntime.mark(runSearchWorker);
 
 var ONE_STEP_DELAY_MS = 5000;
-var GUARANTEED_RESULT_STEP = 23;
+var GUARANTEED_RESULT_STEP = 18;
+/* 90 seconds */
+
 var DEFAULT_ERROR_STATUS_CODE = 500;
 
 function runSearchWorker(_ref) {
@@ -178,7 +180,7 @@ function runSearchWorker(_ref) {
                     return _context2.abrupt("break", 20);
 
                   case 19:
-                    if (otpsukQuery.number <= GUARANTEED_RESULT_STEP) {
+                    if (otpsukQuery.number < GUARANTEED_RESULT_STEP) {
                       _context2.next = 15;
                       break;
                     }
