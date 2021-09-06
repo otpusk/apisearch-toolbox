@@ -5,7 +5,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getError = exports.selectOperatorsWithMinPrice = exports.selectOperators = exports.offersByKey = exports.hotelsByKey = exports.searchByKey = void 0;
+exports.isFail = exports.isSearch = exports.isDone = exports.isStart = exports.getError = exports.selectOperatorsWithMinPrice = exports.selectOperators = exports.offersByKey = exports.hotelsByKey = exports.searchByKey = void 0;
 
 var _reselect = require("reselect");
 
@@ -35,12 +35,14 @@ var domain = function domain(_) {
   return _.search;
 };
 
+var defaultSearch = (0, _immutable.Map)();
+
 var searchByKey = function searchByKey() {
   return (0, _reselect.createSelector)(domain, function (_, _ref) {
     var queryID = _ref.queryID;
     return queryID;
   }, function (search, key) {
-    return search.getIn(['results', key], (0, _immutable.Map)()).toJS();
+    return search.getIn(['results', key], defaultSearch).toJS();
   });
 };
 
@@ -94,3 +96,23 @@ var getError = function getError() {
 };
 
 exports.getError = getError;
+var isStart = (0, _reselect.createSelector)(searchByKey(), function (_ref5) {
+  var status = _ref5.status;
+  return status === 'starting';
+});
+exports.isStart = isStart;
+var isDone = (0, _reselect.createSelector)(searchByKey(), function (_ref6) {
+  var status = _ref6.status;
+  return status === 'done';
+});
+exports.isDone = isDone;
+var isSearch = (0, _reselect.createSelector)(searchByKey(), function (_ref7) {
+  var status = _ref7.status;
+  return status === 'processing';
+});
+exports.isSearch = isSearch;
+var isFail = (0, _reselect.createSelector)(searchByKey(), function (_ref8) {
+  var status = _ref8.status;
+  return status === 'failed';
+});
+exports.isFail = isFail;

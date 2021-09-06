@@ -3,15 +3,16 @@ import { createSelector } from 'reselect';
 import * as R from 'ramda';
 import { Map } from 'immutable';
 
-// Instruments
 import { offersSelectors } from './../offers';
 
 const domain = (_) => _.search;
 
+const defaultSearch = Map();
+
 export const searchByKey = () => createSelector(
     domain,
     (_, { queryID }) => queryID,
-    (search, key) => search.getIn(['results', key], Map()).toJS()
+    (search, key) => search.getIn(['results', key], defaultSearch).toJS()
 );
 
 export const hotelsByKey = () => createSelector(
