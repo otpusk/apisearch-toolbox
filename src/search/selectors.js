@@ -70,3 +70,20 @@ export const selectOperatorsWithMinPrice = () => createSelector(
 export const getError = () => createSelector(
     searchByKey(), R.prop('error')
 );
+
+export const isStart = createSelector(
+    searchByKey(),
+    ({ status }) => status === 'starting'
+);
+export const isDone = createSelector(
+    searchByKey(),
+    ({ status }) => status === 'done'
+);
+export const isSearch = createSelector(
+    searchByKey(),
+    ({ status }) => status === 'processing'
+);
+export const isFail = createSelector(
+    searchByKey(),
+    ({ status }) => status === 'failed'
+);
