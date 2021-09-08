@@ -5,13 +5,11 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.isFail = exports.isSearch = exports.isDone = exports.isStart = exports.getError = exports.selectOperatorsWithMinPrice = exports.selectOperators = exports.offersByKey = exports.hotelsByKey = exports.searchByKey = void 0;
+exports.isFail = exports.isSearch = exports.isDone = exports.isStart = exports.getError = exports.selectOperatorsWithMinPrice = exports.selectOperators = exports.offersByKey = exports.hotelsByKey = exports.isSetSearch = exports.searchByKey = void 0;
 
 var _reselect = require("reselect");
 
 var R = _interopRequireWildcard(require("ramda"));
-
-var _immutable = require("immutable");
 
 var _offers = require("./../offers");
 
@@ -35,18 +33,22 @@ var domain = function domain(_) {
   return _.search;
 };
 
-var defaultSearch = (0, _immutable.Map)();
+var defaultSearch = {};
 
 var searchByKey = function searchByKey() {
   return (0, _reselect.createSelector)(domain, function (_, _ref) {
     var queryID = _ref.queryID;
     return queryID;
   }, function (search, key) {
-    return search.getIn(['results', key], defaultSearch).toJS();
+    return R.call(R.ifElse(Boolean, function (result) {
+      return result.toJS();
+    }, R.always(defaultSearch)), search.getIn(['results', key]));
   });
 };
 
 exports.searchByKey = searchByKey;
+var isSetSearch = (0, _reselect.createSelector)(searchByKey(), R.isEmpty);
+exports.isSetSearch = isSetSearch;
 
 var hotelsByKey = function hotelsByKey() {
   return (0, _reselect.createSelector)(searchByKey(), R.pipe(R.prop('hotels'), R.values, R.reduce(R.mergeRight, {})));
