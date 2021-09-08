@@ -1,18 +1,29 @@
 // Core
 import { createSelector } from 'reselect';
 import * as R from 'ramda';
-import { Map } from 'immutable';
 
 import { offersSelectors } from './../offers';
 
 const domain = (_) => _.search;
 
-const defaultSearch = Map();
+const defaultSearch = {};
 
 export const searchByKey = () => createSelector(
     domain,
     (_, { queryID }) => queryID,
-    (search, key) => search.getIn(['results', key], defaultSearch).toJS()
+    (search, key) => R.call(
+        R.ifElse(
+            Boolean,
+            (result) => result.toJS(),
+            R.always(defaultSearch)
+        ),
+        search.getIn(['results', key])
+    )
+);
+
+export const isSetSearch = createSelector(
+    searchByKey(),
+    R.isEmpty
 );
 
 export const hotelsByKey = () => createSelector(
