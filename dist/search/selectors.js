@@ -47,7 +47,9 @@ var searchByKey = function searchByKey() {
 };
 
 exports.searchByKey = searchByKey;
-var isSetSearch = (0, _reselect.createSelector)(searchByKey(), R.isEmpty);
+var isSetSearch = (0, _reselect.createSelector)(searchByKey(), function (search) {
+  return !R.isEmpty(search);
+});
 exports.isSetSearch = isSetSearch;
 
 var hotelsByKey = function hotelsByKey() {

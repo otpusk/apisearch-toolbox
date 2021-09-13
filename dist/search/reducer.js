@@ -41,9 +41,7 @@ var searchReducer = (0, _reduxActions.handleActions)((_handleActions = {}, _defi
     operators: operators,
     total: total ? total : state.getIn(['results', queryId, 'total']),
     meta: meta
-  })).updateIn(['results', queryId, 'status'], function (prevStatus) {
-    return prevStatus || 'processing';
-  }).updateIn(['results', queryId, 'country'], function (value) {
+  })).updateIn(['results', queryId, 'country'], function (value) {
     return value ? value : country;
   }).setIn(['results', queryId, 'hotels', page], hotels);
 }), _defineProperty(_handleActions, _actions.searchActions.finishSearch, function (state, _ref4) {

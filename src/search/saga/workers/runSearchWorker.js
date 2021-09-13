@@ -66,6 +66,8 @@ export function* runSearchWorker ({ payload: queryId }) {
                 page:   otpsukQuery.page,
             }));
 
+            otpsukQuery.number === 0 && (yield put(searchActions.setSearchStatus(queryId, 'processing')));
+
             if (finished) {
                 break;
             }

@@ -144,21 +144,32 @@ function runSearchWorker(_ref) {
                               }));
 
                             case 20:
+                              _context.t0 = otpsukQuery.number === 0;
+
+                              if (!_context.t0) {
+                                _context.next = 24;
+                                break;
+                              }
+
+                              _context.next = 24;
+                              return (0, _effects.put)(_actions.searchActions.setSearchStatus(queryId, 'processing'));
+
+                            case 24:
                               if (!finished) {
-                                _context.next = 22;
+                                _context.next = 26;
                                 break;
                               }
 
                               return _context.abrupt("return", "break");
 
-                            case 22:
-                              _context.next = 24;
+                            case 26:
+                              _context.next = 28;
                               return (0, _effects.delay)(ONE_STEP_DELAY_MS);
 
-                            case 24:
+                            case 28:
                               otpsukQuery.number += 1;
 
-                            case 25:
+                            case 29:
                             case "end":
                               return _context.stop();
                           }

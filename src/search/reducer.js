@@ -33,7 +33,6 @@ export const searchReducer = handleActions(
                     total: total ? total : state.getIn(['results', queryId, 'total']),
                     meta,
                 }))
-                .updateIn(['results', queryId, 'status'], (prevStatus) => prevStatus || 'processing')
                 .updateIn(['results', queryId, 'country'], (value) => value ? value : country)
                 .setIn(['results', queryId, 'hotels', page], hotels);
         },

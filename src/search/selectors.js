@@ -23,7 +23,7 @@ export const searchByKey = () => createSelector(
 
 export const isSetSearch = createSelector(
     searchByKey(),
-    R.isEmpty
+    (search) => !R.isEmpty(search)
 );
 
 export const hotelsByKey = () => createSelector(
