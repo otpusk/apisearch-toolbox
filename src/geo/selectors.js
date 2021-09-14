@@ -5,6 +5,7 @@ import * as R from 'ramda';
 
 // defaults
 const emptyList = List();
+const emptyArray = [];
 
 const domain = (_) => _.geo;
 const departureGeoID = (_, { geoID }) => geoID;
@@ -39,6 +40,28 @@ export const getFlightPort = () => createSelector(
     getFlightPorts,
     getIATA,
     (ports, iata) => R.prop(iata, ports)
+);
+
+export const getOperators = () => createSelector(
+    domain,
+    (_, { key }) => key,
+    (geo, key) => R.call(
+        R.pipe(
+            (operators) => operators.toObject(),
+            R.prop(key),
+            R.ifElse(
+                Boolean,
+                (operators) => operators.toArray(),
+                R.always(emptyArray)
+            )
+        ),
+        geo.get('operators')
+    )
+);
+
+export const getActiveOperators = () => createSelector(
+    getOperators(),
+    R.filter(R.prop('active'))
 );
 
 

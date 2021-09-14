@@ -5,7 +5,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.selectHotelsByCountry = exports.selectCitiesByCountry = exports.selectCountries = exports.getFlightPort = exports.getFlightPorts = exports.getDepartureByIATA = exports.departures = void 0;
+exports.selectHotelsByCountry = exports.selectCitiesByCountry = exports.selectCountries = exports.getActiveOperators = exports.getOperators = exports.getFlightPort = exports.getFlightPorts = exports.getDepartureByIATA = exports.departures = void 0;
 
 var _reselect = require("reselect");
 
@@ -20,6 +20,7 @@ function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && 
 // Core
 // defaults
 var emptyList = (0, _immutable.List)();
+var emptyArray = [];
 
 var domain = function domain(_) {
   return _.geo;
@@ -64,12 +65,33 @@ var getFlightPort = function getFlightPort() {
     return R.prop(iata, ports);
   });
 };
+
+exports.getFlightPort = getFlightPort;
+
+var getOperators = function getOperators() {
+  return (0, _reselect.createSelector)(domain, function (_, _ref3) {
+    var key = _ref3.key;
+    return key;
+  }, function (geo, key) {
+    return R.call(R.pipe(function (operators) {
+      return operators.toObject();
+    }, R.prop(key), R.ifElse(Boolean, function (operators) {
+      return operators.toArray();
+    }, R.always(emptyArray))), geo.get('operators'));
+  });
+};
+
+exports.getOperators = getOperators;
+
+var getActiveOperators = function getActiveOperators() {
+  return (0, _reselect.createSelector)(getOperators(), R.filter(R.prop('active')));
+};
 /**
  * Select countries from locations store
  */
 
 
-exports.getFlightPort = getFlightPort;
+exports.getActiveOperators = getActiveOperators;
 var selectCountries = (0, _reselect.createSelector)(function (state) {
   return state.getIn(['keys', 'countries'], (0, _immutable.List)());
 }, function (state) {
