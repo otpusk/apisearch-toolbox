@@ -2,6 +2,7 @@
 import { Map, Range, Set } from 'immutable';
 import moment from 'moment';
 import { handleActions } from 'redux-actions';
+import * as R from 'ramda'
 
 // Instruments
 import { queriesActions } from './actions';
@@ -38,9 +39,7 @@ export const queriesReducer = handleActions(
                     }),
                     [QUERY_PARAMS.CATEGORY]: defaultQuery.get(QUERY_PARAMS.CATEGORY).map(() => false).merge({ [hotel.stars]: true }),
                     [QUERY_PARAMS.ADULTS]:   offer.adults,
-                    [QUERY_PARAMS.CHILDREN]: Range(0, offer.children)
-                        .map(() => offer.childrenAge.replace(/^.*\D(\d+)\D*$/, '$1'))
-                        .map(Number).toList(),
+                    [QUERY_PARAMS.CHILDREN]:  R.join(',',offer.exactChildrenAges) ,
                     [QUERY_PARAMS.CITIES]:    Set([hotel.city.id]),
                     [QUERY_PARAMS.HOTELS]:    Set([hotel.id]),
                     [QUERY_PARAMS.TRANSPORT]: defaultQuery.get(QUERY_PARAMS.TRANSPORT).map(() => false).merge({ [offer.transport]: true }),
