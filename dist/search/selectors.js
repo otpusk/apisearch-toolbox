@@ -5,13 +5,15 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.isFail = exports.isSearch = exports.isDone = exports.isStart = exports.getError = exports.selectOperatorsWithMinPrice = exports.selectOperators = exports.offersByKey = exports.hotelsByKey = exports.isSetSearch = exports.searchByKey = void 0;
+exports.isFail = exports.isSearch = exports.isDone = exports.isStart = exports.getError = exports.selectOperatorsWithMinPrice = exports.selectOperators = exports.offersByKey = exports.hotelsByKey = exports.isSetSearch = exports.getHotelsByMinPrice = exports.searchByKey = void 0;
 
 var _reselect = require("reselect");
 
 var R = _interopRequireWildcard(require("ramda"));
 
 var _offers = require("./../offers");
+
+var _helpers = require("./helpers");
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
@@ -47,13 +49,38 @@ var searchByKey = function searchByKey() {
 };
 
 exports.searchByKey = searchByKey;
+
+var getHotelsByPages = function getHotelsByPages() {
+  return (0, _reselect.createSelector)(searchByKey(), R.pipe(R.prop('hotels'), R.values));
+};
+
+var getHotelsByMinPrice = function getHotelsByMinPrice() {
+  return (0, _reselect.createSelector)(getHotelsByPages(), _offers.offersSelectors.offersHub, function (pages, offersMap) {
+    return R.map(function (hotelsMap) {
+      return R.call(R.pipe(R.toPairs, R.map(function (_ref2) {
+        var _ref3 = _slicedToArray(_ref2, 2),
+            hotelID = _ref3[0],
+            offersIDs = _ref3[1];
+
+        return {
+          hotelID: hotelID,
+          offersIDs: R.call(R.pipe(R.map(function (id) {
+            return offersMap[id];
+          }), _helpers.sortOffersByMinPrice), offersIDs)
+        };
+      }), _helpers.sortHotelsByMinOffer), hotelsMap);
+    }, pages);
+  });
+};
+
+exports.getHotelsByMinPrice = getHotelsByMinPrice;
 var isSetSearch = (0, _reselect.createSelector)(searchByKey(), function (search) {
   return !R.isEmpty(search);
 });
 exports.isSetSearch = isSetSearch;
 
 var hotelsByKey = function hotelsByKey() {
-  return (0, _reselect.createSelector)(searchByKey(), R.pipe(R.prop('hotels'), R.values, R.reduce(R.mergeRight, {})));
+  return (0, _reselect.createSelector)(getHotelsByPages(), R.reduce(R.mergeRight, {}));
 };
 
 exports.hotelsByKey = hotelsByKey;
@@ -69,8 +96,8 @@ var offersByKey = function offersByKey() {
 exports.offersByKey = offersByKey;
 
 var selectOperators = function selectOperators() {
-  return (0, _reselect.createSelector)(searchByKey(), function (_ref2) {
-    var operators = _ref2.operators;
+  return (0, _reselect.createSelector)(searchByKey(), function (_ref4) {
+    var operators = _ref4.operators;
     return operators;
   });
 };
@@ -83,12 +110,12 @@ var selectOperatorsWithMinPrice = function selectOperatorsWithMinPrice() {
       return R.map(function (oid) {
         return [R.pipe(R.set(R.lensProp('completed'), R.prop(oid, operators)), R.set(R.lensProp('id'), Number(oid)))({}), R.prop(oid, grouped)];
       }, R.keys(operators));
-    }, R.map(function (_ref3) {
-      var _ref4 = _slicedToArray(_ref3, 2),
-          operator = _ref4[0],
-          grouped = _ref4[1];
+    }, R.map(function (_ref5) {
+      var _ref6 = _slicedToArray(_ref5, 2),
+          operator = _ref6[0],
+          grouped = _ref6[1];
 
-      return [operator, R.when(Boolean, R.pipe(R.sortBy(R.ascend(R.path(['price', 'uah']))), R.prop(0)))(grouped)];
+      return [operator, R.when(Boolean, R.pipe(_helpers.sortOffersByMinPrice, R.prop(0)))(grouped)];
     }))(offers);
   });
 };
@@ -100,23 +127,23 @@ var getError = function getError() {
 };
 
 exports.getError = getError;
-var isStart = (0, _reselect.createSelector)(searchByKey(), function (_ref5) {
-  var status = _ref5.status;
+var isStart = (0, _reselect.createSelector)(searchByKey(), function (_ref7) {
+  var status = _ref7.status;
   return status === 'starting';
 });
 exports.isStart = isStart;
-var isDone = (0, _reselect.createSelector)(searchByKey(), function (_ref6) {
-  var status = _ref6.status;
+var isDone = (0, _reselect.createSelector)(searchByKey(), function (_ref8) {
+  var status = _ref8.status;
   return status === 'done';
 });
 exports.isDone = isDone;
-var isSearch = (0, _reselect.createSelector)(searchByKey(), function (_ref7) {
-  var status = _ref7.status;
+var isSearch = (0, _reselect.createSelector)(searchByKey(), function (_ref9) {
+  var status = _ref9.status;
   return status === 'processing';
 });
 exports.isSearch = isSearch;
-var isFail = (0, _reselect.createSelector)(searchByKey(), function (_ref8) {
-  var status = _ref8.status;
+var isFail = (0, _reselect.createSelector)(searchByKey(), function (_ref10) {
+  var status = _ref10.status;
   return status === 'failed';
 });
 exports.isFail = isFail;

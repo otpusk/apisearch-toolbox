@@ -4,6 +4,8 @@ import * as R from 'ramda';
 
 import { offersSelectors } from './../offers';
 
+import { sortOffersByMinPrice, sortHotelsByMinOffer } from './helpers';
+
 const domain = (_) => _.search;
 
 const defaultSearch = {};
@@ -21,18 +23,47 @@ export const searchByKey = () => createSelector(
     )
 );
 
+const getHotelsByPages = () => createSelector(
+    searchByKey(),
+    R.pipe(
+        R.prop('hotels'),
+        R.values
+    )
+);
+
+export const getHotelsByMinPrice = () => createSelector(
+    getHotelsByPages(),
+    offersSelectors.offersHub,
+    (pages, offersMap) => R.map(
+        (hotelsMap) => R.call(
+            R.pipe(
+                R.toPairs,
+                R.map(([hotelID, offersIDs]) => ({
+                    hotelID,
+                    offersIDs: R.call(
+                        R.pipe(
+                            R.map((id) => offersMap[id]),
+                            sortOffersByMinPrice
+                        ),
+                        offersIDs
+                    ),
+                })),
+                sortHotelsByMinOffer
+            ),
+            hotelsMap
+        ),
+        pages
+    )
+);
+
 export const isSetSearch = createSelector(
     searchByKey(),
     (search) => !R.isEmpty(search)
 );
 
 export const hotelsByKey = () => createSelector(
-    searchByKey(),
-    R.pipe(
-        R.prop('hotels'),
-        R.values,
-        R.reduce(R.mergeRight, {})
-    )
+    getHotelsByPages(),
+    R.reduce(R.mergeRight, {})
 );
 
 export const offersByKey = () => createSelector(
@@ -71,7 +102,7 @@ export const selectOperatorsWithMinPrice = () => createSelector(
             R.when(
                 Boolean,
                 R.pipe(
-                    R.sortBy(R.ascend(R.path(['price', 'uah']))),
+                    sortOffersByMinPrice,
                     R.prop(0)
                 )
             )(grouped)
