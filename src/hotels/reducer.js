@@ -42,11 +42,7 @@ export const hotelsReducer = handleActions(
             return state
                 .updateIn(
                     ['store'],
-                    (store) => store
-                        .mergeDeep(hotels)
-                        .map(R.pipe(
-                            R.over(R.lensProp('photos'), R.uniq)
-                        ))
+                    (store) => store.merge(hotels)
                 );
         },
         [actions.getHotelsMarkersSuccess]: (state, { payload: markers }) => {
