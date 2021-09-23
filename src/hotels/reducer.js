@@ -1,9 +1,6 @@
-// Core
 import { Map } from 'immutable';
 import { handleActions, combineActions } from 'redux-actions';
-import * as R from 'ramda';
 
-// Instruments
 import { hotelsActions as actions } from './actions';
 
 const initalState = Map({
