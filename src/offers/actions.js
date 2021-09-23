@@ -2,9 +2,12 @@
 import { createActions } from 'redux-actions';
 
 export const offersActions = createActions({
-    GET_OFFER:                               (offerId, fresh = false) => ({ offerId, fresh }),
-    GET_OFFER_SUCCESS:                       () => void 0,
-    GET_OFFER_FAIL:                          (error) => error,
+    GET_OFFER:         (offerId, fresh = false) => ({ offerId, fresh }),
+    GET_OFFER_SUCCESS: (offerID) => offerID,
+    GET_OFFER_FAIL:    [
+        (error) => error,
+        (_, offerID) => ({ offerID })
+    ],
     ADD_OFFERS:                              (offers) => offers,
     SET_OFFER:                               (offer) => offer,
     SET_OFFER_STATUS:                        (offerId, status) => ({ offerId, status }),

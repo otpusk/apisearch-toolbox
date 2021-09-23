@@ -17,9 +17,9 @@ export function* getOfferWorker ({ payload: { offerId, fresh }}) {
         }
         yield put(offersActions.setOffer(offer));
         yield put(offersActions.setOfferStatus(offer.id, 'alive'));
-        yield put(offersActions.getOfferSuccess());
+        yield put(offersActions.getOfferSuccess(offerId));
     } catch (error) {
         yield put(offersActions.setOfferStatus(offerId, 'expired'));
-        yield put(offersActions.getOfferFail(error));
+        yield put(offersActions.getOfferFail(error, offerId));
     }
 }

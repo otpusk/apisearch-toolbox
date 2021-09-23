@@ -56,7 +56,7 @@ function getOfferWorker(_ref) {
 
         case 16:
           _context.next = 18;
-          return (0, _effects.put)(_actions.offersActions.getOfferSuccess());
+          return (0, _effects.put)(_actions.offersActions.getOfferSuccess(offerId));
 
         case 18:
           _context.next = 26;
@@ -70,7 +70,7 @@ function getOfferWorker(_ref) {
 
         case 24:
           _context.next = 26;
-          return (0, _effects.put)(_actions.offersActions.getOfferFail(_context.t0));
+          return (0, _effects.put)(_actions.offersActions.getOfferFail(_context.t0, offerId));
 
         case 26:
         case "end":

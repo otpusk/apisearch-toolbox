@@ -21,12 +21,16 @@ var offersActions = (0, _reduxActions.createActions)({
       fresh: fresh
     };
   },
-  GET_OFFER_SUCCESS: function GET_OFFER_SUCCESS() {
-    return void 0;
+  GET_OFFER_SUCCESS: function GET_OFFER_SUCCESS(offerID) {
+    return offerID;
   },
-  GET_OFFER_FAIL: function GET_OFFER_FAIL(error) {
+  GET_OFFER_FAIL: [function (error) {
     return error;
-  },
+  }, function (_, offerID) {
+    return {
+      offerID: offerID
+    };
+  }],
   ADD_OFFERS: function ADD_OFFERS(offers) {
     return offers;
   },
