@@ -5,7 +5,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.selectHotelsByCountry = exports.selectCitiesByCountry = exports.selectCountries = exports.getActiveOperators = exports.getOperators = exports.getFlightPort = exports.getFlightPorts = exports.getDepartureByIATA = exports.departures = void 0;
+exports.selectHotelsByCountry = exports.selectCitiesByCountry = exports.selectCountries = exports.getActiveOperators = exports.getOperator = exports.getOperators = exports.getFlightPort = exports.getFlightPorts = exports.getDepartureByIATA = exports.departures = void 0;
 
 var _reselect = require("reselect");
 
@@ -82,6 +82,20 @@ var getOperators = function getOperators() {
 };
 
 exports.getOperators = getOperators;
+
+var getOperator = function getOperator() {
+  return (0, _reselect.createSelector)(getOperators(), function (_, _ref4) {
+    var operatorID = _ref4.operatorID;
+    return operatorID;
+  }, function (operatorsArray, findID) {
+    return R.find(function (_ref5) {
+      var id = _ref5.id;
+      return Number(id) === Number(findID);
+    }, operatorsArray);
+  });
+};
+
+exports.getOperator = getOperator;
 
 var getActiveOperators = function getActiveOperators() {
   return (0, _reselect.createSelector)(getOperators(), R.filter(R.prop('active')));

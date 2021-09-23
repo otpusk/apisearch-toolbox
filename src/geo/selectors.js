@@ -59,6 +59,15 @@ export const getOperators = () => createSelector(
     )
 );
 
+export const getOperator = () => createSelector(
+    getOperators(),
+    (_, { operatorID }) => operatorID,
+    (operatorsArray, findID) => R.find(
+        ({ id }) => Number(id) === Number(findID),
+        operatorsArray
+    )
+);
+
 export const getActiveOperators = () => createSelector(
     getOperators(),
     R.filter(R.prop('active'))
