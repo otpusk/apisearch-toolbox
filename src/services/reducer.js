@@ -1,10 +1,10 @@
 // Core
-import { Map, fromJS } from 'immutable';
+import * as R from 'ramda';
 import { handleActions } from 'redux-actions';
 import { servicesActions } from './actions';
 
-const initialState = Map({
-    labels: Map({
+const initialState = {
+    labels: {
         'beach_line': 'Линия пляжа',
         'location':   'Расположение',
         'beach':      'Пляж',
@@ -15,24 +15,28 @@ const initialState = Map({
         'room':       'Удобства в номерах',
         'sport':      'Развлечения и спорт',
         'recommend':  'Отели с рекомендацией',
-    }),
-    groups:    Map(),
-    countries: Map(),
-});
-
-export const servicesReducer = handleActions(
-    {
-        [servicesActions.getServicesSuccess]: (state, { payload: { countryId, services: raw }}) => {
-            const servicesWithLabels = fromJS(raw);
-            const services = servicesWithLabels.map((group) => group.map((label, code) => code).toList());
-            const labels = servicesWithLabels.reduce((list, group) => list.merge(group), Map());
-
-            return state
-                .setIn(['groups'], services)
-                .setIn(['countries', countryId], services)
-                .mergeIn(['labels'], labels);
-        },
-        [servicesActions.setLabels]: (state, { payload: labels }) => state.set('labels', labels),
     },
-    initialState
-);
+    store: {},
+};
+
+export const servicesReducer = handleActions({
+    [servicesActions.setLabels]: (state, { payload: labels }) => R.set(
+        R.lensProp('labels'),
+        labels,
+        state
+    ),
+    [servicesActions.mergeLabels]: (state, { payload: labels }) => R.over(
+        R.lensProp('labels'),
+        (prevLables) => R.mergeAll([prevLables, labels]),
+        state
+    ),
+    [servicesActions.getServicesSuccess]: (state, { payload }) => {
+        const { countryId, services } = payload;
+
+        return R.set(
+            R.lensPath(['store', countryId]),
+            services,
+            state
+        );
+    },
+}, initialState);

@@ -11,8 +11,6 @@ var _actions = require("../actions");
 
 var _getServicesWorker = require("./workers/getServicesWorker");
 
-// Core
-// Instruments
 var servicesWatchers = Object.freeze({
   getServicesWatcher: /*#__PURE__*/regeneratorRuntime.mark(function getServicesWatcher() {
     return regeneratorRuntime.wrap(function getServicesWatcher$(_context) {
@@ -20,7 +18,7 @@ var servicesWatchers = Object.freeze({
         switch (_context.prev = _context.next) {
           case 0:
             _context.next = 2;
-            return (0, _effects.takeEvery)(_actions.servicesActions.getServices, _getServicesWorker.getServicesWorker);
+            return (0, _effects.takeEvery)([_actions.servicesActions.getServices, _actions.servicesActions.getAllServices], _getServicesWorker.getServicesWorker);
 
           case 2:
           case "end":
