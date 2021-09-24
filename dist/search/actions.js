@@ -25,6 +25,9 @@ var searchActions = (0, _reduxActions.createActions)({
   RUN_SEARCH: function RUN_SEARCH(queryId) {
     return queryId;
   },
+  GET_RESULTS: function GET_RESULTS(queryId) {
+    return queryId;
+  },
   RESET_SEARCH: function RESET_SEARCH(queryId) {
     return queryId;
   },

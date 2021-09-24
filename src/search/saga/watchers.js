@@ -4,12 +4,22 @@ import * as R from 'ramda';
 
 // Instruments
 import { searchActions as actions } from '../actions';
-import { runSearchWorker, submitSearchWorker, getPriceChartWorker, getAvailableDatesWorker } from './workers';
+import {
+    getResultsWorker,
+    runSearchWorker,
+    submitSearchWorker,
+    getPriceChartWorker,
+    getAvailableDatesWorker
+} from './workers';
 
 export const searchWatchers =  Object.freeze({
     * runSearchWatcher () {
-        yield takeEvery(actions.runSearch, function* (actionArgs) {
-            const searchTask = yield fork(runSearchWorker, actionArgs);
+        yield takeEvery([actions.runSearch, actions.getResults], function* (actionArgs) {
+            const { [actionArgs.type]: worker } = {
+                [actions.runSearch]:  runSearchWorker,
+                [actions.getResults]: getResultsWorker,
+            };
+            const searchTask = yield fork(worker, actionArgs);
 
             const { payload: queryId } = actionArgs;
 

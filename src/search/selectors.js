@@ -110,6 +110,11 @@ export const selectOperatorsWithMinPrice = () => createSelector(
     )(offers)
 );
 
+export const getPrices = createSelector(
+    searchByKey(),
+    R.prop('prices')
+);
+
 export const getError = () => createSelector(
     searchByKey(), R.prop('error')
 );

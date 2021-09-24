@@ -1,8 +1,7 @@
-// Core
 import { Map, List } from 'immutable';
 import { handleActions } from 'redux-actions';
+import * as R from 'ramda';
 
-// Instruments
 import { searchActions as actions } from './actions';
 import { createResultBones } from '../queries/fn';
 
@@ -26,15 +25,27 @@ export const searchReducer = handleActions(
                 .setIn(['results', queryId, 'status'], 'starting')
                 .removeIn(['charts', queryId]);
         },
-        [actions.processSearch]: (state, { payload: { hotels, operators, queryId, country, total, page, meta }}) => {
+        [actions.processSearch]: (state, { payload: { hotels, operators, queryId, country, total, page, prices, meta }}) => {
             return state
                 .mergeIn(['results', queryId], Map({
-                    operators,
                     total: total ? total : state.getIn(['results', queryId, 'total']),
                     meta,
                 }))
                 .updateIn(['results', queryId, 'country'], (value) => value ? value : country)
-                .setIn(['results', queryId, 'hotels', page], hotels);
+                .setIn(['results', queryId, 'hotels', page], hotels)
+                .updateIn(['results', queryId, 'operators'], (prevOperators = {}) => R.mergeAll([
+                    prevOperators, operators
+                ]))
+                .updateIn(['results', queryId, 'prices'], (prevPrices = []) => R.isEmpty(prices)
+                    ? prevPrices
+                    : R.call(
+                        R.pipe(
+                            R.clone,
+                            (items) => (items[R.dec(page)] = prices, items)
+                        ),
+                        prevPrices
+                    )
+                );
         },
         [actions.finishSearch]: (state, { payload: { queryId, total }}) => {
             return state

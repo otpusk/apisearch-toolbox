@@ -31,6 +31,8 @@ function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Sy
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 var searchWatchers = Object.freeze({
   runSearchWatcher: /*#__PURE__*/regeneratorRuntime.mark(function runSearchWatcher() {
     return regeneratorRuntime.wrap(function runSearchWatcher$(_context2) {
@@ -38,20 +40,23 @@ var searchWatchers = Object.freeze({
         switch (_context2.prev = _context2.next) {
           case 0:
             _context2.next = 2;
-            return (0, _effects.takeEvery)(_actions.searchActions.runSearch, /*#__PURE__*/regeneratorRuntime.mark(function _callee(actionArgs) {
-              var searchTask, queryId, _yield$race, _yield$race2, cancelledTask;
+            return (0, _effects.takeEvery)([_actions.searchActions.runSearch, _actions.searchActions.getResults], /*#__PURE__*/regeneratorRuntime.mark(function _callee(actionArgs) {
+              var _actions$runSearch$ac2;
+
+              var _actions$runSearch$ac, worker, searchTask, queryId, _yield$race, _yield$race2, cancelledTask;
 
               return regeneratorRuntime.wrap(function _callee$(_context) {
                 while (1) {
                   switch (_context.prev = _context.next) {
                     case 0:
-                      _context.next = 2;
-                      return (0, _effects.fork)(_workers.runSearchWorker, actionArgs);
+                      _actions$runSearch$ac = (_actions$runSearch$ac2 = {}, _defineProperty(_actions$runSearch$ac2, _actions.searchActions.runSearch, _workers.runSearchWorker), _defineProperty(_actions$runSearch$ac2, _actions.searchActions.getResults, _workers.getResultsWorker), _actions$runSearch$ac2), worker = _actions$runSearch$ac[actionArgs.type];
+                      _context.next = 3;
+                      return (0, _effects.fork)(worker, actionArgs);
 
-                    case 2:
+                    case 3:
                       searchTask = _context.sent;
                       queryId = actionArgs.payload;
-                      _context.next = 6;
+                      _context.next = 7;
                       return (0, _effects.race)([(0, _effects.take)(function (action) {
                         return R.and(R.equals(action.type, _actions.searchActions.cancelledSearch.toString()), R.equals(action.payload, queryId));
                       }), (0, _effects.take)(function (action) {
@@ -60,21 +65,21 @@ var searchWatchers = Object.freeze({
                         return R.and(R.equals(action.type, _actions.searchActions.failSearch.toString()), R.equals(action.payload, queryId));
                       })]);
 
-                    case 6:
+                    case 7:
                       _yield$race = _context.sent;
                       _yield$race2 = _slicedToArray(_yield$race, 1);
                       cancelledTask = _yield$race2[0];
                       _context.t0 = cancelledTask;
 
                       if (!_context.t0) {
-                        _context.next = 13;
+                        _context.next = 14;
                         break;
                       }
 
-                      _context.next = 13;
+                      _context.next = 14;
                       return (0, _effects.cancel)(searchTask);
 
-                    case 13:
+                    case 14:
                     case "end":
                       return _context.stop();
                   }
