@@ -3,6 +3,8 @@ import * as R from 'ramda';
 
 import { EMPTY_COUNTRY_ID } from './constants';
 
+const EMPTY_OBJ = {};
+
 const domain = (_) => _.services;
 
 export const getLabels = createSelector(
@@ -17,11 +19,11 @@ const getServicesStore = createSelector(
 
 export const getAllServices = createSelector(
     getServicesStore,
-    (servicesStore) => R.prop(EMPTY_COUNTRY_ID, servicesStore)
+    (servicesStore) => R.propOr(EMPTY_OBJ, EMPTY_COUNTRY_ID, servicesStore)
 );
 
 export const getServicesByCountryID = createSelector(
     getServicesStore,
     (_, { countryID }) => countryID,
-    (servicesStore, countryID) => R.prop(countryID, servicesStore)
+    (servicesStore, countryID) => R.propOr(EMPTY_OBJ, countryID, servicesStore)
 );
