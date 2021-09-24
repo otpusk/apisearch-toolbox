@@ -4,6 +4,7 @@ import * as R from 'ramda';
 import { EMPTY_COUNTRY_ID } from './constants';
 
 const EMPTY_OBJ = {};
+const EMPTY_ARRAY = [];
 
 const domain = (_) => _.services;
 
@@ -26,4 +27,9 @@ export const getServicesByCountryID = createSelector(
     getServicesStore,
     (_, { countryID }) => countryID,
     (servicesStore, countryID) => R.propOr(EMPTY_OBJ, countryID, servicesStore)
+);
+
+export const getServicesIconsForHotel = createSelector(
+    getServicesByCountryID,
+    R.propOr(EMPTY_ARRAY, 'icons')
 );
