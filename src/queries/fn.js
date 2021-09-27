@@ -49,6 +49,7 @@ const QUERY_PARAMS = {
     LANGUAGE:            'language',
     NO_AGENCY_STATS:     'noAgencyStats',
     IGNORE_SERVICES:     'ignoreServices',
+    GROUP:               'group',
 };
 
 const getShortQueryParams = (isParam = false) => {
@@ -73,7 +74,6 @@ const getShortQueryParams = (isParam = false) => {
 };
 
 const SHORT_QUERY_NAMES = getShortQueryParams();
-const SHORT_QUERY_PARAMS = getShortQueryParams(true);
 
 /**
  * Query defaults
@@ -129,6 +129,7 @@ const DEFAULTS = {
     [QUERY_PARAMS.WITHOUT_SPO]:         false,
     [QUERY_PARAMS.LANGUAGE]:            null,
     [QUERY_PARAMS.IGNORE_SERVICES]:     Set(),
+    [QUERY_PARAMS.GROUP]:               null,
 };
 
 const DEFAULTS_SEARCH = {
@@ -228,6 +229,7 @@ function compileQuery (query) {
         [QUERY_PARAMS.HOTEL_AVAILABILITY]:  immutableArrayCompiler,
         [QUERY_PARAMS.IGNORE_SERVICES]:     immutableArrayCompiler,
         [QUERY_PARAMS.OPERATORS]:           immutableArrayCompiler,
+        [QUERY_PARAMS.GROUP]:               numberCompiler,
     };
 
     return GLUE.field + query
@@ -266,6 +268,7 @@ function compileSearchQuery (query) {
         [QUERY_PARAMS.PAGE]:                numberCompiler,
         [QUERY_PARAMS.OPERATORS]:           immutableArrayCompiler,
         [QUERY_PARAMS.IGNORE_SERVICES]:     immutableArrayCompiler,
+        [QUERY_PARAMS.GROUP]:               numberCompiler,
     };
 
     const startDelimeter = GLUE.question;
@@ -326,6 +329,7 @@ function convertToOtpQuery (query) {
         [QUERY_PARAMS.WITHOUT_SPO]:         (value) => ({ 'noPromo': value }),
         [QUERY_PARAMS.LANGUAGE]:            (value) => ({ 'lang': value }),
         [QUERY_PARAMS.IGNORE_SERVICES]:     (value) => ({ 'ignoreServices': value.join(',') }),
+        [QUERY_PARAMS.GROUP]:               (group) => ({ group }),
     };
 
     return query
@@ -371,6 +375,7 @@ function parseQueryParam (currentValue, paramName, rawValue) {
         [QUERY_PARAMS.PAGE]:                Number,
         [QUERY_PARAMS.OPERATORS]:           createImmutableArrayParser(Set),
         [QUERY_PARAMS.IGNORE_SERVICES]:     createImmutableArrayParser(Set),
+        [QUERY_PARAMS.GROUP]:               Number,
     };
 
     if (rawValue) {
@@ -472,6 +477,7 @@ function compileQueryToHash (query) {
         [QUERY_PARAMS.HOTEL_AVAILABILITY]:  immutableArrayCompiler,
         [QUERY_PARAMS.OPERATORS]:           immutableArrayCompiler,
         [QUERY_PARAMS.IGNORE_SERVICES]:     immutableArrayCompiler,
+        [QUERY_PARAMS.GROUP]:               numberCompiler,
     };
 
     return GLUE.field + query.map((value, field) =>
@@ -512,6 +518,7 @@ function parseHashToQuery (queryString) {
             [QUERY_PARAMS.HOTEL_AVAILABILITY]:  createImmutableArrayParser(Set),
             [QUERY_PARAMS.OPERATORS]:           createImmutableArrayParser(Set),
             [QUERY_PARAMS.IGNORE_SERVICES]:     createImmutableArrayParser(Set),
+            [QUERY_PARAMS.GROUP]:               Number,
         };
 
         if (rawValue) {
