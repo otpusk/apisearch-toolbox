@@ -115,6 +115,19 @@ export const getPrices = createSelector(
     R.prop('prices')
 );
 
+export const getOffersFromPrices = () => createSelector(
+    getPrices,
+    offersSelectors.offersHub,
+    (pricesByPages, hub) => pricesByPages && R.call(
+        R.pipe(
+            R.map((page) => R.map((price) => price.offers, page)),
+            R.flatten,
+            R.map((offerID) => hub[offerID])
+        ),
+        pricesByPages
+    )
+);
+
 export const getError = () => createSelector(
     searchByKey(), R.prop('error')
 );

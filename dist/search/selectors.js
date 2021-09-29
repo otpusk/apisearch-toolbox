@@ -5,7 +5,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.isFail = exports.isSearch = exports.isDone = exports.isStart = exports.getError = exports.getPrices = exports.selectOperatorsWithMinPrice = exports.selectOperators = exports.offersByKey = exports.hotelsByKey = exports.isSetSearch = exports.getHotelsByMinPrice = exports.searchByKey = void 0;
+exports.isFail = exports.isSearch = exports.isDone = exports.isStart = exports.getError = exports.getOffersFromPrices = exports.getPrices = exports.selectOperatorsWithMinPrice = exports.selectOperators = exports.offersByKey = exports.hotelsByKey = exports.isSetSearch = exports.getHotelsByMinPrice = exports.searchByKey = void 0;
 
 var _reselect = require("reselect");
 
@@ -123,6 +123,20 @@ var selectOperatorsWithMinPrice = function selectOperatorsWithMinPrice() {
 exports.selectOperatorsWithMinPrice = selectOperatorsWithMinPrice;
 var getPrices = (0, _reselect.createSelector)(searchByKey(), R.prop('prices'));
 exports.getPrices = getPrices;
+
+var getOffersFromPrices = function getOffersFromPrices() {
+  return (0, _reselect.createSelector)(getPrices, _offers.offersSelectors.offersHub, function (pricesByPages, hub) {
+    return pricesByPages && R.call(R.pipe(R.map(function (page) {
+      return R.map(function (price) {
+        return price.offers;
+      }, page);
+    }), R.flatten, R.map(function (offerID) {
+      return hub[offerID];
+    })), pricesByPages);
+  });
+};
+
+exports.getOffersFromPrices = getOffersFromPrices;
 
 var getError = function getError() {
   return (0, _reselect.createSelector)(searchByKey(), R.prop('error'));
