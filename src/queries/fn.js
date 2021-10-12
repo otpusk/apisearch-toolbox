@@ -130,6 +130,8 @@ const DEFAULTS = {
     [QUERY_PARAMS.LANGUAGE]:            null,
     [QUERY_PARAMS.IGNORE_SERVICES]:     Set(),
     [QUERY_PARAMS.GROUP]:               null,
+    [QUERY_PARAMS.DISTRICTS]:           Set(),
+    [QUERY_PARAMS.PROVINCES]:           Set(),
 };
 
 const DEFAULTS_SEARCH = {
@@ -230,6 +232,8 @@ function compileQuery (query) {
         [QUERY_PARAMS.IGNORE_SERVICES]:     immutableArrayCompiler,
         [QUERY_PARAMS.OPERATORS]:           immutableArrayCompiler,
         [QUERY_PARAMS.GROUP]:               numberCompiler,
+        [QUERY_PARAMS.DISTRICTS]:           immutableArrayCompiler,
+        [QUERY_PARAMS.PROVINCES]:           immutableArrayCompiler,
     };
 
     return GLUE.field + query
@@ -269,6 +273,8 @@ function compileSearchQuery (query) {
         [QUERY_PARAMS.OPERATORS]:           immutableArrayCompiler,
         [QUERY_PARAMS.IGNORE_SERVICES]:     immutableArrayCompiler,
         [QUERY_PARAMS.GROUP]:               numberCompiler,
+        [QUERY_PARAMS.DISTRICTS]:           immutableArrayCompiler,
+        [QUERY_PARAMS.PROVINCES]:           immutableArrayCompiler,
     };
 
     const startDelimeter = GLUE.question;
@@ -330,6 +336,8 @@ function convertToOtpQuery (query) {
         [QUERY_PARAMS.LANGUAGE]:            (value) => ({ 'lang': value }),
         [QUERY_PARAMS.IGNORE_SERVICES]:     (value) => ({ 'ignoreServices': value.join(',') }),
         [QUERY_PARAMS.GROUP]:               (group) => ({ group }),
+        [QUERY_PARAMS.DISTRICTS]:           (value) => ({ 'toDistricts': value.toArray() }),
+        [QUERY_PARAMS.PROVINCES]:           (value) => ({ 'toProvinces': value.toArray() }),
     };
 
     return query
@@ -376,6 +384,8 @@ function parseQueryParam (currentValue, paramName, rawValue) {
         [QUERY_PARAMS.OPERATORS]:           createImmutableArrayParser(Set),
         [QUERY_PARAMS.IGNORE_SERVICES]:     createImmutableArrayParser(Set),
         [QUERY_PARAMS.GROUP]:               Number,
+        [QUERY_PARAMS.DISTRICTS]:           createImmutableArrayParser(Set),
+        [QUERY_PARAMS.PROVINCES]:           createImmutableArrayParser(Set),
     };
 
     if (rawValue) {
@@ -478,6 +488,8 @@ function compileQueryToHash (query) {
         [QUERY_PARAMS.OPERATORS]:           immutableArrayCompiler,
         [QUERY_PARAMS.IGNORE_SERVICES]:     immutableArrayCompiler,
         [QUERY_PARAMS.GROUP]:               numberCompiler,
+        [QUERY_PARAMS.DISTRICTS]:           immutableArrayCompiler,
+        [QUERY_PARAMS.PROVINCES]:           immutableArrayCompiler,
     };
 
     return GLUE.field + query.map((value, field) =>
@@ -519,6 +531,8 @@ function parseHashToQuery (queryString) {
             [QUERY_PARAMS.OPERATORS]:           createImmutableArrayParser(Set),
             [QUERY_PARAMS.IGNORE_SERVICES]:     createImmutableArrayParser(Set),
             [QUERY_PARAMS.GROUP]:               Number,
+            [QUERY_PARAMS.DISTRICTS]:           createImmutableArrayParser(Set),
+            [QUERY_PARAMS.PROVINCES]:           createImmutableArrayParser(Set),
         };
 
         if (rawValue) {
