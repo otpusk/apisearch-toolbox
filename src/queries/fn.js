@@ -50,6 +50,8 @@ const QUERY_PARAMS = {
     NO_AGENCY_STATS:     'noAgencyStats',
     IGNORE_SERVICES:     'ignoreServices',
     GROUP:               'group',
+    DISTRICTS:           'districts',
+    PROVINCES:           'provinces',
 };
 
 const getShortQueryParams = (isParam = false) => {

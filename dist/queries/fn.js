@@ -74,7 +74,9 @@ var QUERY_PARAMS = {
   LANGUAGE: 'language',
   NO_AGENCY_STATS: 'noAgencyStats',
   IGNORE_SERVICES: 'ignoreServices',
-  GROUP: 'group'
+  GROUP: 'group',
+  DISTRICTS: 'districts',
+  PROVINCES: 'provinces'
 };
 exports.QUERY_PARAMS = QUERY_PARAMS;
 
