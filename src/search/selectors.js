@@ -82,6 +82,19 @@ export const selectOperators = () => createSelector(
     ({ operators }) => operators
 );
 
+export const getSearchProgressByPercent = createSelector(
+    selectOperators(),
+    (operators) => R.call(
+        R.pipe(
+            R.values,
+            R.filter(Boolean),
+            R.length,
+            (doneOperatorsCount) => doneOperatorsCount * 100 / R.keys(operators).length
+        ),
+        operators
+    )
+);
+
 export const selectOperatorsWithMinPrice = () => createSelector(
     selectOperators(),
     offersByKey(),
