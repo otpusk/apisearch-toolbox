@@ -362,11 +362,11 @@ function convertToOtpQuery(query) {
     };
   }), _defineProperty(_converters, QUERY_PARAMS.DISTRICTS, function (value) {
     return {
-      'toDistricts': value.toArray()
+      'toDistricts': value.isEmpty() ? null : value.toArray().join(',')
     };
   }), _defineProperty(_converters, QUERY_PARAMS.PROVINCES, function (value) {
     return {
-      'toProvinces': value.toArray()
+      'toProvinces': value.isEmpty() ? null : value.toArray().join(',')
     };
   }), _converters);
   return query.filter(function (value, param) {

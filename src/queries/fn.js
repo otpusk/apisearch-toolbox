@@ -338,8 +338,8 @@ function convertToOtpQuery (query) {
         [QUERY_PARAMS.LANGUAGE]:            (value) => ({ 'lang': value }),
         [QUERY_PARAMS.IGNORE_SERVICES]:     (value) => ({ 'ignoreServices': value.join(',') }),
         [QUERY_PARAMS.GROUP]:               (group) => ({ group }),
-        [QUERY_PARAMS.DISTRICTS]:           (value) => ({ 'toDistricts': value.toArray() }),
-        [QUERY_PARAMS.PROVINCES]:           (value) => ({ 'toProvinces': value.toArray() }),
+        [QUERY_PARAMS.DISTRICTS]:           (value) => ({ 'toDistricts': value.isEmpty() ? null : value.toArray().join(',') }),
+        [QUERY_PARAMS.PROVINCES]:           (value) => ({ 'toProvinces': value.isEmpty() ? null : value.toArray().join(',') }),
     };
 
     return query
