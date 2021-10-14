@@ -106,7 +106,9 @@ exports.selectOperators = selectOperators;
 var getSearchProgressByPercent = (0, _reselect.createSelector)(selectOperators(), function (operators) {
   return R.call(R.pipe(R.values, R.filter(Boolean), R.length, function (doneOperatorsCount) {
     return doneOperatorsCount * 100 / R.keys(operators).length;
-  }), operators);
+  }, R.when(function (count) {
+    return !count;
+  }, R.always(0))), operators);
 });
 exports.getSearchProgressByPercent = getSearchProgressByPercent;
 

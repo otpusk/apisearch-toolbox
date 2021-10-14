@@ -89,7 +89,8 @@ export const getSearchProgressByPercent = createSelector(
             R.values,
             R.filter(Boolean),
             R.length,
-            (doneOperatorsCount) => doneOperatorsCount * 100 / R.keys(operators).length
+            (doneOperatorsCount) => doneOperatorsCount * 100 / R.keys(operators).length,
+            R.when((count) => !count, R.always(0))
         ),
         operators
     )
