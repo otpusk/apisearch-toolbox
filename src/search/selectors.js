@@ -2,13 +2,16 @@
 import { createSelector } from 'reselect';
 import * as R from 'ramda';
 
-import { offersSelectors } from './../offers';
+import { offersHub } from './../offers/selectors';
+import { hotelsHub } from './../hotels/selectors';
+import { getQueryParam } from './../queries/selectors';
 
 import { sortOffersByMinPrice, sortHotelsByMinOffer } from './helpers';
 
 const domain = (_) => _.search;
 
-const defaultSearch = {};
+const EMPTY_OBJ = {};
+const EMPTY_ARRAY = [];
 
 export const searchByKey = () => createSelector(
     domain,
@@ -17,7 +20,7 @@ export const searchByKey = () => createSelector(
         R.ifElse(
             Boolean,
             (result) => result.toJS(),
-            R.always(defaultSearch)
+            R.always(EMPTY_OBJ)
         ),
         search.getIn(['results', key])
     )
@@ -33,7 +36,7 @@ const getHotelsByPages = () => createSelector(
 
 export const getHotelsByMinPrice = () => createSelector(
     getHotelsByPages(),
-    offersSelectors.offersHub,
+    offersHub,
     (pages, offersMap) => R.map(
         (hotelsMap) => R.call(
             R.pipe(
@@ -68,7 +71,7 @@ export const hotelsByKey = () => createSelector(
 
 export const offersByKey = () => createSelector(
     hotelsByKey(),
-    offersSelectors.offersHub,
+    offersHub,
     (hotels, offers) => R.pipe(
         R.values,
         R.flatten,
@@ -129,17 +132,24 @@ export const getPrices = createSelector(
     R.prop('prices')
 );
 
+export const getFlattenPrices = () => createSelector(
+    getPrices,
+    (prices) => prices ? R.flatten(prices) : EMPTY_ARRAY
+);
+
 export const getOffersFromPrices = () => createSelector(
     getPrices,
-    offersSelectors.offersHub,
-    (pricesByPages, hub) => pricesByPages && R.call(
-        R.pipe(
-            R.map((page) => R.map((price) => price.offers, page)),
-            R.flatten,
-            R.map((offerID) => hub[offerID])
-        ),
-        pricesByPages
-    )
+    offersHub,
+    (pricesByPages, hub) => pricesByPages
+        ? R.call(
+            R.pipe(
+                R.map((page) => R.map((price) => price.offers, page)),
+                R.flatten,
+                R.map((offerID) => hub[offerID])
+            ),
+            pricesByPages
+        )
+        : EMPTY_ARRAY
 );
 
 export const getError = () => createSelector(
@@ -161,4 +171,127 @@ export const isSearch = createSelector(
 export const isFail = createSelector(
     searchByKey(),
     ({ status }) => status === 'failed'
+);
+
+export const isProccess = createSelector(
+    isStart,
+    isSearch,
+    R.or
+);
+
+export const getOperatorsWithMinPrice = () => createSelector(
+    selectOperators(),
+    getOffersFromPrices(),
+    (operatorsMap, offers) => R.map(
+        ([id, isReady]) => ({
+            id:      Number(id),
+            isReady,
+            offerID: R.call(
+                R.pipe(
+                    R.filter(({ operator }) => operator === Number(id)),
+                    sortOffersByMinPrice,
+                    R.head,
+                    R.prop('id')
+                ),
+                offers
+            ),
+        }),
+        R.toPairs(operatorsMap)
+    )
+);
+
+export const getFoodsWithMinPrice = () => createSelector(
+    getQueryParam,
+    getOffersFromPrices(),
+    (foodsMap, offers) => {
+        const groupedByFood = R.groupBy(R.prop('food'), offers);
+
+        return R.map(
+            ([code]) => ({
+                code,
+                offerID: R.prop(code, groupedByFood)
+                    ? R.call(
+                        R.pipe(
+                            R.prop(code),
+                            sortOffersByMinPrice,
+                            R.head,
+                            R.prop('id')
+                        ),
+                        groupedByFood
+                    )
+                    : undefined,
+            }),
+            R.toPairs(foodsMap.toObject())
+        );
+    }
+);
+
+export const getCategoryWithMinPrice = () => createSelector(
+    getQueryParam,
+    getFlattenPrices(),
+    hotelsHub,
+    offersHub,
+    (categoryMap, prices, hotels, offers) => {
+        const groupedByCaregory = R.groupBy(
+            R.path(['hotel', 'stars']),
+            R.map(
+                ({ hotelID, offers: ids }) => R.mergeAll([
+                    { hotel: hotels[hotelID] },
+                    { offers: R.map((id) => R.mergeAll([offers[id], { hotelID }]), ids) }
+                ]),
+                prices
+            )
+        );
+
+        return R.map(
+            ([category]) => ({
+                category,
+                ...R.call(
+                    R.ifElse(
+                        Boolean,
+                        R.pipe(
+                            R.map(R.prop('offers')),
+                            R.flatten,
+                            sortOffersByMinPrice,
+                            R.head,
+                            ({ id, hotelID }) => ({ offerID: id, hotelID })
+                        ),
+                        R.always({})
+                    ),
+                    R.prop(category, groupedByCaregory)
+                ),
+            }),
+            R.toPairs(categoryMap.toObject())
+        );
+    }
+);
+
+export const getNightsWithMinPrice = () => createSelector(
+    getQueryParam,
+    getOffersFromPrices(),
+    (durationByNights, offers) => {
+        const groupedByNights = R.groupBy(R.prop('nights'), offers);
+        const nights = R.range(
+            R.dec(durationByNights.get('from')),
+            durationByNights.get('to')
+        );
+
+        return R.map(
+            (night) => ({
+                night,
+                offerID: R.prop(night, groupedByNights)
+                    ? R.call(
+                        R.pipe(
+                            R.prop(night),
+                            sortOffersByMinPrice,
+                            R.head,
+                            R.prop('id')
+                        ),
+                        groupedByNights
+                    )
+                    : undefined,
+            }),
+            nights
+        );
+    }
 );
