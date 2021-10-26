@@ -23,13 +23,11 @@ var _actions2 = require("../../../../hotels/actions");
 
 var _actions3 = require("../../../../offers/actions");
 
-var _resultsMemory = _interopRequireDefault(require("./resultsMemory"));
+var _resultsMemory = _interopRequireWildcard(require("./resultsMemory"));
 
 var _helpers = require("./helpers");
 
 var _constants = require("./constants");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
@@ -48,8 +46,6 @@ function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symb
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-var memoryInstances = {};
 
 function getResultsWorker(_ref) {
   var queryID, query, lang, token, otpsukQuery, activePage, memory, _yield$call, finished, hotels, offers, country, operators, _total, meta, prices, _memory$getValues2, usedPrices, totalValue, ignoreOperators, _memory$getValues3, total, _memory$getValues4, _usedPrices;
@@ -89,8 +85,8 @@ function getResultsWorker(_ref) {
         case 13:
           otpsukQuery.number = 0;
           activePage = query.get(_fn.QUERY_PARAMS.PAGE);
-          activePage === 1 && delete memoryInstances[queryID];
-          memory = memoryInstances[queryID] = memoryInstances[queryID] || (0, _resultsMemory["default"])();
+          activePage === 1 && delete _resultsMemory.memoryInstances[queryID];
+          memory = _resultsMemory.memoryInstances[queryID] = _resultsMemory.memoryInstances[queryID] || (0, _resultsMemory["default"])();
           _context2.prev = 17;
 
         case 18:

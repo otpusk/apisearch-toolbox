@@ -17,6 +17,8 @@ var _selectors2 = require("./../hotels/selectors");
 
 var _selectors3 = require("./../queries/selectors");
 
+var _resultsMemory = require("./saga/workers/getResultsWorker/resultsMemory");
+
 var _helpers = require("./helpers");
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
@@ -45,18 +47,37 @@ var domain = function domain(_) {
   return _.search;
 };
 
+var getQueryID = function getQueryID(_, _ref) {
+  var queryID = _ref.queryID;
+  return queryID;
+};
+
+var getOffersListFromSearchMemory = function getOffersListFromSearchMemory(queryID) {
+  return R.prop(queryID, _resultsMemory.memoryInstances) ? R.call(R.pipe(function (memory) {
+    return memory.getValues();
+  }, R.prop('offersHub'), R.toPairs, R.map(function (_ref2) {
+    var _ref3 = _slicedToArray(_ref2, 2),
+        offer = _ref3[1];
+
+    return offer;
+  })), _resultsMemory.memoryInstances[queryID]) : [];
+};
+
+var getUnusedPricesFromSearchMemory = function getUnusedPricesFromSearchMemory(queryID) {
+  return R.call(R.ifElse(Boolean, function (memory) {
+    return memory.getValues().unusedPrices;
+  }, R.always([])), _resultsMemory.memoryInstances[queryID]);
+};
+
 var EMPTY_OBJ = {};
 var EMPTY_ARRAY = [];
 var getResults = (0, _reselect.createSelector)(domain, function (search) {
   return search.get('results');
 });
-var searchByKey = (0, _reselect.createSelector)(getResults, function (_, _ref) {
-  var queryID = _ref.queryID;
-  return queryID;
-}, function (results, key) {
+var searchByKey = (0, _reselect.createSelector)(getResults, getQueryID, function (results, key) {
   return results.get(key) ? results.get(key).toJS() : EMPTY_OBJ;
 });
-var getTotal = (0, _reselect.createSelector)(searchByKey, R.prop('total'));
+var getTotal = (0, _reselect.createSelector)(searchByKey, R.propOr(0, 'total'));
 exports.getTotal = getTotal;
 var isSetSearch = (0, _reselect.createSelector)(searchByKey, function (search) {
   return !R.isEmpty(search);
@@ -70,10 +91,10 @@ var getHotelsByPages = function getHotelsByPages() {
 var getHotelsByMinPrice = function getHotelsByMinPrice() {
   return (0, _reselect.createSelector)(getHotelsByPages(), _selectors.offersHub, function (pages, offersMap) {
     return R.map(function (hotelsMap) {
-      return R.call(R.pipe(R.toPairs, R.map(function (_ref2) {
-        var _ref3 = _slicedToArray(_ref2, 2),
-            hotelID = _ref3[0],
-            offersIDs = _ref3[1];
+      return R.call(R.pipe(R.toPairs, R.map(function (_ref4) {
+        var _ref5 = _slicedToArray(_ref4, 2),
+            hotelID = _ref5[0],
+            offersIDs = _ref5[1];
 
         return {
           hotelID: hotelID,
@@ -105,8 +126,8 @@ var offersByKey = function offersByKey() {
 exports.offersByKey = offersByKey;
 
 var selectOperators = function selectOperators() {
-  return (0, _reselect.createSelector)(searchByKey, function (_ref4) {
-    var operators = _ref4.operators;
+  return (0, _reselect.createSelector)(searchByKey, function (_ref6) {
+    var operators = _ref6.operators;
     return operators;
   });
 };
@@ -127,10 +148,10 @@ var selectOperatorsWithMinPrice = function selectOperatorsWithMinPrice() {
       return R.map(function (oid) {
         return [R.pipe(R.set(R.lensProp('completed'), R.prop(oid, operators)), R.set(R.lensProp('id'), Number(oid)))({}), R.prop(oid, grouped)];
       }, R.keys(operators));
-    }, R.map(function (_ref5) {
-      var _ref6 = _slicedToArray(_ref5, 2),
-          operator = _ref6[0],
-          grouped = _ref6[1];
+    }, R.map(function (_ref7) {
+      var _ref8 = _slicedToArray(_ref7, 2),
+          operator = _ref8[0],
+          grouped = _ref8[1];
 
       return [operator, R.when(Boolean, R.pipe(_helpers.sortOffersByMinPrice, R.prop(0)))(grouped)];
     }))(offers);
@@ -168,23 +189,23 @@ var getError = function getError() {
 };
 
 exports.getError = getError;
-var isStart = (0, _reselect.createSelector)(searchByKey, function (_ref7) {
-  var status = _ref7.status;
+var isStart = (0, _reselect.createSelector)(searchByKey, function (_ref9) {
+  var status = _ref9.status;
   return status === 'starting';
 });
 exports.isStart = isStart;
-var isDone = (0, _reselect.createSelector)(searchByKey, function (_ref8) {
-  var status = _ref8.status;
+var isDone = (0, _reselect.createSelector)(searchByKey, function (_ref10) {
+  var status = _ref10.status;
   return status === 'done';
 });
 exports.isDone = isDone;
-var isSearch = (0, _reselect.createSelector)(searchByKey, function (_ref9) {
-  var status = _ref9.status;
+var isSearch = (0, _reselect.createSelector)(searchByKey, function (_ref11) {
+  var status = _ref11.status;
   return status === 'processing';
 });
 exports.isSearch = isSearch;
-var isFail = (0, _reselect.createSelector)(searchByKey, function (_ref10) {
-  var status = _ref10.status;
+var isFail = (0, _reselect.createSelector)(searchByKey, function (_ref12) {
+  var status = _ref12.status;
   return status === 'failed';
 });
 exports.isFail = isFail;
@@ -192,19 +213,19 @@ var isProccess = (0, _reselect.createSelector)(isStart, isSearch, R.or);
 exports.isProccess = isProccess;
 
 var getOperatorsWithMinPrice = function getOperatorsWithMinPrice() {
-  return (0, _reselect.createSelector)(selectOperators(), getOffersFromPrices(), function (operatorsMap, offers) {
-    return R.map(function (_ref11) {
-      var _ref12 = _slicedToArray(_ref11, 2),
-          id = _ref12[0],
-          isReady = _ref12[1];
+  return (0, _reselect.createSelector)(selectOperators(), getOffersFromPrices(), getQueryID, function (operatorsMap, offers, queryID) {
+    return R.map(function (_ref13) {
+      var _ref14 = _slicedToArray(_ref13, 2),
+          id = _ref14[0],
+          isReady = _ref14[1];
 
       return {
         id: Number(id),
         isReady: isReady,
-        offerID: R.call(R.pipe(R.filter(function (_ref13) {
-          var operator = _ref13.operator;
+        offerID: R.call(R.pipe(R.filter(function (_ref15) {
+          var operator = _ref15.operator;
           return operator === Number(id);
-        }), _helpers.sortOffersByMinPrice, R.head, R.prop('id')), offers)
+        }), _helpers.sortOffersByMinPrice, R.head, R.prop('id')), R.concat(offers, getOffersListFromSearchMemory(queryID)))
       };
     }, R.toPairs(operatorsMap));
   });
@@ -213,11 +234,11 @@ var getOperatorsWithMinPrice = function getOperatorsWithMinPrice() {
 exports.getOperatorsWithMinPrice = getOperatorsWithMinPrice;
 
 var getFoodsWithMinPrice = function getFoodsWithMinPrice() {
-  return (0, _reselect.createSelector)(_selectors3.getQueryParam, getOffersFromPrices(), function (foodsMap, offers) {
-    var groupedByFood = R.groupBy(R.prop('food'), offers);
-    return R.map(function (_ref14) {
-      var _ref15 = _slicedToArray(_ref14, 1),
-          code = _ref15[0];
+  return (0, _reselect.createSelector)(_selectors3.getQueryParam, getOffersFromPrices(), getQueryID, function (foodsMap, offers, queryID) {
+    var groupedByFood = R.groupBy(R.prop('food'), R.concat(offers, getOffersListFromSearchMemory(queryID)));
+    return R.map(function (_ref16) {
+      var _ref17 = _slicedToArray(_ref16, 1),
+          code = _ref17[0];
 
       return {
         code: code,
@@ -230,10 +251,11 @@ var getFoodsWithMinPrice = function getFoodsWithMinPrice() {
 exports.getFoodsWithMinPrice = getFoodsWithMinPrice;
 
 var getCategoryWithMinPrice = function getCategoryWithMinPrice() {
-  return (0, _reselect.createSelector)(_selectors3.getQueryParam, getFlattenPrices(), _selectors2.hotelsHub, _selectors.offersHub, function (categoryMap, prices, hotels, offers) {
-    var groupedByCaregory = R.groupBy(R.path(['hotel', 'stars']), R.map(function (_ref16) {
-      var hotelID = _ref16.hotelID,
-          ids = _ref16.offers;
+  return (0, _reselect.createSelector)(_selectors3.getQueryParam, getFlattenPrices(), _selectors2.hotelsHub, _selectors.offersHub, getQueryID, // eslint-disable-next-line max-params
+  function (categoryMap, prices, hotels, offers, queryID) {
+    var groupedByCaregory = R.groupBy(R.path(['hotel', 'stars']), R.map(function (_ref18) {
+      var hotelID = _ref18.hotelID,
+          ids = _ref18.offers;
       return R.mergeAll([{
         hotel: hotels[hotelID]
       }, {
@@ -243,16 +265,16 @@ var getCategoryWithMinPrice = function getCategoryWithMinPrice() {
           }]);
         }, ids)
       }]);
-    }, prices));
-    return R.map(function (_ref17) {
-      var _ref18 = _slicedToArray(_ref17, 1),
-          category = _ref18[0];
+    }, R.concat(prices, getUnusedPricesFromSearchMemory(queryID))));
+    return R.map(function (_ref19) {
+      var _ref20 = _slicedToArray(_ref19, 1),
+          category = _ref20[0];
 
       return _objectSpread({
         category: category
-      }, R.call(R.ifElse(Boolean, R.pipe(R.map(R.prop('offers')), R.flatten, _helpers.sortOffersByMinPrice, R.head, function (_ref19) {
-        var id = _ref19.id,
-            hotelID = _ref19.hotelID;
+      }, R.call(R.ifElse(Boolean, R.pipe(R.map(R.prop('offers')), R.flatten, _helpers.sortOffersByMinPrice, R.head, function (_ref21) {
+        var id = _ref21.id,
+            hotelID = _ref21.hotelID;
         return {
           offerID: id,
           hotelID: hotelID
@@ -265,8 +287,8 @@ var getCategoryWithMinPrice = function getCategoryWithMinPrice() {
 exports.getCategoryWithMinPrice = getCategoryWithMinPrice;
 
 var getNightsWithMinPrice = function getNightsWithMinPrice() {
-  return (0, _reselect.createSelector)(_selectors3.getQueryParam, getOffersFromPrices(), function (durationByNights, offers) {
-    var groupedByNights = R.groupBy(R.prop('nights'), offers);
+  return (0, _reselect.createSelector)(_selectors3.getQueryParam, getOffersFromPrices(), getQueryID, function (durationByNights, offers, queryID) {
+    var groupedByNights = R.groupBy(R.prop('nights'), R.concat(offers, getOffersListFromSearchMemory(queryID)));
     var nights = R.range(R.dec(durationByNights.get('from')), durationByNights.get('to'));
     return R.map(function (night) {
       return {

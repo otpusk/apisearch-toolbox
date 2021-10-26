@@ -5,7 +5,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = void 0;
+exports.memoryInstances = exports["default"] = void 0;
 
 var R = _interopRequireWildcard(require("ramda"));
 
@@ -50,3 +50,5 @@ var createMemory = function createMemory() {
 
 var _default = createMemory;
 exports["default"] = _default;
+var memoryInstances = {};
+exports.memoryInstances = memoryInstances;

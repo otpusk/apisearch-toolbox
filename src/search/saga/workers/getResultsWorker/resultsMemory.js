@@ -37,3 +37,4 @@ const createMemory = () => {
 };
 
 export default createMemory;
+export const memoryInstances = {};

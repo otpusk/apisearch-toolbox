@@ -8,7 +8,7 @@ import { searchActions } from '../../../../search/actions';
 import { hotelsActions } from '../../../../hotels/actions';
 import { offersActions } from '../../../../offers/actions';
 
-import createMemory from './resultsMemory';
+import createMemory, { memoryInstances } from './resultsMemory';
 import {
     addIgnoreOperators,
     getIgnoreOperators,
@@ -19,9 +19,6 @@ import {
     getUnusedPrices
 } from './helpers';
 import { GUARANTEED_RESULT_STEP } from './constants';
-
-
-const memoryInstances = {};
 
 export function* getResultsWorker ({ payload: queryID }) {
     const query = yield select((state) => getQuery(state, { queryID }));

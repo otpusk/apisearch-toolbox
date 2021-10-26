@@ -6,9 +6,31 @@ import { offersHub } from './../offers/selectors';
 import { hotelsHub } from './../hotels/selectors';
 import { getQueryParam } from './../queries/selectors';
 
+import { memoryInstances } from './saga/workers/getResultsWorker/resultsMemory';
 import { sortOffersByMinPrice, sortHotelsByMinOffer } from './helpers';
 
 const domain = (_) => _.search;
+const getQueryID = (_, { queryID }) => queryID;
+
+const getOffersListFromSearchMemory = (queryID) => R.prop(queryID, memoryInstances)
+    ? R.call(
+        R.pipe(
+            (memory) => memory.getValues(),
+            R.prop('offersHub'),
+            R.toPairs,
+            R.map(([, offer]) => offer)
+        ),
+        memoryInstances[queryID]
+    )
+    : [];
+const getUnusedPricesFromSearchMemory = (queryID) => R.call(
+    R.ifElse(
+        Boolean,
+        (memory) => memory.getValues().unusedPrices,
+        R.always([])
+    ),
+    memoryInstances[queryID]
+);
 
 const EMPTY_OBJ = {};
 const EMPTY_ARRAY = [];
@@ -20,13 +42,13 @@ const getResults = createSelector(
 
 const searchByKey = createSelector(
     getResults,
-    (_, { queryID }) => queryID,
+    getQueryID,
     (results, key) => results.get(key) ? results.get(key).toJS() : EMPTY_OBJ
 );
 
 export const getTotal = createSelector(
     searchByKey,
-    R.prop('total')
+    R.propOr(0, 'total')
 );
 
 export const isSetSearch = createSelector(
@@ -185,7 +207,8 @@ export const isProccess = createSelector(
 export const getOperatorsWithMinPrice = () => createSelector(
     selectOperators(),
     getOffersFromPrices(),
-    (operatorsMap, offers) => R.map(
+    getQueryID,
+    (operatorsMap, offers, queryID) => R.map(
         ([id, isReady]) => ({
             id:      Number(id),
             isReady,
@@ -196,7 +219,10 @@ export const getOperatorsWithMinPrice = () => createSelector(
                     R.head,
                     R.prop('id')
                 ),
-                offers
+                R.concat(
+                    offers,
+                    getOffersListFromSearchMemory(queryID)
+                )
             ),
         }),
         R.toPairs(operatorsMap)
@@ -206,8 +232,12 @@ export const getOperatorsWithMinPrice = () => createSelector(
 export const getFoodsWithMinPrice = () => createSelector(
     getQueryParam,
     getOffersFromPrices(),
-    (foodsMap, offers) => {
-        const groupedByFood = R.groupBy(R.prop('food'), offers);
+    getQueryID,
+    (foodsMap, offers, queryID) => {
+        const groupedByFood = R.groupBy(R.prop('food'), R.concat(
+            offers,
+            getOffersListFromSearchMemory(queryID)
+        ));
 
         return R.map(
             ([code]) => ({
@@ -234,7 +264,9 @@ export const getCategoryWithMinPrice = () => createSelector(
     getFlattenPrices(),
     hotelsHub,
     offersHub,
-    (categoryMap, prices, hotels, offers) => {
+    getQueryID,
+    // eslint-disable-next-line max-params
+    (categoryMap, prices, hotels, offers, queryID) => {
         const groupedByCaregory = R.groupBy(
             R.path(['hotel', 'stars']),
             R.map(
@@ -242,7 +274,10 @@ export const getCategoryWithMinPrice = () => createSelector(
                     { hotel: hotels[hotelID] },
                     { offers: R.map((id) => R.mergeAll([offers[id], { hotelID }]), ids) }
                 ]),
-                prices
+                R.concat(
+                    prices,
+                    getUnusedPricesFromSearchMemory(queryID)
+                )
             )
         );
 
@@ -272,8 +307,12 @@ export const getCategoryWithMinPrice = () => createSelector(
 export const getNightsWithMinPrice = () => createSelector(
     getQueryParam,
     getOffersFromPrices(),
-    (durationByNights, offers) => {
-        const groupedByNights = R.groupBy(R.prop('nights'), offers);
+    getQueryID,
+    (durationByNights, offers, queryID) => {
+        const groupedByNights = R.groupBy(
+            R.prop('nights'),
+            R.concat(offers, getOffersListFromSearchMemory(queryID))
+        );
         const nights = R.range(
             R.dec(durationByNights.get('from')),
             durationByNights.get('to')
