@@ -5,7 +5,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getNightsWithMinPrice = exports.getCategoryWithMinPrice = exports.getFoodsWithMinPrice = exports.getOperatorsWithMinPrice = exports.isProccess = exports.isFail = exports.isSearch = exports.isDone = exports.isStart = exports.getError = exports.getOffersFromPrices = exports.getFlattenPrices = exports.getPrices = exports.selectOperatorsWithMinPrice = exports.getSearchProgressByPercent = exports.selectOperators = exports.offersByKey = exports.hotelsByKey = exports.getHotelsByMinPrice = exports.isSetSearch = exports.getTotal = void 0;
+exports.getOperatorsLinks = exports.getNightsWithMinPrice = exports.getCategoryWithMinPrice = exports.getFoodsWithMinPrice = exports.getOperatorsWithMinPrice = exports.isProccess = exports.isFail = exports.isSearch = exports.isDone = exports.isStart = exports.getError = exports.getOffersFromPrices = exports.getFlattenPrices = exports.getPrices = exports.selectOperatorsWithMinPrice = exports.getSearchProgressByPercent = exports.selectOperators = exports.offersByKey = exports.hotelsByKey = exports.getHotelsByMinPrice = exports.isSetSearch = exports.getTotal = void 0;
 
 var _reselect = require("reselect");
 
@@ -300,3 +300,6 @@ var getNightsWithMinPrice = function getNightsWithMinPrice() {
 };
 
 exports.getNightsWithMinPrice = getNightsWithMinPrice;
+var getMeta = (0, _reselect.createSelector)(searchByKey, R.propOr(EMPTY_OBJ, 'meta'));
+var getOperatorsLinks = (0, _reselect.createSelector)(getMeta, R.path(['links', 'operators']));
+exports.getOperatorsLinks = getOperatorsLinks;

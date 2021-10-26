@@ -337,3 +337,13 @@ export const getNightsWithMinPrice = () => createSelector(
         );
     }
 );
+
+const getMeta = createSelector(
+    searchByKey,
+    R.propOr(EMPTY_OBJ, 'meta')
+);
+
+export const getOperatorsLinks = createSelector(
+    getMeta,
+    R.path(['links', 'operators'])
+);
