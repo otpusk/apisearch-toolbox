@@ -73,6 +73,16 @@ export const getActiveOperators = () => createSelector(
     R.filter(R.prop('active'))
 );
 
+const getCountriesByImmutableStructure = createSelector(
+    domain,
+    (geo) => geo.get('countries')
+);
+
+export const getCountries = createSelector(
+    getCountriesByImmutableStructure,
+    (countries) => countries.toArray()
+);
+
 
 /**
  * Select countries from locations store
