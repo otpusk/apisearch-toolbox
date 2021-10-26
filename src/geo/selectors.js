@@ -83,6 +83,13 @@ export const getCountries = createSelector(
     (countries) => countries.toArray()
 );
 
+export const getTopCountry = createSelector(
+    getCountries,
+    R.pipe(
+        R.sort(R.descend(R.prop('weight'))),
+        R.head
+    )
+);
 
 /**
  * Select countries from locations store
