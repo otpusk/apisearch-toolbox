@@ -1,6 +1,6 @@
-// Core
 import { createSelector } from 'reselect';
 import * as R from 'ramda';
+import { FOODS } from '@otpusk/json-api/dist/static';
 
 import { getOffers } from './../offers/selectors';
 import { hotelsHub } from './../hotels/selectors';
@@ -230,17 +230,16 @@ export const getOperatorsWithMinPrice = () => createSelector(
 );
 
 export const getFoodsWithMinPrice = () => createSelector(
-    getQueryParam,
     getOffersFromPrices(),
     getQueryID,
-    (foodsMap, offers, queryID) => {
+    (offers, queryID) => {
         const groupedByFood = R.groupBy(R.prop('food'), R.concat(
             offers,
             getOffersListFromSearchMemory(queryID)
         ));
 
         return R.map(
-            ([code]) => ({
+            ({ code }) => ({
                 code,
                 offerID: R.prop(code, groupedByFood)
                     ? R.call(
@@ -254,7 +253,7 @@ export const getFoodsWithMinPrice = () => createSelector(
                     )
                     : undefined,
             }),
-            R.toPairs(foodsMap.toObject())
+            FOODS
         );
     }
 );
