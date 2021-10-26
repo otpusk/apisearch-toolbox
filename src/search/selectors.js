@@ -2,7 +2,7 @@
 import { createSelector } from 'reselect';
 import * as R from 'ramda';
 
-import { offersHub } from './../offers/selectors';
+import { getOffers } from './../offers/selectors';
 import { hotelsHub } from './../hotels/selectors';
 import { getQueryParam } from './../queries/selectors';
 
@@ -66,7 +66,7 @@ const getHotelsByPages = () => createSelector(
 
 export const getHotelsByMinPrice = () => createSelector(
     getHotelsByPages(),
-    offersHub,
+    getOffers,
     (pages, offersMap) => R.map(
         (hotelsMap) => R.call(
             R.pipe(
@@ -96,7 +96,7 @@ export const hotelsByKey = () => createSelector(
 
 export const offersByKey = () => createSelector(
     hotelsByKey(),
-    offersHub,
+    getOffers,
     (hotels, offers) => R.pipe(
         R.values,
         R.flatten,
@@ -164,7 +164,7 @@ export const getFlattenPrices = () => createSelector(
 
 export const getOffersFromPrices = () => createSelector(
     getPrices,
-    offersHub,
+    getOffers,
     (pricesByPages, hub) => pricesByPages
         ? R.call(
             R.pipe(
@@ -263,7 +263,7 @@ export const getCategoryWithMinPrice = () => createSelector(
     getQueryParam,
     getFlattenPrices(),
     hotelsHub,
-    offersHub,
+    getOffers,
     getQueryID,
     // eslint-disable-next-line max-params
     (categoryMap, prices, hotels, offers, queryID) => {

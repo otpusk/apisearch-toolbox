@@ -89,7 +89,7 @@ var getHotelsByPages = function getHotelsByPages() {
 };
 
 var getHotelsByMinPrice = function getHotelsByMinPrice() {
-  return (0, _reselect.createSelector)(getHotelsByPages(), _selectors.offersHub, function (pages, offersMap) {
+  return (0, _reselect.createSelector)(getHotelsByPages(), _selectors.getOffers, function (pages, offersMap) {
     return R.map(function (hotelsMap) {
       return R.call(R.pipe(R.toPairs, R.map(function (_ref4) {
         var _ref5 = _slicedToArray(_ref4, 2),
@@ -116,7 +116,7 @@ var hotelsByKey = function hotelsByKey() {
 exports.hotelsByKey = hotelsByKey;
 
 var offersByKey = function offersByKey() {
-  return (0, _reselect.createSelector)(hotelsByKey(), _selectors.offersHub, function (hotels, offers) {
+  return (0, _reselect.createSelector)(hotelsByKey(), _selectors.getOffers, function (hotels, offers) {
     return R.pipe(R.values, R.flatten, R.map(function (offerID) {
       return R.prop(offerID, offers);
     }), R.filter(Boolean))(hotels);
@@ -171,7 +171,7 @@ var getFlattenPrices = function getFlattenPrices() {
 exports.getFlattenPrices = getFlattenPrices;
 
 var getOffersFromPrices = function getOffersFromPrices() {
-  return (0, _reselect.createSelector)(getPrices, _selectors.offersHub, function (pricesByPages, hub) {
+  return (0, _reselect.createSelector)(getPrices, _selectors.getOffers, function (pricesByPages, hub) {
     return pricesByPages ? R.call(R.pipe(R.map(function (page) {
       return R.map(function (price) {
         return price.offers;
@@ -251,7 +251,7 @@ var getFoodsWithMinPrice = function getFoodsWithMinPrice() {
 exports.getFoodsWithMinPrice = getFoodsWithMinPrice;
 
 var getCategoryWithMinPrice = function getCategoryWithMinPrice() {
-  return (0, _reselect.createSelector)(_selectors3.getQueryParam, getFlattenPrices(), _selectors2.hotelsHub, _selectors.offersHub, getQueryID, // eslint-disable-next-line max-params
+  return (0, _reselect.createSelector)(_selectors3.getQueryParam, getFlattenPrices(), _selectors2.hotelsHub, _selectors.getOffers, getQueryID, // eslint-disable-next-line max-params
   function (categoryMap, prices, hotels, offers, queryID) {
     var groupedByCaregory = R.groupBy(R.path(['hotel', 'stars']), R.map(function (_ref18) {
       var hotelID = _ref18.hotelID,
