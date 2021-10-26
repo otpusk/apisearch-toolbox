@@ -21,7 +21,7 @@ const getResults = createSelector(
 const searchByKey = createSelector(
     getResults,
     (_, { queryID }) => queryID,
-    (result, key) => result.get(key) ? result.toJS() : EMPTY_OBJ
+    (result, key) => result.get(key) ? result.get(key).toJS() : EMPTY_OBJ
 );
 
 export const getTotal = createSelector(
