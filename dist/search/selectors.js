@@ -53,8 +53,8 @@ var getResults = (0, _reselect.createSelector)(domain, function (search) {
 var searchByKey = (0, _reselect.createSelector)(getResults, function (_, _ref) {
   var queryID = _ref.queryID;
   return queryID;
-}, function (result, key) {
-  return result.get(key) ? result.toJS() : EMPTY_OBJ;
+}, function (results, key) {
+  return results.get(key) ? results.get(key).toJS() : EMPTY_OBJ;
 });
 var getTotal = (0, _reselect.createSelector)(searchByKey, R.prop('total'));
 exports.getTotal = getTotal;
