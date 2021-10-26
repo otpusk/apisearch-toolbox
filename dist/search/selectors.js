@@ -5,7 +5,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getNightsWithMinPrice = exports.getCategoryWithMinPrice = exports.getFoodsWithMinPrice = exports.getOperatorsWithMinPrice = exports.isProccess = exports.isFail = exports.isSearch = exports.isDone = exports.isStart = exports.getError = exports.getOffersFromPrices = exports.getFlattenPrices = exports.getPrices = exports.selectOperatorsWithMinPrice = exports.getSearchProgressByPercent = exports.selectOperators = exports.offersByKey = exports.hotelsByKey = exports.isSetSearch = exports.getHotelsByMinPrice = exports.searchByKey = void 0;
+exports.getNightsWithMinPrice = exports.getCategoryWithMinPrice = exports.getFoodsWithMinPrice = exports.getOperatorsWithMinPrice = exports.isProccess = exports.isFail = exports.isSearch = exports.isDone = exports.isStart = exports.getError = exports.getOffersFromPrices = exports.getFlattenPrices = exports.getPrices = exports.selectOperatorsWithMinPrice = exports.getSearchProgressByPercent = exports.selectOperators = exports.offersByKey = exports.hotelsByKey = exports.getHotelsByMinPrice = exports.isSetSearch = exports.getTotal = void 0;
 
 var _reselect = require("reselect");
 
@@ -47,22 +47,24 @@ var domain = function domain(_) {
 
 var EMPTY_OBJ = {};
 var EMPTY_ARRAY = [];
-
-var searchByKey = function searchByKey() {
-  return (0, _reselect.createSelector)(domain, function (_, _ref) {
-    var queryID = _ref.queryID;
-    return queryID;
-  }, function (search, key) {
-    return R.call(R.ifElse(Boolean, function (result) {
-      return result.toJS();
-    }, R.always(EMPTY_OBJ)), search.getIn(['results', key]));
-  });
-};
-
-exports.searchByKey = searchByKey;
+var getResults = (0, _reselect.createSelector)(domain, function (search) {
+  return search.get('results');
+});
+var searchByKey = (0, _reselect.createSelector)(getResults, function (_, _ref) {
+  var queryID = _ref.queryID;
+  return queryID;
+}, function (result, key) {
+  return result.get(key) ? result.toJS() : EMPTY_OBJ;
+});
+var getTotal = (0, _reselect.createSelector)(searchByKey, R.prop('total'));
+exports.getTotal = getTotal;
+var isSetSearch = (0, _reselect.createSelector)(searchByKey, function (search) {
+  return !R.isEmpty(search);
+});
+exports.isSetSearch = isSetSearch;
 
 var getHotelsByPages = function getHotelsByPages() {
-  return (0, _reselect.createSelector)(searchByKey(), R.pipe(R.prop('hotels'), R.values));
+  return (0, _reselect.createSelector)(searchByKey, R.pipe(R.prop('hotels'), R.values));
 };
 
 var getHotelsByMinPrice = function getHotelsByMinPrice() {
@@ -85,10 +87,6 @@ var getHotelsByMinPrice = function getHotelsByMinPrice() {
 };
 
 exports.getHotelsByMinPrice = getHotelsByMinPrice;
-var isSetSearch = (0, _reselect.createSelector)(searchByKey(), function (search) {
-  return !R.isEmpty(search);
-});
-exports.isSetSearch = isSetSearch;
 
 var hotelsByKey = function hotelsByKey() {
   return (0, _reselect.createSelector)(getHotelsByPages(), R.reduce(R.mergeRight, {}));
@@ -107,7 +105,7 @@ var offersByKey = function offersByKey() {
 exports.offersByKey = offersByKey;
 
 var selectOperators = function selectOperators() {
-  return (0, _reselect.createSelector)(searchByKey(), function (_ref4) {
+  return (0, _reselect.createSelector)(searchByKey, function (_ref4) {
     var operators = _ref4.operators;
     return operators;
   });
@@ -140,7 +138,7 @@ var selectOperatorsWithMinPrice = function selectOperatorsWithMinPrice() {
 };
 
 exports.selectOperatorsWithMinPrice = selectOperatorsWithMinPrice;
-var getPrices = (0, _reselect.createSelector)(searchByKey(), R.prop('prices'));
+var getPrices = (0, _reselect.createSelector)(searchByKey, R.prop('prices'));
 exports.getPrices = getPrices;
 
 var getFlattenPrices = function getFlattenPrices() {
@@ -166,26 +164,26 @@ var getOffersFromPrices = function getOffersFromPrices() {
 exports.getOffersFromPrices = getOffersFromPrices;
 
 var getError = function getError() {
-  return (0, _reselect.createSelector)(searchByKey(), R.prop('error'));
+  return (0, _reselect.createSelector)(searchByKey, R.prop('error'));
 };
 
 exports.getError = getError;
-var isStart = (0, _reselect.createSelector)(searchByKey(), function (_ref7) {
+var isStart = (0, _reselect.createSelector)(searchByKey, function (_ref7) {
   var status = _ref7.status;
   return status === 'starting';
 });
 exports.isStart = isStart;
-var isDone = (0, _reselect.createSelector)(searchByKey(), function (_ref8) {
+var isDone = (0, _reselect.createSelector)(searchByKey, function (_ref8) {
   var status = _ref8.status;
   return status === 'done';
 });
 exports.isDone = isDone;
-var isSearch = (0, _reselect.createSelector)(searchByKey(), function (_ref9) {
+var isSearch = (0, _reselect.createSelector)(searchByKey, function (_ref9) {
   var status = _ref9.status;
   return status === 'processing';
 });
 exports.isSearch = isSearch;
-var isFail = (0, _reselect.createSelector)(searchByKey(), function (_ref10) {
+var isFail = (0, _reselect.createSelector)(searchByKey, function (_ref10) {
   var status = _ref10.status;
   return status === 'failed';
 });

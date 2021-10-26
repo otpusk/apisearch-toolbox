@@ -13,21 +13,29 @@ const domain = (_) => _.search;
 const EMPTY_OBJ = {};
 const EMPTY_ARRAY = [];
 
-export const searchByKey = () => createSelector(
+const getResults = createSelector(
     domain,
+    (search) => search.get('results')
+);
+
+const searchByKey = createSelector(
+    getResults,
     (_, { queryID }) => queryID,
-    (search, key) => R.call(
-        R.ifElse(
-            Boolean,
-            (result) => result.toJS(),
-            R.always(EMPTY_OBJ)
-        ),
-        search.getIn(['results', key])
-    )
+    (result, key) => result.get(key) ? result.toJS() : EMPTY_OBJ
+);
+
+export const getTotal = createSelector(
+    searchByKey,
+    R.prop('total')
+);
+
+export const isSetSearch = createSelector(
+    searchByKey,
+    (search) => !R.isEmpty(search)
 );
 
 const getHotelsByPages = () => createSelector(
-    searchByKey(),
+    searchByKey,
     R.pipe(
         R.prop('hotels'),
         R.values
@@ -59,11 +67,6 @@ export const getHotelsByMinPrice = () => createSelector(
     )
 );
 
-export const isSetSearch = createSelector(
-    searchByKey(),
-    (search) => !R.isEmpty(search)
-);
-
 export const hotelsByKey = () => createSelector(
     getHotelsByPages(),
     R.reduce(R.mergeRight, {})
@@ -81,7 +84,7 @@ export const offersByKey = () => createSelector(
 );
 
 export const selectOperators = () => createSelector(
-    searchByKey(),
+    searchByKey,
     ({ operators }) => operators
 );
 
@@ -128,7 +131,7 @@ export const selectOperatorsWithMinPrice = () => createSelector(
 );
 
 export const getPrices = createSelector(
-    searchByKey(),
+    searchByKey,
     R.prop('prices')
 );
 
@@ -153,23 +156,23 @@ export const getOffersFromPrices = () => createSelector(
 );
 
 export const getError = () => createSelector(
-    searchByKey(), R.prop('error')
+    searchByKey, R.prop('error')
 );
 
 export const isStart = createSelector(
-    searchByKey(),
+    searchByKey,
     ({ status }) => status === 'starting'
 );
 export const isDone = createSelector(
-    searchByKey(),
+    searchByKey,
     ({ status }) => status === 'done'
 );
 export const isSearch = createSelector(
-    searchByKey(),
+    searchByKey,
     ({ status }) => status === 'processing'
 );
 export const isFail = createSelector(
-    searchByKey(),
+    searchByKey,
     ({ status }) => status === 'failed'
 );
 
