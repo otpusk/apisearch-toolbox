@@ -343,7 +343,13 @@ const getMeta = createSelector(
     R.propOr(EMPTY_OBJ, 'meta')
 );
 
-export const getOperatorsLinks = createSelector(
+const getOperatorsLinks = createSelector(
     getMeta,
-    R.path(['links', 'operators'])
+    R.pathOr(EMPTY_OBJ, ['links', 'operators'])
+);
+
+export const getOperatorLink = createSelector(
+    getOperatorsLinks,
+    (_, { operatorID }) => operatorID,
+    (links, id) => R.prop(id, links)
 );
