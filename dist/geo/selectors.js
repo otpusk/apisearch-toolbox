@@ -5,7 +5,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.selectHotelsByCountry = exports.selectCitiesByCountry = exports.selectCountries = exports.getTopCountry = exports.getCountries = exports.getActiveOperators = exports.getOperator = exports.getOperators = exports.getFlightPort = exports.getFlightPorts = exports.getDepartureByIATA = exports.getDepartures = void 0;
+exports.selectHotelsByCountry = exports.selectCitiesByCountry = exports.selectCountries = exports.getHotelsByCountry = exports.getTopCountry = exports.getCountries = exports.getActiveOperators = exports.getOperator = exports.getOperators = exports.getFlightPort = exports.getFlightPorts = exports.getDepartureByIATA = exports.getDepartures = void 0;
 
 var _reselect = require("reselect");
 
@@ -108,11 +108,31 @@ var getCountries = (0, _reselect.createSelector)(getCountriesByImmutableStructur
 });
 exports.getCountries = getCountries;
 var getTopCountry = (0, _reselect.createSelector)(getCountries, R.pipe(R.sort(R.descend(R.prop('weight'))), R.head));
+exports.getTopCountry = getTopCountry;
+var getHotelsStore = (0, _reselect.createSelector)(domain, function (geo) {
+  return geo.get('hotels');
+});
+
+var getHotelsImmutableStructureByCountry = function getHotelsImmutableStructureByCountry() {
+  return (0, _reselect.createSelector)(getHotelsStore, function (_, _ref6) {
+    var countryID = _ref6.countryID;
+    return countryID;
+  }, function (store, countryID) {
+    return R.prop(countryID, store.toObject());
+  });
+};
+
+var getHotelsByCountry = function getHotelsByCountry() {
+  return (0, _reselect.createSelector)(getHotelsImmutableStructureByCountry(), function (hotels) {
+    return hotels ? hotels.toArray() : EMPTY_ARRAY;
+  });
+};
 /**
  * Select countries from locations store
  */
 
-exports.getTopCountry = getTopCountry;
+
+exports.getHotelsByCountry = getHotelsByCountry;
 var selectCountries = (0, _reselect.createSelector)(function (state) {
   return state.getIn(['keys', 'countries'], (0, _immutable.List)());
 }, function (state) {
