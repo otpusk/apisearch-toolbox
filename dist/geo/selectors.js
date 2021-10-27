@@ -5,7 +5,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.selectHotelsByCountry = exports.selectCitiesByCountry = exports.selectCountries = exports.getTopCountry = exports.getCountries = exports.getActiveOperators = exports.getOperator = exports.getOperators = exports.getFlightPort = exports.getFlightPorts = exports.getDepartureByIATA = exports.departures = void 0;
+exports.selectHotelsByCountry = exports.selectCitiesByCountry = exports.selectCountries = exports.getTopCountry = exports.getCountries = exports.getActiveOperators = exports.getOperator = exports.getOperators = exports.getFlightPort = exports.getFlightPorts = exports.getDepartureByIATA = exports.getDepartures = void 0;
 
 var _reselect = require("reselect");
 
@@ -18,9 +18,7 @@ function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "functio
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 // Core
-// defaults
-var emptyList = (0, _immutable.List)();
-var emptyArray = [];
+var EMPTY_ARRAY = [];
 
 var domain = function domain(_) {
   return _.geo;
@@ -36,20 +34,20 @@ var getIATA = function getIATA(_, _ref2) {
   return iata;
 };
 
-var departureHUB = (0, _reselect.createSelector)(domain, function (geo) {
+var getDeparturesByImmutableStructure = (0, _reselect.createSelector)(domain, function (geo) {
   return geo.get('departures');
 });
 
-var departures = function departures() {
-  return (0, _reselect.createSelector)(departureHUB, departureGeoID, function (map, geoID) {
-    return map.get(geoID, emptyList).toArray();
+var getDepartures = function getDepartures() {
+  return (0, _reselect.createSelector)(getDeparturesByImmutableStructure, departureGeoID, function (map, geoID) {
+    return R.propOr(EMPTY_ARRAY, geoID, map.toJS());
   });
 };
 
-exports.departures = departures;
+exports.getDepartures = getDepartures;
 
 var getDepartureByIATA = function getDepartureByIATA() {
-  return (0, _reselect.createSelector)(departures, getIATA, function (list, code) {
+  return (0, _reselect.createSelector)(getDepartures(), getIATA, function (list, code) {
     return R.find(R.pipe(R.prop('iata'), R.equals(code)), list);
   });
 };
@@ -77,7 +75,7 @@ var getOperators = function getOperators() {
       return operators.toObject();
     }, R.prop(key), R.ifElse(Boolean, function (operators) {
       return operators.toArray();
-    }, R.always(emptyArray))), geo.get('operators'));
+    }, R.always(EMPTY_ARRAY))), geo.get('operators'));
   });
 };
 

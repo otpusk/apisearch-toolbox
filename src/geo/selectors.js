@@ -3,27 +3,25 @@ import { createSelector } from 'reselect';
 import { List, Map } from 'immutable';
 import * as R from 'ramda';
 
-// defaults
-const emptyList = List();
-const emptyArray = [];
+const EMPTY_ARRAY = [];
 
 const domain = (_) => _.geo;
 const departureGeoID = (_, { geoID }) => geoID;
 const getIATA = (_, { iata }) => iata;
 
-const departureHUB = createSelector(
+const getDeparturesByImmutableStructure = createSelector(
     domain,
     (geo) => geo.get('departures')
 );
 
-export const departures = () => createSelector(
-    departureHUB,
+export const getDepartures = () => createSelector(
+    getDeparturesByImmutableStructure,
     departureGeoID,
-    (map, geoID) => map.get(geoID, emptyList).toArray()
+    (map, geoID) => R.propOr(EMPTY_ARRAY, geoID, map.toJS())
 );
 
 export const getDepartureByIATA = () => createSelector(
-    departures,
+    getDepartures(),
     getIATA,
     (list, code) => R.find(
         R.pipe(R.prop('iata'), R.equals(code)),
@@ -52,7 +50,7 @@ export const getOperators = () => createSelector(
             R.ifElse(
                 Boolean,
                 (operators) => operators.toArray(),
-                R.always(emptyArray)
+                R.always(EMPTY_ARRAY)
             )
         ),
         geo.get('operators')
