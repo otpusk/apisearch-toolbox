@@ -84,16 +84,17 @@ function getResultsWorker(_ref) {
 
         case 13:
           otpsukQuery.number = 0;
+          otpsukQuery.data = 'extlinks';
           activePage = query.get(_fn.QUERY_PARAMS.PAGE);
           activePage === 1 && delete _resultsMemory.memoryInstances[queryID];
           memory = _resultsMemory.memoryInstances[queryID] = _resultsMemory.memoryInstances[queryID] || (0, _resultsMemory["default"])();
-          _context2.prev = 17;
+          _context2.prev = 18;
 
-        case 18:
-          _context2.next = 20;
+        case 19:
+          _context2.next = 21;
           return (0, _effects.call)(_jsonApi.getToursNextSearch, token, otpsukQuery);
 
-        case 20:
+        case 21:
           _yield$call = _context2.sent;
           finished = _yield$call.lastResult;
           hotels = _yield$call.hotels;
@@ -152,11 +153,11 @@ function getResultsWorker(_ref) {
                 }
               }
             }, _callee);
-          })(), "t0", 33);
+          })(), "t0", 34);
 
-        case 33:
+        case 34:
           _memory$getValues2 = memory.getValues(), usedPrices = _memory$getValues2.usedPrices, totalValue = _memory$getValues2.total;
-          _context2.next = 36;
+          _context2.next = 37;
           return (0, _effects.put)(_actions.searchActions.processSearch(queryID, {
             page: activePage,
             operators: operators,
@@ -166,73 +167,73 @@ function getResultsWorker(_ref) {
             prices: R.clone(usedPrices)
           }));
 
-        case 36:
+        case 37:
           if (!finished) {
-            _context2.next = 38;
+            _context2.next = 39;
             break;
           }
 
-          return _context2.abrupt("break", 44);
+          return _context2.abrupt("break", 45);
 
-        case 38:
-          _context2.next = 40;
+        case 39:
+          _context2.next = 41;
           return (0, _effects.delay)(5000);
 
-        case 40:
+        case 41:
           ignoreOperators = (0, _helpers.getIgnoreOperators)(operators);
           !R.isEmpty(ignoreOperators) && (0, _helpers.addIgnoreOperators)(otpsukQuery, ignoreOperators);
           otpsukQuery.number += 1;
 
-        case 43:
+        case 44:
           if (otpsukQuery.number <= _constants.GUARANTEED_RESULT_STEP) {
-            _context2.next = 18;
+            _context2.next = 19;
             break;
           }
 
-        case 44:
+        case 45:
           _memory$getValues3 = memory.getValues(), total = _memory$getValues3.total;
-          _context2.next = 47;
+          _context2.next = 48;
           return (0, _effects.put)(_actions.searchActions.finishSearch(queryID, {
             total: total
           }));
 
-        case 47:
-          _context2.next = 54;
+        case 48:
+          _context2.next = 55;
           break;
 
-        case 49:
-          _context2.prev = 49;
-          _context2.t1 = _context2["catch"](17);
-          _context2.next = 53;
+        case 50:
+          _context2.prev = 50;
+          _context2.t1 = _context2["catch"](18);
+          _context2.next = 54;
           return (0, _effects.put)(_actions.searchActions.failSearch(queryID));
 
-        case 53:
+        case 54:
           console.log(_context2.t1);
 
-        case 54:
-          _context2.prev = 54;
-          _context2.next = 57;
+        case 55:
+          _context2.prev = 55;
+          _context2.next = 58;
           return (0, _effects.cancelled)();
 
-        case 57:
+        case 58:
           if (!_context2.sent) {
-            _context2.next = 60;
+            _context2.next = 61;
             break;
           }
 
-          _context2.next = 60;
+          _context2.next = 61;
           return (0, _effects.put)(_actions.searchActions.resetSearch(queryID));
 
-        case 60:
+        case 61:
           _memory$getValues4 = memory.getValues(), _usedPrices = _memory$getValues4.usedPrices;
           memory.addStableHotels((0, _helpers.getHotelsIDsFromPrices)(_usedPrices));
           memory.clearUsedPrices();
-          return _context2.finish(54);
+          return _context2.finish(55);
 
-        case 64:
+        case 65:
         case "end":
           return _context2.stop();
       }
     }
-  }, _marked, null, [[17, 49, 54, 64]]);
+  }, _marked, null, [[18, 50, 55, 65]]);
 }

@@ -29,6 +29,7 @@ export function* getResultsWorker ({ payload: queryID }) {
     yield put(searchActions.startSearch(queryID));
 
     otpsukQuery.number = 0;
+    otpsukQuery.data = 'extlinks';
 
     const activePage = query.get(QUERY_PARAMS.PAGE);
 
