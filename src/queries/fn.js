@@ -82,7 +82,7 @@ const SHORT_QUERY_NAMES = getShortQueryParams();
  */
 const DEFAULTS = {
     [QUERY_PARAMS.AUTOSTART]: false,
-    [QUERY_PARAMS.DEPARTURE]: '1544',
+    [QUERY_PARAMS.DEPARTURE]: 1544,
     [QUERY_PARAMS.COUNTRY]:   null,
     [QUERY_PARAMS.CATEGORY]:  Map({
         1: true,
