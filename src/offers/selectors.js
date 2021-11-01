@@ -14,7 +14,7 @@ const getOffersStore = createSelector(
     (offers) => offers.get('store')
 );
 
-export const getOffers = createSelector(
+export const getOffers = () => createSelector(
     getOffersStore,
     (_, { queryID } = {}) => queryID,
     (offersStore, queryID) => R.call(
@@ -26,8 +26,8 @@ export const getOffers = createSelector(
     )
 );
 
-export const getOffer = createSelector(
-    getOffers,
+export const getOffer = () => createSelector(
+    getOffers(),
     (_, { offerID }) => offerID,
     (offers, offerID) => R.prop(offerID, offers)
 );

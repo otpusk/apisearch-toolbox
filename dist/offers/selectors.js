@@ -28,21 +28,29 @@ var domain = function domain(_) {
 var getOffersStore = (0, _reselect.createSelector)(domain, function (offers) {
   return offers.get('store');
 });
-var getOffers = (0, _reselect.createSelector)(getOffersStore, function (_) {
-  var _ref = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
-      queryID = _ref.queryID;
 
-  return queryID;
-}, function (offersStore, queryID) {
-  return R.call(R.when(R.always(queryID), function (offers) {
-    return R.mergeAll([offers, getOffersHubFromSearchMemory(queryID)]);
-  }), offersStore.toJS());
-});
+var getOffers = function getOffers() {
+  return (0, _reselect.createSelector)(getOffersStore, function (_) {
+    var _ref = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
+        queryID = _ref.queryID;
+
+    return queryID;
+  }, function (offersStore, queryID) {
+    return R.call(R.when(R.always(queryID), function (offers) {
+      return R.mergeAll([offers, getOffersHubFromSearchMemory(queryID)]);
+    }), offersStore.toJS());
+  });
+};
+
 exports.getOffers = getOffers;
-var getOffer = (0, _reselect.createSelector)(getOffers, function (_, _ref2) {
-  var offerID = _ref2.offerID;
-  return offerID;
-}, function (offers, offerID) {
-  return R.prop(offerID, offers);
-});
+
+var getOffer = function getOffer() {
+  return (0, _reselect.createSelector)(getOffers(), function (_, _ref2) {
+    var offerID = _ref2.offerID;
+    return offerID;
+  }, function (offers, offerID) {
+    return R.prop(offerID, offers);
+  });
+};
+
 exports.getOffer = getOffer;
