@@ -31,6 +31,13 @@ const getUnusedPricesFromSearchMemory = (queryID) => R.call(
     ),
     memoryInstances[queryID]
 );
+const getUnusedHotelsFromSearchMemory = (queryID) => R.call(
+    R.pipe(
+        getUnusedPricesFromSearchMemory,
+        R.map(R.prop('hotelID'))
+    ),
+    queryID
+);
 
 const EMPTY_OBJ = {};
 const EMPTY_ARRAY = [];
@@ -351,4 +358,18 @@ export const getOperatorLink = createSelector(
     getOperatorsLinks,
     (_, { operatorID }) => operatorID,
     (links, id) => R.prop(id, links)
+);
+
+const getHotels = () => createSelector(
+    getFlattenPrices(),
+    getQueryID,
+    (prices, queryID) => R.concat(
+        R.map(R.prop('hotelID'), prices),
+        getUnusedHotelsFromSearchMemory(queryID)
+    )
+);
+
+export const getHotelsTotal = () => createSelector(
+    getHotels(),
+    R.length
 );

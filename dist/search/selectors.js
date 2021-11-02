@@ -5,7 +5,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getOperatorLink = exports.getNightsWithMinPrice = exports.getCategoryWithMinPrice = exports.getFoodsWithMinPrice = exports.getOperatorsWithMinPrice = exports.isProccess = exports.isFail = exports.isSearch = exports.isDone = exports.isStart = exports.getError = exports.getOffersFromPrices = exports.getFlattenPrices = exports.getPrices = exports.selectOperatorsWithMinPrice = exports.getSearchProgressByPercent = exports.selectOperators = exports.offersByKey = exports.hotelsByKey = exports.getHotelsByMinPrice = exports.isSetSearch = exports.getTotal = void 0;
+exports.getHotelsTotal = exports.getOperatorLink = exports.getNightsWithMinPrice = exports.getCategoryWithMinPrice = exports.getFoodsWithMinPrice = exports.getOperatorsWithMinPrice = exports.isProccess = exports.isFail = exports.isSearch = exports.isDone = exports.isStart = exports.getError = exports.getOffersFromPrices = exports.getFlattenPrices = exports.getPrices = exports.selectOperatorsWithMinPrice = exports.getSearchProgressByPercent = exports.selectOperators = exports.offersByKey = exports.hotelsByKey = exports.getHotelsByMinPrice = exports.isSetSearch = exports.getTotal = void 0;
 
 var _reselect = require("reselect");
 
@@ -69,6 +69,10 @@ var getUnusedPricesFromSearchMemory = function getUnusedPricesFromSearchMemory(q
   return R.call(R.ifElse(Boolean, function (memory) {
     return memory.getValues().unusedPrices;
   }, R.always([])), _resultsMemory.memoryInstances[queryID]);
+};
+
+var getUnusedHotelsFromSearchMemory = function getUnusedHotelsFromSearchMemory(queryID) {
+  return R.call(R.pipe(getUnusedPricesFromSearchMemory, R.map(R.prop('hotelID'))), queryID);
 };
 
 var EMPTY_OBJ = {};
@@ -309,3 +313,15 @@ var getOperatorLink = (0, _reselect.createSelector)(getOperatorsLinks, function 
   return R.prop(id, links);
 });
 exports.getOperatorLink = getOperatorLink;
+
+var getHotels = function getHotels() {
+  return (0, _reselect.createSelector)(getFlattenPrices(), getQueryID, function (prices, queryID) {
+    return R.concat(R.map(R.prop('hotelID'), prices), getUnusedHotelsFromSearchMemory(queryID));
+  });
+};
+
+var getHotelsTotal = function getHotelsTotal() {
+  return (0, _reselect.createSelector)(getHotels(), R.length);
+};
+
+exports.getHotelsTotal = getHotelsTotal;
