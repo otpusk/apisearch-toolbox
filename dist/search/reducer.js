@@ -68,23 +68,26 @@ var searchReducer = (0, _reduxActions.handleActions)((_handleActions = {}, _defi
 }), _defineProperty(_handleActions, _actions.searchActions.failSearch, function (state, _ref5) {
   var queryId = _ref5.payload;
   return state.setIn(['results', queryId, 'status'], 'failed');
-}), _defineProperty(_handleActions, _actions.searchActions.setFailSearchError, function (state, _ref6) {
-  var _ref6$payload = _ref6.payload,
-      queryId = _ref6$payload.queryId,
-      error = _ref6$payload.error;
-  return state.setIn(['results', queryId, 'error'], error);
-}), _defineProperty(_handleActions, _actions.searchActions.setSearchStatus, function (state, _ref7) {
+}), _defineProperty(_handleActions, _actions.searchActions.clearSearch, function (state, _ref6) {
+  var queryId = _ref6.payload;
+  return state.removeIn(['results', queryId]).removeIn(['charts', queryId]);
+}), _defineProperty(_handleActions, _actions.searchActions.setFailSearchError, function (state, _ref7) {
   var _ref7$payload = _ref7.payload,
-      queryID = _ref7$payload.queryID,
-      status = _ref7$payload.status;
-  return state.setIn(['results', queryID, 'status'], status);
-}), _defineProperty(_handleActions, _actions.searchActions.getPriceChartSuccess, function (state, _ref8) {
+      queryId = _ref7$payload.queryId,
+      error = _ref7$payload.error;
+  return state.setIn(['results', queryId, 'error'], error);
+}), _defineProperty(_handleActions, _actions.searchActions.setSearchStatus, function (state, _ref8) {
   var _ref8$payload = _ref8.payload,
-      queryId = _ref8$payload.queryId,
-      chart = _ref8$payload.chart;
+      queryID = _ref8$payload.queryID,
+      status = _ref8$payload.status;
+  return state.setIn(['results', queryID, 'status'], status);
+}), _defineProperty(_handleActions, _actions.searchActions.getPriceChartSuccess, function (state, _ref9) {
+  var _ref9$payload = _ref9.payload,
+      queryId = _ref9$payload.queryId,
+      chart = _ref9$payload.chart;
   return state.setIn(['charts', queryId], chart);
-}), _defineProperty(_handleActions, _actions.searchActions.getAvailableDatesSuccess, function (state, _ref9) {
-  var dates = _ref9.payload.dates;
+}), _defineProperty(_handleActions, _actions.searchActions.getAvailableDatesSuccess, function (state, _ref10) {
+  var dates = _ref10.payload.dates;
   return state.set('dates', dates);
 }), _handleActions), initialState);
 exports.searchReducer = searchReducer;

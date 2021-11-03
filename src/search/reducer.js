@@ -55,6 +55,11 @@ export const searchReducer = handleActions(
         [actions.failSearch]: (state, { payload: queryId }) => {
             return state.setIn(['results', queryId, 'status'], 'failed');
         },
+        [actions.clearSearch]: (state, { payload: queryId }) => {
+            return state
+                .removeIn(['results', queryId])
+                .removeIn(['charts', queryId]);
+        },
         [actions.setFailSearchError]: (state, { payload: { queryId, error }}) => {
             return state.setIn(['results', queryId, 'error'], error);
         },
