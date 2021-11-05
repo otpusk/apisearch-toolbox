@@ -76,7 +76,8 @@ var QUERY_PARAMS = {
   IGNORE_SERVICES: 'ignoreServices',
   GROUP: 'group',
   DISTRICTS: 'districts',
-  PROVINCES: 'provinces'
+  PROVINCES: 'provinces',
+  AVERAGE_RATING: 'averageRating'
 };
 exports.QUERY_PARAMS = QUERY_PARAMS;
 

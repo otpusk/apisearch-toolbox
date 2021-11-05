@@ -52,6 +52,7 @@ const QUERY_PARAMS = {
     GROUP:               'group',
     DISTRICTS:           'districts',
     PROVINCES:           'provinces',
+    AVERAGE_RATING:      'averageRating',
 };
 
 const getShortQueryParams = (isParam = false) => {
