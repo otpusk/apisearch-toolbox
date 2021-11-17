@@ -5,7 +5,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getHotelsTotal = exports.getOperatorLink = exports.getNightsWithMinPrice = exports.getCategoryWithMinPrice = exports.getFoodsWithMinPrice = exports.getOperatorsWithMinPrice = exports.isProccess = exports.isFail = exports.isSearch = exports.isDone = exports.isStart = exports.getError = exports.getOffersFromPrices = exports.getFlattenPrices = exports.getPrices = exports.selectOperatorsWithMinPrice = exports.getSearchProgressByPercent = exports.selectOperators = exports.offersByKey = exports.hotelsByKey = exports.getHotelsByMinPrice = exports.isSetSearch = exports.getTotal = void 0;
+exports.getChart = exports.getHotelsTotal = exports.getOperatorLink = exports.getNightsWithMinPrice = exports.getCategoryWithMinPrice = exports.getFoodsWithMinPrice = exports.getOperatorsWithMinPrice = exports.isProccess = exports.isFail = exports.isSearch = exports.isDone = exports.isStart = exports.getError = exports.getOffersFromPrices = exports.getFlattenPrices = exports.getPrices = exports.selectOperatorsWithMinPrice = exports.getSearchProgressByPercent = exports.selectOperators = exports.offersByKey = exports.hotelsByKey = exports.getHotelsByMinPrice = exports.isSetSearch = exports.getTotal = void 0;
 
 var _reselect = require("reselect");
 
@@ -54,6 +54,9 @@ var getQueryID = function getQueryID(_, _ref) {
   return queryID;
 };
 
+var EMPTY_OBJ = {};
+var EMPTY_ARRAY = [];
+
 var getOffersListFromSearchMemory = function getOffersListFromSearchMemory(queryID) {
   return R.prop(queryID, _resultsMemory.memoryInstances) ? R.call(R.pipe(function (memory) {
     return memory.getValues();
@@ -75,8 +78,6 @@ var getUnusedHotelsFromSearchMemory = function getUnusedHotelsFromSearchMemory(q
   return R.call(R.pipe(getUnusedPricesFromSearchMemory, R.map(R.prop('hotelID'))), queryID);
 };
 
-var EMPTY_OBJ = {};
-var EMPTY_ARRAY = [];
 var getResults = (0, _reselect.createSelector)(domain, function (search) {
   return search.get('results');
 });
@@ -325,3 +326,10 @@ var getHotelsTotal = function getHotelsTotal() {
 };
 
 exports.getHotelsTotal = getHotelsTotal;
+var getCharts = (0, _reselect.createSelector)(domain, function (search) {
+  return search.get('charts');
+});
+var getChart = (0, _reselect.createSelector)(getCharts, getQueryID, function (charts, queryID) {
+  return charts.get(queryID, EMPTY_ARRAY);
+});
+exports.getChart = getChart;

@@ -1,6 +1,6 @@
 {
   "name": "@otpusk/apisearch-toolbox",
-  "version": "1.0.28",
+  "version": "1.0.29",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
@@ -43,5 +43,7 @@
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/"
   },
-  "files": ["dist"]
+  "files": [
+    "dist"
+  ]
 }

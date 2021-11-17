@@ -12,6 +12,9 @@ import { sortOffersByMinPrice, sortHotelsByMinOffer } from './helpers';
 const domain = (_) => _.search;
 const getQueryID = (_, { queryID }) => queryID;
 
+const EMPTY_OBJ = {};
+const EMPTY_ARRAY = [];
+
 const getOffersListFromSearchMemory = (queryID) => R.prop(queryID, memoryInstances)
     ? R.call(
         R.pipe(
@@ -38,9 +41,6 @@ const getUnusedHotelsFromSearchMemory = (queryID) => R.call(
     ),
     queryID
 );
-
-const EMPTY_OBJ = {};
-const EMPTY_ARRAY = [];
 
 const getResults = createSelector(
     domain,
@@ -372,4 +372,15 @@ const getHotels = () => createSelector(
 export const getHotelsTotal = () => createSelector(
     getHotels(),
     R.length
+);
+
+const getCharts = createSelector(
+    domain,
+    (search) => search.get('charts')
+);
+
+export const getChart = createSelector(
+    getCharts,
+    getQueryID,
+    (charts, queryID) => charts.get(queryID, EMPTY_ARRAY)
 );
