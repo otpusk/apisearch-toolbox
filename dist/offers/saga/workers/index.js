@@ -21,9 +21,17 @@ Object.defineProperty(exports, "validateOfferAdditionalCostsWorker", {
     return _validateOfferAdditionalCostsWorker.validateOfferAdditionalCostsWorker;
   }
 });
+Object.defineProperty(exports, "actualizeOfferWorker", {
+  enumerable: true,
+  get: function get() {
+    return _actualizeOfferWorker.actualizeOfferWorker;
+  }
+});
 
 var _getOfferWorker = require("./getOfferWorker");
 
 var _checkOfferStatusWorker = require("./checkOfferStatusWorker");
 
 var _validateOfferAdditionalCostsWorker = require("./validateOfferAdditionalCostsWorker");
+
+var _actualizeOfferWorker = require("./actualizeOfferWorker");

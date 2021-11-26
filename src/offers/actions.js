@@ -21,4 +21,12 @@ export const offersActions = createActions({
     VALIDATE_SET_PRICE:                      (offerId, selectedFlights) => ({ offerId, selectedFlights }),
     VALIDATE_SET_PRICE_SUCCESS:              (offerId, selectedFlights) => ({ offerId, selectedFlights }),
     VALIDATE_SET_PRICE_FAIL:                 (error) => error,
+
+    ACTUALIZE_OFFER:        (offerID) => offerID,
+    SET_ACTUALIZED_OFFER:   (offerID, offer) => ({ offerID, offer }),
+    SET_ACTUALIZED_STATUS:  (offerID, status) => ({ offerID, status }),
+    START_ACTUALIZE_OFFER:  (offerID) => offerID,
+    END_ACTUALIZE_OFFER:    (offerID) => offerID,
+    FAIL_ACTUALIZE_OFFER:   (offerID) => offerID,
+    CLEAR_ACTUALIZED_OFFER: (offerID) => offerID,
 });

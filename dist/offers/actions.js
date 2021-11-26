@@ -95,6 +95,33 @@ var offersActions = (0, _reduxActions.createActions)({
   },
   VALIDATE_SET_PRICE_FAIL: function VALIDATE_SET_PRICE_FAIL(error) {
     return error;
+  },
+  ACTUALIZE_OFFER: function ACTUALIZE_OFFER(offerID) {
+    return offerID;
+  },
+  SET_ACTUALIZED_OFFER: function SET_ACTUALIZED_OFFER(offerID, offer) {
+    return {
+      offerID: offerID,
+      offer: offer
+    };
+  },
+  SET_ACTUALIZED_STATUS: function SET_ACTUALIZED_STATUS(offerID, status) {
+    return {
+      offerID: offerID,
+      status: status
+    };
+  },
+  START_ACTUALIZE_OFFER: function START_ACTUALIZE_OFFER(offerID) {
+    return offerID;
+  },
+  END_ACTUALIZE_OFFER: function END_ACTUALIZE_OFFER(offerID) {
+    return offerID;
+  },
+  FAIL_ACTUALIZE_OFFER: function FAIL_ACTUALIZE_OFFER(offerID) {
+    return offerID;
+  },
+  CLEAR_ACTUALIZED_OFFER: function CLEAR_ACTUALIZED_OFFER(offerID) {
+    return offerID;
   }
 });
 exports.offersActions = offersActions;

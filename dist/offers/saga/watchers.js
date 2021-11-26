@@ -58,6 +58,21 @@ var offersWatchers = Object.freeze({
         }
       }
     }, validateOfferAdditionalCostsWatcher);
+  }),
+  actualizeOfferWatcher: /*#__PURE__*/regeneratorRuntime.mark(function actualizeOfferWatcher() {
+    return regeneratorRuntime.wrap(function actualizeOfferWatcher$(_context4) {
+      while (1) {
+        switch (_context4.prev = _context4.next) {
+          case 0:
+            _context4.next = 2;
+            return (0, _effects.takeEvery)(_actions.offersActions.actualizeOffer, _workers.actualizeOfferWorker);
+
+          case 2:
+          case "end":
+            return _context4.stop();
+        }
+      }
+    }, actualizeOfferWatcher);
   })
 });
 exports.offersWatchers = offersWatchers;

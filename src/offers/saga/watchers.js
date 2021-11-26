@@ -3,7 +3,7 @@ import { takeEvery } from 'redux-saga/effects';
 
 // Instruments
 import { offersActions as actions } from '../../offers/actions';
-import { getOfferWorker, checkOfferStatusWorker, validateOfferAdditionalCostsWorker } from './workers';
+import { actualizeOfferWorker, getOfferWorker, checkOfferStatusWorker, validateOfferAdditionalCostsWorker } from './workers';
 
 export const offersWatchers = Object.freeze({
     * getOfferWatcher () {
@@ -14,5 +14,8 @@ export const offersWatchers = Object.freeze({
     },
     * validateOfferAdditionalCostsWatcher () {
         yield takeEvery(actions.validateOfferAdditionalCosts, validateOfferAdditionalCostsWorker);
+    },
+    * actualizeOfferWatcher () {
+        yield takeEvery(actions.actualizeOffer, actualizeOfferWorker);
     },
 });

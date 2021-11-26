@@ -1,13 +1,19 @@
 import { createSelector } from 'reselect';
 import * as R from 'ramda';
+import moment from 'moment';
 
 import { memoryInstances } from '../search/saga/workers/getResultsWorker/resultsMemory';
+
+import { ACTUALIZED_OFFER_STATUS } from './constants';
+
+const EMPTY_OBJ = {};
 
 const getOffersHubFromSearchMemory = (queryID) => R.prop(queryID, memoryInstances)
     ? memoryInstances[queryID].getValues().offersHub
     : {};
 
 const domain = (_) => _.offers;
+const getOfferID = (_, { offerID }) => offerID;
 
 const getOffersStore = createSelector(
     domain,
@@ -28,6 +34,48 @@ export const getOffers = () => createSelector(
 
 export const getOffer = () => createSelector(
     getOffers(),
-    (_, { offerID }) => offerID,
+    getOfferID,
     (offers, offerID) => R.prop(offerID, offers)
+);
+
+export const isActualLastUpdate = () => createSelector(
+    getOffer(),
+    ({ updateTime }) => moment().diff(
+        moment(updateTime),
+        'minutes'
+    ) <= 20
+);
+
+const actualizedOffersDomain = createSelector(
+    domain,
+    (_) => _.get('actualizedOffers')
+);
+
+const getActualizedEntity = () => createSelector(
+    actualizedOffersDomain,
+    getOfferID,
+    (offer, id) => offer[id] || EMPTY_OBJ
+);
+
+export const getActualizedOffer = () => createSelector(
+    getActualizedEntity(),
+    R.prop('offer')
+);
+
+export const isActualizedOffer = () => createSelector(
+    getActualizedEntity(),
+    R.ifElse(
+        Boolean,
+        ({ actualizedStatus }) => actualizedStatus === ACTUALIZED_OFFER_STATUS.ACTUALIZED,
+        R.F
+    )
+);
+
+export const isEndActualizedOffer = () => createSelector(
+    getActualizedEntity(),
+    R.ifElse(
+        Boolean,
+        R.propOr(false, 'completed'),
+        R.F
+    )
 );

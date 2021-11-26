@@ -1,6 +1,7 @@
 // Core
 import { Map } from 'immutable';
 import { handleActions } from 'redux-actions';
+import * as R from 'ramda';
 
 // Instruments
 import { offersActions } from './actions';
@@ -9,11 +10,23 @@ import { mergeObjectDeepWithoutArrays, mergeOfferNextPriority } from './utils/me
 import { getSelectedFlightsPriceChange, getValidatedTourNewPrice, sumByKey } from './utils/getValidatedTourPrice';
 
 const initalState = Map({
-    store:         Map(),
-    status:        Map(),
-    siblings:      Map(),
-    validatedTour: Map(),
+    store:            Map(),
+    status:           Map(),
+    siblings:         Map(),
+    validatedTour:    Map(),
+    actualizedOffers: {},
 });
+
+const presetEmpyShapeForActualizedOffer = R.curryN(2, (offerID, actualizedOffers) => R.call(
+    R.when(
+        ({ [offerID]: prevEntity }) => !prevEntity,
+        R.set(
+            R.lensProp(offerID),
+            {}
+        )
+    ),
+    actualizedOffers
+));
 
 export const offersReducer = handleActions(
     {
@@ -74,6 +87,63 @@ export const offersReducer = handleActions(
                         .toJS()
                 );
         },
+        [offersActions.setActualizedOffer]: (state, { payload }) => state.updateIn(
+            ['actualizedOffers'],
+            R.pipe(
+                presetEmpyShapeForActualizedOffer(payload.offerID),
+                R.set(
+                    R.lensPath([payload.offerID, 'offer']),
+                    payload.offer
+                )
+            )
+        ),
+        [offersActions.setActualizedStatus]: (state, { payload }) => state.updateIn(
+            ['actualizedOffers'],
+            R.pipe(
+                presetEmpyShapeForActualizedOffer(payload.offerID),
+                R.set(
+                    R.lensPath([payload.offerID, 'actualizedStatus']),
+                    payload.status
+                )
+            )
+        ),
+        [offersActions.startActualizeOffer]: (state, { payload: offerID }) => state.updateIn(
+            ['actualizedOffers'],
+            R.pipe(
+                presetEmpyShapeForActualizedOffer(offerID),
+                R.set(
+                    R.lensPath([offerID, 'loading']),
+                    true
+                )
+            )
+        ),
+        [offersActions.endActualizeOffer]: (state, { payload: offerID }) => state.updateIn(
+            ['actualizedOffers'],
+            R.pipe(
+                presetEmpyShapeForActualizedOffer(offerID),
+                R.set(
+                    R.lensPath([offerID, 'loading']),
+                    false
+                ),
+                R.set(
+                    R.lensPath([offerID, 'completed']),
+                    true
+                )
+            )
+        ),
+        [offersActions.failActualizedOffer]: (state, { payload: offerID }) => state.updateIn(
+            ['actualizedOffers'],
+            R.pipe(
+                presetEmpyShapeForActualizedOffer(offerID),
+                R.set(
+                    R.lensPath([offerID, 'error']),
+                    true
+                )
+            )
+        ),
+        [offersActions.clearActualizedOffer]: (state, { payload: offerID }) => state.removeIn([
+            'actualizedOffers', offerID
+        ]),
     },
     initalState
 );
