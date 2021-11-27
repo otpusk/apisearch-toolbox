@@ -22,7 +22,7 @@ export const offersActions = createActions({
     VALIDATE_SET_PRICE_SUCCESS:              (offerId, selectedFlights) => ({ offerId, selectedFlights }),
     VALIDATE_SET_PRICE_FAIL:                 (error) => error,
 
-    ACTUALIZE_OFFER:        (offerID) => offerID,
+    ACTUALIZE_OFFER:        (offerID, adults, children) => ({ offerID, adults, children }),
     SET_ACTUALIZED_OFFER:   (offerID, offer) => ({ offerID, offer }),
     SET_ACTUALIZED_STATUS:  (offerID, status) => ({ offerID, status }),
     START_ACTUALIZE_OFFER:  (offerID) => offerID,

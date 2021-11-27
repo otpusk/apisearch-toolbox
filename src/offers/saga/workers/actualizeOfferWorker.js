@@ -17,13 +17,36 @@ const getTextStatusByCode = (code) => R.call(
     code
 );
 
-export function* actualizeOfferWorker ({ payload: offerID }) {
+const generatePeopleString = (adults, children) => R.call(
+    R.pipe(
+        R.flatten,
+        R.filter(Boolean),
+        R.join('')
+    ),
+    [
+        adults,
+        children
+            ? R.map(
+                (age) => age.toString().length === 2 ? age : `0${age}`,
+                children
+            )
+            : []
+    ]
+);
+
+export function* actualizeOfferWorker ({ payload: { adults, children, offerID }}) {
     const token = yield select((state) => state.auth.getIn(['otpusk', 'token']));
+    const lang = yield select((state) => state.auth.getIn(['otpusk', 'lang']));
 
     yield put(offersActions.startActualizeOffer(offerID));
 
     try {
-        const { code, offer: nextOffer } = yield call(getToursActual, token, offerID);
+        const { code, offer: nextOffer } = yield call(
+            getToursActual,
+            R.mergeAll([token, { lang }]),
+            offerID,
+            generatePeopleString(adults, children)
+        );
 
         yield put(offersActions.setActualizedStatus(offerID, getTextStatusByCode(code)));
         nextOffer && (yield put(offersActions.setActualizedOffer(offerID, nextOffer)));

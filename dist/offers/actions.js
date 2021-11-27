@@ -96,8 +96,12 @@ var offersActions = (0, _reduxActions.createActions)({
   VALIDATE_SET_PRICE_FAIL: function VALIDATE_SET_PRICE_FAIL(error) {
     return error;
   },
-  ACTUALIZE_OFFER: function ACTUALIZE_OFFER(offerID) {
-    return offerID;
+  ACTUALIZE_OFFER: function ACTUALIZE_OFFER(offerID, adults, children) {
+    return {
+      offerID: offerID,
+      adults: adults,
+      children: children
+    };
   },
   SET_ACTUALIZED_OFFER: function SET_ACTUALIZED_OFFER(offerID, offer) {
     return {
