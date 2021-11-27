@@ -27,7 +27,7 @@ export const searchReducer = handleActions(
         },
         [actions.processSearch]: (state, { payload: { hotels, operators, queryId, country, total, page, prices, meta }}) => {
             return state
-                .mergeIn(['results', queryId], Map({
+                .mergeDeepIn(['results', queryId], Map({
                     total: total ? total : state.getIn(['results', queryId, 'total']),
                     meta,
                 }))
