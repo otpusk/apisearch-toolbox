@@ -94,9 +94,8 @@ var getActualizedStatus = function getActualizedStatus() {
 };
 
 var isActualizedOffer = function isActualizedOffer() {
-  return (0, _reselect.createSelector)(getActualizedStatus(), R.ifElse(Boolean, function (_ref4) {
-    var actualizedStatus = _ref4.actualizedStatus;
-    return actualizedStatus === _constants.ACTUALIZED_OFFER_STATUS.ACTUALIZED;
+  return (0, _reselect.createSelector)(getActualizedStatus(), R.ifElse(Boolean, function (status) {
+    return status === _constants.ACTUALIZED_OFFER_STATUS.ACTUALIZED;
   }, R.F));
 };
 

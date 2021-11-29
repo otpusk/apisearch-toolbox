@@ -71,7 +71,7 @@ export const isActualizedOffer = () => createSelector(
     getActualizedStatus(),
     R.ifElse(
         Boolean,
-        ({ actualizedStatus }) => actualizedStatus === ACTUALIZED_OFFER_STATUS.ACTUALIZED,
+        (status) => status === ACTUALIZED_OFFER_STATUS.ACTUALIZED,
         R.F
     )
 );
