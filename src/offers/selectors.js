@@ -62,13 +62,23 @@ export const getActualizedOffer = () => createSelector(
     R.prop('offer')
 );
 
-export const isActualizedOffer = () => createSelector(
+const getActualizedStatus = () => createSelector(
     getActualizedEntity(),
+    R.prop('actualizedStatus')
+);
+
+export const isActualizedOffer = () => createSelector(
+    getActualizedStatus(),
     R.ifElse(
         Boolean,
         ({ actualizedStatus }) => actualizedStatus === ACTUALIZED_OFFER_STATUS.ACTUALIZED,
         R.F
     )
+);
+
+export const isConnectionFailedWithOperator = () => createSelector(
+    getActualizedStatus(),
+    (status) => status === ACTUALIZED_OFFER_STATUS.ERROR_OPERATOR_CONNECTION
 );
 
 export const isEndActualizedOffer = () => createSelector(

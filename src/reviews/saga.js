@@ -7,7 +7,7 @@ function* getTurpravdaWidgetSaga ({ payload: hotelID }) {
     const lang = yield select(({ auth }) => auth.getIn(['otpusk', 'lang']));
 
     try {
-        const widget = yield call(getTurpravdaHotelInformer, hotelID, { lang });
+        const widget = yield call(getTurpravdaHotelInformer, hotelID, { count: 10, lang });
 
         yield put(setTurpravdaWidget(hotelID, widget));
     } catch (error) {

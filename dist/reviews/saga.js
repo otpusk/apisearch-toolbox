@@ -32,6 +32,7 @@ function getTurpravdaWidgetSaga(_ref) {
           _context.prev = 4;
           _context.next = 7;
           return (0, _effects.call)(_jsonApi.getTurpravdaHotelInformer, hotelID, {
+            count: 10,
             lang: lang
           });
 
