@@ -93,9 +93,10 @@ export const getErrorMessageByActualizedOffer = () => createSelector(
 
 export const isEndActualizedOffer = () => createSelector(
     getActualizedEntity(),
-    R.ifElse(
-        Boolean,
-        R.propOr(false, 'completed'),
-        R.F
-    )
+    R.propOr(false, 'completed')
+);
+
+export const isActualazingOffer = () => createSelector(
+    getActualizedEntity(),
+    R.propOr(false, 'loading')
 );
