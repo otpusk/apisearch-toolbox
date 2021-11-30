@@ -126,6 +126,12 @@ var offersActions = (0, _reduxActions.createActions)({
   },
   CLEAR_ACTUALIZED_OFFER: function CLEAR_ACTUALIZED_OFFER(offerID) {
     return offerID;
+  },
+  SET_ERROR_MESSAGE_BY_ACTUALIZED_OFFER: function SET_ERROR_MESSAGE_BY_ACTUALIZED_OFFER(offerID, message) {
+    return {
+      offerID: offerID,
+      message: message
+    };
   }
 });
 exports.offersActions = offersActions;

@@ -41,7 +41,7 @@ export function* actualizeOfferWorker ({ payload: { adults, children, offerID }}
     yield put(offersActions.startActualizeOffer(offerID));
 
     try {
-        const { code, offer: nextOffer } = yield call(
+        const { code, offer: nextOffer, message: errorMessage } = yield call(
             getToursActual,
             R.mergeAll([token, { lang }]),
             offerID,
@@ -50,6 +50,7 @@ export function* actualizeOfferWorker ({ payload: { adults, children, offerID }}
 
         yield put(offersActions.setActualizedStatus(offerID, getTextStatusByCode(code)));
         nextOffer && (yield put(offersActions.setActualizedOffer(offerID, nextOffer)));
+        errorMessage && (yield put(offersActions.setErrorMessageByActualizedOffer(offerID, errorMessage)));
     } catch (error) {
         console.log(error);
 

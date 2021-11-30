@@ -131,6 +131,16 @@ export const offersReducer = handleActions(
                 )
             )
         ),
+        [offersActions.setErrorMessageByActualizedOffer]: (state, { payload }) => state.updateIn(
+            ['actualizedOffers'],
+            R.pipe(
+                presetEmpyShapeForActualizedOffer(payload.offerID),
+                R.set(
+                    R.lensPath([payload.offerID, 'errorMessage']),
+                    payload.message
+                )
+            )
+        ),
         [offersActions.failActualizedOffer]: (state, { payload: offerID }) => state.updateIn(
             ['actualizedOffers'],
             R.pipe(

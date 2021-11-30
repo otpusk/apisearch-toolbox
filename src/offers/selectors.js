@@ -81,6 +81,16 @@ export const isConnectionFailedWithOperator = () => createSelector(
     (status) => status === ACTUALIZED_OFFER_STATUS.ERROR_OPERATOR_CONNECTION
 );
 
+export const isNotFoundActualizedOffer = () => createSelector(
+    getActualizedStatus(),
+    (status) => status === ACTUALIZED_OFFER_STATUS.NOT_FOUND
+);
+
+export const getErrorMessageByActualizedOffer = () => createSelector(
+    getActualizedEntity(),
+    R.prop('errorMessage')
+);
+
 export const isEndActualizedOffer = () => createSelector(
     getActualizedEntity(),
     R.ifElse(

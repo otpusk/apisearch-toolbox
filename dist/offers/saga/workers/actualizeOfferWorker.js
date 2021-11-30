@@ -34,7 +34,7 @@ var generatePeopleString = function generatePeopleString(adults, children) {
 };
 
 function actualizeOfferWorker(_ref) {
-  var _ref$payload, adults, children, offerID, token, lang, _yield$call, code, nextOffer;
+  var _ref$payload, adults, children, offerID, token, lang, _yield$call, code, nextOffer, errorMessage;
 
   return regeneratorRuntime.wrap(function actualizeOfferWorker$(_context) {
     while (1) {
@@ -69,47 +69,59 @@ function actualizeOfferWorker(_ref) {
           _yield$call = _context.sent;
           code = _yield$call.code;
           nextOffer = _yield$call.offer;
-          _context.next = 17;
+          errorMessage = _yield$call.message;
+          _context.next = 18;
           return (0, _effects.put)(_actions.offersActions.setActualizedStatus(offerID, getTextStatusByCode(code)));
 
-        case 17:
+        case 18:
           _context.t0 = nextOffer;
 
           if (!_context.t0) {
-            _context.next = 21;
+            _context.next = 22;
             break;
           }
 
-          _context.next = 21;
+          _context.next = 22;
           return (0, _effects.put)(_actions.offersActions.setActualizedOffer(offerID, nextOffer));
 
-        case 21:
-          _context.next = 30;
+        case 22:
+          _context.t1 = errorMessage;
+
+          if (!_context.t1) {
+            _context.next = 26;
+            break;
+          }
+
+          _context.next = 26;
+          return (0, _effects.put)(_actions.offersActions.setErrorMessageByActualizedOffer(offerID, errorMessage));
+
+        case 26:
+          _context.next = 35;
           break;
 
-        case 23:
-          _context.prev = 23;
-          _context.t1 = _context["catch"](9);
-          console.log(_context.t1);
-          _context.next = 28;
+        case 28:
+          _context.prev = 28;
+          _context.t2 = _context["catch"](9);
+          console.log(_context.t2);
+          _context.next = 33;
           return (0, _effects.put)(_actions.offersActions.setActualizedStatus(offerID, _constants.ACTUALIZED_OFFER_STATUS.INVALID_REQUEST));
 
-        case 28:
-          _context.next = 30;
+        case 33:
+          _context.next = 35;
           return (0, _effects.put)(_actions.offersActions.failActualizedOffer(offerID));
 
-        case 30:
-          _context.prev = 30;
-          _context.next = 33;
+        case 35:
+          _context.prev = 35;
+          _context.next = 38;
           return (0, _effects.put)(_actions.offersActions.endActualizeOffer(offerID));
 
-        case 33:
-          return _context.finish(30);
+        case 38:
+          return _context.finish(35);
 
-        case 34:
+        case 39:
         case "end":
           return _context.stop();
       }
     }
-  }, _marked, null, [[9, 23, 30, 34]]);
+  }, _marked, null, [[9, 28, 35, 39]]);
 }
