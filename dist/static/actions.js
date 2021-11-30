@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getStaticData = exports.clearStaticData = void 0;
+exports.setStaticData = exports.getStaticData = exports.clearStaticData = void 0;
 
 var _reduxActions = require("redux-actions");
 
@@ -13,12 +13,17 @@ var _createActions = (0, _reduxActions.createActions)({
   },
   getStaticData: function getStaticData() {
     return void 0;
+  },
+  setStaticData: function setStaticData(data) {
+    return data;
   }
 }, {
-  prefix: 'API_SEARCH_STATIC'
+  prefix: 'API_TOOLBOX'
 }),
     clearStaticData = _createActions.clearStaticData,
-    getStaticData = _createActions.getStaticData;
+    getStaticData = _createActions.getStaticData,
+    setStaticData = _createActions.setStaticData;
 
+exports.setStaticData = setStaticData;
 exports.getStaticData = getStaticData;
 exports.clearStaticData = clearStaticData;
