@@ -108,7 +108,7 @@ function actualizeOfferWorker(_ref) {
 
         case 33:
           _context.next = 35;
-          return (0, _effects.put)(_actions.offersActions.failActualizedOffer(offerID));
+          return (0, _effects.put)(_actions.offersActions.failActualizeOffer(offerID));
 
         case 35:
           _context.prev = 35;

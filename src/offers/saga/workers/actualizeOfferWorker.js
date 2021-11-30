@@ -55,7 +55,7 @@ export function* actualizeOfferWorker ({ payload: { adults, children, offerID }}
         console.log(error);
 
         yield put(offersActions.setActualizedStatus(offerID, ACTUALIZED_OFFER_STATUS.INVALID_REQUEST));
-        yield put(offersActions.failActualizedOffer(offerID));
+        yield put(offersActions.failActualizeOffer(offerID));
     } finally {
         yield put(offersActions.endActualizeOffer(offerID));
     }
