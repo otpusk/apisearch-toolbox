@@ -1,9 +1,8 @@
-// Core
 import { call, put, select } from 'redux-saga/effects';
-
-// Instruments
-import { hotelsActions } from '../../actions';
 import { getToursHotel } from '@otpusk/json-api';
+import * as R from 'ramda';
+
+import { hotelsActions } from '../../actions';
 
 export function* getHotelWorker ({ payload: hotelId }) {
     try {
@@ -11,7 +10,15 @@ export function* getHotelWorker ({ payload: hotelId }) {
             token: auth.getIn(['otpusk', 'token']),
             lang:  auth.getIn(['otpusk', 'lang'], 'ru'),
         }));
-        const { hotel } = yield call(getToursHotel, token, hotelId, lang);
+        const { hotel } = yield call(
+            getToursHotel,
+            R.mergeAll([
+                token,
+                { data: 'extlinks' }
+            ]),
+            hotelId,
+            lang
+        );
 
         yield put(hotelsActions.getHotelSuccess(hotel));
     } catch (error) {
