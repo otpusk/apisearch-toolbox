@@ -21,6 +21,8 @@ var _actions = require("../../../../search/actions");
 
 var _actions2 = require("../../../../hotels/actions");
 
+var _selectors2 = require("../../../../hotels/selectors");
+
 var _actions3 = require("../../../../offers/actions");
 
 var _resultsMemory = _interopRequireWildcard(require("./resultsMemory"));
@@ -108,7 +110,7 @@ function getResultsWorker(_ref) {
           !R.isEmpty(offers) && memory.addOffers(offers);
           memory.incTotal(_total);
           return _context2.delegateYield( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-            var _memory$getValues, hotelsHub, offersHub, usedPrices, unusedPrices, stableHotels, pricesWithoutStable, nextPrices, hotelsToStore, offersToStore;
+            var _memory$getValues, hotelsHub, offersHub, usedPrices, unusedPrices, stableHotels, pricesWithoutStable, nextPrices, hotelsFromStore, hotelsToStore, offersToStore;
 
             return regeneratorRuntime.wrap(function _callee$(_context) {
               while (1) {
@@ -120,34 +122,39 @@ function getResultsWorker(_ref) {
                       return !R.includes(hotelID, stableHotels);
                     }, prices);
                     nextPrices = (0, _helpers.generateNextPrices)([].concat(_toConsumableArray(pricesWithoutStable), _toConsumableArray(unusedPrices), _toConsumableArray(usedPrices)), offersHub);
-                    hotelsToStore = (0, _helpers.getHotelsEntitiesMap)(nextPrices, hotelsHub);
+                    _context.next = 5;
+                    return (0, _effects.select)(_selectors2.hotelsHub);
+
+                  case 5:
+                    hotelsFromStore = _context.sent;
+                    hotelsToStore = (0, _helpers.getHotelsEntitiesMap)(nextPrices, hotelsHub, hotelsFromStore);
                     offersToStore = (0, _helpers.getOffersEntitiesMap)(nextPrices, offersHub);
                     _context.t0 = !R.isEmpty(hotelsToStore);
 
                     if (!_context.t0) {
-                      _context.next = 9;
+                      _context.next = 12;
                       break;
                     }
 
-                    _context.next = 9;
+                    _context.next = 12;
                     return (0, _effects.put)(_actions2.hotelsActions.addHotels(hotelsToStore));
 
-                  case 9:
+                  case 12:
                     _context.t1 = !R.isEmpty(offersToStore);
 
                     if (!_context.t1) {
-                      _context.next = 13;
+                      _context.next = 16;
                       break;
                     }
 
-                    _context.next = 13;
+                    _context.next = 16;
                     return (0, _effects.put)(_actions3.offersActions.addOffers(offersToStore));
 
-                  case 13:
+                  case 16:
                     memory.setUsedPrices(nextPrices);
                     memory.setUnusedPrices((0, _helpers.getUnusedPrices)(nextPrices, [].concat(_toConsumableArray(pricesWithoutStable), _toConsumableArray(unusedPrices))));
 
-                  case 15:
+                  case 18:
                   case "end":
                     return _context.stop();
                 }

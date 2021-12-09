@@ -93,9 +93,12 @@ var generateNextPrices = function generateNextPrices(prices, offersHub) {
 
 exports.generateNextPrices = generateNextPrices;
 
-var getHotelsEntitiesMap = function getHotelsEntitiesMap(prices, hotelsHub) {
-  return R.call(R.pipe(R.map(function (_ref5) {
+var getHotelsEntitiesMap = function getHotelsEntitiesMap(prices, hotelsHub, hotelsFromStore) {
+  return R.call(R.pipe(R.filter(function (_ref5) {
     var hotelID = _ref5.hotelID;
+    return !hotelsFromStore[hotelID];
+  }), R.map(function (_ref6) {
+    var hotelID = _ref6.hotelID;
     return [hotelID, hotelsHub[hotelID]];
   }), R.fromPairs), prices);
 };
@@ -112,8 +115,8 @@ exports.getOffersEntitiesMap = getOffersEntitiesMap;
 
 var getUnusedPrices = function getUnusedPrices(nextPrices, unusedPrices) {
   return R.call(R.pipe(getHotelsIDsFromPrices, function (usedHotels) {
-    return R.filter(function (_ref6) {
-      var hotelID = _ref6.hotelID;
+    return R.filter(function (_ref7) {
+      var hotelID = _ref7.hotelID;
       return !R.includes(hotelID, usedHotels);
     }, unusedPrices);
   }), nextPrices);

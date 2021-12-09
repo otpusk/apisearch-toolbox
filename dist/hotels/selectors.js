@@ -15,7 +15,6 @@ function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "functio
 
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
-// Core
 var domain = function domain(_) {
   return _.hotels;
 };
@@ -24,15 +23,15 @@ var hotelKey = function hotelKey(_, key) {
   return key;
 };
 
-var hotelsHub = (0, _reselect.createSelector)(domain, R.pipe(function (hub) {
-  return hub.get('store');
-}, R.ifElse(function (v) {
+var EMPTY_OBJ = {};
+var getHotelsStore = (0, _reselect.createSelector)(domain, function (hotels) {
+  return hotels.get('store');
+});
+var hotelsHub = (0, _reselect.createSelector)(domain, getHotelsStore, R.ifElse(function (v) {
   return v.isEmpty();
-}, function () {
-  return {};
-}, function (v) {
+}, R.always(EMPTY_OBJ), function (v) {
   return v.toJS();
-})));
+}));
 exports.hotelsHub = hotelsHub;
 
 var getHotel = function getHotel() {

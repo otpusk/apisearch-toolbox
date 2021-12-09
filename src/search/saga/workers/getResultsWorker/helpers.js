@@ -71,8 +71,9 @@ export const generateNextPrices = (prices, offersHub) => R.call(
     prices
 );
 
-export const getHotelsEntitiesMap = (prices, hotelsHub) => R.call(
+export const getHotelsEntitiesMap = (prices, hotelsHub, hotelsFromStore) => R.call(
     R.pipe(
+        R.filter(({ hotelID }) => !hotelsFromStore[hotelID]),
         R.map(({ hotelID }) => [hotelID, hotelsHub[hotelID]]),
         R.fromPairs
     ),

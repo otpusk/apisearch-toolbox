@@ -6,6 +6,7 @@ import { getQuery } from '../../../../queries/selectors';
 import { convertToOtpQuery, QUERY_PARAMS } from '../../../../queries/fn';
 import { searchActions } from '../../../../search/actions';
 import { hotelsActions } from '../../../../hotels/actions';
+import { hotelsHub as getHotelsHub } from '../../../../hotels/selectors';
 import { offersActions } from '../../../../offers/actions';
 
 import createMemory, { memoryInstances } from './resultsMemory';
@@ -71,7 +72,8 @@ export function* getResultsWorker ({ payload: queryID }) {
                     offersHub
                 );
 
-                const hotelsToStore = getHotelsEntitiesMap(nextPrices, hotelsHub);
+                const hotelsFromStore = yield select(getHotelsHub);
+                const hotelsToStore = getHotelsEntitiesMap(nextPrices, hotelsHub, hotelsFromStore);
                 const offersToStore = getOffersEntitiesMap(nextPrices, offersHub);
 
                 !R.isEmpty(hotelsToStore) && (yield put(hotelsActions.addHotels(hotelsToStore)));
