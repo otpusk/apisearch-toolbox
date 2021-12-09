@@ -12,7 +12,6 @@ const getHotelsStore = createSelector(
 );
 
 export const hotelsHub = createSelector(
-    domain,
     getHotelsStore,
     R.ifElse(
         (v) => v.isEmpty(),

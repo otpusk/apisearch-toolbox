@@ -27,7 +27,7 @@ var EMPTY_OBJ = {};
 var getHotelsStore = (0, _reselect.createSelector)(domain, function (hotels) {
   return hotels.get('store');
 });
-var hotelsHub = (0, _reselect.createSelector)(domain, getHotelsStore, R.ifElse(function (v) {
+var hotelsHub = (0, _reselect.createSelector)(getHotelsStore, R.ifElse(function (v) {
   return v.isEmpty();
 }, R.always(EMPTY_OBJ), function (v) {
   return v.toJS();
