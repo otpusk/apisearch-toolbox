@@ -215,24 +215,33 @@ export const getOperatorsWithMinPrice = () => createSelector(
     selectOperators(),
     getOffersFromPrices(),
     getQueryID,
-    (operatorsMap, offers, queryID) => R.map(
-        ([id, isReady]) => ({
-            id:      Number(id),
-            isReady,
-            offerID: R.call(
-                R.pipe(
-                    R.filter(({ operator }) => operator === Number(id)),
-                    sortOffersByMinPrice,
-                    R.head,
-                    R.prop('id')
-                ),
-                R.concat(
-                    offers,
-                    getOffersListFromSearchMemory(queryID)
-                )
+    (operatorsMap, offers, queryID) => R.call(
+        R.pipe(
+            R.toPairs,
+            R.map(
+                ([id, isReady]) => ({
+                    id:    Number(id),
+                    isReady,
+                    offer: R.call(
+                        R.pipe(
+                            R.filter(({ operator }) => operator === Number(id)),
+                            sortOffersByMinPrice,
+                            R.head
+                        ),
+                        R.concat(
+                            offers,
+                            getOffersListFromSearchMemory(queryID)
+                        )
+                    ),
+                })
             ),
-        }),
-        R.toPairs(operatorsMap)
+            R.sort(R.ascend(R.pathOr(Infinity, ['offer', 'price', 'uah']))),
+            R.map(({ offer, ...entity }) => R.mergeAll([
+                entity,
+                { offerID: R.prop('id', offer) }
+            ]))
+        ),
+        operatorsMap
     )
 );
 

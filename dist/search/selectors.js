@@ -23,6 +23,8 @@ var _resultsMemory = require("./saga/workers/getResultsWorker/resultsMemory");
 
 var _helpers = require("./helpers");
 
+var _excluded = ["offer"];
+
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
@@ -32,6 +34,10 @@ function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (O
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
@@ -221,7 +227,7 @@ exports.isProccess = isProccess;
 
 var getOperatorsWithMinPrice = function getOperatorsWithMinPrice() {
   return (0, _reselect.createSelector)(selectOperators(), getOffersFromPrices(), getQueryID, function (operatorsMap, offers, queryID) {
-    return R.map(function (_ref13) {
+    return R.call(R.pipe(R.toPairs, R.map(function (_ref13) {
       var _ref14 = _slicedToArray(_ref13, 2),
           id = _ref14[0],
           isReady = _ref14[1];
@@ -229,12 +235,19 @@ var getOperatorsWithMinPrice = function getOperatorsWithMinPrice() {
       return {
         id: Number(id),
         isReady: isReady,
-        offerID: R.call(R.pipe(R.filter(function (_ref15) {
+        offer: R.call(R.pipe(R.filter(function (_ref15) {
           var operator = _ref15.operator;
           return operator === Number(id);
-        }), _helpers.sortOffersByMinPrice, R.head, R.prop('id')), R.concat(offers, getOffersListFromSearchMemory(queryID)))
+        }), _helpers.sortOffersByMinPrice, R.head), R.concat(offers, getOffersListFromSearchMemory(queryID)))
       };
-    }, R.toPairs(operatorsMap));
+    }), R.sort(R.ascend(R.pathOr(Infinity, ['offer', 'price', 'uah']))), R.map(function (_ref16) {
+      var offer = _ref16.offer,
+          entity = _objectWithoutProperties(_ref16, _excluded);
+
+      return R.mergeAll([entity, {
+        offerID: R.prop('id', offer)
+      }]);
+    })), operatorsMap);
   });
 };
 
@@ -243,8 +256,8 @@ exports.getOperatorsWithMinPrice = getOperatorsWithMinPrice;
 var getFoodsWithMinPrice = function getFoodsWithMinPrice() {
   return (0, _reselect.createSelector)(getOffersFromPrices(), getQueryID, function (offers, queryID) {
     var groupedByFood = R.groupBy(R.prop('food'), R.concat(offers, getOffersListFromSearchMemory(queryID)));
-    return R.map(function (_ref16) {
-      var code = _ref16.code;
+    return R.map(function (_ref17) {
+      var code = _ref17.code;
       return {
         code: code,
         offerID: R.prop(code, groupedByFood) ? R.call(R.pipe(R.prop(code), _helpers.sortOffersByMinPrice, R.head, R.prop('id')), groupedByFood) : undefined
@@ -258,9 +271,9 @@ exports.getFoodsWithMinPrice = getFoodsWithMinPrice;
 var getCategoryWithMinPrice = function getCategoryWithMinPrice() {
   return (0, _reselect.createSelector)(_selectors3.getQueryParam, getFlattenPrices(), _selectors2.hotelsHub, (0, _selectors.getOffers)(), getQueryID, // eslint-disable-next-line max-params
   function (categoryMap, prices, hotels, offers, queryID) {
-    var groupedByCaregory = R.groupBy(R.path(['hotel', 'stars']), R.map(function (_ref17) {
-      var hotelID = _ref17.hotelID,
-          ids = _ref17.offers;
+    var groupedByCaregory = R.groupBy(R.path(['hotel', 'stars']), R.map(function (_ref18) {
+      var hotelID = _ref18.hotelID,
+          ids = _ref18.offers;
       return R.mergeAll([{
         hotel: hotels[hotelID]
       }, {
@@ -271,15 +284,15 @@ var getCategoryWithMinPrice = function getCategoryWithMinPrice() {
         }, ids)
       }]);
     }, R.concat(prices, getUnusedPricesFromSearchMemory(queryID))));
-    return R.map(function (_ref18) {
-      var _ref19 = _slicedToArray(_ref18, 1),
-          category = _ref19[0];
+    return R.map(function (_ref19) {
+      var _ref20 = _slicedToArray(_ref19, 1),
+          category = _ref20[0];
 
       return _objectSpread({
         category: category
-      }, R.call(R.ifElse(Boolean, R.pipe(R.map(R.prop('offers')), R.flatten, _helpers.sortOffersByMinPrice, R.head, function (_ref20) {
-        var id = _ref20.id,
-            hotelID = _ref20.hotelID;
+      }, R.call(R.ifElse(Boolean, R.pipe(R.map(R.prop('offers')), R.flatten, _helpers.sortOffersByMinPrice, R.head, function (_ref21) {
+        var id = _ref21.id,
+            hotelID = _ref21.hotelID;
         return {
           offerID: id,
           hotelID: hotelID
@@ -307,8 +320,8 @@ var getNightsWithMinPrice = function getNightsWithMinPrice() {
 exports.getNightsWithMinPrice = getNightsWithMinPrice;
 var getMeta = (0, _reselect.createSelector)(searchByKey, R.propOr(EMPTY_OBJ, 'meta'));
 var getOperatorsLinks = (0, _reselect.createSelector)(getMeta, R.pathOr(EMPTY_OBJ, ['links', 'operators']));
-var getOperatorLink = (0, _reselect.createSelector)(getOperatorsLinks, function (_, _ref21) {
-  var operatorID = _ref21.operatorID;
+var getOperatorLink = (0, _reselect.createSelector)(getOperatorsLinks, function (_, _ref22) {
+  var operatorID = _ref22.operatorID;
   return operatorID;
 }, function (links, id) {
   return R.prop(id, links);
