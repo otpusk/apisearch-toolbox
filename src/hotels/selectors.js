@@ -21,7 +21,7 @@ export const hotelsHub = createSelector(
 );
 
 export const getHotel = () => createSelector(
-    hotelsHub,
+    getHotelsStore,
     hotelKey,
-    (hub, key) => R.prop(key, hub)
+    (store, key) => store.get(key.toString())
 );

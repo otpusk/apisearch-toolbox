@@ -44,9 +44,14 @@ var searchActions = (0, _reduxActions.createActions)({
       queryId: queryId
     }, payload);
   },
-  FAIL_SEARCH: function FAIL_SEARCH(queryId) {
+  FAIL_SEARCH: [function (queryId) {
     return queryId;
-  },
+  }, function (_, error, response) {
+    return {
+      error: error,
+      response: response
+    };
+  }],
   CLEAR_SEARCH: function CLEAR_SEARCH(queryId) {
     return queryId;
   },

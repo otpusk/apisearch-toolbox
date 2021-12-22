@@ -35,8 +35,8 @@ var hotelsHub = (0, _reselect.createSelector)(getHotelsStore, R.ifElse(function 
 exports.hotelsHub = hotelsHub;
 
 var getHotel = function getHotel() {
-  return (0, _reselect.createSelector)(hotelsHub, hotelKey, function (hub, key) {
-    return R.prop(key, hub);
+  return (0, _reselect.createSelector)(getHotelsStore, hotelKey, function (store, key) {
+    return store.get(key.toString());
   });
 };
 

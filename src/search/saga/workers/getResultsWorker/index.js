@@ -114,7 +114,14 @@ export function* getResultsWorker ({ payload: queryID }) {
 
         yield put(searchActions.finishSearch(queryID, { total }));
     } catch (error) {
-        yield put(searchActions.failSearch(queryID));
+        yield put(searchActions.failSearch(
+            queryID,
+            error,
+            {
+                message:    error.message,
+                statusCode: parseInt(error.message, 10),
+            }
+        ));
         console.log(error);
     } finally {
         if (yield cancelled()) {
