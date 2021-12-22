@@ -11,6 +11,8 @@ var _reselect = require("reselect");
 
 var R = _interopRequireWildcard(require("ramda"));
 
+var _selectors = require("../auth/selectors");
+
 var _constants = require("./constants");
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
@@ -24,7 +26,10 @@ var domain = function domain(_) {
   return _.services;
 };
 
-var getLabels = (0, _reselect.createSelector)(domain, R.prop('labels'));
+var getCommonLabesl = (0, _reselect.createSelector)(domain, R.prop('labels'));
+var getLabels = (0, _reselect.createSelector)(getCommonLabesl, _selectors.getLang, function (labels, lang) {
+  return R.mergeAll([labels, _constants.STATIC_LABELS_BY_LANG[lang] || _constants.STATIC_LABELS_BY_LANG.rus]);
+});
 exports.getLabels = getLabels;
 var getServicesStore = (0, _reselect.createSelector)(domain, R.prop('store'));
 var getAllServices = (0, _reselect.createSelector)(getServicesStore, function (servicesStore) {

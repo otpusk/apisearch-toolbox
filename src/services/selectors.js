@@ -1,16 +1,27 @@
 import { createSelector } from 'reselect';
 import * as R from 'ramda';
 
-import { EMPTY_COUNTRY_ID } from './constants';
+import { getLang } from '../auth/selectors';
+
+import { EMPTY_COUNTRY_ID, STATIC_LABELS_BY_LANG } from './constants';
 
 const EMPTY_OBJ = {};
 const EMPTY_ARRAY = [];
 
 const domain = (_) => _.services;
 
-export const getLabels = createSelector(
+const getCommonLabesl = createSelector(
     domain,
     R.prop('labels')
+);
+
+export const getLabels = createSelector(
+    getCommonLabesl,
+    getLang,
+    (labels, lang) => R.mergeAll([
+        labels,
+        STATIC_LABELS_BY_LANG[lang] || STATIC_LABELS_BY_LANG.rus
+    ])
 );
 
 const getServicesStore = createSelector(

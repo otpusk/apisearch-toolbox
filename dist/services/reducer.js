@@ -22,18 +22,7 @@ function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var initialState = {
-  labels: {
-    'beach_line': 'Линия пляжа',
-    'location': 'Расположение',
-    'beach': 'Пляж',
-    'main': 'Главное',
-    'beach_type': 'тип пляжа',
-    'child': 'Для детей',
-    'hotel': 'Услуги в отеле',
-    'room': 'Удобства в номерах',
-    'sport': 'Развлечения и спорт',
-    'recommend': 'Отели с рекомендацией'
-  },
+  labels: {},
   store: {}
 };
 var servicesReducer = (0, _reduxActions.handleActions)((_handleActions = {}, _defineProperty(_handleActions, _actions.servicesActions.setLabels, function (state, _ref) {

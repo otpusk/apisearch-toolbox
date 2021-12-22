@@ -4,19 +4,8 @@ import { handleActions } from 'redux-actions';
 import { servicesActions } from './actions';
 
 const initialState = {
-    labels: {
-        'beach_line': 'Линия пляжа',
-        'location':   'Расположение',
-        'beach':      'Пляж',
-        'main':       'Главное',
-        'beach_type': 'тип пляжа',
-        'child':      'Для детей',
-        'hotel':      'Услуги в отеле',
-        'room':       'Удобства в номерах',
-        'sport':      'Развлечения и спорт',
-        'recommend':  'Отели с рекомендацией',
-    },
-    store: {},
+    labels: {},
+    store:  {},
 };
 
 export const servicesReducer = handleActions({
