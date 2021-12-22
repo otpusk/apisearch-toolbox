@@ -50,7 +50,7 @@ const getResults = createSelector(
 const searchByKey = createSelector(
     getResults,
     getQueryID,
-    (results, key) => results.get(key) ? results.get(key).toJS() : EMPTY_OBJ
+    (results, key) => results.get(key) ? results.get(key).toObject() : EMPTY_OBJ
 );
 
 export const getTotal = createSelector(

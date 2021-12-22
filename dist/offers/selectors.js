@@ -48,10 +48,8 @@ var getOffers = function getOffers() {
         queryID = _ref2.queryID;
 
     return queryID;
-  }, function (offersStore, queryID) {
-    return R.call(R.when(R.always(queryID), function (offers) {
-      return R.mergeAll([offers, getOffersHubFromSearchMemory(queryID)]);
-    }), offersStore.toJS());
+  }, function (store, queryID) {
+    return queryID ? R.mergeAll([store.toObject(), getOffersHubFromSearchMemory(queryID)]) : store.toObject();
   });
 };
 

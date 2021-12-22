@@ -23,13 +23,12 @@ const getOffersStore = createSelector(
 export const getOffers = () => createSelector(
     getOffersStore,
     (_, { queryID } = {}) => queryID,
-    (offersStore, queryID) => R.call(
-        R.when(
-            R.always(queryID),
-            (offers) => R.mergeAll([offers, getOffersHubFromSearchMemory(queryID)])
-        ),
-        offersStore.toJS()
-    )
+    (store, queryID) => queryID
+        ? R.mergeAll([
+            store.toObject(),
+            getOffersHubFromSearchMemory(queryID)
+        ])
+        : store.toObject()
 );
 
 export const getOffer = () => createSelector(
