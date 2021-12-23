@@ -5,7 +5,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.selectHotelsByCountry = exports.selectCitiesByCountry = exports.selectCountries = exports.getHotelsByCountry = exports.getTopCountry = exports.getCountries = exports.getActiveOperators = exports.getOperator = exports.getOperators = exports.getFlightPort = exports.getFlightPorts = exports.getDepartureByIATA = exports.getDepartures = void 0;
+exports.selectHotelsByCountry = exports.selectCitiesByCountry = exports.selectCountries = exports.getHotelsByCountry = exports.getTopCountry = exports.getCountries = exports.getActiveOperators = exports.getOperator = exports.getOperatorsMap = exports.getOperators = exports.getFlightPort = exports.getFlightPorts = exports.getDepartureByIATA = exports.getDepartures = void 0;
 
 var _reselect = require("reselect");
 
@@ -80,6 +80,16 @@ var getOperators = function getOperators() {
 };
 
 exports.getOperators = getOperators;
+
+var getOperatorsMap = function getOperatorsMap() {
+  return (0, _reselect.createSelector)(getOperators(), function (operators) {
+    return R.call(R.pipe(R.map(function (operator) {
+      return [operator.id, operator];
+    }), R.fromPairs), operators);
+  });
+};
+
+exports.getOperatorsMap = getOperatorsMap;
 
 var getOperator = function getOperator() {
   return (0, _reselect.createSelector)(getOperators(), function (_, _ref4) {

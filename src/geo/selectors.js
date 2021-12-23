@@ -57,6 +57,17 @@ export const getOperators = () => createSelector(
     )
 );
 
+export const getOperatorsMap = () => createSelector(
+    getOperators(),
+    (operators) => R.call(
+        R.pipe(
+            R.map((operator) => [operator.id, operator]),
+            R.fromPairs
+        ),
+        operators
+    )
+);
+
 export const getOperator = () => createSelector(
     getOperators(),
     (_, { operatorID }) => operatorID,

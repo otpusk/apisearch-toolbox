@@ -5,6 +5,7 @@ import { FOODS } from '@otpusk/json-api/dist/static';
 import { getOffers } from './../offers/selectors';
 import { hotelsHub } from './../hotels/selectors';
 import { getQueryParam } from './../queries/selectors';
+import { getOperatorsMap } from './../geo/selectors';
 
 import { memoryInstances } from './saga/workers/getResultsWorker/resultsMemory';
 import { sortOffersByMinPrice, sortHotelsByMinOffer } from './helpers';
@@ -381,6 +382,23 @@ const getHotels = () => createSelector(
 export const getHotelsTotal = () => createSelector(
     getHotels(),
     R.length
+);
+
+export const getOperatorsByHotelID = () => createSelector(
+    getFlattenPrices(),
+    getOffers(),
+    getOperatorsMap(),
+    (_, { hotelID }) => hotelID,
+    (prices, offersHub, operatorsMap, hotelID) => R.call(
+        R.pipe(
+            R.find(R.propEq('hotelID', hotelID)),
+            R.prop('offers'),
+            R.map((id) => offersHub[id].operator),
+            R.uniq,
+            R.map((id) => operatorsMap[id])
+        ),
+        prices
+    )
 );
 
 const getCharts = createSelector(

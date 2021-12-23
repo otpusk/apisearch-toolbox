@@ -5,7 +5,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getChart = exports.getHotelsTotal = exports.getOperatorLink = exports.getNightsWithMinPrice = exports.getCategoryWithMinPrice = exports.getFoodsWithMinPrice = exports.getOperatorsWithMinPrice = exports.isProccess = exports.isFail = exports.isSearch = exports.isDone = exports.isStart = exports.getError = exports.getOffersFromPrices = exports.getFlattenPrices = exports.getPrices = exports.selectOperatorsWithMinPrice = exports.getSearchProgressByPercent = exports.selectOperators = exports.offersByKey = exports.hotelsByKey = exports.getHotelsByMinPrice = exports.isSetSearch = exports.getTotal = void 0;
+exports.getChart = exports.getOperatorsByHotelID = exports.getHotelsTotal = exports.getOperatorLink = exports.getNightsWithMinPrice = exports.getCategoryWithMinPrice = exports.getFoodsWithMinPrice = exports.getOperatorsWithMinPrice = exports.isProccess = exports.isFail = exports.isSearch = exports.isDone = exports.isStart = exports.getError = exports.getOffersFromPrices = exports.getFlattenPrices = exports.getPrices = exports.selectOperatorsWithMinPrice = exports.getSearchProgressByPercent = exports.selectOperators = exports.offersByKey = exports.hotelsByKey = exports.getHotelsByMinPrice = exports.isSetSearch = exports.getTotal = void 0;
 
 var _reselect = require("reselect");
 
@@ -18,6 +18,8 @@ var _selectors = require("./../offers/selectors");
 var _selectors2 = require("./../hotels/selectors");
 
 var _selectors3 = require("./../queries/selectors");
+
+var _selectors4 = require("./../geo/selectors");
 
 var _resultsMemory = require("./saga/workers/getResultsWorker/resultsMemory");
 
@@ -339,6 +341,21 @@ var getHotelsTotal = function getHotelsTotal() {
 };
 
 exports.getHotelsTotal = getHotelsTotal;
+
+var getOperatorsByHotelID = function getOperatorsByHotelID() {
+  return (0, _reselect.createSelector)(getFlattenPrices(), (0, _selectors.getOffers)(), (0, _selectors4.getOperatorsMap)(), function (_, _ref23) {
+    var hotelID = _ref23.hotelID;
+    return hotelID;
+  }, function (prices, offersHub, operatorsMap, hotelID) {
+    return R.call(R.pipe(R.find(R.propEq('hotelID', hotelID)), R.prop('offers'), R.map(function (id) {
+      return offersHub[id].operator;
+    }), R.uniq, R.map(function (id) {
+      return operatorsMap[id];
+    })), prices);
+  });
+};
+
+exports.getOperatorsByHotelID = getOperatorsByHotelID;
 var getCharts = (0, _reselect.createSelector)(domain, function (search) {
   return search.get('charts');
 });
