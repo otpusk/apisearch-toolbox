@@ -3,12 +3,6 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-Object.defineProperty(exports, "numbersArrayParser", {
-  enumerable: true,
-  get: function get() {
-    return _parsers.numbersArrayParser;
-  }
-});
 Object.defineProperty(exports, "arrayParser", {
   enumerable: true,
   get: function get() {
@@ -16,6 +10,12 @@ Object.defineProperty(exports, "arrayParser", {
   }
 });
 exports.dateParser = void 0;
+Object.defineProperty(exports, "numbersArrayParser", {
+  enumerable: true,
+  get: function get() {
+    return _parsers.numbersArrayParser;
+  }
+});
 
 var _moment = _interopRequireDefault(require("moment"));
 

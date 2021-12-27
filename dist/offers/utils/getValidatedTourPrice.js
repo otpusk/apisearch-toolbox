@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.sumByKey = exports.getValidatedTourNewPrice = exports.getValidatedTourPrice = exports.getSelectedFlightsPriceChange = exports.getPriceChange = void 0;
+exports.sumByKey = exports.getValidatedTourPrice = exports.getValidatedTourNewPrice = exports.getSelectedFlightsPriceChange = exports.getPriceChange = void 0;
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 

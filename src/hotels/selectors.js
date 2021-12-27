@@ -11,6 +11,29 @@ const getHotelsStore = createSelector(
     (hotels) => hotels.get('store')
 );
 
+const getHotelsMarkersStore = createSelector(
+    domain,
+    (hotels) => hotels.get('markers')
+);
+
+export const getHotelsMarkers = createSelector(
+    getHotelsMarkersStore,
+    (store) => R.call(
+        R.pipe(
+            R.toPairs,
+            R.map(
+                ([, hotel]) => ({
+                    hotelID:  hotel.id,
+                    position: R.pick(['lat', 'lng'], hotel.location),
+                    stars:    hotel.stars,
+                    zoom:     hotel.location.zoom,
+                })
+            )
+        ),
+        store.toObject()
+    )
+);
+
 export const hotelsHub = createSelector(
     getHotelsStore,
     R.ifElse(

@@ -1,17 +1,19 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getChart = exports.getOperatorsByHotelID = exports.getHotelsTotal = exports.getOperatorLink = exports.getNightsWithMinPrice = exports.getCategoryWithMinPrice = exports.getFoodsWithMinPrice = exports.getOperatorsWithMinPrice = exports.isProccess = exports.isFail = exports.isSearch = exports.isDone = exports.isStart = exports.getError = exports.getOffersFromPrices = exports.getFlattenPrices = exports.getPrices = exports.selectOperatorsWithMinPrice = exports.getSearchProgressByPercent = exports.selectOperators = exports.offersByKey = exports.hotelsByKey = exports.getHotelsByMinPrice = exports.isSetSearch = exports.getTotal = void 0;
+exports.selectOperatorsWithMinPrice = exports.selectOperators = exports.offersByKey = exports.isStart = exports.isSetSearch = exports.isSearch = exports.isProccess = exports.isFail = exports.isDone = exports.hotelsByKey = exports.getTotal = exports.getSearchProgressByPercent = exports.getPrices = exports.getOperatorsWithMinPrice = exports.getOperatorsByHotelID = exports.getOperatorLink = exports.getOffersFromPrices = exports.getNightsWithMinPrice = exports.getHotelsTotal = exports.getHotelsMarkers = exports.getHotelsByMinPrice = exports.getFoodsWithMinPrice = exports.getFlattenPrices = exports.getError = exports.getChart = exports.getCenterByHotelsMarkers = exports.getCategoryWithMinPrice = void 0;
 
 var _reselect = require("reselect");
 
 var R = _interopRequireWildcard(require("ramda"));
 
 var _static = require("@otpusk/json-api/dist/static");
+
+var _geolib = require("geolib");
 
 var _selectors = require("./../offers/selectors");
 
@@ -31,9 +33,9 @@ function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "functio
 
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -363,3 +365,45 @@ var getChart = (0, _reselect.createSelector)(getCharts, getQueryID, function (ch
   return charts.get(queryID, EMPTY_ARRAY);
 });
 exports.getChart = getChart;
+
+var getHotelsMarkers = function getHotelsMarkers() {
+  return (0, _reselect.createSelector)(getFlattenPrices(), _selectors2.hotelsHub, function (prices, hotels) {
+    return R.filter(Boolean, R.map(R.pipe(function (_ref24) {
+      var hotelID = _ref24.hotelID,
+          _ref24$offers = _slicedToArray(_ref24.offers, 1),
+          offerID = _ref24$offers[0];
+
+      return R.mergeAll([hotels[hotelID], {
+        offerID: offerID
+      }]);
+    }, R.ifElse(R.prop('location'), function (_ref25) {
+      var id = _ref25.id,
+          location = _ref25.location,
+          offerID = _ref25.offerID,
+          stars = _ref25.stars;
+      return {
+        hotelID: id,
+        offerID: offerID,
+        position: R.pick(['lat', 'lng'], location),
+        stars: stars,
+        zoom: location.zoom
+      };
+    }, R.always(null))), prices));
+  });
+};
+
+exports.getHotelsMarkers = getHotelsMarkers;
+
+var getCenterByHotelsMarkers = function getCenterByHotelsMarkers() {
+  return (0, _reselect.createSelector)(getHotelsMarkers(), function (markers) {
+    return !R.isEmpty(markers) ? R.call(R.pipe(R.map(R.applySpec({
+      latitude: R.path(['position', 'lat']),
+      longitude: R.path(['position', 'lng'])
+    })), _geolib.getCenter, R.applySpec({
+      lat: R.prop('latitude'),
+      lng: R.prop('longitude')
+    })), markers) : undefined;
+  });
+};
+
+exports.getCenterByHotelsMarkers = getCenterByHotelsMarkers;

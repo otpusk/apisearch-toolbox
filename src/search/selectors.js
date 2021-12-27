@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect';
 import * as R from 'ramda';
 import { FOODS } from '@otpusk/json-api/dist/static';
+import { getCenter } from 'geolib';
 
 import { getOffers } from './../offers/selectors';
 import { hotelsHub } from './../hotels/selectors';
@@ -410,4 +411,53 @@ export const getChart = createSelector(
     getCharts,
     getQueryID,
     (charts, queryID) => charts.get(queryID, EMPTY_ARRAY)
+);
+
+export const getHotelsMarkers = () => createSelector(
+    getFlattenPrices(),
+    hotelsHub,
+    (prices, hotels) => R.filter(
+        Boolean,
+        R.map(
+            R.pipe(
+                ({ hotelID, offers:[offerID] }) => R.mergeAll([
+                    hotels[hotelID],
+                    { offerID }
+                ]),
+                R.ifElse(
+                    R.prop('location'),
+                    ({ id, location, offerID, stars }) => ({
+                        hotelID:  id,
+                        offerID,
+                        position: R.pick(['lat', 'lng'], location),
+                        stars,
+                        zoom:     location.zoom,
+                    }),
+                    R.always(null)
+                )
+            ),
+            prices
+        )
+    )
+);
+
+export const getCenterByHotelsMarkers = () => createSelector(
+    getHotelsMarkers(),
+    (markers) => !R.isEmpty(markers)
+        ? R.call(
+            R.pipe(
+                R.map(R.applySpec({
+                    latitude:  R.path(['position', 'lat']),
+                    longitude: R.path(['position', 'lng']),
+                })),
+                getCenter,
+                R.applySpec({
+                    lat: R.prop('latitude'),
+                    lng: R.prop('longitude'),
+                })
+            ),
+            markers
+        )
+        : undefined
+
 );

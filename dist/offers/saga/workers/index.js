@@ -3,10 +3,10 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-Object.defineProperty(exports, "getOfferWorker", {
+Object.defineProperty(exports, "actualizeOfferWorker", {
   enumerable: true,
   get: function get() {
-    return _getOfferWorker.getOfferWorker;
+    return _actualizeOfferWorker.actualizeOfferWorker;
   }
 });
 Object.defineProperty(exports, "checkOfferStatusWorker", {
@@ -15,16 +15,16 @@ Object.defineProperty(exports, "checkOfferStatusWorker", {
     return _checkOfferStatusWorker.checkOfferStatusWorker;
   }
 });
+Object.defineProperty(exports, "getOfferWorker", {
+  enumerable: true,
+  get: function get() {
+    return _getOfferWorker.getOfferWorker;
+  }
+});
 Object.defineProperty(exports, "validateOfferAdditionalCostsWorker", {
   enumerable: true,
   get: function get() {
     return _validateOfferAdditionalCostsWorker.validateOfferAdditionalCostsWorker;
-  }
-});
-Object.defineProperty(exports, "actualizeOfferWorker", {
-  enumerable: true,
-  get: function get() {
-    return _actualizeOfferWorker.actualizeOfferWorker;
   }
 });
 

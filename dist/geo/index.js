@@ -1,6 +1,6 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -17,13 +17,13 @@ Object.defineProperty(exports, "geoReducer", {
     return _reducer.geoReducer;
   }
 });
+exports.geoSelectors = void 0;
 Object.defineProperty(exports, "geoWatchers", {
   enumerable: true,
   get: function get() {
     return _watchers.geoWatchers;
   }
 });
-exports.geoSelectors = void 0;
 
 var geoSelectors = _interopRequireWildcard(require("./selectors"));
 

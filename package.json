@@ -1,6 +1,6 @@
 {
   "name": "@otpusk/apisearch-toolbox",
-  "version": "1.0.48",
+  "version": "1.0.49",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/otpusk/apisearch-toolbox#readme",
   "dependencies": {
+    "geolib": "3.3.3",
     "immutable": "^4.0.0-rc.12",
     "moment": "^2.24.0",
     "ramda": "^0.27.1",
