@@ -214,7 +214,7 @@ function getResultsWorker(_ref) {
           _context2.next = 54;
           return (0, _effects.put)(_actions.searchActions.failSearch(queryID, _context2.t1, {
             message: _context2.t1.message,
-            statusCode: parseInt(_context2.t1.message, 10)
+            statusCode: parseInt(_context2.t1.message, 10) || _context2.t1.response.statusCode
           }));
 
         case 54:

@@ -119,7 +119,7 @@ export function* getResultsWorker ({ payload: queryID }) {
             error,
             {
                 message:    error.message,
-                statusCode: parseInt(error.message, 10),
+                statusCode: parseInt(error.message, 10) || error.response.statusCode,
             }
         ));
         console.log(error);
