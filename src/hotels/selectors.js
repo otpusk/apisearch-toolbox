@@ -34,7 +34,7 @@ export const getHotelsMarkers = createSelector(
     )
 );
 
-export const getMarkerHotel = () => createSelector(
+export const getHotelMarker = () => createSelector(
     getHotelsMarkersStore,
     (_, { hotelID }) => hotelID,
     (store, id) => store.toObject()[id]
