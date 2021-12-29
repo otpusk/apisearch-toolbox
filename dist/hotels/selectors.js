@@ -5,7 +5,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.hotelsHub = exports.getHotelsMarkers = exports.getHotel = void 0;
+exports.hotelsHub = exports.getMarkerHotel = exports.getHotelsMarkers = exports.getHotel = void 0;
 
 var _reselect = require("reselect");
 
@@ -56,6 +56,17 @@ var getHotelsMarkers = (0, _reselect.createSelector)(getHotelsMarkersStore, func
   })), store.toObject());
 });
 exports.getHotelsMarkers = getHotelsMarkers;
+
+var getMarkerHotel = function getMarkerHotel() {
+  return (0, _reselect.createSelector)(getHotelsMarkersStore, function (_, _ref3) {
+    var hotelID = _ref3.hotelID;
+    return hotelID;
+  }, function (store, id) {
+    return store.toObject()[id];
+  });
+};
+
+exports.getMarkerHotel = getMarkerHotel;
 var hotelsHub = (0, _reselect.createSelector)(getHotelsStore, R.ifElse(function (v) {
   return v.isEmpty();
 }, R.always(EMPTY_OBJ), function (v) {

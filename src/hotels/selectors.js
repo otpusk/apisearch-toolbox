@@ -34,6 +34,12 @@ export const getHotelsMarkers = createSelector(
     )
 );
 
+export const getMarkerHotel = () => createSelector(
+    getHotelsMarkersStore,
+    (_, { hotelID }) => hotelID,
+    (store, id) => store.toObject()[id]
+);
+
 export const hotelsHub = createSelector(
     getHotelsStore,
     R.ifElse(
