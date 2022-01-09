@@ -7,8 +7,6 @@ exports.getPriceChartWorker = getPriceChartWorker;
 
 var _effects = require("redux-saga/effects");
 
-var _immutable = require("immutable");
-
 var _jsonApi = require("@otpusk/json-api");
 
 var _actions = require("../../actions");
@@ -18,8 +16,8 @@ var _fn = require("../../../queries/fn");
 var _marked = /*#__PURE__*/regeneratorRuntime.mark(getPriceChartWorker);
 
 var computedToParam = function computedToParam(query) {
-  var IS_SET_SINGLE_HOTEL = query.get(_fn.QUERY_PARAMS.HOTELS, (0, _immutable.Set)()).size === 1;
-  var IS_SET_SINGLE_CITY = query.get(_fn.QUERY_PARAMS.CITIES, (0, _immutable.Set)()).size === 1;
+  var IS_SET_SINGLE_HOTEL = query.get(_fn.QUERY_PARAMS.HOTELS).size === 1;
+  var IS_SET_SINGLE_CITY = query.get(_fn.QUERY_PARAMS.CITIES).size === 1;
 
   if (IS_SET_SINGLE_HOTEL) {
     return query.get(_fn.QUERY_PARAMS.HOTELS).first();
@@ -64,7 +62,8 @@ function getPriceChartWorker(_ref) {
             people: "".concat(query.get(_fn.QUERY_PARAMS.ADULTS)).concat(query.get(_fn.QUERY_PARAMS.CHILDREN).map(function (age) {
               return age < 10 ? "0".concat(age) : age;
             }).join('')),
-            nights: (0, _immutable.Range)(query.get(_fn.QUERY_PARAMS.DURATION).get('from') - 1, query.get(_fn.QUERY_PARAMS.DURATION).get('to')).toList().join(',')
+            nights: query.get(_fn.QUERY_PARAMS.DURATION).get('from'),
+            nightsTo: query.get(_fn.QUERY_PARAMS.DURATION).get('to')
           };
           _context.next = 11;
           return (0, _effects.call)(_jsonApi.getToursGraph, token, params);
