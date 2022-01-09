@@ -273,8 +273,8 @@ function convertToOtpQuery(query) {
     };
   }), _defineProperty(_converters, QUERY_PARAMS.DURATION, function (value) {
     return {
-      'length': value.get('from'),
-      'lengthTo': value.get('to')
+      'nights': value.get('from'),
+      'nightsTo': value.get('to')
     };
   }), _defineProperty(_converters, QUERY_PARAMS.ADULTS, function (value) {
     return {

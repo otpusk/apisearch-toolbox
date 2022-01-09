@@ -51,8 +51,8 @@ var queriesReducer = (0, _reduxActions.handleActions)((_handleActions = {}, _def
       overrides = _ref4$payload$overrid === void 0 ? {} : _ref4$payload$overrid;
   var defaultQuery = (0, _fn.createQuery)();
   return state.set(queryId, (0, _fn.createQuery)(_objectSpread((_objectSpread2 = {}, _defineProperty(_objectSpread2, _fn.QUERY_PARAMS.COUNTRY, hotel.country.id), _defineProperty(_objectSpread2, _fn.QUERY_PARAMS.DEPARTURE, String(offer.departure)), _defineProperty(_objectSpread2, _fn.QUERY_PARAMS.DURATION, (0, _immutable.Map)({
-    from: offer.days,
-    to: offer.days
+    from: offer.nights,
+    to: offer.nights
   })), _defineProperty(_objectSpread2, _fn.QUERY_PARAMS.DATES, (0, _immutable.Map)({
     from: (0, _moment["default"])(offer.date),
     to: (0, _moment["default"])(offer.date)

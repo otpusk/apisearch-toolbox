@@ -311,7 +311,7 @@ exports.getCategoryWithMinPrice = getCategoryWithMinPrice;
 var getNightsWithMinPrice = function getNightsWithMinPrice() {
   return (0, _reselect.createSelector)(_selectors3.getQueryParam, getOffersFromPrices(), getQueryID, function (durationByNights, offers, queryID) {
     var groupedByNights = R.groupBy(R.prop('nights'), R.concat(offers, getOffersListFromSearchMemory(queryID)));
-    var nights = R.range(R.dec(durationByNights.get('from')), durationByNights.get('to'));
+    var nights = R.range(durationByNights.get('from'), R.inc(durationByNights.get('to')));
     return R.map(function (night) {
       return {
         night: night,
