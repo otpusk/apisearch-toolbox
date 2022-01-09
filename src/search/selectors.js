@@ -331,8 +331,8 @@ export const getNightsWithMinPrice = () => createSelector(
             R.concat(offers, getOffersListFromSearchMemory(queryID))
         );
         const nights = R.range(
-            R.dec(durationByNights.get('from')),
-            durationByNights.get('to')
+            durationByNights.get('from'),
+            R.inc(durationByNights.get('to'))
         );
 
         return R.map(

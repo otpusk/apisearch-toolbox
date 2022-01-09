@@ -322,7 +322,7 @@ function convertToOtpQuery (query) {
             return { 'stars': everySelected ? '' : selected.join(',') };
         },
         [QUERY_PARAMS.DATES]:               (value) => ({ 'checkIn': value.get('from').format('Y-MM-DD'), 'checkTo': value.get('to').format('Y-MM-DD') }),
-        [QUERY_PARAMS.DURATION]:            (value) => ({ 'length': value.get('from'), 'lengthTo': value.get('to') }),
+        [QUERY_PARAMS.DURATION]:            (value) => ({ 'nights': value.get('from'), 'nightsTo': value.get('to') }),
         [QUERY_PARAMS.ADULTS]:              (value) => ({ 'people': value }),
         [QUERY_PARAMS.CHILDREN]:            (value) => ({ 'people': value.map((age) => typeof age === 'string' ? age.replace(/\D.+/, '') : age).map(String).map((age) => age.length === 1 ? `0${age}` : age).join('') }),
         [QUERY_PARAMS.FOOD]:                (value) => ({ 'food': value.filter((status) => status).keySeq().toList().join(',') }),

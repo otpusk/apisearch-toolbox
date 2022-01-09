@@ -29,8 +29,8 @@ export const queriesReducer = handleActions(
                     [QUERY_PARAMS.COUNTRY]:   hotel.country.id,
                     [QUERY_PARAMS.DEPARTURE]: String(offer.departure),
                     [QUERY_PARAMS.DURATION]:  Map({
-                        from: offer.days,
-                        to:   offer.days,
+                        from: offer.nights,
+                        to:   offer.nights,
                     }),
                     [QUERY_PARAMS.DATES]: Map({
                         from: moment(offer.date),
