@@ -1,6 +1,4 @@
-// Core
 import { createSelector } from 'reselect';
-import { List, Map } from 'immutable';
 import * as R from 'ramda';
 
 const EMPTY_ARRAY = [];
@@ -8,6 +6,7 @@ const EMPTY_ARRAY = [];
 const domain = (_) => _.geo;
 const departureGeoID = (_, { geoID }) => geoID;
 const getIATA = (_, { iata }) => iata;
+const getCountryID = (_, { countryID }) => countryID;
 
 const getDeparturesByImmutableStructure = createSelector(
     domain,
@@ -92,6 +91,15 @@ export const getCountries = createSelector(
     (countries) => countries.toArray()
 );
 
+export const getCountry = () => createSelector(
+    getCountries,
+    getCountryID,
+    (countries, id) => R.find(
+        (country) => country.id === id,
+        countries
+    )
+);
+
 export const getTopCountry = createSelector(
     getCountries,
     R.pipe(
@@ -107,38 +115,11 @@ const getHotelsStore = createSelector(
 
 const getHotelsImmutableStructureByCountry = () => createSelector(
     getHotelsStore,
-    (_, { countryID }) => countryID,
+    getCountryID,
     (store, countryID) => R.prop(countryID, store.toObject())
 );
 
 export const getHotelsByCountry = () => createSelector(
     getHotelsImmutableStructureByCountry(),
     (hotels) => hotels ? hotels.toArray() : EMPTY_ARRAY
-);
-
-/**
- * Select countries from locations store
- */
-export const selectCountries = createSelector(
-    (state) => state.getIn(['keys', 'countries'], List()),
-    (state) => state.get('locations'),
-    (keys, locations) => locations.filter((location, id) => keys.includes(id))
-);
-
-/**
- * Select cities by country
- */
-export const selectCitiesByCountry = createSelector(
-    (state, country) => state.getIn(['keys', 'cities', Map.isMap(country) ? country.get('id') : country], List()),
-    (state) => state.getIn(['locations', 'cities']),
-    (keys, locations) => locations.filter((location, id) => keys.includes(id))
-);
-
-/**
- * Selecte hotels by country
- */
-export const selectHotelsByCountry = createSelector(
-    (state, country) => state.getIn(['keys', 'hotels', Map.isMap(country) ? country.get('id') : country], List()),
-    (state) => state.getIn(['locations', 'hotels']),
-    (keys, locations) => locations.filter((location, id) => keys.includes(id))
 );
