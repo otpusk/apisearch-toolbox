@@ -5,7 +5,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getTopCountry = exports.getOperatorsMap = exports.getOperators = exports.getOperator = exports.getHotelsByCountry = exports.getFlightPorts = exports.getFlightPort = exports.getDepartures = exports.getDepartureByIATA = exports.getCountry = exports.getCountries = exports.getActiveOperators = void 0;
+exports.getTopCountry = exports.getOperatorsMap = exports.getOperators = exports.getOperator = exports.getHotelsByCountry = exports.getHotelByCountry = exports.getFlightPorts = exports.getFlightPort = exports.getDepartures = exports.getDepartureByIATA = exports.getCountry = exports.getCountries = exports.getActiveOperators = void 0;
 
 var _reselect = require("reselect");
 
@@ -34,6 +34,11 @@ var getIATA = function getIATA(_, _ref2) {
 var getCountryID = function getCountryID(_, _ref3) {
   var countryID = _ref3.countryID;
   return countryID;
+};
+
+var getHotelID = function getHotelID(_, _ref4) {
+  var hotelID = _ref4.hotelID;
+  return hotelID;
 };
 
 var getDeparturesByImmutableStructure = (0, _reselect.createSelector)(domain, function (geo) {
@@ -69,8 +74,8 @@ var getFlightPort = function getFlightPort() {
 exports.getFlightPort = getFlightPort;
 
 var getOperators = function getOperators() {
-  return (0, _reselect.createSelector)(domain, function (_, _ref4) {
-    var key = _ref4.key;
+  return (0, _reselect.createSelector)(domain, function (_, _ref5) {
+    var key = _ref5.key;
     return key;
   }, function (geo, key) {
     return R.call(R.pipe(function (operators) {
@@ -94,12 +99,12 @@ var getOperatorsMap = function getOperatorsMap() {
 exports.getOperatorsMap = getOperatorsMap;
 
 var getOperator = function getOperator() {
-  return (0, _reselect.createSelector)(getOperators(), function (_, _ref5) {
-    var operatorID = _ref5.operatorID;
+  return (0, _reselect.createSelector)(getOperators(), function (_, _ref6) {
+    var operatorID = _ref6.operatorID;
     return operatorID;
   }, function (operatorsArray, findID) {
-    return R.find(function (_ref6) {
-      var id = _ref6.id;
+    return R.find(function (_ref7) {
+      var id = _ref7.id;
       return Number(id) === Number(findID);
     }, operatorsArray);
   });
@@ -148,3 +153,13 @@ var getHotelsByCountry = function getHotelsByCountry() {
 };
 
 exports.getHotelsByCountry = getHotelsByCountry;
+
+var getHotelByCountry = function getHotelByCountry() {
+  return (0, _reselect.createSelector)(getHotelsByCountry, getHotelID, function (hotels, id) {
+    return R.find(function (hotel) {
+      return hotel.id === id;
+    }, hotels);
+  });
+};
+
+exports.getHotelByCountry = getHotelByCountry;
