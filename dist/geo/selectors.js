@@ -155,7 +155,7 @@ var getHotelsByCountry = function getHotelsByCountry() {
 exports.getHotelsByCountry = getHotelsByCountry;
 
 var getHotelByCountry = function getHotelByCountry() {
-  return (0, _reselect.createSelector)(getHotelsByCountry, getHotelID, function (hotels, id) {
+  return (0, _reselect.createSelector)(getHotelsByCountry(), getHotelID, function (hotels, id) {
     return R.find(function (hotel) {
       return hotel.id === id;
     }, hotels);

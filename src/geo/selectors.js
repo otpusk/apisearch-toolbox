@@ -126,7 +126,7 @@ export const getHotelsByCountry = () => createSelector(
 );
 
 export const getHotelByCountry = () => createSelector(
-    getHotelsByCountry,
+    getHotelsByCountry(),
     getHotelID,
     (hotels, id) => R.find(
         (hotel) => hotel.id === id,
