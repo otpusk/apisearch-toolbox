@@ -5,11 +5,9 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.selectHotelsByCountry = exports.selectCountries = exports.selectCitiesByCountry = exports.getTopCountry = exports.getOperatorsMap = exports.getOperators = exports.getOperator = exports.getHotelsByCountry = exports.getFlightPorts = exports.getFlightPort = exports.getDepartures = exports.getDepartureByIATA = exports.getCountries = exports.getActiveOperators = void 0;
+exports.getTopCountry = exports.getOperatorsMap = exports.getOperators = exports.getOperator = exports.getHotelsByCountry = exports.getFlightPorts = exports.getFlightPort = exports.getDepartures = exports.getDepartureByIATA = exports.getCountry = exports.getCountries = exports.getActiveOperators = void 0;
 
 var _reselect = require("reselect");
-
-var _immutable = require("immutable");
 
 var R = _interopRequireWildcard(require("ramda"));
 
@@ -17,7 +15,6 @@ function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "functio
 
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
-// Core
 var EMPTY_ARRAY = [];
 
 var domain = function domain(_) {
@@ -32,6 +29,11 @@ var departureGeoID = function departureGeoID(_, _ref) {
 var getIATA = function getIATA(_, _ref2) {
   var iata = _ref2.iata;
   return iata;
+};
+
+var getCountryID = function getCountryID(_, _ref3) {
+  var countryID = _ref3.countryID;
+  return countryID;
 };
 
 var getDeparturesByImmutableStructure = (0, _reselect.createSelector)(domain, function (geo) {
@@ -67,8 +69,8 @@ var getFlightPort = function getFlightPort() {
 exports.getFlightPort = getFlightPort;
 
 var getOperators = function getOperators() {
-  return (0, _reselect.createSelector)(domain, function (_, _ref3) {
-    var key = _ref3.key;
+  return (0, _reselect.createSelector)(domain, function (_, _ref4) {
+    var key = _ref4.key;
     return key;
   }, function (geo, key) {
     return R.call(R.pipe(function (operators) {
@@ -92,12 +94,12 @@ var getOperatorsMap = function getOperatorsMap() {
 exports.getOperatorsMap = getOperatorsMap;
 
 var getOperator = function getOperator() {
-  return (0, _reselect.createSelector)(getOperators(), function (_, _ref4) {
-    var operatorID = _ref4.operatorID;
+  return (0, _reselect.createSelector)(getOperators(), function (_, _ref5) {
+    var operatorID = _ref5.operatorID;
     return operatorID;
   }, function (operatorsArray, findID) {
-    return R.find(function (_ref5) {
-      var id = _ref5.id;
+    return R.find(function (_ref6) {
+      var id = _ref6.id;
       return Number(id) === Number(findID);
     }, operatorsArray);
   });
@@ -117,6 +119,16 @@ var getCountries = (0, _reselect.createSelector)(getCountriesByImmutableStructur
   return countries.toArray();
 });
 exports.getCountries = getCountries;
+
+var getCountry = function getCountry() {
+  return (0, _reselect.createSelector)(getCountries, getCountryID, function (countries, id) {
+    return R.find(function (country) {
+      return country.id === id;
+    }, countries);
+  });
+};
+
+exports.getCountry = getCountry;
 var getTopCountry = (0, _reselect.createSelector)(getCountries, R.pipe(R.sort(R.descend(R.prop('weight'))), R.head));
 exports.getTopCountry = getTopCountry;
 var getHotelsStore = (0, _reselect.createSelector)(domain, function (geo) {
@@ -124,10 +136,7 @@ var getHotelsStore = (0, _reselect.createSelector)(domain, function (geo) {
 });
 
 var getHotelsImmutableStructureByCountry = function getHotelsImmutableStructureByCountry() {
-  return (0, _reselect.createSelector)(getHotelsStore, function (_, _ref6) {
-    var countryID = _ref6.countryID;
-    return countryID;
-  }, function (store, countryID) {
+  return (0, _reselect.createSelector)(getHotelsStore, getCountryID, function (store, countryID) {
     return R.prop(countryID, store.toObject());
   });
 };
@@ -137,47 +146,5 @@ var getHotelsByCountry = function getHotelsByCountry() {
     return hotels ? hotels.toArray() : EMPTY_ARRAY;
   });
 };
-/**
- * Select countries from locations store
- */
-
 
 exports.getHotelsByCountry = getHotelsByCountry;
-var selectCountries = (0, _reselect.createSelector)(function (state) {
-  return state.getIn(['keys', 'countries'], (0, _immutable.List)());
-}, function (state) {
-  return state.get('locations');
-}, function (keys, locations) {
-  return locations.filter(function (location, id) {
-    return keys.includes(id);
-  });
-});
-/**
- * Select cities by country
- */
-
-exports.selectCountries = selectCountries;
-var selectCitiesByCountry = (0, _reselect.createSelector)(function (state, country) {
-  return state.getIn(['keys', 'cities', _immutable.Map.isMap(country) ? country.get('id') : country], (0, _immutable.List)());
-}, function (state) {
-  return state.getIn(['locations', 'cities']);
-}, function (keys, locations) {
-  return locations.filter(function (location, id) {
-    return keys.includes(id);
-  });
-});
-/**
- * Selecte hotels by country
- */
-
-exports.selectCitiesByCountry = selectCitiesByCountry;
-var selectHotelsByCountry = (0, _reselect.createSelector)(function (state, country) {
-  return state.getIn(['keys', 'hotels', _immutable.Map.isMap(country) ? country.get('id') : country], (0, _immutable.List)());
-}, function (state) {
-  return state.getIn(['locations', 'hotels']);
-}, function (keys, locations) {
-  return locations.filter(function (location, id) {
-    return keys.includes(id);
-  });
-});
-exports.selectHotelsByCountry = selectHotelsByCountry;
