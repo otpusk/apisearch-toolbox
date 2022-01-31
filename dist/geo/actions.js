@@ -7,7 +7,7 @@ exports.geoActions = void 0;
 
 var _reduxActions = require("redux-actions");
 
-// Core
+/* eslint-disable max-params */
 var geoActions = (0, _reduxActions.createActions)({
   GET_SUGGESTS: function GET_SUGGESTS() {
     var key = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
@@ -60,9 +60,15 @@ var geoActions = (0, _reduxActions.createActions)({
   },
   GET_HOTELS: function GET_HOTELS(countryId) {
     var withPrice = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+    var services = arguments.length > 2 ? arguments[2] : undefined;
+    var rating = arguments.length > 3 ? arguments[3] : undefined;
+    var methodVersion = arguments.length > 4 ? arguments[4] : undefined;
     return {
       countryId: countryId,
-      withPrice: withPrice
+      withPrice: withPrice,
+      services: services,
+      rating: rating,
+      methodVersion: methodVersion
     };
   },
   GET_HOTELS_SUCCESS: function GET_HOTELS_SUCCESS(countryId, hotels) {

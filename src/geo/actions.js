@@ -1,4 +1,4 @@
-// Core
+/* eslint-disable max-params */
 import { createActions } from 'redux-actions';
 
 export const geoActions = createActions({
@@ -18,7 +18,19 @@ export const geoActions = createActions({
     GET_CITIES_SUCCESS: (countryId, cities) => ({ countryId, cities }),
     GET_CITIES_FAIL:    (error) => error,
 
-    GET_HOTELS:         (countryId, withPrice = true) => ({ countryId, withPrice }),
+    GET_HOTELS: (
+        countryId,
+        withPrice = true,
+        services,
+        rating,
+        methodVersion
+    ) => ({
+        countryId,
+        withPrice,
+        services,
+        rating,
+        methodVersion,
+    }),
     GET_HOTELS_SUCCESS: (countryId, hotels) => ({ countryId, hotels }),
     GET_HOTELS_FAIL:    (error) => error,
 
