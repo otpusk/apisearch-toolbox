@@ -7,6 +7,8 @@ import { ACTUALIZED_OFFER_STATUS } from '../../constants';
 
 const getTextStatusByCode = (code) => R.call(
     R.cond([
+        [R.equals(7), R.always(ACTUALIZED_OFFER_STATUS.STOP_SALE_BY_TRANSPORT_TO)],
+        [R.equals(6), R.always(ACTUALIZED_OFFER_STATUS.STOP_SALE_BY_TRANSPORT_FROM)],
         [R.equals(5), R.always(ACTUALIZED_OFFER_STATUS.ACTUALIZED)],
         [R.equals(4), R.always(ACTUALIZED_OFFER_STATUS.UPDATED)],
         [R.equals(3), R.always(ACTUALIZED_OFFER_STATUS.NEW_PRICE)],

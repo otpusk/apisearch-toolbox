@@ -24,7 +24,7 @@ function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && 
 var _marked = /*#__PURE__*/regeneratorRuntime.mark(actualizeOfferWorker);
 
 var getTextStatusByCode = function getTextStatusByCode(code) {
-  return R.call(R.cond([[R.equals(5), R.always(_constants.ACTUALIZED_OFFER_STATUS.ACTUALIZED)], [R.equals(4), R.always(_constants.ACTUALIZED_OFFER_STATUS.UPDATED)], [R.equals(3), R.always(_constants.ACTUALIZED_OFFER_STATUS.NEW_PRICE)], [R.equals(2), R.always(_constants.ACTUALIZED_OFFER_STATUS.NOT_FOUND)], [R.equals(1), R.always(_constants.ACTUALIZED_OFFER_STATUS.ERROR_OPERATOR_CONNECTION)], [R.equals(0), R.always(_constants.ACTUALIZED_OFFER_STATUS.INVALID_REQUEST)]]), code);
+  return R.call(R.cond([[R.equals(7), R.always(_constants.ACTUALIZED_OFFER_STATUS.STOP_SALE_BY_TRANSPORT_TO)], [R.equals(6), R.always(_constants.ACTUALIZED_OFFER_STATUS.STOP_SALE_BY_TRANSPORT_FROM)], [R.equals(5), R.always(_constants.ACTUALIZED_OFFER_STATUS.ACTUALIZED)], [R.equals(4), R.always(_constants.ACTUALIZED_OFFER_STATUS.UPDATED)], [R.equals(3), R.always(_constants.ACTUALIZED_OFFER_STATUS.NEW_PRICE)], [R.equals(2), R.always(_constants.ACTUALIZED_OFFER_STATUS.NOT_FOUND)], [R.equals(1), R.always(_constants.ACTUALIZED_OFFER_STATUS.ERROR_OPERATOR_CONNECTION)], [R.equals(0), R.always(_constants.ACTUALIZED_OFFER_STATUS.INVALID_REQUEST)]]), code);
 };
 
 var generatePeopleString = function generatePeopleString(adults, children) {
