@@ -5,7 +5,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.isNotFoundActualizedOffer = exports.isEndActualizedOffer = exports.isConnectionFailedWithOperator = exports.isActualizedOffer = exports.isActualazingOffer = exports.isActualLastUpdate = exports.getOffers = exports.getOffer = exports.getErrorMessageByActualizedOffer = exports.getActualizedOffer = void 0;
+exports.isNotFoundActualizedOffer = exports.isEndActualizedOffer = exports.isConnectionFailedWithOperator = exports.isActualizedOffer = exports.isActualazingOffer = exports.isActualLastUpdate = exports.getOffers = exports.getOffer = exports.getMessageByActualizedOffer = exports.getActualizedOffer = void 0;
 
 var _reselect = require("reselect");
 
@@ -115,11 +115,11 @@ var isNotFoundActualizedOffer = function isNotFoundActualizedOffer() {
 
 exports.isNotFoundActualizedOffer = isNotFoundActualizedOffer;
 
-var getErrorMessageByActualizedOffer = function getErrorMessageByActualizedOffer() {
-  return (0, _reselect.createSelector)(getActualizedEntity(), R.prop('errorMessage'));
+var getMessageByActualizedOffer = function getMessageByActualizedOffer() {
+  return (0, _reselect.createSelector)(getActualizedEntity(), R.prop('message'));
 };
 
-exports.getErrorMessageByActualizedOffer = getErrorMessageByActualizedOffer;
+exports.getMessageByActualizedOffer = getMessageByActualizedOffer;
 
 var isEndActualizedOffer = function isEndActualizedOffer() {
   return (0, _reselect.createSelector)(getActualizedEntity(), R.propOr(false, 'completed'));

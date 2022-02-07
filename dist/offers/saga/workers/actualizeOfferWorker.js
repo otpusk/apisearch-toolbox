@@ -34,7 +34,7 @@ var generatePeopleString = function generatePeopleString(adults, children) {
 };
 
 function actualizeOfferWorker(_ref) {
-  var _ref$payload, adults, children, offerID, token, lang, _yield$call, code, nextOffer, errorMessage;
+  var _ref$payload, adults, children, offerID, token, lang, _yield$call, code, nextOffer, message;
 
   return regeneratorRuntime.wrap(function actualizeOfferWorker$(_context) {
     while (1) {
@@ -69,7 +69,7 @@ function actualizeOfferWorker(_ref) {
           _yield$call = _context.sent;
           code = _yield$call.code;
           nextOffer = _yield$call.offer;
-          errorMessage = _yield$call.message;
+          message = _yield$call.message;
           _context.next = 18;
           return (0, _effects.put)(_actions.offersActions.setActualizedStatus(offerID, getTextStatusByCode(code)));
 
@@ -85,7 +85,7 @@ function actualizeOfferWorker(_ref) {
           return (0, _effects.put)(_actions.offersActions.setActualizedOffer(offerID, nextOffer));
 
         case 22:
-          _context.t1 = errorMessage;
+          _context.t1 = message;
 
           if (!_context.t1) {
             _context.next = 26;
@@ -93,7 +93,7 @@ function actualizeOfferWorker(_ref) {
           }
 
           _context.next = 26;
-          return (0, _effects.put)(_actions.offersActions.setErrorMessageByActualizedOffer(offerID, errorMessage));
+          return (0, _effects.put)(_actions.offersActions.setMessageByActualizedOffer(offerID, message));
 
         case 26:
           _context.next = 35;

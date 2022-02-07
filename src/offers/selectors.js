@@ -85,9 +85,9 @@ export const isNotFoundActualizedOffer = () => createSelector(
     (status) => status === ACTUALIZED_OFFER_STATUS.NOT_FOUND
 );
 
-export const getErrorMessageByActualizedOffer = () => createSelector(
+export const getMessageByActualizedOffer = () => createSelector(
     getActualizedEntity(),
-    R.prop('errorMessage')
+    R.prop('message')
 );
 
 export const isEndActualizedOffer = () => createSelector(

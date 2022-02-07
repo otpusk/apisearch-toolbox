@@ -138,9 +138,9 @@ var offersReducer = (0, _reduxActions.handleActions)((_handleActions = {}, _defi
 }), _defineProperty(_handleActions, _actions.offersActions.endActualizeOffer, function (state, _ref13) {
   var offerID = _ref13.payload;
   return state.updateIn(['actualizedOffers'], R.pipe(presetEmpyShapeForActualizedOffer(offerID), R.set(R.lensPath([offerID, 'loading']), false), R.set(R.lensPath([offerID, 'completed']), true)));
-}), _defineProperty(_handleActions, _actions.offersActions.setErrorMessageByActualizedOffer, function (state, _ref14) {
+}), _defineProperty(_handleActions, _actions.offersActions.setMessageByActualizedOffer, function (state, _ref14) {
   var payload = _ref14.payload;
-  return state.updateIn(['actualizedOffers'], R.pipe(presetEmpyShapeForActualizedOffer(payload.offerID), R.set(R.lensPath([payload.offerID, 'errorMessage']), payload.message)));
+  return state.updateIn(['actualizedOffers'], R.pipe(presetEmpyShapeForActualizedOffer(payload.offerID), R.set(R.lensPath([payload.offerID, 'message']), payload.message)));
 }), _defineProperty(_handleActions, _actions.offersActions.failActualizedOffer, function (state, _ref15) {
   var offerID = _ref15.payload;
   return state.updateIn(['actualizedOffers'], R.pipe(presetEmpyShapeForActualizedOffer(offerID), R.set(R.lensPath([offerID, 'error']), true)));

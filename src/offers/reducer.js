@@ -131,12 +131,12 @@ export const offersReducer = handleActions(
                 )
             )
         ),
-        [offersActions.setErrorMessageByActualizedOffer]: (state, { payload }) => state.updateIn(
+        [offersActions.setMessageByActualizedOffer]: (state, { payload }) => state.updateIn(
             ['actualizedOffers'],
             R.pipe(
                 presetEmpyShapeForActualizedOffer(payload.offerID),
                 R.set(
-                    R.lensPath([payload.offerID, 'errorMessage']),
+                    R.lensPath([payload.offerID, 'message']),
                     payload.message
                 )
             )
