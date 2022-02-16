@@ -42,15 +42,17 @@ function getTurpravdaWidgetSaga(_ref) {
           return (0, _effects.put)((0, _actions.setTurpravdaWidget)(hotelID, widget));
 
         case 10:
-          _context.next = 15;
+          _context.next = 17;
           break;
 
         case 12:
           _context.prev = 12;
           _context.t0 = _context["catch"](4);
           console.log(_context.t0);
+          _context.next = 17;
+          return (0, _effects.put)((0, _actions.getTurpravdaWidgetFail)(_context.t0));
 
-        case 15:
+        case 17:
         case "end":
           return _context.stop();
       }

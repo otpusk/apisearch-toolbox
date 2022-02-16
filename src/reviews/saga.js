@@ -1,7 +1,7 @@
 import { call, put, select, takeEvery } from 'redux-saga/effects';
 import { getTurpravdaHotelInformer } from '@otpusk/json-api';
 
-import { getTurpravdaWidget, setTurpravdaWidget } from './actions';
+import { getTurpravdaWidget, getTurpravdaWidgetFail, setTurpravdaWidget } from './actions';
 
 function* getTurpravdaWidgetSaga ({ payload: hotelID }) {
     const lang = yield select(({ auth }) => auth.getIn(['otpusk', 'lang']));
@@ -12,6 +12,8 @@ function* getTurpravdaWidgetSaga ({ payload: hotelID }) {
         yield put(setTurpravdaWidget(hotelID, widget));
     } catch (error) {
         console.log(error);
+
+        yield put(getTurpravdaWidgetFail(error));
     }
 }
 
