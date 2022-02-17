@@ -186,6 +186,15 @@ export const getOffersFromPrices = () => createSelector(
         : EMPTY_ARRAY
 );
 
+export const isSetHotelAtPrice = () => createSelector(
+    getFlattenPrices(),
+    (_, { hotelID }) => hotelID,
+    (prices, hotelID) => R.any(
+        R.propEq('hotelID', hotelID),
+        prices
+    )
+);
+
 export const getError = () => createSelector(
     searchByKey, R.prop('error')
 );
