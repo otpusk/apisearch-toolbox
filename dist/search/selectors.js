@@ -5,7 +5,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.selectOperatorsWithMinPrice = exports.selectOperators = exports.offersByKey = exports.isStart = exports.isSetSearch = exports.isSetHotelAtPrice = exports.isSearch = exports.isProccess = exports.isFail = exports.isDone = exports.hotelsByKey = exports.getTotal = exports.getSearchProgressByPercent = exports.getPrices = exports.getOperatorsWithMinPrice = exports.getOperatorsByHotelID = exports.getOperatorLink = exports.getOffersFromPrices = exports.getNightsWithMinPrice = exports.getHotelsTotal = exports.getHotelsMarkers = exports.getHotelsByMinPrice = exports.getFoodsWithMinPrice = exports.getFlattenPrices = exports.getError = exports.getChart = exports.getCenterByHotelsMarkers = exports.getCategoryWithMinPrice = void 0;
+exports.selectOperatorsWithMinPrice = exports.selectOperators = exports.offersByKey = exports.isStart = exports.isSetSearch = exports.isSetHotelAtPrices = exports.isSearch = exports.isProccess = exports.isFail = exports.isDone = exports.hotelsByKey = exports.getTotal = exports.getSearchProgressByPercent = exports.getPrices = exports.getOperatorsWithMinPrice = exports.getOperatorsByHotelID = exports.getOperatorLink = exports.getOffersFromPrices = exports.getNightsWithMinPrice = exports.getHotelsTotal = exports.getHotelsMarkers = exports.getHotelsByMinPrice = exports.getFoodsWithMinPrice = exports.getFlattenPrices = exports.getError = exports.getChart = exports.getCenterByHotelsMarkers = exports.getCategoryWithMinPrice = void 0;
 
 var _reselect = require("reselect");
 
@@ -201,7 +201,7 @@ var getOffersFromPrices = function getOffersFromPrices() {
 
 exports.getOffersFromPrices = getOffersFromPrices;
 
-var isSetHotelAtPrice = function isSetHotelAtPrice() {
+var isSetHotelAtPrices = function isSetHotelAtPrices() {
   return (0, _reselect.createSelector)(getFlattenPrices(), function (_, _ref9) {
     var hotelID = _ref9.hotelID;
     return hotelID;
@@ -210,7 +210,7 @@ var isSetHotelAtPrice = function isSetHotelAtPrice() {
   });
 };
 
-exports.isSetHotelAtPrice = isSetHotelAtPrice;
+exports.isSetHotelAtPrices = isSetHotelAtPrices;
 
 var getError = function getError() {
   return (0, _reselect.createSelector)(searchByKey, R.prop('error'));

@@ -186,7 +186,7 @@ export const getOffersFromPrices = () => createSelector(
         : EMPTY_ARRAY
 );
 
-export const isSetHotelAtPrice = () => createSelector(
+export const isSetHotelAtPrices = () => createSelector(
     getFlattenPrices(),
     (_, { hotelID }) => hotelID,
     (prices, hotelID) => R.any(
