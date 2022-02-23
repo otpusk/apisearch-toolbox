@@ -391,8 +391,8 @@ function parseQueryParam (currentValue, paramName, rawValue) {
         [QUERY_PARAMS.OPERATORS]:           createImmutableArrayParser(Set),
         [QUERY_PARAMS.IGNORE_SERVICES]:     createImmutableArrayParser(Set),
         [QUERY_PARAMS.GROUP]:               Number,
-        [QUERY_PARAMS.DISTRICTS]:           createImmutableArrayParser(Set),
-        [QUERY_PARAMS.PROVINCES]:           createImmutableArrayParser(Set),
+        [QUERY_PARAMS.DISTRICTS]:           createImmutableNumbersArrayParser(Set),
+        [QUERY_PARAMS.PROVINCES]:           createImmutableNumbersArrayParser(Set),
         [QUERY_PARAMS.AVERAGE_RATING]:      rangeParser,
     };
 
@@ -540,8 +540,8 @@ function parseHashToQuery (queryString) {
             [QUERY_PARAMS.OPERATORS]:           createImmutableArrayParser(Set),
             [QUERY_PARAMS.IGNORE_SERVICES]:     createImmutableArrayParser(Set),
             [QUERY_PARAMS.GROUP]:               Number,
-            [QUERY_PARAMS.DISTRICTS]:           createImmutableArrayParser(Set),
-            [QUERY_PARAMS.PROVINCES]:           createImmutableArrayParser(Set),
+            [QUERY_PARAMS.DISTRICTS]:           createImmutableNumbersArrayParser(Set),
+            [QUERY_PARAMS.PROVINCES]:           createImmutableNumbersArrayParser(Set),
             [QUERY_PARAMS.AVERAGE_RATING]:      rangeParser,
         };
 
