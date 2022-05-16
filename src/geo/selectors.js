@@ -2,12 +2,15 @@ import { createSelector } from 'reselect';
 import * as R from 'ramda';
 
 const EMPTY_ARRAY = [];
+const DEFAULT_DEPARTURE_GEO_ID = 0;
 
 const domain = (_) => _.geo;
 const departureGeoID = (_, { geoID }) => geoID;
+const getDepartureID = (_, { departureID }) => departureID;
 const getIATA = (_, { iata }) => iata;
 const getCountryID = (_, { countryID }) => countryID;
 const getHotelID = (_, { hotelID }) => hotelID;
+const normalizeID = (id) => id.toString();
 
 const getDeparturesByImmutableStructure = createSelector(
     domain,
@@ -18,6 +21,15 @@ export const getDepartures = () => createSelector(
     getDeparturesByImmutableStructure,
     departureGeoID,
     (map, geoID) => R.propOr(EMPTY_ARRAY, geoID, map.toJS())
+);
+
+export const getDepartureByDefaultGeo = () => createSelector(
+    R.partialRight(getDepartures(), { geoID: DEFAULT_DEPARTURE_GEO_ID }),
+    getDepartureID,
+    (departures, id) => R.find(
+        (departure) => normalizeID(departure.id) === normalizeID(id),
+        departures
+    )
 );
 
 export const getDepartureByIATA = () => createSelector(

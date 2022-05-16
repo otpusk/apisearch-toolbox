@@ -5,7 +5,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getTopCountry = exports.getOperatorsMap = exports.getOperators = exports.getOperator = exports.getHotelsByCountry = exports.getHotelByCountry = exports.getFlightPorts = exports.getFlightPort = exports.getDepartures = exports.getDepartureByIATA = exports.getCountry = exports.getCountries = exports.getActiveOperators = void 0;
+exports.getTopCountry = exports.getOperatorsMap = exports.getOperators = exports.getOperator = exports.getHotelsByCountry = exports.getHotelByCountry = exports.getFlightPorts = exports.getFlightPort = exports.getDepartures = exports.getDepartureByIATA = exports.getDepartureByDefaultGeo = exports.getCountry = exports.getCountries = exports.getActiveOperators = void 0;
 
 var _reselect = require("reselect");
 
@@ -16,6 +16,7 @@ function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "functio
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 var EMPTY_ARRAY = [];
+var DEFAULT_DEPARTURE_GEO_ID = 0;
 
 var domain = function domain(_) {
   return _.geo;
@@ -26,19 +27,28 @@ var departureGeoID = function departureGeoID(_, _ref) {
   return geoID;
 };
 
-var getIATA = function getIATA(_, _ref2) {
-  var iata = _ref2.iata;
+var getDepartureID = function getDepartureID(_, _ref2) {
+  var departureID = _ref2.departureID;
+  return departureID;
+};
+
+var getIATA = function getIATA(_, _ref3) {
+  var iata = _ref3.iata;
   return iata;
 };
 
-var getCountryID = function getCountryID(_, _ref3) {
-  var countryID = _ref3.countryID;
+var getCountryID = function getCountryID(_, _ref4) {
+  var countryID = _ref4.countryID;
   return countryID;
 };
 
-var getHotelID = function getHotelID(_, _ref4) {
-  var hotelID = _ref4.hotelID;
+var getHotelID = function getHotelID(_, _ref5) {
+  var hotelID = _ref5.hotelID;
   return hotelID;
+};
+
+var normalizeID = function normalizeID(id) {
+  return id.toString();
 };
 
 var getDeparturesByImmutableStructure = (0, _reselect.createSelector)(domain, function (geo) {
@@ -52,6 +62,18 @@ var getDepartures = function getDepartures() {
 };
 
 exports.getDepartures = getDepartures;
+
+var getDepartureByDefaultGeo = function getDepartureByDefaultGeo() {
+  return (0, _reselect.createSelector)(R.partialRight(getDepartures(), {
+    geoID: DEFAULT_DEPARTURE_GEO_ID
+  }), getDepartureID, function (departures, id) {
+    return R.find(function (departure) {
+      return normalizeID(departure.id) === normalizeID(id);
+    }, departures);
+  });
+};
+
+exports.getDepartureByDefaultGeo = getDepartureByDefaultGeo;
 
 var getDepartureByIATA = function getDepartureByIATA() {
   return (0, _reselect.createSelector)(getDepartures(), getIATA, function (list, code) {
@@ -74,8 +96,8 @@ var getFlightPort = function getFlightPort() {
 exports.getFlightPort = getFlightPort;
 
 var getOperators = function getOperators() {
-  return (0, _reselect.createSelector)(domain, function (_, _ref5) {
-    var key = _ref5.key;
+  return (0, _reselect.createSelector)(domain, function (_, _ref6) {
+    var key = _ref6.key;
     return key;
   }, function (geo, key) {
     return R.call(R.pipe(function (operators) {
@@ -99,12 +121,12 @@ var getOperatorsMap = function getOperatorsMap() {
 exports.getOperatorsMap = getOperatorsMap;
 
 var getOperator = function getOperator() {
-  return (0, _reselect.createSelector)(getOperators(), function (_, _ref6) {
-    var operatorID = _ref6.operatorID;
+  return (0, _reselect.createSelector)(getOperators(), function (_, _ref7) {
+    var operatorID = _ref7.operatorID;
     return operatorID;
   }, function (operatorsArray, findID) {
-    return R.find(function (_ref7) {
-      var id = _ref7.id;
+    return R.find(function (_ref8) {
+      var id = _ref8.id;
       return Number(id) === Number(findID);
     }, operatorsArray);
   });
