@@ -24,7 +24,7 @@ export const getDepartures = () => createSelector(
 );
 
 export const getDepartureByDefaultGeo = () => createSelector(
-    R.partialRight(getDepartures(), { geoID: DEFAULT_DEPARTURE_GEO_ID }),
+    R.partialRight(getDepartures(), [{ geoID: DEFAULT_DEPARTURE_GEO_ID }]),
     getDepartureID,
     (departures, id) => R.find(
         (departure) => normalizeID(departure.id) === normalizeID(id),

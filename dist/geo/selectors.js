@@ -64,9 +64,9 @@ var getDepartures = function getDepartures() {
 exports.getDepartures = getDepartures;
 
 var getDepartureByDefaultGeo = function getDepartureByDefaultGeo() {
-  return (0, _reselect.createSelector)(R.partialRight(getDepartures(), {
+  return (0, _reselect.createSelector)(R.partialRight(getDepartures(), [{
     geoID: DEFAULT_DEPARTURE_GEO_ID
-  }), getDepartureID, function (departures, id) {
+  }]), getDepartureID, function (departures, id) {
     return R.find(function (departure) {
       return normalizeID(departure.id) === normalizeID(id);
     }, departures);
