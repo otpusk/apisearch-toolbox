@@ -29,7 +29,7 @@ var departureGeoID = function departureGeoID(_, _ref) {
 
 var getDepartureID = function getDepartureID(_, _ref2) {
   var departureID = _ref2.departureID;
-  return departureID;
+  return departureID.toString();
 };
 
 var getIATA = function getIATA(_, _ref3) {
@@ -47,10 +47,6 @@ var getHotelID = function getHotelID(_, _ref5) {
   return hotelID;
 };
 
-var normalizeID = function normalizeID(id) {
-  return id.toString();
-};
-
 var getDeparturesByImmutableStructure = (0, _reselect.createSelector)(domain, function (geo) {
   return geo.get('departures');
 });
@@ -64,12 +60,10 @@ var getDepartures = function getDepartures() {
 exports.getDepartures = getDepartures;
 
 var getDepartureByDefaultGeo = function getDepartureByDefaultGeo() {
-  return (0, _reselect.createSelector)(R.partialRight(getDepartures(), [{
-    geoID: DEFAULT_DEPARTURE_GEO_ID
-  }]), getDepartureID, function (departures, id) {
+  return (0, _reselect.createSelector)(getDeparturesByImmutableStructure, getDepartureID, function (map, id) {
     return R.find(function (departure) {
-      return normalizeID(departure.id) === normalizeID(id);
-    }, departures);
+      return departure.id === id;
+    }, R.propOr(EMPTY_ARRAY, DEFAULT_DEPARTURE_GEO_ID, map.toJS()));
   });
 };
 

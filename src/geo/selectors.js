@@ -6,11 +6,10 @@ const DEFAULT_DEPARTURE_GEO_ID = 0;
 
 const domain = (_) => _.geo;
 const departureGeoID = (_, { geoID }) => geoID;
-const getDepartureID = (_, { departureID }) => departureID;
+const getDepartureID = (_, { departureID }) => departureID.toString();
 const getIATA = (_, { iata }) => iata;
 const getCountryID = (_, { countryID }) => countryID;
 const getHotelID = (_, { hotelID }) => hotelID;
-const normalizeID = (id) => id.toString();
 
 const getDeparturesByImmutableStructure = createSelector(
     domain,
@@ -24,11 +23,11 @@ export const getDepartures = () => createSelector(
 );
 
 export const getDepartureByDefaultGeo = () => createSelector(
-    R.partialRight(getDepartures(), [{ geoID: DEFAULT_DEPARTURE_GEO_ID }]),
+    getDeparturesByImmutableStructure,
     getDepartureID,
-    (departures, id) => R.find(
-        (departure) => normalizeID(departure.id) === normalizeID(id),
-        departures
+    (map, id) => R.find(
+        (departure) => departure.id === id,
+        R.propOr(EMPTY_ARRAY, DEFAULT_DEPARTURE_GEO_ID, map.toJS())
     )
 );
 
