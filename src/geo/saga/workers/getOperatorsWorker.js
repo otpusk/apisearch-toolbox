@@ -1,15 +1,22 @@
-// Core
 import { call, put, select } from 'redux-saga/effects';
 import { List } from 'immutable';
-
-// Instruments
-import { geoActions } from '../../actions';
 import { getToursOperators } from '@otpusk/json-api';
 
-export function* getOperatorsWorker ({ payload: countryId }) {
+import { geoActions } from '../../actions';
+
+export function* getOperatorsWorker ({ payload }) {
+    const { countryId, departureID, methodVersion } = payload;
+
+    const token = yield select((state) => state.auth.getIn(['otpusk', 'token']));
+
     try {
-        const token = yield select((state) => state.auth.getIn(['otpusk', 'token']));
-        const operators = yield call(getToursOperators, token, countryId);
+        const operators = yield call(
+            getToursOperators,
+            token,
+            countryId,
+            departureID ? { from: departureID } : undefined,
+            methodVersion
+        );
 
         yield put(geoActions.getOperatorsSuccess(countryId, List(operators)));
     } catch (error) {

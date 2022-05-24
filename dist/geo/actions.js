@@ -80,8 +80,12 @@ var geoActions = (0, _reduxActions.createActions)({
   GET_HOTELS_FAIL: function GET_HOTELS_FAIL(error) {
     return error;
   },
-  GET_OPERATORS: function GET_OPERATORS(countryId) {
-    return countryId;
+  GET_OPERATORS: function GET_OPERATORS(countryId, departureID, methodVersion) {
+    return {
+      countryId: countryId,
+      departureID: departureID,
+      methodVersion: methodVersion
+    };
   },
   GET_OPERATORS_SUCCESS: function GET_OPERATORS_SUCCESS(countryId, operators) {
     return {
