@@ -23,6 +23,8 @@ var _compilers = require("./compilers");
 
 var _parsers = require("./parsers");
 
+var _constants = require("./constants");
+
 var _DEFAULTS, _DEFAULTS_SEARCH;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -251,9 +253,9 @@ function convertToOtpQuery(query) {
   var _converters;
 
   var converters = (_converters = {}, _defineProperty(_converters, QUERY_PARAMS.DEPARTURE, function (value) {
-    return {
+    return value !== _constants.EMPTY_DEPARTURE_VALUE ? {
       'from': value
-    };
+    } : {};
   }), _defineProperty(_converters, QUERY_PARAMS.COUNTRY, function (value) {
     return {
       'to': value
