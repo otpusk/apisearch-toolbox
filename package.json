@@ -1,6 +1,6 @@
 {
   "name": "@otpusk/apisearch-toolbox",
-  "version": "1.0.70",
+  "version": "1.0.71",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
@@ -20,13 +20,13 @@
   "homepage": "https://github.com/otpusk/apisearch-toolbox#readme",
   "dependencies": {
     "geolib": "3.3.3",
-    "immutable": "^4.0.0-rc.12",
-    "moment": "^2.24.0",
-    "ramda": "^0.27.1",
-    "redux": "^4.0.5",
-    "redux-actions": "^2.6.5",
-    "redux-saga": "^1.1.3",
-    "reselect": "^4.0.0"
+    "immutable": "4.0.0-rc.12",
+    "moment": "2.24.0",
+    "ramda": "0.27.1",
+    "redux": "4.0.5",
+    "redux-actions": "2.6.5",
+    "redux-saga": "1.1.3",
+    "reselect": "4.1.1"
   },
   "peerDependencies": {
     "@otpusk/excursion-api": "0.0.57",
