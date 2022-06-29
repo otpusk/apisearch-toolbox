@@ -30,6 +30,18 @@ var STATIC_LABELS_BY_LANG = {
     'room': 'Зручності у номерах',
     'sport': 'Розваги та спорт',
     'recommend': 'Готелі з рекомендацією'
+  },
+  'en': {
+    'beach_line': 'Beach line',
+    'location': 'Location',
+    'beach': 'Beach',
+    'main': 'Main',
+    'beach_type': 'Beach type',
+    'child': 'For kids',
+    'hotel': 'Hotel facilities',
+    'room': 'Room amenities',
+    'sport': 'Entertainment and sports',
+    'recommend': 'Hotels with recommendation'
   }
 };
 exports.STATIC_LABELS_BY_LANG = STATIC_LABELS_BY_LANG;

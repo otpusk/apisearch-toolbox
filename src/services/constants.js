@@ -25,4 +25,16 @@ export const STATIC_LABELS_BY_LANG = {
         'sport':      'Розваги та спорт',
         'recommend':  'Готелі з рекомендацією',
     },
+    'en': {
+        'beach_line': 'Beach line',
+        'location':   'Location',
+        'beach':      'Beach',
+        'main':       'Main',
+        'beach_type': 'Beach type',
+        'child':      'For kids',
+        'hotel':      'Hotel facilities',
+        'room':       'Room amenities',
+        'sport':      'Entertainment and sports',
+        'recommend':  'Hotels with recommendation',
+    },
 };
