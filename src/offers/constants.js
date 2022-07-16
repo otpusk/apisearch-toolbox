@@ -8,3 +8,6 @@ export const ACTUALIZED_OFFER_STATUS = {
     STOP_SALE_BY_TRANSPORT_TO:   'stop_sale_by_transport_to',
     STOP_SALE_BY_TRANSPORT_FROM: 'stop_sale_by_transport_from',
 };
+
+export const ALIVE_OFFER_STATUS = 'alive';
+export const EXPIRED_OFFER_STATUS = 'expired';

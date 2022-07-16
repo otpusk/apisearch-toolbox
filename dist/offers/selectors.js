@@ -5,7 +5,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.isNotFoundActualizedOffer = exports.isEndActualizedOffer = exports.isConnectionFailedWithOperator = exports.isActualizedOffer = exports.isActualazingOffer = exports.isActualLastUpdate = exports.getOffers = exports.getOffer = exports.getMessageByActualizedOffer = exports.getActualizedOffer = void 0;
+exports.isNotFoundActualizedOffer = exports.isExpiredOffer = exports.isEndActualizedOffer = exports.isConnectionFailedWithOperator = exports.isAliveOffer = exports.isActualizedOffer = exports.isActualazingOffer = exports.isActualLastUpdate = exports.getOffers = exports.getOfferStatus = exports.getOffer = exports.getMessageByActualizedOffer = exports.getActualizedOffer = void 0;
 
 var _reselect = require("reselect");
 
@@ -41,6 +41,17 @@ var getOfferID = function getOfferID(_, _ref) {
 var getOffersStore = (0, _reselect.createSelector)(domain, function (offers) {
   return offers.get('store');
 });
+var getOffersStatuses = (0, _reselect.createSelector)(domain, function (offers) {
+  return offers.get('status');
+});
+var getOfferStatus = (0, _reselect.createSelector)(getOffersStatuses, getOfferID, function (map, offerID) {
+  return map.get(offerID);
+});
+exports.getOfferStatus = getOfferStatus;
+var isAliveOffer = (0, _reselect.createSelector)(getOfferStatus, R.equals(_constants.ALIVE_OFFER_STATUS));
+exports.isAliveOffer = isAliveOffer;
+var isExpiredOffer = (0, _reselect.createSelector)(getOfferStatus, R.equals(_constants.EXPIRED_OFFER_STATUS));
+exports.isExpiredOffer = isExpiredOffer;
 
 var getOffers = function getOffers() {
   return (0, _reselect.createSelector)(getOffersStore, function (_) {

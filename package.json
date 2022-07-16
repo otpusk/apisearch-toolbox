@@ -30,7 +30,7 @@
   },
   "peerDependencies": {
     "@otpusk/excursion-api": "0.0.57",
-    "@otpusk/json-api": "1.0.26"
+    "@otpusk/json-api": "1.0.31"
   },
   "devDependencies": {
     "@babel/cli": "^7.8.3",

@@ -1,9 +1,9 @@
-// Core
 import { call, put, select } from 'redux-saga/effects';
-
-// Instruments
-import { offersActions } from '../../actions';
 import { getToursOffer } from '@otpusk/json-api';
+
+import { offersActions } from '../../actions';
+
+import { ALIVE_OFFER_STATUS, EXPIRED_OFFER_STATUS } from '../../constants';
 
 export function* getOfferWorker ({ payload: { offerId, fresh }}) {
     try {
@@ -16,10 +16,10 @@ export function* getOfferWorker ({ payload: { offerId, fresh }}) {
             throw new Error(offer.error);
         }
         yield put(offersActions.setOffer(offer));
-        yield put(offersActions.setOfferStatus(offer.id, 'alive'));
+        yield put(offersActions.setOfferStatus(offer.id, ALIVE_OFFER_STATUS));
         yield put(offersActions.getOfferSuccess(offerId));
     } catch (error) {
-        yield put(offersActions.setOfferStatus(offerId, 'expired'));
+        yield put(offersActions.setOfferStatus(offerId, EXPIRED_OFFER_STATUS));
         yield put(offersActions.getOfferFail(error, offerId));
     }
 }

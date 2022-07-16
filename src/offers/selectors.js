@@ -4,7 +4,11 @@ import moment from 'moment';
 
 import { memoryInstances } from '../search/saga/workers/getResultsWorker/resultsMemory';
 
-import { ACTUALIZED_OFFER_STATUS } from './constants';
+import {
+    ACTUALIZED_OFFER_STATUS,
+    ALIVE_OFFER_STATUS,
+    EXPIRED_OFFER_STATUS
+} from './constants';
 
 const EMPTY_OBJ = {};
 
@@ -18,6 +22,27 @@ const getOfferID = (_, { offerID }) => offerID;
 const getOffersStore = createSelector(
     domain,
     (offers) => offers.get('store')
+);
+
+const getOffersStatuses = createSelector(
+    domain,
+    (offers) => offers.get('status')
+);
+
+export const getOfferStatus = createSelector(
+    getOffersStatuses,
+    getOfferID,
+    (map, offerID) => map.get(offerID)
+);
+
+export const isAliveOffer = createSelector(
+    getOfferStatus,
+    R.equals(ALIVE_OFFER_STATUS)
+);
+
+export const isExpiredOffer = createSelector(
+    getOfferStatus,
+    R.equals(EXPIRED_OFFER_STATUS)
 );
 
 export const getOffers = () => createSelector(
