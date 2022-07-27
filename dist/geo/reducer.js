@@ -47,24 +47,27 @@ var geoReducer = (0, _reduxActions.handleActions)((_handleActions = {}, _defineP
   return state.setIn(['cities', countryId], (0, _immutable.List)(cities));
 }), _defineProperty(_handleActions, _actions.geoActions.getHotelsSuccess, function (state, _ref5) {
   var _ref5$payload = _ref5.payload,
-      countryId = _ref5$payload.countryId,
-      hotels = _ref5$payload.hotels;
-  return state.setIn(['hotels', countryId], (0, _immutable.List)(hotels));
-}), _defineProperty(_handleActions, _actions.geoActions.getOperatorsSuccess, function (state, _ref6) {
-  var _ref6$payload = _ref6.payload,
-      countryId = _ref6$payload.countryId,
-      operators = _ref6$payload.operators;
+      hotels = _ref5$payload.hotels,
+      key = _ref5$payload.key;
+  return state.setIn(['hotels', key], (0, _immutable.List)(hotels));
+}), _defineProperty(_handleActions, _actions.geoActions.removeHotels, function (state, _ref6) {
+  var key = _ref6.payload;
+  return state.removeIn(['hotels', key]);
+}), _defineProperty(_handleActions, _actions.geoActions.getOperatorsSuccess, function (state, _ref7) {
+  var _ref7$payload = _ref7.payload,
+      countryId = _ref7$payload.countryId,
+      operators = _ref7$payload.operators;
   return state.setIn(['operators', countryId], operators);
-}), _defineProperty(_handleActions, _actions.geoActions.getGeoTreeSuccess, function (state, _ref7) {
-  var geoTree = _ref7.payload.geoTree;
+}), _defineProperty(_handleActions, _actions.geoActions.getGeoTreeSuccess, function (state, _ref8) {
+  var geoTree = _ref8.payload.geoTree;
   return state.set('geoTree', geoTree);
-}), _defineProperty(_handleActions, _actions.geoActions.getLocationDataSuccess, function (state, _ref8) {
-  var _ref8$payload = _ref8.payload,
-      id = _ref8$payload.id,
-      data = _ref8$payload.data;
+}), _defineProperty(_handleActions, _actions.geoActions.getLocationDataSuccess, function (state, _ref9) {
+  var _ref9$payload = _ref9.payload,
+      id = _ref9$payload.id,
+      data = _ref9$payload.data;
   return state.setIn(['locations', id], data);
-}), _defineProperty(_handleActions, _actions.geoActions.getFlightPortSuccess, function (state, _ref9) {
-  var payload = _ref9.payload;
+}), _defineProperty(_handleActions, _actions.geoActions.getFlightPortSuccess, function (state, _ref10) {
+  var payload = _ref10.payload;
   var key = payload.key,
       port = payload.port;
   return state.setIn(['flightPorts', key], port);

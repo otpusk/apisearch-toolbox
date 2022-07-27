@@ -31,8 +31,9 @@ export const geoActions = createActions({
         rating,
         methodVersion,
     }),
-    GET_HOTELS_SUCCESS: (countryId, hotels) => ({ countryId, hotels }),
+    GET_HOTELS_SUCCESS: (countryId, key, hotels) => ({ countryId, key, hotels }),
     GET_HOTELS_FAIL:    (error) => error,
+    REMOVE_HOTELS:      (key) => key,
 
     GET_OPERATORS: (countryId, departureID, methodVersion) => ({
         countryId,

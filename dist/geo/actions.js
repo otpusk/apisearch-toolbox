@@ -71,14 +71,18 @@ var geoActions = (0, _reduxActions.createActions)({
       methodVersion: methodVersion
     };
   },
-  GET_HOTELS_SUCCESS: function GET_HOTELS_SUCCESS(countryId, hotels) {
+  GET_HOTELS_SUCCESS: function GET_HOTELS_SUCCESS(countryId, key, hotels) {
     return {
       countryId: countryId,
+      key: key,
       hotels: hotels
     };
   },
   GET_HOTELS_FAIL: function GET_HOTELS_FAIL(error) {
     return error;
+  },
+  REMOVE_HOTELS: function REMOVE_HOTELS(key) {
+    return key;
   },
   GET_OPERATORS: function GET_OPERATORS(countryId, departureID, methodVersion) {
     return {

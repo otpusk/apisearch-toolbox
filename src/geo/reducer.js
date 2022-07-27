@@ -33,8 +33,11 @@ export const geoReducer = handleActions(
         [geoActions.getCitiesSuccess]: (state, { payload: { countryId, cities }}) => {
             return state.setIn(['cities', countryId], List(cities));
         },
-        [geoActions.getHotelsSuccess]: (state, { payload: { countryId, hotels }}) => {
-            return state.setIn(['hotels', countryId], List(hotels));
+        [geoActions.getHotelsSuccess]: (state, { payload: { hotels, key }}) => {
+            return state.setIn(['hotels', key], List(hotels));
+        },
+        [geoActions.removeHotels]: (state, { payload: key }) => {
+            return state.removeIn(['hotels', key]);
         },
         [geoActions.getOperatorsSuccess]: (state, { payload: { countryId, operators }}) => {
             return state.setIn(['operators', countryId], operators);

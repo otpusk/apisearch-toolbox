@@ -10,6 +10,7 @@ const getDepartureID = (_, { departureID }) => departureID.toString();
 const getIATA = (_, { iata }) => iata;
 const getCountryID = (_, { countryID }) => countryID;
 const getHotelID = (_, { hotelID }) => hotelID;
+const getHotelKey = (_, { hotelKey }) => hotelKey;
 
 const getDeparturesByImmutableStructure = createSelector(
     domain,
@@ -143,4 +144,18 @@ export const getHotelByCountry = () => createSelector(
         (hotel) => hotel.id === id,
         hotels
     )
+);
+
+export const getHotelsByKey = () => createSelector(
+    getHotelsStore,
+    getHotelKey,
+    (hotelsStore, key) => hotelsStore.has(key)
+        ? hotelsStore.get(key).toArray()
+        : EMPTY_ARRAY
+);
+
+export const getHotelByKey = () => createSelector(
+    getHotelsByKey,
+    getHotelID,
+    (hotels, id) => R.find((hotel) => hotel.id === id, hotels)
 );

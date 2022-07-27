@@ -5,7 +5,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getTopCountry = exports.getOperatorsMap = exports.getOperators = exports.getOperator = exports.getHotelsByCountry = exports.getHotelByCountry = exports.getFlightPorts = exports.getFlightPort = exports.getDepartures = exports.getDepartureByIATA = exports.getDepartureByDefaultGeo = exports.getCountry = exports.getCountries = exports.getActiveOperators = void 0;
+exports.getTopCountry = exports.getOperatorsMap = exports.getOperators = exports.getOperator = exports.getHotelsByKey = exports.getHotelsByCountry = exports.getHotelByKey = exports.getHotelByCountry = exports.getFlightPorts = exports.getFlightPort = exports.getDepartures = exports.getDepartureByIATA = exports.getDepartureByDefaultGeo = exports.getCountry = exports.getCountries = exports.getActiveOperators = void 0;
 
 var _reselect = require("reselect");
 
@@ -45,6 +45,11 @@ var getCountryID = function getCountryID(_, _ref4) {
 var getHotelID = function getHotelID(_, _ref5) {
   var hotelID = _ref5.hotelID;
   return hotelID;
+};
+
+var getHotelKey = function getHotelKey(_, _ref6) {
+  var hotelKey = _ref6.hotelKey;
+  return hotelKey;
 };
 
 var getDeparturesByImmutableStructure = (0, _reselect.createSelector)(domain, function (geo) {
@@ -90,8 +95,8 @@ var getFlightPort = function getFlightPort() {
 exports.getFlightPort = getFlightPort;
 
 var getOperators = function getOperators() {
-  return (0, _reselect.createSelector)(domain, function (_, _ref6) {
-    var key = _ref6.key;
+  return (0, _reselect.createSelector)(domain, function (_, _ref7) {
+    var key = _ref7.key;
     return key;
   }, function (geo, key) {
     return R.call(R.pipe(function (operators) {
@@ -115,12 +120,12 @@ var getOperatorsMap = function getOperatorsMap() {
 exports.getOperatorsMap = getOperatorsMap;
 
 var getOperator = function getOperator() {
-  return (0, _reselect.createSelector)(getOperators(), function (_, _ref7) {
-    var operatorID = _ref7.operatorID;
+  return (0, _reselect.createSelector)(getOperators(), function (_, _ref8) {
+    var operatorID = _ref8.operatorID;
     return operatorID;
   }, function (operatorsArray, findID) {
-    return R.find(function (_ref8) {
-      var id = _ref8.id;
+    return R.find(function (_ref9) {
+      var id = _ref9.id;
       return Number(id) === Number(findID);
     }, operatorsArray);
   });
@@ -179,3 +184,21 @@ var getHotelByCountry = function getHotelByCountry() {
 };
 
 exports.getHotelByCountry = getHotelByCountry;
+
+var getHotelsByKey = function getHotelsByKey() {
+  return (0, _reselect.createSelector)(getHotelsStore, getHotelKey, function (hotelsStore, key) {
+    return hotelsStore.has(key) ? hotelsStore.get(key).toArray() : EMPTY_ARRAY;
+  });
+};
+
+exports.getHotelsByKey = getHotelsByKey;
+
+var getHotelByKey = function getHotelByKey() {
+  return (0, _reselect.createSelector)(getHotelsByKey, getHotelID, function (hotels, id) {
+    return R.find(function (hotel) {
+      return hotel.id === id;
+    }, hotels);
+  });
+};
+
+exports.getHotelByKey = getHotelByKey;

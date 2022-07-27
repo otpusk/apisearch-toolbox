@@ -2,6 +2,7 @@ import { call, put, select } from 'redux-saga/effects';
 import { getToursHotels } from '@otpusk/json-api';
 
 import { geoActions } from '../../actions';
+import { generateHotelKey } from '../../helpers';
 
 export function* getHotelsWorker ({ payload }) {
     const {
@@ -29,8 +30,11 @@ export function* getHotelsWorker ({ payload }) {
             methodVersion
         );
 
-        yield put(geoActions.getHotelsSuccess(countryId, hotels));
+        const storeKey = generateHotelKey(countryId, rating, services);
+
+        yield put(geoActions.getHotelsSuccess(countryId, storeKey, hotels));
     } catch (error) {
+        console.log(error);
         yield put(geoActions.getHotelsFail(error));
     }
 }
