@@ -5,16 +5,23 @@ import { offersActions } from '../../actions';
 
 import { ALIVE_OFFER_STATUS, EXPIRED_OFFER_STATUS } from '../../constants';
 
+export function* getOfferSaga (offerID, fresh = false) {
+    const token = yield select((state) => state.auth.getIn(['otpusk', 'token']));
+    const offer = yield call(getToursOffer, token, offerID, fresh);
+
+    if (offer.error) {
+        throw new Error(offer.error);
+    }
+
+    return offer;
+}
+
 export function* getOfferWorker ({ payload: { offerId, fresh }}) {
+    yield put(offersActions.setOfferStatus(offerId, 'pending'));
+
     try {
-        yield put(offersActions.setOfferStatus(offerId, 'pending'));
+        const offer = yield call(getOfferSaga, offerId, fresh);
 
-        const token = yield select((state) => state.auth.getIn(['otpusk', 'token']));
-        const offer = yield call(getToursOffer, token, offerId, fresh);
-
-        if (offer.error) {
-            throw new Error(offer.error);
-        }
         yield put(offersActions.setOffer(offer));
         yield put(offersActions.setOfferStatus(offer.id, ALIVE_OFFER_STATUS));
         yield put(offersActions.getOfferSuccess(offerId));
