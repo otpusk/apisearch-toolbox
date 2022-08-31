@@ -335,7 +335,7 @@ function convertToOtpQuery (query) {
         [QUERY_PARAMS.SERVICES]:            (value) => ({ 'services': value.join(',') }),
         [QUERY_PARAMS.SHORT]:               (value) => ({ 'short': value }),
         [QUERY_PARAMS.RATING]:              (value) => ({ 'rate': value.isEmpty() ? null : `${value.get('from')}-${value.get('to')}` }),
-        [QUERY_PARAMS.CURRENCY]:            (value) => ({ 'currency': value !== 'uah' ? value : '' }),
+        [QUERY_PARAMS.CURRENCY]:            (value) => ({ 'currencyLocal': value }),
         [QUERY_PARAMS.OPERATORS]:           (value) => ({ 'toOperators': value.toArray() }),
         [QUERY_PARAMS.FLIGHT_AVAILABILITY]: (value) => ({ 'availableFlight': value.toArray() }),
         [QUERY_PARAMS.HOTEL_AVAILABILITY]:  (value) => ({ 'stopSale': value.toArray() }),

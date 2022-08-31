@@ -333,7 +333,7 @@ function convertToOtpQuery(query) {
     };
   }), _defineProperty(_converters, QUERY_PARAMS.CURRENCY, function (value) {
     return {
-      'currency': value !== 'uah' ? value : ''
+      'currencyLocal': value
     };
   }), _defineProperty(_converters, QUERY_PARAMS.OPERATORS, function (value) {
     return {

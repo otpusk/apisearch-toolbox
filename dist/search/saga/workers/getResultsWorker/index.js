@@ -123,7 +123,7 @@ function getResultsWorker(_ref) {
                       var hotelID = _ref2.hotelID;
                       return !R.includes(hotelID, stableHotels);
                     }, prices);
-                    nextPrices = (0, _helpers.generateNextPrices)([].concat(_toConsumableArray(pricesWithoutStable), _toConsumableArray(unusedPrices), _toConsumableArray(usedPrices)), offersHub);
+                    nextPrices = (0, _helpers.generateNextPrices)([].concat(_toConsumableArray(pricesWithoutStable), _toConsumableArray(unusedPrices), _toConsumableArray(usedPrices)), offersHub, query.get(_fn.QUERY_PARAMS.CURRENCY));
                     _context.next = 5;
                     return (0, _effects.select)(_selectors2.hotelsHub);
 

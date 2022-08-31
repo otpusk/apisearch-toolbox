@@ -22,16 +22,16 @@ export const addIgnoreOperators = (query, ignoreOperators) => R.call(
 
 export const getHotelsIDsFromPrices = (prices) => R.map(R.prop('hotelID'), prices);
 
-const sortOffers = (offersHub) => (offers) => R.call(
+const sortOffers = (offersHub, currency) => (offers) => R.call(
     R.pipe(
         R.map((offerID) => offersHub[offerID]),
-        R.sort(R.ascend(R.path(['price', 'uah'])))
+        R.sort(R.ascend(R.path(['price', currency])))
     ),
     offers
 );
 
-const sortPrices = (prices) => R.sort(
-    R.ascend(R.path(['offers', 0, 'price', 'uah'])),
+const sortPrices = (currency) => (prices) => R.sort(
+    R.ascend(R.path(['offers', 0, 'price', currency])),
     prices
 );
 
@@ -55,16 +55,16 @@ const simplifyPrices = (prices) => R.map(
     prices
 );
 
-export const generateNextPrices = (prices, offersHub) => R.call(
+export const generateNextPrices = (prices, offersHub, currency) => R.call(
     R.pipe(
         convertPricesListToMap,
         R.toPairs,
         R.map(([, price]) => R.over(
             R.lensProp('offers'),
-            sortOffers(offersHub),
+            sortOffers(offersHub, currency),
             price
         )),
-        sortPrices,
+        sortPrices(currency),
         simplifyPrices,
         R.take(COUNT_AT_PAGE)
     ),

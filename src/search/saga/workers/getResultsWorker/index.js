@@ -69,7 +69,8 @@ export function* getResultsWorker ({ payload: queryID }) {
                         ...unusedPrices,
                         ...usedPrices
                     ],
-                    offersHub
+                    offersHub,
+                    query.get(QUERY_PARAMS.CURRENCY)
                 );
 
                 const hotelsFromStore = yield select(getHotelsHub);
