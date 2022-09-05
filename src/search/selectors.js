@@ -7,6 +7,8 @@ import { getOffers } from './../offers/selectors';
 import { hotelsHub } from './../hotels/selectors';
 import { getQueryParam } from './../queries/selectors';
 import { getOperatorsMap } from './../geo/selectors';
+import { getQuery } from './../queries/selectors';
+import { QUERY_PARAMS } from './../queries/fn';
 
 import { memoryInstances } from './saga/workers/getResultsWorker/resultsMemory';
 import { sortOffersByMinPrice, sortHotelsByMinOffer } from './helpers';
@@ -76,7 +78,8 @@ const getHotelsByPages = () => createSelector(
 export const getHotelsByMinPrice = () => createSelector(
     getHotelsByPages(),
     getOffers(),
-    (pages, offersMap) => R.map(
+    getQuery,
+    (pages, offersMap, query) => R.map(
         (hotelsMap) => R.call(
             R.pipe(
                 R.toPairs,
@@ -85,7 +88,7 @@ export const getHotelsByMinPrice = () => createSelector(
                     offersIDs: R.call(
                         R.pipe(
                             R.map((id) => offersMap[id]),
-                            sortOffersByMinPrice
+                            sortOffersByMinPrice(query.get(QUERY_PARAMS.CURRENCY))
                         ),
                         offersIDs
                     ),
@@ -131,34 +134,6 @@ export const getSearchProgressByPercent = createSelector(
         ),
         operators
     )
-);
-
-export const selectOperatorsWithMinPrice = () => createSelector(
-    selectOperators(),
-    offersByKey(),
-    (operators, offers) => R.pipe(
-        R.groupBy(R.prop('operator')),
-        (grouped) => R.map(
-            (oid) => [
-                R.pipe(
-                    R.set(R.lensProp('completed'), R.prop(oid, operators)),
-                    R.set(R.lensProp('id'), Number(oid))
-                )({}),
-                R.prop(oid, grouped)
-            ],
-            R.keys(operators)
-        ),
-        R.map(([operator, grouped]) => [
-            operator,
-            R.when(
-                Boolean,
-                R.pipe(
-                    sortOffersByMinPrice,
-                    R.prop(0)
-                )
-            )(grouped)
-        ])
-    )(offers)
 );
 
 export const getPrices = createSelector(
@@ -226,7 +201,8 @@ export const getOperatorsWithMinPrice = () => createSelector(
     selectOperators(),
     getOffersFromPrices(),
     getQueryID,
-    (operatorsMap, offers, queryID) => R.call(
+    getQuery,
+    (operatorsMap, offers, queryID, query) => R.call(
         R.pipe(
             R.toPairs,
             R.map(
@@ -236,7 +212,7 @@ export const getOperatorsWithMinPrice = () => createSelector(
                     offer: R.call(
                         R.pipe(
                             R.filter(({ operator }) => operator === Number(id)),
-                            sortOffersByMinPrice,
+                            sortOffersByMinPrice(query.get(QUERY_PARAMS.CURRENCY)),
                             R.head
                         ),
                         R.concat(
@@ -246,7 +222,7 @@ export const getOperatorsWithMinPrice = () => createSelector(
                     ),
                 })
             ),
-            R.sort(R.ascend(R.pathOr(Infinity, ['offer', 'price', 'uah']))),
+            R.sort(R.ascend(R.pathOr(Infinity, ['offer', 'price', query.get(QUERY_PARAMS.CURRENCY)]))),
             R.map(({ offer, ...entity }) => R.mergeAll([
                 entity,
                 { offerID: R.prop('id', offer) }
@@ -259,7 +235,8 @@ export const getOperatorsWithMinPrice = () => createSelector(
 export const getFoodsWithMinPrice = () => createSelector(
     getOffersFromPrices(),
     getQueryID,
-    (offers, queryID) => {
+    getQuery,
+    (offers, queryID, query) => {
         const groupedByFood = R.groupBy(R.prop('food'), R.concat(
             offers,
             getOffersListFromSearchMemory(queryID)
@@ -272,7 +249,7 @@ export const getFoodsWithMinPrice = () => createSelector(
                     ? R.call(
                         R.pipe(
                             R.prop(code),
-                            sortOffersByMinPrice,
+                            sortOffersByMinPrice(query.get(QUERY_PARAMS.CURRENCY)),
                             R.head,
                             R.prop('id')
                         ),
@@ -291,8 +268,9 @@ export const getCategoryWithMinPrice = () => createSelector(
     hotelsHub,
     getOffers(),
     getQueryID,
+    getQuery,
     // eslint-disable-next-line max-params
-    (categoryMap, prices, hotels, offers, queryID) => {
+    (categoryMap, prices, hotels, offers, queryID, query) => {
         const groupedByCaregory = R.groupBy(
             R.path(['hotel', 'stars']),
             R.map(
@@ -316,7 +294,7 @@ export const getCategoryWithMinPrice = () => createSelector(
                         R.pipe(
                             R.map(R.prop('offers')),
                             R.flatten,
-                            sortOffersByMinPrice,
+                            sortOffersByMinPrice(query.get(QUERY_PARAMS.CURRENCY)),
                             R.head,
                             ({ id, hotelID }) => ({ offerID: id, hotelID })
                         ),
@@ -334,7 +312,8 @@ export const getNightsWithMinPrice = () => createSelector(
     getQueryParam,
     getOffersFromPrices(),
     getQueryID,
-    (durationByNights, offers, queryID) => {
+    getQuery,
+    (durationByNights, offers, queryID, query) => {
         const groupedByNights = R.groupBy(
             R.prop('nights'),
             R.concat(offers, getOffersListFromSearchMemory(queryID))
@@ -351,7 +330,7 @@ export const getNightsWithMinPrice = () => createSelector(
                     ? R.call(
                         R.pipe(
                             R.prop(night),
-                            sortOffersByMinPrice,
+                            sortOffersByMinPrice(query.get(QUERY_PARAMS.CURRENCY)),
                             R.head,
                             R.prop('id')
                         ),
