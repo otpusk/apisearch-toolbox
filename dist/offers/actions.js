@@ -16,9 +16,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 var offersActions = (0, _reduxActions.createActions)({
   GET_OFFER: function GET_OFFER(offerId) {
     var fresh = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+    var currency = arguments.length > 2 ? arguments[2] : undefined;
     return {
       offerId: offerId,
-      fresh: fresh
+      fresh: fresh,
+      currency: currency
     };
   },
   GET_OFFER_SUCCESS: function GET_OFFER_SUCCESS(offerID) {

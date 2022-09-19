@@ -2,7 +2,7 @@
 import { createActions } from 'redux-actions';
 
 export const offersActions = createActions({
-    GET_OFFER:         (offerId, fresh = false) => ({ offerId, fresh }),
+    GET_OFFER:         (offerId, fresh = false, currency) => ({ offerId, fresh, currency }),
     GET_OFFER_SUCCESS: (offerID) => offerID,
     GET_OFFER_FAIL:    [
         (error) => error,

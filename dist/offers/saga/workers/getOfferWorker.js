@@ -23,6 +23,7 @@ var _marked = /*#__PURE__*/_regeneratorRuntime().mark(getOfferSaga),
 
 function getOfferSaga(offerID) {
   var fresh,
+      currency,
       token,
       offer,
       _args = arguments;
@@ -31,30 +32,31 @@ function getOfferSaga(offerID) {
       switch (_context.prev = _context.next) {
         case 0:
           fresh = _args.length > 1 && _args[1] !== undefined ? _args[1] : false;
-          _context.next = 3;
+          currency = _args.length > 2 ? _args[2] : undefined;
+          _context.next = 4;
           return (0, _effects.select)(function (state) {
             return state.auth.getIn(['otpusk', 'token']);
           });
 
-        case 3:
+        case 4:
           token = _context.sent;
-          _context.next = 6;
-          return (0, _effects.call)(_jsonApi.getToursOffer, token, offerID, fresh);
+          _context.next = 7;
+          return (0, _effects.call)(_jsonApi.getToursOffer, token, offerID, fresh, currency);
 
-        case 6:
+        case 7:
           offer = _context.sent;
 
           if (!offer.error) {
-            _context.next = 9;
+            _context.next = 10;
             break;
           }
 
           throw new Error(offer.error);
 
-        case 9:
+        case 10:
           return _context.abrupt("return", offer);
 
-        case 10:
+        case 11:
         case "end":
           return _context.stop();
       }
@@ -63,20 +65,20 @@ function getOfferSaga(offerID) {
 }
 
 function getOfferWorker(_ref) {
-  var _ref$payload, offerId, fresh, offer;
+  var _ref$payload, offerId, fresh, currency, offer;
 
   return _regeneratorRuntime().wrap(function getOfferWorker$(_context2) {
     while (1) {
       switch (_context2.prev = _context2.next) {
         case 0:
-          _ref$payload = _ref.payload, offerId = _ref$payload.offerId, fresh = _ref$payload.fresh;
+          _ref$payload = _ref.payload, offerId = _ref$payload.offerId, fresh = _ref$payload.fresh, currency = _ref$payload.currency;
           _context2.next = 3;
           return (0, _effects.put)(_actions.offersActions.setOfferStatus(offerId, 'pending'));
 
         case 3:
           _context2.prev = 3;
           _context2.next = 6;
-          return (0, _effects.call)(getOfferSaga, offerId, fresh);
+          return (0, _effects.call)(getOfferSaga, offerId, fresh, currency);
 
         case 6:
           offer = _context2.sent;
