@@ -36,7 +36,7 @@ const generatePeopleString = (adults, children) => R.call(
     ]
 );
 
-export function* actualizeOfferWorker ({ payload: { adults, children, offerID }}) {
+export function* actualizeOfferWorker ({ payload: { adults, children, offerID, currency }}) {
     const token = yield select((state) => state.auth.getIn(['otpusk', 'token']));
     const lang = yield select((state) => state.auth.getIn(['otpusk', 'lang']));
 
@@ -47,7 +47,8 @@ export function* actualizeOfferWorker ({ payload: { adults, children, offerID }}
             getToursActual,
             R.mergeAll([token, { lang }]),
             offerID,
-            generatePeopleString(adults, children)
+            generatePeopleString(adults, children),
+            currency
         );
 
         yield put(offersActions.setActualizedStatus(offerID, getTextStatusByCode(code)));

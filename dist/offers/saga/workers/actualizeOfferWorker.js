@@ -36,13 +36,13 @@ var generatePeopleString = function generatePeopleString(adults, children) {
 };
 
 function actualizeOfferWorker(_ref) {
-  var _ref$payload, adults, children, offerID, token, lang, _yield$call, code, nextOffer, message;
+  var _ref$payload, adults, children, offerID, currency, token, lang, _yield$call, code, nextOffer, message;
 
   return _regeneratorRuntime().wrap(function actualizeOfferWorker$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
-          _ref$payload = _ref.payload, adults = _ref$payload.adults, children = _ref$payload.children, offerID = _ref$payload.offerID;
+          _ref$payload = _ref.payload, adults = _ref$payload.adults, children = _ref$payload.children, offerID = _ref$payload.offerID, currency = _ref$payload.currency;
           _context.next = 3;
           return (0, _effects.select)(function (state) {
             return state.auth.getIn(['otpusk', 'token']);
@@ -65,7 +65,7 @@ function actualizeOfferWorker(_ref) {
           _context.next = 12;
           return (0, _effects.call)(_jsonApi.getToursActual, R.mergeAll([token, {
             lang: lang
-          }]), offerID, generatePeopleString(adults, children));
+          }]), offerID, generatePeopleString(adults, children), currency);
 
         case 12:
           _yield$call = _context.sent;
