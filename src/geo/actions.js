@@ -10,7 +10,7 @@ export const geoActions = createActions({
     GET_DEPARTURE_CITIES_SUCCESS: (key, departures) => ({ key, departures }),
     GET_DEPARTURE_CITIES_FAIL:    (error) => error,
 
-    GET_COUNTRIES:         (options) => options,
+    GET_COUNTRIES:         (options, methodVersion) => ({ options, methodVersion }),
     GET_COUNTRIES_SUCCESS: (countries) => countries,
     GET_COUNTRIES_FAIL:    (error) => error,
 

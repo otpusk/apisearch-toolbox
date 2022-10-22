@@ -5,7 +5,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getServicesIconsForHotel = exports.getServicesByCountryID = exports.getLabels = exports.getAllServices = void 0;
+exports.getServicesIconsForHotel = exports.getServicesByCountryID = exports.getLabels = exports.getCommonServicesByCountry = exports.getAllServices = void 0;
 
 var _reselect = require("reselect");
 
@@ -43,5 +43,15 @@ var getServicesByCountryID = (0, _reselect.createSelector)(getServicesStore, fun
   return R.propOr(EMPTY_OBJ, countryID, servicesStore);
 });
 exports.getServicesByCountryID = getServicesByCountryID;
+var getCommonServicesByCountry = (0, _reselect.createSelector)(getServicesByCountryID, function (servicesMap) {
+  return R.isEmpty(servicesMap) ? servicesMap : {
+    beach: servicesMap.beach,
+    main: servicesMap.main,
+    sport: servicesMap.sport,
+    child: servicesMap.child,
+    renovation: servicesMap.renovation
+  };
+});
+exports.getCommonServicesByCountry = getCommonServicesByCountry;
 var getServicesIconsForHotel = (0, _reselect.createSelector)(getServicesByCountryID, R.propOr(EMPTY_ARRAY, 'icons'));
 exports.getServicesIconsForHotel = getServicesIconsForHotel;

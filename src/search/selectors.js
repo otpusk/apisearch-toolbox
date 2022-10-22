@@ -57,6 +57,11 @@ const searchByKey = createSelector(
     (results, key) => results.get(key) ? results.get(key).toObject() : EMPTY_OBJ
 );
 
+export const getSearchCountry = createSelector(
+    searchByKey,
+    R.propOr(EMPTY_OBJ, 'country')
+);
+
 export const getTotal = createSelector(
     searchByKey,
     R.propOr(0, 'total')

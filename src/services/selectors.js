@@ -40,6 +40,19 @@ export const getServicesByCountryID = createSelector(
     (servicesStore, countryID) => R.propOr(EMPTY_OBJ, countryID, servicesStore)
 );
 
+export const getCommonServicesByCountry = createSelector(
+    getServicesByCountryID,
+    (servicesMap) => R.isEmpty(servicesMap)
+        ? servicesMap
+        : {
+            beach:      servicesMap.beach,
+            main:       servicesMap.main,
+            sport:      servicesMap.sport,
+            child:      servicesMap.child,
+            renovation: servicesMap.renovation,
+        }
+);
+
 export const getServicesIconsForHotel = createSelector(
     getServicesByCountryID,
     R.propOr(EMPTY_ARRAY, 'icons')

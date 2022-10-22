@@ -34,8 +34,11 @@ var geoActions = (0, _reduxActions.createActions)({
   GET_DEPARTURE_CITIES_FAIL: function GET_DEPARTURE_CITIES_FAIL(error) {
     return error;
   },
-  GET_COUNTRIES: function GET_COUNTRIES(options) {
-    return options;
+  GET_COUNTRIES: function GET_COUNTRIES(options, methodVersion) {
+    return {
+      options: options,
+      methodVersion: methodVersion
+    };
   },
   GET_COUNTRIES_SUCCESS: function GET_COUNTRIES_SUCCESS(countries) {
     return countries;
