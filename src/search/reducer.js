@@ -1,4 +1,4 @@
-import { Map, List } from 'immutable';
+import { Map } from 'immutable';
 import { handleActions } from 'redux-actions';
 import * as R from 'ramda';
 
@@ -6,9 +6,9 @@ import { searchActions as actions } from './actions';
 import { createResultBones } from '../queries/fn';
 
 const initialState = Map({
-    results: Map(),
-    charts:  Map(),
-    dates:   List(),
+    results:        Map(),
+    charts:         Map(),
+    availableDates: [],
 });
 
 export const searchReducer = handleActions(
@@ -69,8 +69,8 @@ export const searchReducer = handleActions(
         [actions.getPriceChartSuccess]: (state, { payload: { queryId, chart }}) => {
             return state.setIn(['charts', queryId], chart);
         },
-        [actions.getAvailableDatesSuccess]: (state, { payload: { dates }}) => {
-            return state.set('dates', dates);
+        [actions.getAvailableDatesSuccess]: (state, { payload: dates }) => {
+            return state.set('availableDates', dates);
         },
     },
     initialState

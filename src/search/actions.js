@@ -20,7 +20,7 @@ export const searchActions = createActions({
     GET_PRICE_CHART:             (queryId, duration, methodVersion) => ({ queryId, duration, methodVersion }),
     GET_PRICE_CHART_SUCCESS:     (queryId, chart) => ({ queryId, chart }),
     GET_PRICE_CHART_FAIL:        (error) => error,
-    GET_AVAILABLE_DATES:         (options) => ({ options }),
-    GET_AVAILABLE_DATES_SUCCESS: (dates) => ({ dates }),
-    GET_AVAILABLE_DATES_FAIL:    (error) => ({ error }),
+    GET_AVAILABLE_DATES:         (countryID, departureID) => ({ countryID, departureID }),
+    GET_AVAILABLE_DATES_SUCCESS: (dates) => dates,
+    GET_AVAILABLE_DATES_FAIL:    (error) => error,
 });

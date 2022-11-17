@@ -1,20 +1,24 @@
-// Core
 import { call, select, put } from 'redux-saga/effects';
-import { searchActions } from "../../actions";
 import { getToursDates } from '@otpusk/json-api';
-import { List } from 'immutable';
 
-export function* getAvailableDatesWorker ({ payload : { options }}) {
+import { getToken } from '../../../auth/selectors';
+
+import { searchActions } from '../../actions';
+
+export function* getAvailableDatesWorker ({ payload }) {
+    const { countryID, departureID } = payload;
+    const token = yield select(getToken);
+
     try {
-        const { token } = yield select(({ auth }) => ({
-            token: auth.getIn(['otpusk', 'token']),
-            lang:  auth.getIn(['otpusk', 'lang'], 'rus'),
-        }));
+        const dates = yield call(getToursDates, token, {
+            to:   countryID,
+            from: departureID,
+        });
 
-        const dates = yield call(getToursDates, token, options);
-
-        yield put(searchActions.getAvailableDatesSuccess(List(dates)));
+        yield put(searchActions.getAvailableDatesSuccess(dates));
     } catch (error) {
+        console.log(error);
+
         yield put(searchActions.getAvailableDatesFail(error));
     }
 }

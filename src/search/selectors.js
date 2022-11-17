@@ -452,5 +452,9 @@ export const getCenterByHotelsMarkers = () => createSelector(
             markers
         )
         : undefined
+);
 
+export const getAvailableDates = R.pipe(
+    domain,
+    (search) => search.get('availableDates')
 );
