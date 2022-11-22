@@ -119,7 +119,7 @@ exports.rangeParser = rangeParser;
 
 var datesParser = function datesParser(value) {
   var _value$split$map$map = value.split(_fn.GLUE.range).map(function (str) {
-    return (0, _moment["default"])(str, 'DD-MM-YYYY').locale('ru');
+    return (0, _moment["default"])(str, 'DD-MM-YYYY');
   }).map(function (date) {
     return date.isValid() ? date : null;
   }),
