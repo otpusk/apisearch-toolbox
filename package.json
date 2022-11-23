@@ -1,6 +1,6 @@
 {
   "name": "@otpusk/apisearch-toolbox",
-  "version": "1.0.83",
+  "version": "1.0.84",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
@@ -21,7 +21,7 @@
   "dependencies": {
     "geolib": "3.3.3",
     "immutable": "4.0.0-rc.12",
-    "moment": "2.24.0",
+    "moment": "2.28.0",
     "ramda": "0.27.1",
     "redux": "4.0.5",
     "redux-actions": "2.6.5",
