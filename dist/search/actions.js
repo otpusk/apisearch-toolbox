@@ -92,8 +92,11 @@ var searchActions = (0, _reduxActions.createActions)({
       departureID: departureID
     };
   },
-  GET_AVAILABLE_DATES_SUCCESS: function GET_AVAILABLE_DATES_SUCCESS(dates) {
-    return dates;
+  GET_AVAILABLE_DATES_SUCCESS: function GET_AVAILABLE_DATES_SUCCESS(key, dates) {
+    return {
+      key: key,
+      dates: dates
+    };
   },
   GET_AVAILABLE_DATES_FAIL: function GET_AVAILABLE_DATES_FAIL(error) {
     return error;

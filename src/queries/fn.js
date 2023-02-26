@@ -26,7 +26,7 @@ import { EMPTY_DEPARTURE_VALUE } from './constants';
  */
 const QUERY_PARAMS = {
     AUTOSTART:           'autostart',
-    DEPARTURE:           'departure',
+    DEPARTURES:          'departures',
     COUNTRY:             'country',
     CITIES:              'cities',
     HOTELS:              'hotels',
@@ -36,7 +36,7 @@ const QUERY_PARAMS = {
     ADULTS:              'adults',
     CHILDREN:            'children',
     FOOD:                'food',
-    TRANSPORT:           'transport',
+    TRANSPORTS:          'transports',
     PRICE:               'price',
     PAGE:                'page',
     SERVICES:            'services',
@@ -83,10 +83,10 @@ const SHORT_QUERY_NAMES = getShortQueryParams();
  * Query defaults
  */
 const DEFAULTS = {
-    [QUERY_PARAMS.AUTOSTART]: false,
-    [QUERY_PARAMS.DEPARTURE]: '1544',
-    [QUERY_PARAMS.COUNTRY]:   null,
-    [QUERY_PARAMS.CATEGORY]:  Map({
+    [QUERY_PARAMS.AUTOSTART]:  false,
+    [QUERY_PARAMS.DEPARTURES]: List(),
+    [QUERY_PARAMS.COUNTRY]:    null,
+    [QUERY_PARAMS.CATEGORY]:   Map({
         1: true,
         2: true,
         3: true,
@@ -112,13 +112,15 @@ const DEFAULTS = {
         'ob':  true,
         'ro':  false,
     }),
-    [QUERY_PARAMS.TRANSPORT]: Map({
-        'air':   true,
-        'bus':   true,
-        'train': true,
-        'ship':  true,
-        'no':    false,
-    }),
+    [QUERY_PARAMS.TRANSPORTS]: List().push(
+        Map({
+            'air':   true,
+            'bus':   true,
+            'train': true,
+            'ship':  true,
+            'no':    false,
+        })
+    ),
     [QUERY_PARAMS.CITIES]:              Set(),
     [QUERY_PARAMS.HOTELS]:              Set(),
     [QUERY_PARAMS.PRICE]:               Map(),
@@ -149,13 +151,15 @@ const DEFAULTS_SEARCH = {
         'ob':  false,
         'ro':  false,
     }),
-    [QUERY_PARAMS.TRANSPORT]: Map({
-        'air':   true,
-        'bus':   false,
-        'train': false,
-        'ship':  false,
-        'no':    false,
-    }),
+    [QUERY_PARAMS.TRANSPORTS]: List().push(
+        Map({
+            'air':   true,
+            'bus':   false,
+            'train': false,
+            'ship':  false,
+            'no':    false,
+        })
+    ),
 };
 
 /**
@@ -215,18 +219,20 @@ function createResultBones () {
  */
 function compileQuery (query) {
     const fieldsToCompilers = {
-        [QUERY_PARAMS.AUTOSTART]:           numberCompiler,
-        [QUERY_PARAMS.DEPARTURE]:           toStringCompiler,
-        [QUERY_PARAMS.COUNTRY]:             numberCompiler,
-        [QUERY_PARAMS.CITIES]:              immutableArrayCompiler,
-        [QUERY_PARAMS.HOTELS]:              immutableArrayCompiler,
-        [QUERY_PARAMS.CATEGORY]:            binaryCompiler,
-        [QUERY_PARAMS.DATES]:               datesCompiler,
-        [QUERY_PARAMS.DURATION]:            rangeCompiler,
-        [QUERY_PARAMS.ADULTS]:              toStringCompiler,
-        [QUERY_PARAMS.CHILDREN]:            immutableArrayCompiler,
-        [QUERY_PARAMS.FOOD]:                binaryCompiler,
-        [QUERY_PARAMS.TRANSPORT]:           binaryCompiler,
+        [QUERY_PARAMS.AUTOSTART]:  numberCompiler,
+        [QUERY_PARAMS.DEPARTURES]: immutableArrayCompiler,
+        [QUERY_PARAMS.COUNTRY]:    numberCompiler,
+        [QUERY_PARAMS.CITIES]:     immutableArrayCompiler,
+        [QUERY_PARAMS.HOTELS]:     immutableArrayCompiler,
+        [QUERY_PARAMS.CATEGORY]:   binaryCompiler,
+        [QUERY_PARAMS.DATES]:      datesCompiler,
+        [QUERY_PARAMS.DURATION]:   rangeCompiler,
+        [QUERY_PARAMS.ADULTS]:     toStringCompiler,
+        [QUERY_PARAMS.CHILDREN]:   immutableArrayCompiler,
+        [QUERY_PARAMS.FOOD]:       binaryCompiler,
+        [QUERY_PARAMS.TRANSPORTS]: (transportsList) => immutableArrayCompiler(
+            transportsList.map(binaryCompiler)
+        ),
         [QUERY_PARAMS.PRICE]:               rangeCompiler,
         [QUERY_PARAMS.SERVICES]:            immutableArrayCompiler,
         [QUERY_PARAMS.RATING]:              rangeCompiler,
@@ -256,18 +262,20 @@ function compileQuery (query) {
 
 function compileSearchQuery (query) {
     const fieldsToCompilers = {
-        [QUERY_PARAMS.AUTOSTART]:           numberCompiler,
-        [QUERY_PARAMS.DEPARTURE]:           toStringCompiler,
-        [QUERY_PARAMS.COUNTRY]:             numberCompiler,
-        [QUERY_PARAMS.CITIES]:              immutableArrayCompiler,
-        [QUERY_PARAMS.HOTELS]:              immutableArrayCompiler,
-        [QUERY_PARAMS.CATEGORY]:            binaryCompiler,
-        [QUERY_PARAMS.DATES]:               datesCompiler,
-        [QUERY_PARAMS.DURATION]:            rangeCompiler,
-        [QUERY_PARAMS.ADULTS]:              toStringCompiler,
-        [QUERY_PARAMS.CHILDREN]:            immutableArrayCompiler,
-        [QUERY_PARAMS.FOOD]:                binaryCompiler,
-        [QUERY_PARAMS.TRANSPORT]:           binaryCompiler,
+        [QUERY_PARAMS.AUTOSTART]:  numberCompiler,
+        [QUERY_PARAMS.DEPARTURES]: immutableArrayCompiler,
+        [QUERY_PARAMS.COUNTRY]:    numberCompiler,
+        [QUERY_PARAMS.CITIES]:     immutableArrayCompiler,
+        [QUERY_PARAMS.HOTELS]:     immutableArrayCompiler,
+        [QUERY_PARAMS.CATEGORY]:   binaryCompiler,
+        [QUERY_PARAMS.DATES]:      datesCompiler,
+        [QUERY_PARAMS.DURATION]:   rangeCompiler,
+        [QUERY_PARAMS.ADULTS]:     toStringCompiler,
+        [QUERY_PARAMS.CHILDREN]:   immutableArrayCompiler,
+        [QUERY_PARAMS.FOOD]:       binaryCompiler,
+        [QUERY_PARAMS.TRANSPORTS]: (transportsList) => immutableArrayCompiler(
+            transportsList.map(binaryCompiler)
+        ),
         [QUERY_PARAMS.PRICE]:               rangeCompiler,
         [QUERY_PARAMS.SERVICES]:            immutableArrayCompiler,
         [QUERY_PARAMS.RATING]:              rangeCompiler,
@@ -314,20 +322,28 @@ function compileSearchQuery (query) {
  */
 function convertToOtpQuery (query) {
     const converters = {
-        [QUERY_PARAMS.DEPARTURE]: (value) => value !== EMPTY_DEPARTURE_VALUE ? { 'from': value } : {},
-        [QUERY_PARAMS.COUNTRY]:   (value) => ({ 'to': value }),
-        [QUERY_PARAMS.CATEGORY]:  (value) => {
+        [QUERY_PARAMS.DEPARTURES]: (list) => {
+            const value = list.first();
+
+            return value !== EMPTY_DEPARTURE_VALUE ? { 'from': value } : {};
+        },
+        [QUERY_PARAMS.COUNTRY]:  (value) => ({ 'to': value }),
+        [QUERY_PARAMS.CATEGORY]: (value) => {
             const selected = value.filter((status) => status).keySeq().toList();
             const everySelected = selected.size === DEFAULTS[QUERY_PARAMS.CATEGORY].size;
 
             return { 'stars': everySelected ? '' : selected.join(',') };
         },
-        [QUERY_PARAMS.DATES]:               (value) => ({ 'checkIn': value.get('from').format('Y-MM-DD'), 'checkTo': value.get('to').format('Y-MM-DD') }),
-        [QUERY_PARAMS.DURATION]:            (value) => ({ 'nights': value.get('from'), 'nightsTo': value.get('to') }),
-        [QUERY_PARAMS.ADULTS]:              (value) => ({ 'people': value }),
-        [QUERY_PARAMS.CHILDREN]:            (value) => ({ 'people': value.map((age) => typeof age === 'string' ? age.replace(/\D.+/, '') : age).map(String).map((age) => age.length === 1 ? `0${age}` : age).join('') }),
-        [QUERY_PARAMS.FOOD]:                (value) => ({ 'food': value.filter((status) => status).keySeq().toList().join(',') }),
-        [QUERY_PARAMS.TRANSPORT]:           (value) => ({ 'transport': value.filter((status) => status).keySeq().toList().join(',') }),
+        [QUERY_PARAMS.DATES]:      (value) => ({ 'checkIn': value.get('from').format('Y-MM-DD'), 'checkTo': value.get('to').format('Y-MM-DD') }),
+        [QUERY_PARAMS.DURATION]:   (value) => ({ 'nights': value.get('from'), 'nightsTo': value.get('to') }),
+        [QUERY_PARAMS.ADULTS]:     (value) => ({ 'people': value }),
+        [QUERY_PARAMS.CHILDREN]:   (value) => ({ 'people': value.map((age) => typeof age === 'string' ? age.replace(/\D.+/, '') : age).map(String).map((age) => age.length === 1 ? `0${age}` : age).join('') }),
+        [QUERY_PARAMS.FOOD]:       (value) => ({ 'food': value.filter((status) => status).keySeq().toList().join(',') }),
+        [QUERY_PARAMS.TRANSPORTS]: (list) => {
+            const value = list.first();
+
+            return { 'transport': value.filter((status) => status).keySeq().toList().join(',') };
+        },
         [QUERY_PARAMS.CITIES]:              (value) => ({ 'toCities': value.join(',') }),
         [QUERY_PARAMS.HOTELS]:              (value) => ({ 'toHotels': value.join(',') }),
         [QUERY_PARAMS.PRICE]:               (value) => ({ 'price': value.get('from'), 'priceTo': value.get('to') }),
@@ -369,10 +385,16 @@ function convertToOtpQuery (query) {
 
 function parseQueryParam (currentValue, paramName, rawValue) {
     const paramsToParsers = {
-        [QUERY_PARAMS.AUTOSTART]:           Boolean,
-        [QUERY_PARAMS.DEPARTURE]:           String,
-        [QUERY_PARAMS.CATEGORY]:            binaryParser,
-        [QUERY_PARAMS.TRANSPORT]:           binaryParser,
+        [QUERY_PARAMS.AUTOSTART]:  Boolean,
+        [QUERY_PARAMS.DEPARTURES]: createImmutableArrayParser(List),
+        [QUERY_PARAMS.CATEGORY]:   binaryParser,
+        [QUERY_PARAMS.TRANSPORTS]: (raw, { prevValue: prevList }) => {
+            const arrayParser = createImmutableArrayParser(List);
+
+            return arrayParser(raw).map(
+                (value) => binaryParser(value, { prevValue: prevList.first() })
+            );
+        },
         [QUERY_PARAMS.FOOD]:                binaryParser,
         [QUERY_PARAMS.DATES]:               datesParser,
         [QUERY_PARAMS.DURATION]:            rangeParser,
@@ -435,58 +457,22 @@ function parseQueryString (queryString, baseQuery, delimeters = {}) {
     });
 }
 
-function parseOSQueryHash (queryHash, baseQuery) {
-    const convertListToBooleanMap = (value = '') => decodeURIComponent(value).split(',').reduce((param, key) => param.set(key, true), Map());
-    const base = baseQuery || createQuery();
-
-    return queryHash
-        .replace(/^#/, '')
-        .split('&')
-        .map((pair) => pair.split('='))
-        .reduce((query, [key, value]) => {
-            switch (key) {
-                case 'd':
-                    return query.set(QUERY_PARAMS.DEPARTURE, Number(value));
-                case 'c':
-                    return query.setIn([QUERY_PARAMS.DATES, 'from'], moment(value));
-                case 'v':
-                    return query.setIn([QUERY_PARAMS.DATES, 'to'], moment(value));
-                case 'od':
-                    return query.set(QUERY_PARAMS.DATES, Map({ from: moment(value), to: moment(value) }));
-                case 'l':
-                case 'ol':
-                    return query.set(QUERY_PARAMS.DURATION, Map({ from: Number(value), to: Number(value) }));
-                case 'p':
-                    return query
-                        .set(QUERY_PARAMS.ADULTS, Number(value.slice(0, 1)))
-                        .set(QUERY_PARAMS.CHILDREN, List(value.slice(1).match(/.{2}/g) || []).map(Number));
-                case 'r':
-                    return query.set(QUERY_PARAMS.TRANSPORT, convertListToBooleanMap(value));
-                case 'o':
-                    return query.set(QUERY_PARAMS.FOOD, convertListToBooleanMap(value));
-                case 'nst':
-                    return query.set(QUERY_PARAMS.NO_AGENCY_STATS, Boolean(value));
-                default:
-                    return query;
-            }
-        }, base);
-}
-
-// компилирует запрос в новый вид хеша (как на новой экскурсионке)
 function compileQueryToHash (query) {
     const fieldsToCompilers = {
-        [QUERY_PARAMS.AUTOSTART]:           numberCompiler,
-        [QUERY_PARAMS.DEPARTURE]:           toStringCompiler,
-        [QUERY_PARAMS.COUNTRY]:             numberCompiler,
-        [QUERY_PARAMS.CITIES]:              immutableArrayCompiler,
-        [QUERY_PARAMS.HOTELS]:              immutableArrayCompiler,
-        [QUERY_PARAMS.CATEGORY]:            binaryCompiler,
-        [QUERY_PARAMS.DATES]:               datesCompiler,
-        [QUERY_PARAMS.DURATION]:            rangeCompiler,
-        [QUERY_PARAMS.ADULTS]:              toStringCompiler,
-        [QUERY_PARAMS.CHILDREN]:            immutableArrayCompiler,
-        [QUERY_PARAMS.FOOD]:                binaryCompiler,
-        [QUERY_PARAMS.TRANSPORT]:           binaryCompiler,
+        [QUERY_PARAMS.AUTOSTART]:  numberCompiler,
+        [QUERY_PARAMS.DEPARTURES]: immutableArrayCompiler,
+        [QUERY_PARAMS.COUNTRY]:    numberCompiler,
+        [QUERY_PARAMS.CITIES]:     immutableArrayCompiler,
+        [QUERY_PARAMS.HOTELS]:     immutableArrayCompiler,
+        [QUERY_PARAMS.CATEGORY]:   binaryCompiler,
+        [QUERY_PARAMS.DATES]:      datesCompiler,
+        [QUERY_PARAMS.DURATION]:   rangeCompiler,
+        [QUERY_PARAMS.ADULTS]:     toStringCompiler,
+        [QUERY_PARAMS.CHILDREN]:   immutableArrayCompiler,
+        [QUERY_PARAMS.FOOD]:       binaryCompiler,
+        [QUERY_PARAMS.TRANSPORTS]: (transportsList) => immutableArrayCompiler(
+            transportsList.map(binaryCompiler)
+        ),
         [QUERY_PARAMS.PRICE]:               rangeCompiler,
         [QUERY_PARAMS.SERVICES]:            immutableArrayCompiler,
         [QUERY_PARAMS.RATING]:              rangeCompiler,
@@ -512,17 +498,22 @@ function compileQueryToHash (query) {
         .replace(new RegExp(`[${GLUE.field}${GLUE.empty}]+$`), '');
 }
 
-// новый хеш в квери
 function parseHashToQuery (queryString) {
     const query = createQuery();
     const params = queryString.replace('#/', '').split('/');
 
     const parseQueryParam = (currentValue, paramName, rawValue) => {
         const paramsToParsers = {
-            [QUERY_PARAMS.AUTOSTART]:           Boolean,
-            [QUERY_PARAMS.DEPARTURE]:           Number,
-            [QUERY_PARAMS.CATEGORY]:            binaryParser,
-            [QUERY_PARAMS.TRANSPORT]:           binaryParser,
+            [QUERY_PARAMS.AUTOSTART]:  Boolean,
+            [QUERY_PARAMS.DEPARTURES]: createImmutableArrayParser(List),
+            [QUERY_PARAMS.CATEGORY]:   binaryParser,
+            [QUERY_PARAMS.TRANSPORTS]: (list, { prevValue: prevList }) => {
+                const arrayParser = createImmutableArrayParser(List);
+
+                return arrayParser(list).map(
+                    (value) => binaryParser(value, { prevValue: prevList.first() })
+                );
+            },
             [QUERY_PARAMS.FOOD]:                binaryParser,
             [QUERY_PARAMS.DATES]:               datesParser,
             [QUERY_PARAMS.DURATION]:            rangeParser,
@@ -579,7 +570,6 @@ export {
     compileSearchQuery,
     compileQueryToHash,
     convertToOtpQuery,
-    parseOSQueryHash,
     parseQueryString,
     parseHashToQuery
 };

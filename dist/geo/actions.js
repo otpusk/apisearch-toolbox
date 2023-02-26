@@ -22,8 +22,11 @@ var geoActions = (0, _reduxActions.createActions)({
   GET_SUGGESTS_FAIL: function GET_SUGGESTS_FAIL(error) {
     return error;
   },
-  GET_DEPARTURE_CITIES: function GET_DEPARTURE_CITIES(geoID) {
-    return geoID;
+  GET_DEPARTURE_CITIES: function GET_DEPARTURE_CITIES(geoID, methodVersion) {
+    return {
+      geoID: geoID,
+      methodVersion: methodVersion
+    };
   },
   GET_DEPARTURE_CITIES_SUCCESS: function GET_DEPARTURE_CITIES_SUCCESS(key, departures) {
     return {
@@ -94,9 +97,9 @@ var geoActions = (0, _reduxActions.createActions)({
       methodVersion: methodVersion
     };
   },
-  GET_OPERATORS_SUCCESS: function GET_OPERATORS_SUCCESS(countryId, operators) {
+  GET_OPERATORS_SUCCESS: function GET_OPERATORS_SUCCESS(key, operators) {
     return {
-      countryId: countryId,
+      key: key,
       operators: operators
     };
   },

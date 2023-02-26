@@ -6,7 +6,7 @@ export const geoActions = createActions({
     GET_SUGGESTS_SUCCESS: (key, suggestions) => ({ key, suggestions }),
     GET_SUGGESTS_FAIL:    (error) => error,
 
-    GET_DEPARTURE_CITIES:         (geoID) => geoID,
+    GET_DEPARTURE_CITIES:         (geoID, methodVersion) => ({ geoID, methodVersion }),
     GET_DEPARTURE_CITIES_SUCCESS: (key, departures) => ({ key, departures }),
     GET_DEPARTURE_CITIES_FAIL:    (error) => error,
 
@@ -40,7 +40,7 @@ export const geoActions = createActions({
         departureID,
         methodVersion,
     }),
-    GET_OPERATORS_SUCCESS: (countryId, operators) => ({ countryId, operators }),
+    GET_OPERATORS_SUCCESS: (key, operators) => ({ key, operators }),
     GET_OPERATORS_FAIL:    (error) => error,
 
     GET_GEO_TREE:         () => void 0,

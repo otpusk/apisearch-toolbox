@@ -100,7 +100,3 @@ export const parseStringIntengerToBoolean = (value) => Boolean(Number(value));
 export const createImmutableArrayParser = (baseValueCreator) => (value) => value ? baseValueCreator(value.split(GLUE.list)) : baseValueCreator();
 
 export const createImmutableNumbersArrayParser = (baseValueCreator) => (value) => createImmutableArrayParser(baseValueCreator)(value).map(Number);
-
-export const countryParser = (value) => {
-
-};

@@ -207,34 +207,36 @@ export const getOperatorsWithMinPrice = () => createSelector(
     getOffersFromPrices(),
     getQueryID,
     getQuery,
-    (operatorsMap, offers, queryID, query) => R.call(
-        R.pipe(
-            R.toPairs,
-            R.map(
-                ([id, isReady]) => ({
-                    id:    Number(id),
-                    isReady,
-                    offer: R.call(
-                        R.pipe(
-                            R.filter(({ operator }) => operator === Number(id)),
-                            sortOffersByMinPrice(query.get(QUERY_PARAMS.CURRENCY)),
-                            R.head
+    (operatorsObject, offers, queryID, query) => operatorsObject
+        ? R.call(
+            R.pipe(
+                R.toPairs,
+                R.map(
+                    ([id, isReady]) => ({
+                        id:    Number(id),
+                        isReady,
+                        offer: R.call(
+                            R.pipe(
+                                R.filter(({ operator }) => operator === Number(id)),
+                                sortOffersByMinPrice(query.get(QUERY_PARAMS.CURRENCY)),
+                                R.head
+                            ),
+                            R.concat(
+                                offers,
+                                getOffersListFromSearchMemory(queryID)
+                            )
                         ),
-                        R.concat(
-                            offers,
-                            getOffersListFromSearchMemory(queryID)
-                        )
-                    ),
-                })
+                    })
+                ),
+                R.sort(R.ascend(R.pathOr(Infinity, ['offer', 'price', query.get(QUERY_PARAMS.CURRENCY)]))),
+                R.map(({ offer, ...entity }) => R.mergeAll([
+                    entity,
+                    { offerID: R.prop('id', offer) }
+                ]))
             ),
-            R.sort(R.ascend(R.pathOr(Infinity, ['offer', 'price', query.get(QUERY_PARAMS.CURRENCY)]))),
-            R.map(({ offer, ...entity }) => R.mergeAll([
-                entity,
-                { offerID: R.prop('id', offer) }
-            ]))
-        ),
-        operatorsMap
-    )
+            operatorsObject
+        )
+        : EMPTY_ARRAY
 );
 
 export const getFoodsWithMinPrice = () => createSelector(
@@ -290,26 +292,28 @@ export const getCategoryWithMinPrice = () => createSelector(
             )
         );
 
-        return R.map(
-            ([category]) => ({
-                category,
-                ...R.call(
-                    R.ifElse(
-                        Boolean,
-                        R.pipe(
-                            R.map(R.prop('offers')),
-                            R.flatten,
-                            sortOffersByMinPrice(query.get(QUERY_PARAMS.CURRENCY)),
-                            R.head,
-                            ({ id, hotelID }) => ({ offerID: id, hotelID })
+        return R.isEmpty(groupedByCaregory)
+            ? EMPTY_ARRAY
+            : R.map(
+                ([category]) => ({
+                    category,
+                    ...R.call(
+                        R.ifElse(
+                            Boolean,
+                            R.pipe(
+                                R.map(R.prop('offers')),
+                                R.flatten,
+                                sortOffersByMinPrice(query.get(QUERY_PARAMS.CURRENCY)),
+                                R.head,
+                                ({ id, hotelID }) => ({ offerID: id, hotelID })
+                            ),
+                            R.always({})
                         ),
-                        R.always({})
+                        R.prop(category, groupedByCaregory)
                     ),
-                    R.prop(category, groupedByCaregory)
-                ),
-            }),
-            R.toPairs(categoryMap.toObject())
-        );
+                }),
+                R.toPairs(categoryMap.toObject())
+            );
     }
 );
 
@@ -323,6 +327,11 @@ export const getNightsWithMinPrice = () => createSelector(
             R.prop('nights'),
             R.concat(offers, getOffersListFromSearchMemory(queryID))
         );
+
+        if (R.isEmpty(groupedByNights)) {
+            return EMPTY_ARRAY;
+        }
+
         const nights = R.range(
             durationByNights.get('from'),
             R.inc(durationByNights.get('to'))
@@ -454,7 +463,10 @@ export const getCenterByHotelsMarkers = () => createSelector(
         : undefined
 );
 
-export const getAvailableDates = R.pipe(
-    domain,
-    (search) => search.get('availableDates')
+export const getAvailableDates = R.useWith(
+    (availableDates, key) => R.propOr(EMPTY_ARRAY, key, availableDates),
+    [
+        R.pipe(domain, (search) => search.get('availableDates')),
+        R.prop('key')
+    ]
 );

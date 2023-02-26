@@ -55,9 +55,9 @@ var geoReducer = (0, _reduxActions.handleActions)((_handleActions = {}, _defineP
   return state.removeIn(['hotels', key]);
 }), _defineProperty(_handleActions, _actions.geoActions.getOperatorsSuccess, function (state, _ref7) {
   var _ref7$payload = _ref7.payload,
-      countryId = _ref7$payload.countryId,
+      key = _ref7$payload.key,
       operators = _ref7$payload.operators;
-  return state.setIn(['operators', countryId], operators);
+  return state.setIn(['operators', key], operators);
 }), _defineProperty(_handleActions, _actions.geoActions.getGeoTreeSuccess, function (state, _ref8) {
   var geoTree = _ref8.payload.geoTree;
   return state.set('geoTree', geoTree);

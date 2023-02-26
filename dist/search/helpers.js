@@ -5,7 +5,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.sortOffersByMinPrice = exports.sortHotelsByMinOffer = void 0;
+exports.sortOffersByMinPrice = exports.sortHotelsByMinOffer = exports.generateAvailableDatesKey = void 0;
 
 var R = _interopRequireWildcard(require("ramda"));
 
@@ -20,3 +20,9 @@ var sortOffersByMinPrice = function sortOffersByMinPrice(currency) {
 exports.sortOffersByMinPrice = sortOffersByMinPrice;
 var sortHotelsByMinOffer = R.sort(R.ascend(R.path([0, 'price', 'uah'])));
 exports.sortHotelsByMinOffer = sortHotelsByMinOffer;
+
+var generateAvailableDatesKey = function generateAvailableDatesKey(countryID, departureID) {
+  return R.join('-', R.filter(Number.isFinite, [Number(countryID), Number(departureID)]));
+};
+
+exports.generateAvailableDatesKey = generateAvailableDatesKey;

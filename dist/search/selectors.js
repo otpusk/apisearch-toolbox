@@ -227,8 +227,8 @@ var isProccess = (0, _reselect.createSelector)(isStart, isSearch, R.or);
 exports.isProccess = isProccess;
 
 var getOperatorsWithMinPrice = function getOperatorsWithMinPrice() {
-  return (0, _reselect.createSelector)(selectOperators(), getOffersFromPrices(), getQueryID, _selectors3.getQuery, function (operatorsMap, offers, queryID, query) {
-    return R.call(R.pipe(R.toPairs, R.map(function (_ref12) {
+  return (0, _reselect.createSelector)(selectOperators(), getOffersFromPrices(), getQueryID, _selectors3.getQuery, function (operatorsObject, offers, queryID, query) {
+    return operatorsObject ? R.call(R.pipe(R.toPairs, R.map(function (_ref12) {
       var _ref13 = _slicedToArray(_ref12, 2),
           id = _ref13[0],
           isReady = _ref13[1];
@@ -248,7 +248,7 @@ var getOperatorsWithMinPrice = function getOperatorsWithMinPrice() {
       return R.mergeAll([entity, {
         offerID: R.prop('id', offer)
       }]);
-    })), operatorsMap);
+    })), operatorsObject) : EMPTY_ARRAY;
   });
 };
 
@@ -285,7 +285,7 @@ var getCategoryWithMinPrice = function getCategoryWithMinPrice() {
         }, ids)
       }]);
     }, R.concat(prices, getUnusedPricesFromSearchMemory(queryID))));
-    return R.map(function (_ref18) {
+    return R.isEmpty(groupedByCaregory) ? EMPTY_ARRAY : R.map(function (_ref18) {
       var _ref19 = _slicedToArray(_ref18, 1),
           category = _ref19[0];
 
@@ -308,6 +308,11 @@ exports.getCategoryWithMinPrice = getCategoryWithMinPrice;
 var getNightsWithMinPrice = function getNightsWithMinPrice() {
   return (0, _reselect.createSelector)(_selectors3.getQueryParam, getOffersFromPrices(), getQueryID, _selectors3.getQuery, function (durationByNights, offers, queryID, query) {
     var groupedByNights = R.groupBy(R.prop('nights'), R.concat(offers, getOffersListFromSearchMemory(queryID)));
+
+    if (R.isEmpty(groupedByNights)) {
+      return EMPTY_ARRAY;
+    }
+
     var nights = R.range(durationByNights.get('from'), R.inc(durationByNights.get('to')));
     return R.map(function (night) {
       return {
@@ -404,7 +409,9 @@ var getCenterByHotelsMarkers = function getCenterByHotelsMarkers() {
 };
 
 exports.getCenterByHotelsMarkers = getCenterByHotelsMarkers;
-var getAvailableDates = R.pipe(domain, function (search) {
+var getAvailableDates = R.useWith(function (availableDates, key) {
+  return R.propOr(EMPTY_ARRAY, key, availableDates);
+}, [R.pipe(domain, function (search) {
   return search.get('availableDates');
-});
+}), R.prop('key')]);
 exports.getAvailableDates = getAvailableDates;

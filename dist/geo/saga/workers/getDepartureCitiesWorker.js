@@ -18,15 +18,16 @@ function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyri
 var _marked = /*#__PURE__*/_regeneratorRuntime().mark(getDepartureCitiesWorker);
 
 function getDepartureCitiesWorker(_ref) {
-  var geoID, _yield$select, token, lang, departures;
+  var payload, geoID, methodVersion, _yield$select, token, lang, departures;
 
   return _regeneratorRuntime().wrap(function getDepartureCitiesWorker$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
-          geoID = _ref.payload;
-          _context.prev = 1;
-          _context.next = 4;
+          payload = _ref.payload;
+          geoID = payload.geoID, methodVersion = payload.methodVersion;
+          _context.prev = 2;
+          _context.next = 5;
           return (0, _effects.select)(function (_ref2) {
             var auth = _ref2.auth;
             return {
@@ -35,35 +36,35 @@ function getDepartureCitiesWorker(_ref) {
             };
           });
 
-        case 4:
+        case 5:
           _yield$select = _context.sent;
           token = _yield$select.token;
           lang = _yield$select.lang;
-          _context.next = 9;
+          _context.next = 10;
           return (0, _effects.call)(_jsonApi.getToursDepartureCities, token, {
             geoId: geoID,
             lang: lang
-          });
+          }, methodVersion);
 
-        case 9:
+        case 10:
           departures = _context.sent;
-          _context.next = 12;
+          _context.next = 13;
           return (0, _effects.put)(_actions.geoActions.getDepartureCitiesSuccess(geoID, departures));
 
-        case 12:
-          _context.next = 18;
+        case 13:
+          _context.next = 19;
           break;
 
-        case 14:
-          _context.prev = 14;
-          _context.t0 = _context["catch"](1);
-          _context.next = 18;
+        case 15:
+          _context.prev = 15;
+          _context.t0 = _context["catch"](2);
+          _context.next = 19;
           return (0, _effects.put)(_actions.geoActions.getDepartureCitiesFail(_context.t0));
 
-        case 18:
+        case 19:
         case "end":
           return _context.stop();
       }
     }
-  }, _marked, null, [[1, 14]]);
+  }, _marked, null, [[2, 15]]);
 }
