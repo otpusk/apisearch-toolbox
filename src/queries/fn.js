@@ -386,7 +386,7 @@ function convertToOtpQuery (query) {
 function parseQueryParam (currentValue, paramName, rawValue) {
     const paramsToParsers = {
         [QUERY_PARAMS.AUTOSTART]:  Boolean,
-        [QUERY_PARAMS.DEPARTURES]: createImmutableArrayParser(List),
+        [QUERY_PARAMS.DEPARTURES]: createImmutableNumbersArrayParser(List),
         [QUERY_PARAMS.CATEGORY]:   binaryParser,
         [QUERY_PARAMS.TRANSPORTS]: (raw, { prevValue: prevList }) => {
             const arrayParser = createImmutableArrayParser(List);
@@ -505,7 +505,7 @@ function parseHashToQuery (queryString) {
     const parseQueryParam = (currentValue, paramName, rawValue) => {
         const paramsToParsers = {
             [QUERY_PARAMS.AUTOSTART]:  Boolean,
-            [QUERY_PARAMS.DEPARTURES]: createImmutableArrayParser(List),
+            [QUERY_PARAMS.DEPARTURES]: createImmutableNumbersArrayParser(List),
             [QUERY_PARAMS.CATEGORY]:   binaryParser,
             [QUERY_PARAMS.TRANSPORTS]: (list, { prevValue: prevList }) => {
                 const arrayParser = createImmutableArrayParser(List);

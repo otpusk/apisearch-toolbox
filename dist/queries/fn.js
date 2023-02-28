@@ -401,7 +401,7 @@ function convertToOtpQuery(query) {
 function parseQueryParam(currentValue, paramName, rawValue) {
   var _paramsToParsers;
 
-  var paramsToParsers = (_paramsToParsers = {}, _defineProperty(_paramsToParsers, QUERY_PARAMS.AUTOSTART, Boolean), _defineProperty(_paramsToParsers, QUERY_PARAMS.DEPARTURES, (0, _parsers.createImmutableArrayParser)(_immutable.List)), _defineProperty(_paramsToParsers, QUERY_PARAMS.CATEGORY, _parsers.binaryParser), _defineProperty(_paramsToParsers, QUERY_PARAMS.TRANSPORTS, function (raw, _ref) {
+  var paramsToParsers = (_paramsToParsers = {}, _defineProperty(_paramsToParsers, QUERY_PARAMS.AUTOSTART, Boolean), _defineProperty(_paramsToParsers, QUERY_PARAMS.DEPARTURES, (0, _parsers.createImmutableNumbersArrayParser)(_immutable.List)), _defineProperty(_paramsToParsers, QUERY_PARAMS.CATEGORY, _parsers.binaryParser), _defineProperty(_paramsToParsers, QUERY_PARAMS.TRANSPORTS, function (raw, _ref) {
     var prevList = _ref.prevValue;
     var arrayParser = (0, _parsers.createImmutableArrayParser)(_immutable.List);
     return arrayParser(raw).map(function (value) {
@@ -471,7 +471,7 @@ function parseHashToQuery(queryString) {
   var parseQueryParam = function parseQueryParam(currentValue, paramName, rawValue) {
     var _paramsToParsers2;
 
-    var paramsToParsers = (_paramsToParsers2 = {}, _defineProperty(_paramsToParsers2, QUERY_PARAMS.AUTOSTART, Boolean), _defineProperty(_paramsToParsers2, QUERY_PARAMS.DEPARTURES, (0, _parsers.createImmutableArrayParser)(_immutable.List)), _defineProperty(_paramsToParsers2, QUERY_PARAMS.CATEGORY, _parsers.binaryParser), _defineProperty(_paramsToParsers2, QUERY_PARAMS.TRANSPORTS, function (list, _ref2) {
+    var paramsToParsers = (_paramsToParsers2 = {}, _defineProperty(_paramsToParsers2, QUERY_PARAMS.AUTOSTART, Boolean), _defineProperty(_paramsToParsers2, QUERY_PARAMS.DEPARTURES, (0, _parsers.createImmutableNumbersArrayParser)(_immutable.List)), _defineProperty(_paramsToParsers2, QUERY_PARAMS.CATEGORY, _parsers.binaryParser), _defineProperty(_paramsToParsers2, QUERY_PARAMS.TRANSPORTS, function (list, _ref2) {
       var prevList = _ref2.prevValue;
       var arrayParser = (0, _parsers.createImmutableArrayParser)(_immutable.List);
       return arrayParser(list).map(function (value) {
