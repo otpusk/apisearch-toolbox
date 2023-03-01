@@ -1,1 +1,1 @@
-export const EMPTY_DEPARTURE_VALUE = '0';
+export const EMPTY_DEPARTURE_VALUE = 0;

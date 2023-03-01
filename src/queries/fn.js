@@ -84,7 +84,7 @@ const SHORT_QUERY_NAMES = getShortQueryParams();
  */
 const DEFAULTS = {
     [QUERY_PARAMS.AUTOSTART]: false,
-    [QUERY_PARAMS.DEPARTURE]: '1544',
+    [QUERY_PARAMS.DEPARTURE]: 1544,
     [QUERY_PARAMS.COUNTRY]:   null,
     [QUERY_PARAMS.CATEGORY]:  Map({
         1: true,
@@ -216,7 +216,7 @@ function createResultBones () {
 function compileQuery (query) {
     const fieldsToCompilers = {
         [QUERY_PARAMS.AUTOSTART]:           numberCompiler,
-        [QUERY_PARAMS.DEPARTURE]:           toStringCompiler,
+        [QUERY_PARAMS.DEPARTURE]:           numberCompiler,
         [QUERY_PARAMS.COUNTRY]:             numberCompiler,
         [QUERY_PARAMS.CITIES]:              immutableArrayCompiler,
         [QUERY_PARAMS.HOTELS]:              immutableArrayCompiler,
@@ -257,7 +257,7 @@ function compileQuery (query) {
 function compileSearchQuery (query) {
     const fieldsToCompilers = {
         [QUERY_PARAMS.AUTOSTART]:           numberCompiler,
-        [QUERY_PARAMS.DEPARTURE]:           toStringCompiler,
+        [QUERY_PARAMS.DEPARTURE]:           numberCompiler,
         [QUERY_PARAMS.COUNTRY]:             numberCompiler,
         [QUERY_PARAMS.CITIES]:              immutableArrayCompiler,
         [QUERY_PARAMS.HOTELS]:              immutableArrayCompiler,
@@ -370,7 +370,7 @@ function convertToOtpQuery (query) {
 function parseQueryParam (currentValue, paramName, rawValue) {
     const paramsToParsers = {
         [QUERY_PARAMS.AUTOSTART]:           Boolean,
-        [QUERY_PARAMS.DEPARTURE]:           String,
+        [QUERY_PARAMS.DEPARTURE]:           Number,
         [QUERY_PARAMS.CATEGORY]:            binaryParser,
         [QUERY_PARAMS.TRANSPORT]:           binaryParser,
         [QUERY_PARAMS.FOOD]:                binaryParser,
@@ -476,7 +476,7 @@ function parseOSQueryHash (queryHash, baseQuery) {
 function compileQueryToHash (query) {
     const fieldsToCompilers = {
         [QUERY_PARAMS.AUTOSTART]:           numberCompiler,
-        [QUERY_PARAMS.DEPARTURE]:           toStringCompiler,
+        [QUERY_PARAMS.DEPARTURE]:           numberCompiler,
         [QUERY_PARAMS.COUNTRY]:             numberCompiler,
         [QUERY_PARAMS.CITIES]:              immutableArrayCompiler,
         [QUERY_PARAMS.HOTELS]:              immutableArrayCompiler,
