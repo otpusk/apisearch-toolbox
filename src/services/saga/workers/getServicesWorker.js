@@ -26,6 +26,7 @@ const normalizeServices = (services) => R.call(
 
 const extractLabels = (services) => R.call(
     R.pipe(
+        R.omit(['byCountries']),
         R.toPairs,
         R.map(([, group]) => group),
         R.flatten,
