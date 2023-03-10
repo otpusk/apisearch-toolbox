@@ -392,20 +392,18 @@ export const getOperatorsByHotelID = () => createSelector(
     getOffers(),
     getOperatorsMap(),
     (_, { hotelID }) => hotelID,
-    (prices, offersHub, operatorsMap, hotelID) => {
-        return R.isEmpty(prices)
-            ? EMPTY_ARRAY
-            : R.call(
-                R.pipe(
-                    R.find(R.propEq('hotelID', hotelID)),
-                    R.prop('offers'),
-                    R.map((id) => offersHub[id].operator),
-                    R.uniq,
-                    R.map((id) => operatorsMap[id])
-                ),
-                prices
-            );
-    }
+    (prices, offersHub, operatorsMap, hotelID) => R.isEmpty(prices)
+        ? EMPTY_ARRAY
+        : R.call(
+            R.pipe(
+                R.find(R.propEq('hotelID', hotelID)),
+                R.propOr(EMPTY_ARRAY, 'offers'),
+                R.map((id) => offersHub[id].operator),
+                R.uniq,
+                R.map((id) => operatorsMap[id])
+            ),
+            prices
+        )
 );
 
 const getCharts = createSelector(
