@@ -11,6 +11,8 @@ var _effects = require("redux-saga/effects");
 
 var R = _interopRequireWildcard(require("ramda"));
 
+var _resultsMemory = require("./workers/getResultsWorker/resultsMemory");
+
 var _actions = require("../actions");
 
 var _workers = require("./workers");
@@ -140,6 +142,24 @@ var searchWatchers = Object.freeze({
         }
       }
     }, getAvailableDatesWorker);
+  }),
+  clearSearchWorker: /*#__PURE__*/_regeneratorRuntime().mark(function clearSearchWorker() {
+    return _regeneratorRuntime().wrap(function clearSearchWorker$(_context6) {
+      while (1) {
+        switch (_context6.prev = _context6.next) {
+          case 0:
+            _context6.next = 2;
+            return (0, _effects.takeEvery)(_actions.searchActions.clearSearch, function (_ref) {
+              var queryID = _ref.payload;
+              delete _resultsMemory.memoryInstances[queryID];
+            });
+
+          case 2:
+          case "end":
+            return _context6.stop();
+        }
+      }
+    }, clearSearchWorker);
   })
 });
 exports.searchWatchers = searchWatchers;

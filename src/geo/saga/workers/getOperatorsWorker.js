@@ -3,6 +3,7 @@ import { List } from 'immutable';
 import { getToursOperators } from '@otpusk/json-api';
 
 import { geoActions } from '../../actions';
+import { generateOperatorKey } from '../../helpers';
 
 export function* getOperatorsWorker ({ payload }) {
     const { countryId, departureID, methodVersion } = payload;
@@ -18,7 +19,10 @@ export function* getOperatorsWorker ({ payload }) {
             methodVersion
         );
 
-        yield put(geoActions.getOperatorsSuccess(countryId, List(operators)));
+        yield put(geoActions.getOperatorsSuccess(
+            generateOperatorKey(countryId, departureID),
+            List(operators)
+        ));
     } catch (error) {
         console.log('error', error);
         yield put(geoActions.getOperatorsFail(error));

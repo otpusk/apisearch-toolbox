@@ -4,6 +4,7 @@ import { getToursDates } from '@otpusk/json-api';
 import { getToken } from '../../../auth/selectors';
 
 import { searchActions } from '../../actions';
+import { generateAvailableDatesKey } from '../../helpers';
 
 export function* getAvailableDatesWorker ({ payload }) {
     const { countryID, departureID } = payload;
@@ -15,7 +16,10 @@ export function* getAvailableDatesWorker ({ payload }) {
             from: departureID,
         });
 
-        yield put(searchActions.getAvailableDatesSuccess(dates));
+        yield put(searchActions.getAvailableDatesSuccess(
+            generateAvailableDatesKey(countryID, departureID),
+            dates
+        ));
     } catch (error) {
         console.log(error);
 

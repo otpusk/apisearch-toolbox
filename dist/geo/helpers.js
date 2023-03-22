@@ -5,7 +5,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.generateHotelKey = void 0;
+exports.generateOperatorKey = exports.generateHotelKey = void 0;
 
 var R = _interopRequireWildcard(require("ramda"));
 
@@ -24,3 +24,9 @@ var generateHotelKey = function generateHotelKey(countryID, rating, services) {
 };
 
 exports.generateHotelKey = generateHotelKey;
+
+var generateOperatorKey = function generateOperatorKey(countryID, departureID) {
+  return R.join('-', R.filter(Number.isFinite, [Number(countryID), Number(departureID)]));
+};
+
+exports.generateOperatorKey = generateOperatorKey;

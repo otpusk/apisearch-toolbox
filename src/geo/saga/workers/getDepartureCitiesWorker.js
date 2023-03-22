@@ -5,13 +5,20 @@ import { call, put, select } from 'redux-saga/effects';
 import { geoActions } from '../../actions';
 import { getToursDepartureCities } from '@otpusk/json-api';
 
-export function* getDepartureCitiesWorker ({ payload: geoID }) {
+export function* getDepartureCitiesWorker ({ payload }) {
+    const { geoID, methodVersion } = payload;
+
     try {
         const { token, lang } = yield select(({ auth }) => ({
             token: auth.getIn(['otpusk', 'token']),
             lang:  auth.getIn(['otpusk', 'lang'], 'rus'),
         }));
-        const departures = yield call(getToursDepartureCities, token, { geoId: geoID, lang });
+        const departures = yield call(
+            getToursDepartureCities,
+            token,
+            { geoId: geoID, lang },
+            methodVersion
+        );
 
         yield put(geoActions.getDepartureCitiesSuccess(geoID, departures));
     } catch (error) {

@@ -5,7 +5,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.rangeParser = exports.parseStringIntengerToBoolean = exports.numbersArrayParser = exports.geoParser = exports.datesParser = exports.createImmutableNumbersArrayParser = exports.createImmutableArrayParser = exports.countryParser = exports.binaryParser = exports.arrayParser = void 0;
+exports.rangeParser = exports.parseStringIntengerToBoolean = exports.numbersArrayParser = exports.geoParser = exports.datesParser = exports.createImmutableNumbersArrayParser = exports.createImmutableArrayParser = exports.binaryParser = exports.arrayParser = void 0;
 
 var _immutable = require("immutable");
 
@@ -224,7 +224,3 @@ var createImmutableNumbersArrayParser = function createImmutableNumbersArrayPars
 };
 
 exports.createImmutableNumbersArrayParser = createImmutableNumbersArrayParser;
-
-var countryParser = function countryParser(value) {};
-
-exports.countryParser = countryParser;

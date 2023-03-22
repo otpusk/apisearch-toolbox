@@ -39,8 +39,8 @@ export const geoReducer = handleActions(
         [geoActions.removeHotels]: (state, { payload: key }) => {
             return state.removeIn(['hotels', key]);
         },
-        [geoActions.getOperatorsSuccess]: (state, { payload: { countryId, operators }}) => {
-            return state.setIn(['operators', countryId], operators);
+        [geoActions.getOperatorsSuccess]: (state, { payload: { key, operators }}) => {
+            return state.setIn(['operators', key], operators);
         },
         [geoActions.getGeoTreeSuccess]: (state, { payload: { geoTree }}) => {
             return state.set('geoTree', geoTree);

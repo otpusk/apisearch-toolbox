@@ -10,3 +10,11 @@ export const generateHotelKey = (countryID, rating, services) => R.join(
         rating && isFilledRatingObject(rating) && `${rating.from}-${rating.to}`
     ])
 );
+
+export const generateOperatorKey = (countryID, departureID) => R.join(
+    '-',
+    R.filter(Number.isFinite, [
+        Number(countryID),
+        Number(departureID)
+    ])
+);

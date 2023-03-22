@@ -8,7 +8,7 @@ import { createResultBones } from '../queries/fn';
 const initialState = Map({
     results:        Map(),
     charts:         Map(),
-    availableDates: [],
+    availableDates: {},
 });
 
 export const searchReducer = handleActions(
@@ -69,8 +69,10 @@ export const searchReducer = handleActions(
         [actions.getPriceChartSuccess]: (state, { payload: { queryId, chart }}) => {
             return state.setIn(['charts', queryId], chart);
         },
-        [actions.getAvailableDatesSuccess]: (state, { payload: dates }) => {
-            return state.set('availableDates', dates);
+        [actions.getAvailableDatesSuccess]: (state, { payload }) => {
+            const { key, dates } = payload;
+
+            return state.setIn(['availableDates', key], dates);
         },
     },
     initialState

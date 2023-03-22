@@ -1,8 +1,7 @@
-// Core
 import { take, fork, race, takeEvery, cancel } from 'redux-saga/effects';
 import * as R from 'ramda';
 
-// Instruments
+import { memoryInstances } from './workers/getResultsWorker/resultsMemory';
 import { searchActions as actions } from '../actions';
 import {
     getResultsWorker,
@@ -49,5 +48,10 @@ export const searchWatchers =  Object.freeze({
     },
     * getAvailableDatesWorker () {
         yield takeEvery(actions.getAvailableDates, getAvailableDatesWorker);
+    },
+    * clearSearchWorker () {
+        yield takeEvery(actions.clearSearch, ({ payload: queryID }) => {
+            delete memoryInstances[queryID];
+        });
     },
 });
