@@ -6,7 +6,7 @@ const DEFAULT_DEPARTURE_GEO_ID = 0;
 
 const domain = (_) => _.geo;
 const departureGeoID = (_, { geoID }) => geoID;
-const getDepartureID = (_, { departureID }) => departureID.toString();
+const getDepartureID = (_, { departureID }) => departureID;
 const getIATA = (_, { iata }) => iata;
 const getCountryID = (_, { countryID }) => countryID;
 const getHotelID = (_, { hotelID }) => hotelID;

@@ -29,7 +29,7 @@ var departureGeoID = function departureGeoID(_, _ref) {
 
 var getDepartureID = function getDepartureID(_, _ref2) {
   var departureID = _ref2.departureID;
-  return departureID.toString();
+  return departureID;
 };
 
 var getIATA = function getIATA(_, _ref3) {
