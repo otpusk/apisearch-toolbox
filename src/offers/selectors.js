@@ -67,7 +67,11 @@ export const getOffers = () => createSelector(
 export const getOffer = () => createSelector(
     getOffers(),
     getOfferID,
-    (offers, { offerID }) => R.prop(offerID, offers)
+    (offers, { offerID, meta }) => R.when(
+        Boolean,
+        (offer) => R.mergeAll([offer, meta]),
+        R.prop(offerID, offers)
+    )
 );
 
 export const isActualLastUpdate = () => createSelector(
