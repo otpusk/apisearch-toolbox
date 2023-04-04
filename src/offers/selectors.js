@@ -69,7 +69,7 @@ export const getOffer = () => createSelector(
     getOfferID,
     (offers, { offerID, meta }) => R.when(
         Boolean,
-        (offer) => R.mergeAll([offer, meta]),
+        (offer) => meta ? R.mergeAll([offer, meta]) : offer,
         R.prop(offerID, offers)
     )
 );
