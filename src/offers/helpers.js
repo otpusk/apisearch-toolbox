@@ -1,5 +1,13 @@
 import * as R from 'ramda';
 
-export const generateOfferIdWithMeta = (id, meta = {}) => `${id}-${JSON.stringify(meta)}`;
+export const generateOfferKey = (id, meta = {}) => `${id}-${JSON.stringify(meta)}`;
 
-export const exactOfferIdWithMeta = (idWithMeta) => R.split('-', idWithMeta);
+export const exactDataFromOfferKey= (key) => {
+    const [id, meta] = R.split('-', key);
+
+    return {
+        id,
+        meta: meta ? JSON.parse(meta): null,
+        key,
+    };
+};
