@@ -14,12 +14,6 @@ var _helpers = require("./helpers");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 var EMPTY_OBJ = {};
 var getOffersHubFromSearchMemory = function getOffersHubFromSearchMemory(queryID) {
   return R.prop(queryID, _resultsMemory.memoryInstances) ? _resultsMemory.memoryInstances[queryID].getValues().offersHub : {};
@@ -29,13 +23,14 @@ var domain = function domain(_) {
 };
 var getOfferID = function getOfferID(_, _ref) {
   var offerID = _ref.offerID;
-  var _ref2 = typeof offerID === 'string' ? (0, _helpers.exactOfferIdWithMeta)(offerID) : [offerID],
-    _ref3 = _slicedToArray(_ref2, 2),
-    id = _ref3[0],
-    meta = _ref3[1];
+  var _exactDataFromOfferKe = (0, _helpers.exactDataFromOfferKey)(offerID),
+    id = _exactDataFromOfferKe.id,
+    meta = _exactDataFromOfferKe.meta,
+    key = _exactDataFromOfferKe.key;
   return {
     offerID: id,
-    meta: meta
+    meta: meta,
+    key: key
   };
 };
 var getOffersStore = (0, _reselect.createSelector)(domain, function (offers) {
@@ -44,8 +39,8 @@ var getOffersStore = (0, _reselect.createSelector)(domain, function (offers) {
 var getOffersStatuses = (0, _reselect.createSelector)(domain, function (offers) {
   return offers.get('status');
 });
-var getOfferStatus = (0, _reselect.createSelector)(getOffersStatuses, getOfferID, function (map, _ref4) {
-  var offerID = _ref4.offerID;
+var getOfferStatus = (0, _reselect.createSelector)(getOffersStatuses, getOfferID, function (map, _ref2) {
+  var offerID = _ref2.offerID;
   return map.get(offerID);
 });
 exports.getOfferStatus = getOfferStatus;
@@ -55,8 +50,8 @@ var isExpiredOffer = (0, _reselect.createSelector)(getOfferStatus, R.equals(_con
 exports.isExpiredOffer = isExpiredOffer;
 var getOffers = function getOffers() {
   return (0, _reselect.createSelector)(getOffersStore, function (_) {
-    var _ref5 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
-      queryID = _ref5.queryID;
+    var _ref3 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
+      queryID = _ref3.queryID;
     return queryID;
   }, function (store, queryID) {
     return queryID ? R.mergeAll([store.toObject(), getOffersHubFromSearchMemory(queryID)]) : store.toObject();
@@ -64,18 +59,21 @@ var getOffers = function getOffers() {
 };
 exports.getOffers = getOffers;
 var getOffer = function getOffer() {
-  return (0, _reselect.createSelector)(getOffers(), getOfferID, function (offers, _ref6) {
-    var offerID = _ref6.offerID,
-      meta = _ref6.meta;
+  return (0, _reselect.createSelector)(getOffers(), getOfferID, function (offers, _ref4) {
+    var offerID = _ref4.offerID,
+      key = _ref4.key,
+      meta = _ref4.meta;
     return R.when(Boolean, function (offer) {
-      return meta ? R.mergeAll([offer, meta]) : offer;
-    }, R.prop(offerID, offers));
+      return meta ? R.mergeAll([offer, meta, {
+        id: offerID
+      }]) : offer;
+    }, R.prop(key, offers));
   });
 };
 exports.getOffer = getOffer;
 var isActualLastUpdate = function isActualLastUpdate() {
-  return (0, _reselect.createSelector)(getOffer(), function (_ref7) {
-    var updateTime = _ref7.updateTime;
+  return (0, _reselect.createSelector)(getOffer(), function (_ref5) {
+    var updateTime = _ref5.updateTime;
     return (0, _moment["default"])().diff((0, _moment["default"])(updateTime), 'minutes') <= 20;
   });
 };
@@ -84,8 +82,8 @@ var actualizedOffersDomain = (0, _reselect.createSelector)(domain, function (_) 
   return _.get('actualizedOffers');
 });
 var getActualizedEntity = function getActualizedEntity() {
-  return (0, _reselect.createSelector)(actualizedOffersDomain, getOfferID, function (offer, _ref8) {
-    var offerID = _ref8.offerID;
+  return (0, _reselect.createSelector)(actualizedOffersDomain, getOfferID, function (offer, _ref6) {
+    var offerID = _ref6.offerID;
     return offer[offerID] || EMPTY_OBJ;
   });
 };
