@@ -9,7 +9,7 @@ import {
     ALIVE_OFFER_STATUS,
     EXPIRED_OFFER_STATUS
 } from './constants';
-import { exactOfferIdWithMeta } from "./helpers";
+import { exactDataFromOfferKey, exactOfferIdWithMeta } from "./helpers";
 
 const EMPTY_OBJ = {};
 
@@ -19,11 +19,12 @@ const getOffersHubFromSearchMemory = (queryID) => R.prop(queryID, memoryInstance
 
 const domain = (_) => _.offers;
 const getOfferID = (_, { offerID }) => {
-    const [id, meta] = typeof offerID === 'string' ? exactOfferIdWithMeta(offerID) : [offerID];
+    const { id, meta, key } =  exactDataFromOfferKey(offerID);
 
     return {
         offerID: id,
         meta,
+        key,
     };
 };
 
@@ -67,10 +68,10 @@ export const getOffers = () => createSelector(
 export const getOffer = () => createSelector(
     getOffers(),
     getOfferID,
-    (offers, { offerID, meta }) => R.when(
+    (offers, { offerID, key, meta }) => R.when(
         Boolean,
-        (offer) => meta ? R.mergeAll([offer, meta]) : offer,
-        R.prop(offerID, offers)
+        (offer) => meta ? R.mergeAll([offer, meta, { id: offerID }]) : offer,
+        R.prop(key, offers)
     )
 );
 
