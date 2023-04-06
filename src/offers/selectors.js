@@ -9,6 +9,7 @@ import {
     ALIVE_OFFER_STATUS,
     EXPIRED_OFFER_STATUS
 } from './constants';
+import { exactDataFromOfferKey } from "./helpers";
 
 const EMPTY_OBJ = {};
 
@@ -17,7 +18,15 @@ const getOffersHubFromSearchMemory = (queryID) => R.prop(queryID, memoryInstance
     : {};
 
 const domain = (_) => _.offers;
-const getOfferID = (_, { offerID }) => offerID;
+const getOfferID = (_, { offerID }) => {
+    const { id, meta, key } =  typeof offerID === 'string' ? exactDataFromOfferKey(offerID) : { id: offerID };
+
+    return {
+        offerID: id,
+        meta,
+        key,
+    };
+};
 
 const getOffersStore = createSelector(
     domain,
@@ -32,7 +41,7 @@ const getOffersStatuses = createSelector(
 export const getOfferStatus = createSelector(
     getOffersStatuses,
     getOfferID,
-    (map, offerID) => map.get(offerID)
+    (map, { offerID }) => map.get(offerID)
 );
 
 export const isAliveOffer = createSelector(
@@ -59,7 +68,11 @@ export const getOffers = () => createSelector(
 export const getOffer = () => createSelector(
     getOffers(),
     getOfferID,
-    (offers, offerID) => R.prop(offerID, offers)
+    (offers, { offerID, key, meta }) => R.when(
+        Boolean,
+        (offer) => meta ? R.mergeAll([offer, meta, { id: offerID }]) : offer,
+        R.prop(key, offers)
+    )
 );
 
 export const isActualLastUpdate = () => createSelector(
@@ -78,7 +91,7 @@ const actualizedOffersDomain = createSelector(
 const getActualizedEntity = () => createSelector(
     actualizedOffersDomain,
     getOfferID,
-    (offer, id) => offer[id] || EMPTY_OBJ
+    (offer, { offerID }) => offer[offerID] || EMPTY_OBJ
 );
 
 export const getActualizedOffer = () => createSelector(
