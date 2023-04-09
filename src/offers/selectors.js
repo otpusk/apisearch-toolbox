@@ -9,7 +9,7 @@ import {
     ALIVE_OFFER_STATUS,
     EXPIRED_OFFER_STATUS
 } from './constants';
-import { exactDataFromOfferKey } from "./helpers";
+import { isOfferKey, extractDataFromOfferKey } from "./helpers";
 
 const EMPTY_OBJ = {};
 
@@ -19,7 +19,7 @@ const getOffersHubFromSearchMemory = (queryID) => R.prop(queryID, memoryInstance
 
 const domain = (_) => _.offers;
 const getOfferID = (_, { offerID }) => {
-    const { id, meta, key } =  typeof offerID === 'string' ? exactDataFromOfferKey(offerID) : { id: offerID };
+    const { id, meta, key } =  isOfferKey(offerID) ? extractDataFromOfferKey(offerID) : { id: offerID };
 
     return {
         offerID: id,

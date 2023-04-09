@@ -38,7 +38,7 @@ var domain = function domain(_) {
 var getOfferID = function getOfferID(_, _ref) {
   var offerID = _ref.offerID;
 
-  var _ref2 = typeof offerID === 'string' ? (0, _helpers.exactDataFromOfferKey)(offerID) : {
+  var _ref2 = (0, _helpers.isOfferKey)(offerID) ? (0, _helpers.extractDataFromOfferKey)(offerID) : {
     id: offerID
   },
       id = _ref2.id,

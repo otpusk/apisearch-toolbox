@@ -5,7 +5,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.generateOfferKey = exports.exactDataFromOfferKey = void 0;
+exports.isOfferKey = exports.generateOfferKey = exports.extractDataFromOfferKey = void 0;
 
 var R = _interopRequireWildcard(require("ramda"));
 
@@ -32,7 +32,13 @@ var generateOfferKey = function generateOfferKey(id) {
 
 exports.generateOfferKey = generateOfferKey;
 
-var exactDataFromOfferKey = function exactDataFromOfferKey(key) {
+var isOfferKey = function isOfferKey(offerID) {
+  return typeof offerID === 'string';
+};
+
+exports.isOfferKey = isOfferKey;
+
+var extractDataFromOfferKey = function extractDataFromOfferKey(key) {
   var _R$split = R.split('-', key),
       _R$split2 = _slicedToArray(_R$split, 2),
       id = _R$split2[0],
@@ -45,4 +51,4 @@ var exactDataFromOfferKey = function exactDataFromOfferKey(key) {
   };
 };
 
-exports.exactDataFromOfferKey = exactDataFromOfferKey;
+exports.extractDataFromOfferKey = extractDataFromOfferKey;
