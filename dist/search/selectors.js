@@ -192,7 +192,7 @@ var isSetHotelAtPrices = function isSetHotelAtPrices() {
     var hotelID = _ref7.hotelID;
     return hotelID;
   }, function (prices, hotelID) {
-    return R.any(R.propEq('hotelID', hotelID), prices);
+    return R.any(R.propEq(hotelID, 'hotelID'), prices);
   });
 };
 
@@ -351,7 +351,7 @@ var getOperatorsByHotelID = function getOperatorsByHotelID() {
     var hotelID = _ref22.hotelID;
     return hotelID;
   }, function (prices, offersHub, operatorsMap, hotelID) {
-    return R.isEmpty(prices) ? EMPTY_ARRAY : R.call(R.pipe(R.find(R.propEq('hotelID', hotelID)), R.propOr(EMPTY_ARRAY, 'offers'), R.map(function (id) {
+    return R.isEmpty(prices) ? EMPTY_ARRAY : R.call(R.pipe(R.find(R.propEq(hotelID, 'hotelID')), R.propOr(EMPTY_ARRAY, 'offers'), R.map(function (id) {
       return offersHub[id].operator;
     }), R.uniq, R.map(function (id) {
       return operatorsMap[id];

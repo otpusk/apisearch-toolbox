@@ -170,7 +170,7 @@ export const isSetHotelAtPrices = () => createSelector(
     getFlattenPrices(),
     (_, { hotelID }) => hotelID,
     (prices, hotelID) => R.any(
-        R.propEq('hotelID', hotelID),
+        R.propEq(hotelID, 'hotelID'),
         prices
     )
 );
@@ -396,7 +396,7 @@ export const getOperatorsByHotelID = () => createSelector(
         ? EMPTY_ARRAY
         : R.call(
             R.pipe(
-                R.find(R.propEq('hotelID', hotelID)),
+                R.find(R.propEq(hotelID, 'hotelID')),
                 R.propOr(EMPTY_ARRAY, 'offers'),
                 R.map((id) => offersHub[id].operator),
                 R.uniq,
