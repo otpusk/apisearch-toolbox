@@ -17,6 +17,11 @@ const getDeparturesByImmutableStructure = createSelector(
     (geo) => geo.get('departures')
 );
 
+export const getAllDepartures = createSelector(
+    getDeparturesByImmutableStructure,
+    (departures) => departures.toJS()
+);
+
 export const getDepartures = () => createSelector(
     getDeparturesByImmutableStructure,
     departureGeoID,
