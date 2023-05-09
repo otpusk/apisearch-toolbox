@@ -5,7 +5,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.isNotFoundActualizedOffer = exports.isExpiredOffer = exports.isEndActualizedOffer = exports.isConnectionFailedWithOperator = exports.isAliveOffer = exports.isActualizedOffer = exports.isActualazingOffer = exports.isActualLastUpdate = exports.getOffers = exports.getOfferStatus = exports.getOffer = exports.getMessageByActualizedOffer = exports.getActualizedOffer = void 0;
+exports.isNotFoundActualizedOffer = exports.isExpiredOffer = exports.isEndActualizedOffer = exports.isConnectionFailedWithOperator = exports.isAliveOffer = exports.isActualizedOffer = exports.isActualazingOffer = exports.isActualLastUpdate = exports.getOffers = exports.getOfferStatus = exports.getOffer = exports.getMessageByActualizedOffer = exports.getIsStopSaleByHotel = exports.getActualizedOffer = void 0;
 
 var _reselect = require("reselect");
 
@@ -133,21 +133,18 @@ var isActualizedOffer = function isActualizedOffer() {
 
 exports.isActualizedOffer = isActualizedOffer;
 
-var isConnectionFailedWithOperator = function isConnectionFailedWithOperator() {
-  return (0, _reselect.createSelector)(getActualizedStatus(), function (status) {
-    return status === _constants.ACTUALIZED_OFFER_STATUS.ERROR_OPERATOR_CONNECTION;
-  });
+var makeSelectorByStatus = function makeSelectorByStatus(status) {
+  return function () {
+    return (0, _reselect.createSelector)(getActualizedStatus(), R.equals(status));
+  };
 };
 
+var isConnectionFailedWithOperator = makeSelectorByStatus(_constants.ACTUALIZED_OFFER_STATUS.ERROR_OPERATOR_CONNECTION);
 exports.isConnectionFailedWithOperator = isConnectionFailedWithOperator;
-
-var isNotFoundActualizedOffer = function isNotFoundActualizedOffer() {
-  return (0, _reselect.createSelector)(getActualizedStatus(), function (status) {
-    return status === _constants.ACTUALIZED_OFFER_STATUS.NOT_FOUND;
-  });
-};
-
+var isNotFoundActualizedOffer = makeSelectorByStatus(_constants.ACTUALIZED_OFFER_STATUS.NOT_FOUND);
 exports.isNotFoundActualizedOffer = isNotFoundActualizedOffer;
+var getIsStopSaleByHotel = makeSelectorByStatus(_constants.ACTUALIZED_OFFER_STATUS.STOP_SALE_BY_HOTEL);
+exports.getIsStopSaleByHotel = getIsStopSaleByHotel;
 
 var getMessageByActualizedOffer = function getMessageByActualizedOffer() {
   return (0, _reselect.createSelector)(getActualizedEntity(), R.prop('message'));

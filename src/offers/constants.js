@@ -7,6 +7,7 @@ export const ACTUALIZED_OFFER_STATUS = {
     INVALID_REQUEST:             'invalid_request',
     STOP_SALE_BY_TRANSPORT_TO:   'stop_sale_by_transport_to',
     STOP_SALE_BY_TRANSPORT_FROM: 'stop_sale_by_transport_from',
+    STOP_SALE_BY_HOTEL:          'stop_sale_by_hotel',
 };
 
 export const ALIVE_OFFER_STATUS = 'alive';

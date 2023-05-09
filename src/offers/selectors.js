@@ -113,14 +113,21 @@ export const isActualizedOffer = () => createSelector(
     )
 );
 
-export const isConnectionFailedWithOperator = () => createSelector(
+const makeSelectorByStatus = (status) => () => createSelector(
     getActualizedStatus(),
-    (status) => status === ACTUALIZED_OFFER_STATUS.ERROR_OPERATOR_CONNECTION
+    R.equals(status)
 );
 
-export const isNotFoundActualizedOffer = () => createSelector(
-    getActualizedStatus(),
-    (status) => status === ACTUALIZED_OFFER_STATUS.NOT_FOUND
+export const isConnectionFailedWithOperator = makeSelectorByStatus(
+    ACTUALIZED_OFFER_STATUS.ERROR_OPERATOR_CONNECTION
+);
+
+export const isNotFoundActualizedOffer = makeSelectorByStatus(
+    ACTUALIZED_OFFER_STATUS.NOT_FOUND
+);
+
+export const getIsStopSaleByHotel = makeSelectorByStatus(
+    ACTUALIZED_OFFER_STATUS.STOP_SALE_BY_HOTEL
 );
 
 export const getMessageByActualizedOffer = () => createSelector(
