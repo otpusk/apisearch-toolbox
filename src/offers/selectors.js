@@ -77,10 +77,18 @@ export const getOffer = () => createSelector(
 
 export const isActualLastUpdate = () => createSelector(
     getOffer(),
-    ({ updateTime }) => moment().diff(
-        moment(updateTime),
-        'minutes'
-    ) <= 20
+    (_, args) => args?.ttlAsMinutes ?? 20,
+    ({ updateTime }, ttlAsMinutes) => {
+        const diffByNowAsMinutes = moment().diff(
+            moment(updateTime),
+            'minutes'
+        );
+
+        return R.lte(
+            diffByNowAsMinutes,
+            ttlAsMinutes
+        );
+    }
 );
 
 const actualizedOffersDomain = createSelector(

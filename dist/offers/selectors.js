@@ -97,9 +97,14 @@ var getOffer = function getOffer() {
 exports.getOffer = getOffer;
 
 var isActualLastUpdate = function isActualLastUpdate() {
-  return (0, _reselect.createSelector)(getOffer(), function (_ref6) {
+  return (0, _reselect.createSelector)(getOffer(), function (_, args) {
+    var _args$ttlAsMinutes;
+
+    return (_args$ttlAsMinutes = args === null || args === void 0 ? void 0 : args.ttlAsMinutes) !== null && _args$ttlAsMinutes !== void 0 ? _args$ttlAsMinutes : 20;
+  }, function (_ref6, ttlAsMinutes) {
     var updateTime = _ref6.updateTime;
-    return (0, _moment["default"])().diff((0, _moment["default"])(updateTime), 'minutes') <= 20;
+    var diffByNowAsMinutes = (0, _moment["default"])().diff((0, _moment["default"])(updateTime), 'minutes');
+    return R.lte(diffByNowAsMinutes, ttlAsMinutes);
   });
 };
 
