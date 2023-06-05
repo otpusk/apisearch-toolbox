@@ -79,6 +79,12 @@ export const isActualLastUpdate = () => createSelector(
     getOffer(),
     (_, args) => args?.ttlAsMinutes ?? 20,
     ({ updateTime }, ttlAsMinutes) => {
+        const isForceUpdate = ttlAsMinutes === 0;
+
+        if (isForceUpdate) {
+            return false;
+        }
+
         const diffByNowAsMinutes = moment().diff(
             moment(updateTime),
             'minutes'

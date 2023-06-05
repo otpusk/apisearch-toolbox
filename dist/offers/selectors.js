@@ -103,6 +103,12 @@ var isActualLastUpdate = function isActualLastUpdate() {
     return (_args$ttlAsMinutes = args === null || args === void 0 ? void 0 : args.ttlAsMinutes) !== null && _args$ttlAsMinutes !== void 0 ? _args$ttlAsMinutes : 20;
   }, function (_ref6, ttlAsMinutes) {
     var updateTime = _ref6.updateTime;
+    var isForceUpdate = ttlAsMinutes === 0;
+
+    if (isForceUpdate) {
+      return false;
+    }
+
     var diffByNowAsMinutes = (0, _moment["default"])().diff((0, _moment["default"])(updateTime), 'minutes');
     return R.lte(diffByNowAsMinutes, ttlAsMinutes);
   });
