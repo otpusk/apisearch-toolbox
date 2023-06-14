@@ -66,9 +66,7 @@ var queriesReducer = (0, _reduxActions.handleActions)((_handleActions = {}, _def
     to: (0, _moment["default"])(offer.date)
   })), _defineProperty(_objectSpread2, _fn.QUERY_PARAMS.CATEGORY, defaultQuery.get(_fn.QUERY_PARAMS.CATEGORY).map(function () {
     return false;
-  }).merge(_defineProperty({}, hotel.stars, true))), _defineProperty(_objectSpread2, _fn.QUERY_PARAMS.ADULTS, offer.adults), _defineProperty(_objectSpread2, _fn.QUERY_PARAMS.CHILDREN, (0, _immutable.Range)(0, offer.children).map(function () {
-    return offer.childrenAge.replace(/^.*\D(\d+)\D*$/, '$1');
-  }).map(Number).toList()), _defineProperty(_objectSpread2, _fn.QUERY_PARAMS.CITIES, (0, _immutable.Set)([hotel.city.id])), _defineProperty(_objectSpread2, _fn.QUERY_PARAMS.HOTELS, (0, _immutable.Set)([hotel.id])), _defineProperty(_objectSpread2, _fn.QUERY_PARAMS.TRANSPORTS, defaultQuery.get(_fn.QUERY_PARAMS.TRANSPORTS).update(0, function (transportsMap) {
+  }).merge(_defineProperty({}, hotel.stars, true))), _defineProperty(_objectSpread2, _fn.QUERY_PARAMS.ADULTS, offer.adults), _defineProperty(_objectSpread2, _fn.QUERY_PARAMS.CHILDREN, (0, _immutable.List)(offer.people.children)), _defineProperty(_objectSpread2, _fn.QUERY_PARAMS.CITIES, (0, _immutable.Set)([hotel.city.id])), _defineProperty(_objectSpread2, _fn.QUERY_PARAMS.HOTELS, (0, _immutable.Set)([hotel.id])), _defineProperty(_objectSpread2, _fn.QUERY_PARAMS.TRANSPORTS, defaultQuery.get(_fn.QUERY_PARAMS.TRANSPORTS).update(0, function (transportsMap) {
     return transportsMap.map(R.F).merge(_defineProperty({}, offer.transport, true));
   })), _defineProperty(_objectSpread2, _fn.QUERY_PARAMS.FOOD, defaultQuery.get(_fn.QUERY_PARAMS.FOOD).map(function () {
     return false;
