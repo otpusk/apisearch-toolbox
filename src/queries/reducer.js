@@ -26,7 +26,7 @@ export const queriesReducer = handleActions(
                 queryId,
                 createQuery({
                     [QUERY_PARAMS.COUNTRY]:    hotel.country.id,
-                    [QUERY_PARAMS.DEPARTURES]: defaultQuery.get(QUERY_PARAMS.DEPARTURES).push(`${offer.departure}`),
+                    [QUERY_PARAMS.DEPARTURES]: defaultQuery.get(QUERY_PARAMS.DEPARTURES).push(offer.departure),
                     [QUERY_PARAMS.DURATION]:   Map({
                         from: offer.nights,
                         to:   offer.nights,
