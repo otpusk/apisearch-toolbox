@@ -141,27 +141,6 @@ const DEFAULTS = {
     [QUERY_PARAMS.AVERAGE_RATING]:      Map(),
 };
 
-const DEFAULTS_SEARCH = {
-    [QUERY_PARAMS.FOOD]: Map({
-        'uai': false,
-        'ai':  false,
-        'fb':  false,
-        'hb':  false,
-        'bb':  false,
-        'ob':  false,
-        'ro':  false,
-    }),
-    [QUERY_PARAMS.TRANSPORTS]: List().push(
-        Map({
-            'air':   true,
-            'bus':   false,
-            'train': false,
-            'ship':  false,
-            'no':    false,
-        })
-    ),
-};
-
 /**
  * Query string glue
  */
@@ -185,14 +164,6 @@ function createQuery (params = {}) {
     return new OrderedMap({
         ...DEFAULTS,
     }).merge(params);
-}
-
-function createSearchQuery (params = {}) {
-    const searchQuery = new OrderedMap({
-        ...DEFAULTS, ...DEFAULTS_SEARCH,
-    }).mergeDeep(params);
-
-    return searchQuery;
 }
 
 /**
@@ -440,20 +411,23 @@ function parseQueryParam (currentValue, paramName, rawValue) {
  *
  * @returns {OrderedMap} query
  */
-function parseQueryString (queryString, baseQuery, delimeters = {}) {
-    const isDelimetersEmpty = Object.keys(delimeters).length === 0;
-    const query = baseQuery || (isDelimetersEmpty ? createQuery() : createSearchQuery());
+function parseQueryString (queryString, baseQuery = createQuery()) {
+    const isSearchString = queryString.startsWith('?');
+    const params = isSearchString
+        ? queryString
+            .split('&')
+            .map((param) => param.split('=')[1])
+        : queryString.split(GLUE.field);
 
-    const { startDelimeter = '#/', delimeter = '/' } = delimeters;
-    const params = queryString.replace(startDelimeter, '').split(delimeter);
+    const keysOfQuery = baseQuery.keySeq();
 
-    return query.map((currentValue, paramName) => {
-        const position = query.keySeq().findIndex((f) => f === paramName);
+    return baseQuery.map((currentValue, paramName) => {
+        const position = keysOfQuery.findIndex((f) => f === paramName);
         const rawValue = position in params ? params[position] : null;
 
         return rawValue
-            ? parseQueryParam(currentValue, paramName, rawValue, !isDelimetersEmpty)
-            : query.get(paramName, DEFAULTS[paramName]);
+            ? parseQueryParam(currentValue, paramName, rawValue)
+            : baseQuery.get(paramName, DEFAULTS[paramName]);
     });
 }
 
@@ -564,7 +538,6 @@ export {
     QUERY_PARAMS,
     GLUE,
     createQuery,
-    createSearchQuery,
     createResultBones,
     compileQuery,
     compileSearchQuery,

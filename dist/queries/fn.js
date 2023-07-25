@@ -10,7 +10,6 @@ exports.compileSearchQuery = compileSearchQuery;
 exports.convertToOtpQuery = convertToOtpQuery;
 exports.createQuery = createQuery;
 exports.createResultBones = createResultBones;
-exports.createSearchQuery = createSearchQuery;
 exports.parseHashToQuery = parseHashToQuery;
 exports.parseQueryString = parseQueryString;
 
@@ -24,7 +23,7 @@ var _parsers = require("./parsers");
 
 var _constants = require("./constants");
 
-var _DEFAULTS, _DEFAULTS_SEARCH;
+var _DEFAULTS;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -141,21 +140,6 @@ var DEFAULTS = (_DEFAULTS = {}, _defineProperty(_DEFAULTS, QUERY_PARAMS.AUTOSTAR
   'ship': true,
   'no': false
 }))), _defineProperty(_DEFAULTS, QUERY_PARAMS.CITIES, (0, _immutable.Set)()), _defineProperty(_DEFAULTS, QUERY_PARAMS.HOTELS, (0, _immutable.Set)()), _defineProperty(_DEFAULTS, QUERY_PARAMS.PRICE, (0, _immutable.Map)()), _defineProperty(_DEFAULTS, QUERY_PARAMS.PAGE, 1), _defineProperty(_DEFAULTS, QUERY_PARAMS.SERVICES, (0, _immutable.Set)()), _defineProperty(_DEFAULTS, QUERY_PARAMS.SHORT, null), _defineProperty(_DEFAULTS, QUERY_PARAMS.RATING, (0, _immutable.Map)()), _defineProperty(_DEFAULTS, QUERY_PARAMS.CURRENCY, null), _defineProperty(_DEFAULTS, QUERY_PARAMS.OPERATORS, (0, _immutable.Set)()), _defineProperty(_DEFAULTS, QUERY_PARAMS.FLIGHT_AVAILABILITY, (0, _immutable.Set)()), _defineProperty(_DEFAULTS, QUERY_PARAMS.HOTEL_AVAILABILITY, (0, _immutable.Set)()), _defineProperty(_DEFAULTS, QUERY_PARAMS.WITHOUT_SPO, false), _defineProperty(_DEFAULTS, QUERY_PARAMS.LANGUAGE, null), _defineProperty(_DEFAULTS, QUERY_PARAMS.IGNORE_SERVICES, (0, _immutable.Set)()), _defineProperty(_DEFAULTS, QUERY_PARAMS.GROUP, null), _defineProperty(_DEFAULTS, QUERY_PARAMS.DISTRICTS, (0, _immutable.Set)()), _defineProperty(_DEFAULTS, QUERY_PARAMS.PROVINCES, (0, _immutable.Set)()), _defineProperty(_DEFAULTS, QUERY_PARAMS.AVERAGE_RATING, (0, _immutable.Map)()), _DEFAULTS);
-var DEFAULTS_SEARCH = (_DEFAULTS_SEARCH = {}, _defineProperty(_DEFAULTS_SEARCH, QUERY_PARAMS.FOOD, (0, _immutable.Map)({
-  'uai': false,
-  'ai': false,
-  'fb': false,
-  'hb': false,
-  'bb': false,
-  'ob': false,
-  'ro': false
-})), _defineProperty(_DEFAULTS_SEARCH, QUERY_PARAMS.TRANSPORTS, (0, _immutable.List)().push((0, _immutable.Map)({
-  'air': true,
-  'bus': false,
-  'train': false,
-  'ship': false,
-  'no': false
-}))), _DEFAULTS_SEARCH);
 /**
  * Query string glue
  */
@@ -181,12 +165,6 @@ exports.GLUE = GLUE;
 function createQuery() {
   var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   return new _immutable.OrderedMap(_objectSpread({}, DEFAULTS)).merge(params);
-}
-
-function createSearchQuery() {
-  var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  var searchQuery = new _immutable.OrderedMap(_objectSpread(_objectSpread({}, DEFAULTS), DEFAULTS_SEARCH)).mergeDeep(params);
-  return searchQuery;
 }
 /**
  * Create search result bones
@@ -435,21 +413,19 @@ function parseQueryParam(currentValue, paramName, rawValue) {
  */
 
 
-function parseQueryString(queryString, baseQuery) {
-  var delimeters = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-  var isDelimetersEmpty = Object.keys(delimeters).length === 0;
-  var query = baseQuery || (isDelimetersEmpty ? createQuery() : createSearchQuery());
-  var _delimeters$startDeli = delimeters.startDelimeter,
-      startDelimeter = _delimeters$startDeli === void 0 ? '#/' : _delimeters$startDeli,
-      _delimeters$delimeter = delimeters.delimeter,
-      delimeter = _delimeters$delimeter === void 0 ? '/' : _delimeters$delimeter;
-  var params = queryString.replace(startDelimeter, '').split(delimeter);
-  return query.map(function (currentValue, paramName) {
-    var position = query.keySeq().findIndex(function (f) {
+function parseQueryString(queryString) {
+  var baseQuery = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : createQuery();
+  var isSearchString = queryString.startsWith('?');
+  var params = isSearchString ? queryString.split('&').map(function (param) {
+    return param.split('=')[1];
+  }) : queryString.split(GLUE.field);
+  var keysOfQuery = baseQuery.keySeq();
+  return baseQuery.map(function (currentValue, paramName) {
+    var position = keysOfQuery.findIndex(function (f) {
       return f === paramName;
     });
     var rawValue = position in params ? params[position] : null;
-    return rawValue ? parseQueryParam(currentValue, paramName, rawValue, !isDelimetersEmpty) : query.get(paramName, DEFAULTS[paramName]);
+    return rawValue ? parseQueryParam(currentValue, paramName, rawValue) : baseQuery.get(paramName, DEFAULTS[paramName]);
   });
 }
 
