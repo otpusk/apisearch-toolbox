@@ -328,13 +328,8 @@ exports.getNightsWithMinPrice = getNightsWithMinPrice;
 var createGetDeparturesWithMinPrice = function createGetDeparturesWithMinPrice() {
   return (0, _reselect.createSelector)((0, _selectors4.getDepartures)(), getOffersFromPrices(), getQueryID, _selectors3.getQuery, function (departures, offers, queryID, query) {
     var groupedByDeparture = R.groupBy(R.prop('departure'), R.concat(offers, getOffersListFromSearchMemory(queryID)));
-
-    if (R.isEmpty(groupedByDeparture)) {
-      return EMPTY_ARRAY;
-    }
-
     var departuresAsMap = R.indexBy(R.prop('id'), departures);
-    return R.map(function (id) {
+    return R.isEmpty(groupedByDeparture) ? EMPTY_ARRAY : R.map(function (id) {
       return R.mergeAll([departuresAsMap[id], {
         offerID: R.call(R.ifElse(Boolean, R.pipe((0, _helpers.sortOffersByMinPrice)(query.get(_fn.QUERY_PARAMS.CURRENCY)), R.head, R.prop('id')), R.always(undefined)), groupedByDeparture[id]),
         queryID: queryID

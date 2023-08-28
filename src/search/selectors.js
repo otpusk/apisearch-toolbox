@@ -368,36 +368,34 @@ export const createGetDeparturesWithMinPrice = () => createSelector(
             R.concat(offers, getOffersListFromSearchMemory(queryID))
         );
 
-        if (R.isEmpty(groupedByDeparture)) {
-            return EMPTY_ARRAY;
-        }
-
         const departuresAsMap = R.indexBy(
             R.prop('id'),
             departures
         );
 
-        return R.map(
-            (id) => R.mergeAll([
-                departuresAsMap[id],
-                {
-                    offerID: R.call(
-                        R.ifElse(
-                            Boolean,
-                            R.pipe(
-                                sortOffersByMinPrice(query.get(QUERY_PARAMS.CURRENCY)),
-                                R.head,
-                                R.prop('id')
+        return R.isEmpty(groupedByDeparture)
+            ? EMPTY_ARRAY
+            : R.map(
+                (id) => R.mergeAll([
+                    departuresAsMap[id],
+                    {
+                        offerID: R.call(
+                            R.ifElse(
+                                Boolean,
+                                R.pipe(
+                                    sortOffersByMinPrice(query.get(QUERY_PARAMS.CURRENCY)),
+                                    R.head,
+                                    R.prop('id')
+                                ),
+                                R.always(undefined)
                             ),
-                            R.always(undefined)
+                            groupedByDeparture[id]
                         ),
-                        groupedByDeparture[id]
-                    ),
-                    queryID,
-                }
-            ]),
-            query.get(QUERY_PARAMS.DEPARTURES).toArray()
-        );
+                        queryID,
+                    }
+                ]),
+                query.get(QUERY_PARAMS.DEPARTURES).toArray()
+            );
     }
 );
 
