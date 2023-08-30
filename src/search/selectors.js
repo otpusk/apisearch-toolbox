@@ -6,7 +6,7 @@ import { getCenter } from 'geolib';
 import { getOffers } from './../offers/selectors';
 import { hotelsHub } from './../hotels/selectors';
 import { getQueryParam } from './../queries/selectors';
-import { getOperatorsMap } from './../geo/selectors';
+import { getDepartures, getOperatorsMap } from './../geo/selectors';
 import { getQuery } from './../queries/selectors';
 import { QUERY_PARAMS } from './../queries/fn';
 
@@ -354,6 +354,48 @@ export const getNightsWithMinPrice = () => createSelector(
             }),
             nights
         );
+    }
+);
+
+export const createGetDeparturesWithMinPrice = () => createSelector(
+    getDepartures(),
+    getOffersFromPrices(),
+    getQueryID,
+    getQuery,
+    (departures, offers, queryID, query) => {
+        const groupedByDeparture = R.groupBy(
+            R.prop('departure'),
+            R.concat(offers, getOffersListFromSearchMemory(queryID))
+        );
+
+        const departuresAsMap = R.indexBy(
+            R.prop('id'),
+            departures
+        );
+
+        return R.isEmpty(groupedByDeparture)
+            ? EMPTY_ARRAY
+            : R.map(
+                (id) => R.mergeAll([
+                    departuresAsMap[id],
+                    {
+                        offerID: R.call(
+                            R.ifElse(
+                                Boolean,
+                                R.pipe(
+                                    sortOffersByMinPrice(query.get(QUERY_PARAMS.CURRENCY)),
+                                    R.head,
+                                    R.prop('id')
+                                ),
+                                R.always(undefined)
+                            ),
+                            groupedByDeparture[id]
+                        ),
+                        queryID,
+                    }
+                ]),
+                query.get(QUERY_PARAMS.DEPARTURES).toArray()
+            );
     }
 );
 

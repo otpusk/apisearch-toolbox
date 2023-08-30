@@ -5,7 +5,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.selectOperators = exports.offersByKey = exports.isStart = exports.isSetSearch = exports.isSetHotelAtPrices = exports.isSearch = exports.isProccess = exports.isFail = exports.isDone = exports.hotelsByKey = exports.getTotal = exports.getSearchProgressByPercent = exports.getSearchCountry = exports.getPrices = exports.getOperatorsWithMinPrice = exports.getOperatorsByHotelID = exports.getOperatorLink = exports.getOffersFromPrices = exports.getNightsWithMinPrice = exports.getHotelsTotal = exports.getHotelsMarkers = exports.getHotelsByMinPrice = exports.getFoodsWithMinPrice = exports.getFlattenPrices = exports.getError = exports.getChart = exports.getCenterByHotelsMarkers = exports.getCategoryWithMinPrice = exports.getAvailableDates = void 0;
+exports.selectOperators = exports.offersByKey = exports.isStart = exports.isSetSearch = exports.isSetHotelAtPrices = exports.isSearch = exports.isProccess = exports.isFail = exports.isDone = exports.hotelsByKey = exports.getTotal = exports.getSearchProgressByPercent = exports.getSearchCountry = exports.getPrices = exports.getOperatorsWithMinPrice = exports.getOperatorsByHotelID = exports.getOperatorLink = exports.getOffersFromPrices = exports.getNightsWithMinPrice = exports.getHotelsTotal = exports.getHotelsMarkers = exports.getHotelsByMinPrice = exports.getFoodsWithMinPrice = exports.getFlattenPrices = exports.getError = exports.getChart = exports.getCenterByHotelsMarkers = exports.getCategoryWithMinPrice = exports.getAvailableDates = exports.createGetDeparturesWithMinPrice = void 0;
 
 var _reselect = require("reselect");
 
@@ -324,6 +324,21 @@ var getNightsWithMinPrice = function getNightsWithMinPrice() {
 };
 
 exports.getNightsWithMinPrice = getNightsWithMinPrice;
+
+var createGetDeparturesWithMinPrice = function createGetDeparturesWithMinPrice() {
+  return (0, _reselect.createSelector)((0, _selectors4.getDepartures)(), getOffersFromPrices(), getQueryID, _selectors3.getQuery, function (departures, offers, queryID, query) {
+    var groupedByDeparture = R.groupBy(R.prop('departure'), R.concat(offers, getOffersListFromSearchMemory(queryID)));
+    var departuresAsMap = R.indexBy(R.prop('id'), departures);
+    return R.isEmpty(groupedByDeparture) ? EMPTY_ARRAY : R.map(function (id) {
+      return R.mergeAll([departuresAsMap[id], {
+        offerID: R.call(R.ifElse(Boolean, R.pipe((0, _helpers.sortOffersByMinPrice)(query.get(_fn.QUERY_PARAMS.CURRENCY)), R.head, R.prop('id')), R.always(undefined)), groupedByDeparture[id]),
+        queryID: queryID
+      }]);
+    }, query.get(_fn.QUERY_PARAMS.DEPARTURES).toArray());
+  });
+};
+
+exports.createGetDeparturesWithMinPrice = createGetDeparturesWithMinPrice;
 var getMeta = (0, _reselect.createSelector)(searchByKey, R.propOr(EMPTY_OBJ, 'meta'));
 var getOperatorsLinks = (0, _reselect.createSelector)(getMeta, R.pathOr(EMPTY_OBJ, ['links', 'operators']));
 var getOperatorLink = (0, _reselect.createSelector)(getOperatorsLinks, function (_, _ref21) {

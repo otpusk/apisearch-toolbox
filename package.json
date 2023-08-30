@@ -41,7 +41,8 @@
     "@babel/plugin-proposal-optional-chaining": "7.6.0",
     "@babel/preset-env": "^7.8.3",
     "babel-eslint": "^10.0.3",
-    "eslint": "^6.8.0"
+    "eslint": "^6.8.0",
+    "@otpusk/json-api": "latest"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/"
