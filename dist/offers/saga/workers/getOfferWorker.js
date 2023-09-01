@@ -12,6 +12,8 @@ var _effects = require("redux-saga/effects");
 
 var _jsonApi = require("@otpusk/json-api");
 
+var _selectors = require("../../../auth/selectors");
+
 var _actions = require("../../actions");
 
 var _constants = require("../../constants");
@@ -24,6 +26,7 @@ var _marked = /*#__PURE__*/_regeneratorRuntime().mark(getOfferSaga),
 function getOfferSaga(offerID) {
   var fresh,
       currency,
+      lang,
       token,
       offer,
       _args = arguments;
@@ -34,29 +37,32 @@ function getOfferSaga(offerID) {
           fresh = _args.length > 1 && _args[1] !== undefined ? _args[1] : false;
           currency = _args.length > 2 ? _args[2] : undefined;
           _context.next = 4;
-          return (0, _effects.select)(function (state) {
-            return state.auth.getIn(['otpusk', 'token']);
-          });
+          return (0, _effects.select)(_selectors.getLang);
 
         case 4:
-          token = _context.sent;
+          lang = _context.sent;
           _context.next = 7;
-          return (0, _effects.call)(_jsonApi.getToursOffer, token, offerID, fresh, currency);
+          return (0, _effects.select)(_selectors.getToken);
 
         case 7:
+          token = _context.sent;
+          _context.next = 10;
+          return (0, _effects.call)(_jsonApi.getToursOffer, token, offerID, fresh, currency, lang);
+
+        case 10:
           offer = _context.sent;
 
           if (!offer.error) {
-            _context.next = 10;
+            _context.next = 13;
             break;
           }
 
           throw new Error(offer.error);
 
-        case 10:
+        case 13:
           return _context.abrupt("return", offer);
 
-        case 11:
+        case 14:
         case "end":
           return _context.stop();
       }

@@ -1,13 +1,15 @@
 import { call, put, select } from 'redux-saga/effects';
 import { getToursOffer } from '@otpusk/json-api';
 
-import { offersActions } from '../../actions';
+import { getToken, getLang } from '../../../auth/selectors';
 
+import { offersActions } from '../../actions';
 import { ALIVE_OFFER_STATUS, EXPIRED_OFFER_STATUS } from '../../constants';
 
 export function* getOfferSaga (offerID, fresh = false, currency) {
-    const token = yield select((state) => state.auth.getIn(['otpusk', 'token']));
-    const offer = yield call(getToursOffer, token, offerID, fresh, currency);
+    const lang = yield select(getLang);
+    const token = yield select(getToken);
+    const offer = yield call(getToursOffer, token, offerID, fresh, currency, lang);
 
     if (offer.error) {
         throw new Error(offer.error);
