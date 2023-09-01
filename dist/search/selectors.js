@@ -270,8 +270,8 @@ var getFoodsWithMinPrice = function getFoodsWithMinPrice() {
 exports.getFoodsWithMinPrice = getFoodsWithMinPrice;
 
 var getCategoryWithMinPrice = function getCategoryWithMinPrice() {
-  return (0, _reselect.createSelector)(_selectors3.getQueryParam, getFlattenPrices(), _selectors2.hotelsHub, (0, _selectors.getOffers)(), getQueryID, _selectors3.getQuery, // eslint-disable-next-line max-params
-  function (categoryMap, prices, hotels, offers, queryID, query) {
+  return (0, _reselect.createSelector)(getFlattenPrices(), _selectors2.hotelsHub, (0, _selectors.getOffers)(), getQueryID, _selectors3.getQuery, function (prices, hotels, offers, queryID, query) {
+    var categoriesAsArray = query ? R.map(R.head, R.toPairs(query.get(_fn.QUERY_PARAMS.CATEGORY).toObject())) : EMPTY_ARRAY;
     var groupedByCaregory = R.groupBy(R.path(['hotel', 'stars']), R.map(function (_ref17) {
       var hotelID = _ref17.hotelID,
           ids = _ref17.offers;
@@ -285,21 +285,21 @@ var getCategoryWithMinPrice = function getCategoryWithMinPrice() {
         }, ids)
       }]);
     }, R.concat(prices, getUnusedPricesFromSearchMemory(queryID))));
-    return R.isEmpty(groupedByCaregory) ? EMPTY_ARRAY : R.map(function (_ref18) {
-      var _ref19 = _slicedToArray(_ref18, 1),
-          category = _ref19[0];
-
+    return R.map(function (category) {
       return _objectSpread({
         category: category
-      }, R.call(R.ifElse(Boolean, R.pipe(R.map(R.prop('offers')), R.flatten, (0, _helpers.sortOffersByMinPrice)(query.get(_fn.QUERY_PARAMS.CURRENCY)), R.head, function (_ref20) {
-        var id = _ref20.id,
-            hotelID = _ref20.hotelID;
+      }, R.call(R.ifElse(Boolean, R.pipe(R.map(R.prop('offers')), R.flatten, (0, _helpers.sortOffersByMinPrice)(query.get(_fn.QUERY_PARAMS.CURRENCY)), R.head, function (_ref18) {
+        var id = _ref18.id,
+            hotelID = _ref18.hotelID;
         return {
           offerID: id,
           hotelID: hotelID
         };
-      }), R.always({})), R.prop(category, groupedByCaregory)));
-    }, R.toPairs(categoryMap.toObject()));
+      }), R.always({
+        offerID: undefined,
+        hotelID: undefined
+      })), R.prop(category, groupedByCaregory)));
+    }, categoriesAsArray);
   });
 };
 
@@ -327,22 +327,23 @@ exports.getNightsWithMinPrice = getNightsWithMinPrice;
 
 var createGetDeparturesWithMinPrice = function createGetDeparturesWithMinPrice() {
   return (0, _reselect.createSelector)((0, _selectors4.getDepartures)(), getOffersFromPrices(), getQueryID, _selectors3.getQuery, function (departures, offers, queryID, query) {
+    var departuresIDsFromQuery = query ? query.get(_fn.QUERY_PARAMS.DEPARTURES).toArray() : EMPTY_ARRAY;
     var groupedByDeparture = R.groupBy(R.prop('departure'), R.concat(offers, getOffersListFromSearchMemory(queryID)));
     var departuresAsMap = R.indexBy(R.prop('id'), departures);
-    return R.isEmpty(groupedByDeparture) ? EMPTY_ARRAY : R.map(function (id) {
+    return R.map(function (id) {
       return R.mergeAll([departuresAsMap[id], {
         offerID: R.call(R.ifElse(Boolean, R.pipe((0, _helpers.sortOffersByMinPrice)(query.get(_fn.QUERY_PARAMS.CURRENCY)), R.head, R.prop('id')), R.always(undefined)), groupedByDeparture[id]),
         queryID: queryID
       }]);
-    }, query.get(_fn.QUERY_PARAMS.DEPARTURES).toArray());
+    }, departuresIDsFromQuery);
   });
 };
 
 exports.createGetDeparturesWithMinPrice = createGetDeparturesWithMinPrice;
 var getMeta = (0, _reselect.createSelector)(searchByKey, R.propOr(EMPTY_OBJ, 'meta'));
 var getOperatorsLinks = (0, _reselect.createSelector)(getMeta, R.pathOr(EMPTY_OBJ, ['links', 'operators']));
-var getOperatorLink = (0, _reselect.createSelector)(getOperatorsLinks, function (_, _ref21) {
-  var operatorID = _ref21.operatorID;
+var getOperatorLink = (0, _reselect.createSelector)(getOperatorsLinks, function (_, _ref19) {
+  var operatorID = _ref19.operatorID;
   return operatorID;
 }, function (links, id) {
   return R.prop(id, links);
@@ -362,8 +363,8 @@ var getHotelsTotal = function getHotelsTotal() {
 exports.getHotelsTotal = getHotelsTotal;
 
 var getOperatorsByHotelID = function getOperatorsByHotelID() {
-  return (0, _reselect.createSelector)(getFlattenPrices(), (0, _selectors.getOffers)(), (0, _selectors4.getOperatorsMap)(), function (_, _ref22) {
-    var hotelID = _ref22.hotelID;
+  return (0, _reselect.createSelector)(getFlattenPrices(), (0, _selectors.getOffers)(), (0, _selectors4.getOperatorsMap)(), function (_, _ref20) {
+    var hotelID = _ref20.hotelID;
     return hotelID;
   }, function (prices, offersHub, operatorsMap, hotelID) {
     return R.isEmpty(prices) ? EMPTY_ARRAY : R.call(R.pipe(R.find(R.propEq(hotelID, 'hotelID')), R.propOr(EMPTY_ARRAY, 'offers'), R.map(function (id) {
@@ -385,19 +386,19 @@ exports.getChart = getChart;
 
 var getHotelsMarkers = function getHotelsMarkers() {
   return (0, _reselect.createSelector)(getFlattenPrices(), _selectors2.hotelsHub, function (prices, hotels) {
-    return R.filter(Boolean, R.map(R.pipe(function (_ref23) {
-      var hotelID = _ref23.hotelID,
-          _ref23$offers = _slicedToArray(_ref23.offers, 1),
-          offerID = _ref23$offers[0];
+    return R.filter(Boolean, R.map(R.pipe(function (_ref21) {
+      var hotelID = _ref21.hotelID,
+          _ref21$offers = _slicedToArray(_ref21.offers, 1),
+          offerID = _ref21$offers[0];
 
       return R.mergeAll([hotels[hotelID], {
         offerID: offerID
       }]);
-    }, R.ifElse(R.prop('location'), function (_ref24) {
-      var id = _ref24.id,
-          location = _ref24.location,
-          offerID = _ref24.offerID,
-          stars = _ref24.stars;
+    }, R.ifElse(R.prop('location'), function (_ref22) {
+      var id = _ref22.id,
+          location = _ref22.location,
+          offerID = _ref22.offerID,
+          stars = _ref22.stars;
       return {
         hotelID: id,
         offerID: offerID,

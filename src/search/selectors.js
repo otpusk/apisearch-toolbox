@@ -270,14 +270,19 @@ export const getFoodsWithMinPrice = () => createSelector(
 );
 
 export const getCategoryWithMinPrice = () => createSelector(
-    getQueryParam,
     getFlattenPrices(),
     hotelsHub,
     getOffers(),
     getQueryID,
     getQuery,
-    // eslint-disable-next-line max-params
-    (categoryMap, prices, hotels, offers, queryID, query) => {
+    (prices, hotels, offers, queryID, query) => {
+        const categoriesAsArray = query
+            ? R.map(
+                R.head,
+                R.toPairs(query.get(QUERY_PARAMS.CATEGORY).toObject())
+            )
+            : EMPTY_ARRAY;
+
         const groupedByCaregory = R.groupBy(
             R.path(['hotel', 'stars']),
             R.map(
@@ -292,28 +297,26 @@ export const getCategoryWithMinPrice = () => createSelector(
             )
         );
 
-        return R.isEmpty(groupedByCaregory)
-            ? EMPTY_ARRAY
-            : R.map(
-                ([category]) => ({
-                    category,
-                    ...R.call(
-                        R.ifElse(
-                            Boolean,
-                            R.pipe(
-                                R.map(R.prop('offers')),
-                                R.flatten,
-                                sortOffersByMinPrice(query.get(QUERY_PARAMS.CURRENCY)),
-                                R.head,
-                                ({ id, hotelID }) => ({ offerID: id, hotelID })
-                            ),
-                            R.always({})
+        return R.map(
+            (category) => ({
+                category,
+                ...R.call(
+                    R.ifElse(
+                        Boolean,
+                        R.pipe(
+                            R.map(R.prop('offers')),
+                            R.flatten,
+                            sortOffersByMinPrice(query.get(QUERY_PARAMS.CURRENCY)),
+                            R.head,
+                            ({ id, hotelID }) => ({ offerID: id, hotelID })
                         ),
-                        R.prop(category, groupedByCaregory)
+                        R.always({ offerID: undefined, hotelID: undefined })
                     ),
-                }),
-                R.toPairs(categoryMap.toObject())
-            );
+                    R.prop(category, groupedByCaregory)
+                ),
+            }),
+            categoriesAsArray
+        );
     }
 );
 
@@ -363,6 +366,10 @@ export const createGetDeparturesWithMinPrice = () => createSelector(
     getQueryID,
     getQuery,
     (departures, offers, queryID, query) => {
+        const departuresIDsFromQuery = query
+            ? query.get(QUERY_PARAMS.DEPARTURES).toArray()
+            : EMPTY_ARRAY;
+
         const groupedByDeparture = R.groupBy(
             R.prop('departure'),
             R.concat(offers, getOffersListFromSearchMemory(queryID))
@@ -373,29 +380,27 @@ export const createGetDeparturesWithMinPrice = () => createSelector(
             departures
         );
 
-        return R.isEmpty(groupedByDeparture)
-            ? EMPTY_ARRAY
-            : R.map(
-                (id) => R.mergeAll([
-                    departuresAsMap[id],
-                    {
-                        offerID: R.call(
-                            R.ifElse(
-                                Boolean,
-                                R.pipe(
-                                    sortOffersByMinPrice(query.get(QUERY_PARAMS.CURRENCY)),
-                                    R.head,
-                                    R.prop('id')
-                                ),
-                                R.always(undefined)
+        return R.map(
+            (id) => R.mergeAll([
+                departuresAsMap[id],
+                {
+                    offerID: R.call(
+                        R.ifElse(
+                            Boolean,
+                            R.pipe(
+                                sortOffersByMinPrice(query.get(QUERY_PARAMS.CURRENCY)),
+                                R.head,
+                                R.prop('id')
                             ),
-                            groupedByDeparture[id]
+                            R.always(undefined)
                         ),
-                        queryID,
-                    }
-                ]),
-                query.get(QUERY_PARAMS.DEPARTURES).toArray()
-            );
+                        groupedByDeparture[id]
+                    ),
+                    queryID,
+                }
+            ]),
+            departuresIDsFromQuery
+        );
     }
 );
 
