@@ -35,8 +35,6 @@ function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Sy
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 var searchWatchers = Object.freeze({
   runSearchWatcher: /*#__PURE__*/_regeneratorRuntime().mark(function runSearchWatcher() {
     return _regeneratorRuntime().wrap(function runSearchWatcher$(_context2) {
@@ -44,23 +42,20 @@ var searchWatchers = Object.freeze({
         switch (_context2.prev = _context2.next) {
           case 0:
             _context2.next = 2;
-            return (0, _effects.takeEvery)([_actions.searchActions.runSearch, _actions.searchActions.getResults], /*#__PURE__*/_regeneratorRuntime().mark(function _callee(actionArgs) {
-              var _actions$runSearch$ac2;
-
-              var _actions$runSearch$ac, worker, searchTask, queryId, _yield$race, _yield$race2, cancelledTask;
+            return (0, _effects.takeEvery)(_actions.searchActions.getResults, /*#__PURE__*/_regeneratorRuntime().mark(function _callee(actionArgs) {
+              var searchTask, queryId, _yield$race, _yield$race2, cancelledTask;
 
               return _regeneratorRuntime().wrap(function _callee$(_context) {
                 while (1) {
                   switch (_context.prev = _context.next) {
                     case 0:
-                      _actions$runSearch$ac = (_actions$runSearch$ac2 = {}, _defineProperty(_actions$runSearch$ac2, _actions.searchActions.runSearch, _workers.runSearchWorker), _defineProperty(_actions$runSearch$ac2, _actions.searchActions.getResults, _workers.getResultsWorker), _actions$runSearch$ac2), worker = _actions$runSearch$ac[actionArgs.type];
-                      _context.next = 3;
-                      return (0, _effects.fork)(worker, actionArgs);
+                      _context.next = 2;
+                      return (0, _effects.fork)(_workers.getResultsWorker, actionArgs);
 
-                    case 3:
+                    case 2:
                       searchTask = _context.sent;
                       queryId = actionArgs.payload;
-                      _context.next = 7;
+                      _context.next = 6;
                       return (0, _effects.race)([(0, _effects.take)(function (action) {
                         return R.and(R.equals(action.type, _actions.searchActions.cancelledSearch.toString()), R.equals(action.payload, queryId));
                       }), (0, _effects.take)(function (action) {
@@ -69,21 +64,21 @@ var searchWatchers = Object.freeze({
                         return R.and(R.equals(action.type, _actions.searchActions.failSearch.toString()), R.equals(action.payload, queryId));
                       })]);
 
-                    case 7:
+                    case 6:
                       _yield$race = _context.sent;
                       _yield$race2 = _slicedToArray(_yield$race, 1);
                       cancelledTask = _yield$race2[0];
                       _context.t0 = cancelledTask;
 
                       if (!_context.t0) {
-                        _context.next = 14;
+                        _context.next = 13;
                         break;
                       }
 
-                      _context.next = 14;
+                      _context.next = 13;
                       return (0, _effects.cancel)(searchTask);
 
-                    case 14:
+                    case 13:
                     case "end":
                       return _context.stop();
                   }
@@ -98,57 +93,42 @@ var searchWatchers = Object.freeze({
       }
     }, runSearchWatcher);
   }),
-  submitSearchWatcher: /*#__PURE__*/_regeneratorRuntime().mark(function submitSearchWatcher() {
-    return _regeneratorRuntime().wrap(function submitSearchWatcher$(_context3) {
+  getPriceChartWatcher: /*#__PURE__*/_regeneratorRuntime().mark(function getPriceChartWatcher() {
+    return _regeneratorRuntime().wrap(function getPriceChartWatcher$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
             _context3.next = 2;
-            return (0, _effects.takeEvery)(_actions.searchActions.submitSearch, _workers.submitSearchWorker);
+            return (0, _effects.takeEvery)(_actions.searchActions.getPriceChart, _workers.getPriceChartWorker);
 
           case 2:
           case "end":
             return _context3.stop();
         }
       }
-    }, submitSearchWatcher);
+    }, getPriceChartWatcher);
   }),
-  getPriceChartWatcher: /*#__PURE__*/_regeneratorRuntime().mark(function getPriceChartWatcher() {
-    return _regeneratorRuntime().wrap(function getPriceChartWatcher$(_context4) {
+  getAvailableDatesWorker: /*#__PURE__*/_regeneratorRuntime().mark(function getAvailableDatesWorker() {
+    return _regeneratorRuntime().wrap(function getAvailableDatesWorker$(_context4) {
       while (1) {
         switch (_context4.prev = _context4.next) {
           case 0:
             _context4.next = 2;
-            return (0, _effects.takeEvery)(_actions.searchActions.getPriceChart, _workers.getPriceChartWorker);
+            return (0, _effects.takeEvery)(_actions.searchActions.getAvailableDates, _workers.getAvailableDatesWorker);
 
           case 2:
           case "end":
             return _context4.stop();
         }
       }
-    }, getPriceChartWatcher);
+    }, getAvailableDatesWorker);
   }),
-  getAvailableDatesWorker: /*#__PURE__*/_regeneratorRuntime().mark(function getAvailableDatesWorker() {
-    return _regeneratorRuntime().wrap(function getAvailableDatesWorker$(_context5) {
+  clearSearchWorker: /*#__PURE__*/_regeneratorRuntime().mark(function clearSearchWorker() {
+    return _regeneratorRuntime().wrap(function clearSearchWorker$(_context5) {
       while (1) {
         switch (_context5.prev = _context5.next) {
           case 0:
             _context5.next = 2;
-            return (0, _effects.takeEvery)(_actions.searchActions.getAvailableDates, _workers.getAvailableDatesWorker);
-
-          case 2:
-          case "end":
-            return _context5.stop();
-        }
-      }
-    }, getAvailableDatesWorker);
-  }),
-  clearSearchWorker: /*#__PURE__*/_regeneratorRuntime().mark(function clearSearchWorker() {
-    return _regeneratorRuntime().wrap(function clearSearchWorker$(_context6) {
-      while (1) {
-        switch (_context6.prev = _context6.next) {
-          case 0:
-            _context6.next = 2;
             return (0, _effects.takeEvery)(_actions.searchActions.clearSearch, function (_ref) {
               var queryID = _ref.payload;
               delete _resultsMemory.memoryInstances[queryID];
@@ -156,7 +136,7 @@ var searchWatchers = Object.freeze({
 
           case 2:
           case "end":
-            return _context6.stop();
+            return _context5.stop();
         }
       }
     }, clearSearchWorker);

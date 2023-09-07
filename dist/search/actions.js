@@ -14,14 +14,6 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var searchActions = (0, _reduxActions.createActions)({
-  SUBMIT_SEARCH: function SUBMIT_SEARCH() {
-    var queryId = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'main';
-    var targetPage = arguments.length > 1 ? arguments[1] : undefined;
-    return {
-      queryId: queryId,
-      targetPage: targetPage
-    };
-  },
   RUN_SEARCH: function RUN_SEARCH(queryId) {
     return queryId;
   },
@@ -54,12 +46,6 @@ var searchActions = (0, _reduxActions.createActions)({
   }],
   CLEAR_SEARCH: function CLEAR_SEARCH(queryId) {
     return queryId;
-  },
-  SET_FAIL_SEARCH_ERROR: function SET_FAIL_SEARCH_ERROR(queryId, error) {
-    return {
-      queryId: queryId,
-      error: error
-    };
   },
   CANCELLED_SEARCH: function CANCELLED_SEARCH(queryId) {
     return queryId;

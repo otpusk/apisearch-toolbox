@@ -1,11 +1,11 @@
-import * as R from 'ramda';
+import { assoc, curryN, split } from 'ramda';
 
 export const generateOfferKey = (id, meta = {}) => `${id}-${JSON.stringify(meta)}`;
 
 export const isOfferKey = (offerID) => typeof offerID === 'string';
 
 export const extractDataFromOfferKey= (key) => {
-    const [id, meta] = R.split('-', key);
+    const [id, meta] = split('-', key);
 
     return {
         id,
@@ -13,3 +13,9 @@ export const extractDataFromOfferKey= (key) => {
         key,
     };
 };
+
+export const presetEmpyShapeForActualizedOffer = curryN(2, (offerID, actualizedOffers) => {
+    return actualizedOffers[offerID]
+        ? assoc(offerID, {}, actualizedOffers)
+        : actualizedOffers[offerID];
+});

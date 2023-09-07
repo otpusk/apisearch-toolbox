@@ -52,15 +52,11 @@ var getOfferID = function getOfferID(_, _ref) {
   };
 };
 
-var getOffersStore = (0, _reselect.createSelector)(domain, function (offers) {
-  return offers.get('store');
-});
-var getOffersStatuses = (0, _reselect.createSelector)(domain, function (offers) {
-  return offers.get('status');
-});
+var getOffersStore = R.pipe(domain, R.prop('store'));
+var getOffersStatuses = R.pipe(domain, R.prop('status'));
 var getOfferStatus = (0, _reselect.createSelector)(getOffersStatuses, getOfferID, function (map, _ref3) {
   var offerID = _ref3.offerID;
-  return map.get(offerID);
+  return R.prop(offerID, map);
 });
 exports.getOfferStatus = getOfferStatus;
 var isAliveOffer = (0, _reselect.createSelector)(getOfferStatus, R.equals(_constants.ALIVE_OFFER_STATUS));
@@ -75,7 +71,7 @@ var getOffers = function getOffers() {
 
     return queryID;
   }, function (store, queryID) {
-    return queryID ? R.mergeAll([store.toObject(), getOffersHubFromSearchMemory(queryID)]) : store.toObject();
+    return queryID ? R.mergeAll([store, getOffersHubFromSearchMemory(queryID)]) : store;
   });
 };
 
@@ -115,9 +111,7 @@ var isActualLastUpdate = function isActualLastUpdate() {
 };
 
 exports.isActualLastUpdate = isActualLastUpdate;
-var actualizedOffersDomain = (0, _reselect.createSelector)(domain, function (_) {
-  return _.get('actualizedOffers');
-});
+var actualizedOffersDomain = R.pipe(domain, R.prop('actualizedOffers'));
 
 var getActualizedEntity = function getActualizedEntity() {
   return (0, _reselect.createSelector)(actualizedOffersDomain, getOfferID, function (offer, _ref7) {

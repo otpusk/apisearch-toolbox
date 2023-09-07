@@ -2,7 +2,6 @@
 import { createActions } from 'redux-actions';
 
 export const searchActions = createActions({
-    SUBMIT_SEARCH:  (queryId = 'main', targetPage) => ({ queryId, targetPage }),
     RUN_SEARCH:     (queryId) => queryId,
     GET_RESULTS:    (queryId) => queryId,
     RESET_SEARCH:   (queryId) => queryId,
@@ -14,7 +13,6 @@ export const searchActions = createActions({
         (_, error, response) => ({ error, response })
     ],
     CLEAR_SEARCH:                (queryId) => queryId,
-    SET_FAIL_SEARCH_ERROR:       (queryId, error) => ({ queryId, error }),
     CANCELLED_SEARCH:            (queryId) => queryId,
     SET_SEARCH_STATUS:           (queryID, status) => ({ queryID, status }),
     GET_PRICE_CHART:             (queryId, duration, methodVersion) => ({ queryId, duration, methodVersion }),

@@ -18,18 +18,10 @@ Object.defineProperty(exports, "offersReducer", {
   }
 });
 exports.offersSelectors = void 0;
-Object.defineProperty(exports, "offersWatchers", {
-  enumerable: true,
-  get: function get() {
-    return _watchers.offersWatchers;
-  }
-});
 
 var _actions = require("./actions");
 
 var _reducer = require("./reducer");
-
-var _watchers = require("./saga/watchers");
 
 var _offersSelectors = _interopRequireWildcard(require("./selectors"));
 

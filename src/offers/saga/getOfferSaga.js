@@ -1,10 +1,10 @@
 import { call, put, select } from 'redux-saga/effects';
 import { getToursOffer } from '@otpusk/json-api';
 
-import { getToken, getLang } from '../../../auth/selectors';
+import { getToken, getLang } from '../../auth/selectors';
 
-import { offersActions } from '../../actions';
-import { ALIVE_OFFER_STATUS, EXPIRED_OFFER_STATUS } from '../../constants';
+import { offersActions } from '../actions';
+import { ALIVE_OFFER_STATUS, EXPIRED_OFFER_STATUS } from '../constants';
 
 export function* getOfferSaga (offerID, fresh = false, currency) {
     const lang = yield select(getLang);
@@ -18,7 +18,7 @@ export function* getOfferSaga (offerID, fresh = false, currency) {
     return offer;
 }
 
-export function* getOfferWorker ({ payload: { offerId, fresh, currency }}) {
+export function* bootstrapOfferSaga ({ payload: { offerId, fresh, currency }}) {
     yield put(offersActions.setOfferStatus(offerId, 'pending'));
 
     try {

@@ -21,22 +21,6 @@ Object.defineProperty(exports, "getResultsWorker", {
     return _getResultsWorker.getResultsWorker;
   }
 });
-Object.defineProperty(exports, "runSearchWorker", {
-  enumerable: true,
-  get: function get() {
-    return _runSearchWorker.runSearchWorker;
-  }
-});
-Object.defineProperty(exports, "submitSearchWorker", {
-  enumerable: true,
-  get: function get() {
-    return _submitSearchWorker.submitSearchWorker;
-  }
-});
-
-var _runSearchWorker = require("./runSearchWorker");
-
-var _submitSearchWorker = require("./submitSearchWorker");
 
 var _getPriceChartWorker = require("./getPriceChartWorker");
 

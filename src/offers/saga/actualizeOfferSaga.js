@@ -1,9 +1,11 @@
 import { call, put, select } from 'redux-saga/effects';
-import { getToursActual } from '@otpusk/json-api';
 import * as R from 'ramda';
+import { getToursActual } from '@otpusk/json-api';
 
-import { offersActions } from '../../actions';
-import { ACTUALIZED_OFFER_STATUS } from '../../constants';
+import { getLang, getToken } from '../../auth/selectors';
+
+import { offersActions } from '../actions';
+import { ACTUALIZED_OFFER_STATUS } from '../constants';
 
 const getTextStatusByCode = (code) => R.call(
     R.cond([
@@ -37,9 +39,9 @@ const generatePeopleString = (adults, children) => R.call(
     ]
 );
 
-export function* actualizeOfferWorker ({ payload: { adults, children, offerID, currency }}) {
-    const token = yield select((state) => state.auth.getIn(['otpusk', 'token']));
-    const lang = yield select((state) => state.auth.getIn(['otpusk', 'lang']));
+export function* actualizeOfferSaga ({ payload: { adults, children, offerID, currency }}) {
+    const token = yield select(getToken);
+    const lang = yield select(getLang);
 
     yield put(offersActions.startActualizeOffer(offerID));
 

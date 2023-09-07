@@ -7,12 +7,6 @@ exports.offersActions = void 0;
 
 var _reduxActions = require("redux-actions");
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 var offersActions = (0, _reduxActions.createActions)({
   GET_OFFER: function GET_OFFER(offerId) {
     var fresh = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
@@ -39,64 +33,11 @@ var offersActions = (0, _reduxActions.createActions)({
   SET_OFFER: function SET_OFFER(offer) {
     return offer;
   },
-  SET_OFFER_STATUS: function SET_OFFER_STATUS(offerId, status) {
+  SET_OFFER_STATUS: function SET_OFFER_STATUS(offerID, status) {
     return {
-      offerId: offerId,
+      offerID: offerID,
       status: status
     };
-  },
-  CHECK_OFFER_STATUS: function CHECK_OFFER_STATUS(offerId, hotelId, queryId) {
-    return {
-      offerId: offerId,
-      hotelId: hotelId,
-      queryId: queryId
-    };
-  },
-  CHECK_OFFER_STATUS_SUCCESS: function CHECK_OFFER_STATUS_SUCCESS(offerId, freshOffer) {
-    return {
-      offerId: offerId,
-      freshOffer: freshOffer
-    };
-  },
-  CHECK_OFFER_STATUS_FAIL: function CHECK_OFFER_STATUS_FAIL(error) {
-    return error;
-  },
-  VALIDATE_OFFER_ADDITIONAL_COSTS: function VALIDATE_OFFER_ADDITIONAL_COSTS(offerId) {
-    return {
-      offerId: offerId
-    };
-  },
-  VALIDATE_OFFER_ADDITIONAL_COSTS_SUCCESS: function VALIDATE_OFFER_ADDITIONAL_COSTS_SUCCESS(offerId, validatedTour) {
-    return _objectSpread({
-      offerId: offerId
-    }, validatedTour);
-  },
-  VALIDATE_OFFER_ADDITIONAL_COSTS_FAIL: function VALIDATE_OFFER_ADDITIONAL_COSTS_FAIL(offerId, error) {
-    return {
-      offerId: offerId,
-      error: error
-    };
-  },
-  SET_OFFER_ADDITIONAL_COSTS_STATUS: function SET_OFFER_ADDITIONAL_COSTS_STATUS(offerId, status) {
-    return {
-      offerId: offerId,
-      status: status
-    };
-  },
-  VALIDATE_SET_PRICE: function VALIDATE_SET_PRICE(offerId, selectedFlights) {
-    return {
-      offerId: offerId,
-      selectedFlights: selectedFlights
-    };
-  },
-  VALIDATE_SET_PRICE_SUCCESS: function VALIDATE_SET_PRICE_SUCCESS(offerId, selectedFlights) {
-    return {
-      offerId: offerId,
-      selectedFlights: selectedFlights
-    };
-  },
-  VALIDATE_SET_PRICE_FAIL: function VALIDATE_SET_PRICE_FAIL(error) {
-    return error;
   },
   ACTUALIZE_OFFER: function ACTUALIZE_OFFER(offerID, adults, children, currency) {
     return {

@@ -28,20 +28,20 @@ const getOfferID = (_, { offerID }) => {
     };
 };
 
-const getOffersStore = createSelector(
+const getOffersStore = R.pipe(
     domain,
-    (offers) => offers.get('store')
+    R.prop('store')
 );
 
-const getOffersStatuses = createSelector(
+const getOffersStatuses = R.pipe(
     domain,
-    (offers) => offers.get('status')
+    R.prop('status')
 );
 
 export const getOfferStatus = createSelector(
     getOffersStatuses,
     getOfferID,
-    (map, { offerID }) => map.get(offerID)
+    (map, { offerID }) => R.prop(offerID, map)
 );
 
 export const isAliveOffer = createSelector(
@@ -57,12 +57,14 @@ export const isExpiredOffer = createSelector(
 export const getOffers = () => createSelector(
     getOffersStore,
     (_, { queryID } = {}) => queryID,
-    (store, queryID) => queryID
-        ? R.mergeAll([
-            store.toObject(),
-            getOffersHubFromSearchMemory(queryID)
-        ])
-        : store.toObject()
+    (store, queryID) => {
+        return queryID
+            ? R.mergeAll([
+                store,
+                getOffersHubFromSearchMemory(queryID)
+            ])
+            : store;
+    }
 );
 
 export const getOffer = () => createSelector(
@@ -97,9 +99,9 @@ export const isActualLastUpdate = () => createSelector(
     }
 );
 
-const actualizedOffersDomain = createSelector(
+const actualizedOffersDomain = R.pipe(
     domain,
-    (_) => _.get('actualizedOffers')
+    R.prop('actualizedOffers')
 );
 
 const getActualizedEntity = () => createSelector(

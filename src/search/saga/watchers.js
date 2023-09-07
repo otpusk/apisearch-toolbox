@@ -5,20 +5,14 @@ import { memoryInstances } from './workers/getResultsWorker/resultsMemory';
 import { searchActions as actions } from '../actions';
 import {
     getResultsWorker,
-    runSearchWorker,
-    submitSearchWorker,
     getPriceChartWorker,
     getAvailableDatesWorker
 } from './workers';
 
 export const searchWatchers =  Object.freeze({
     * runSearchWatcher () {
-        yield takeEvery([actions.runSearch, actions.getResults], function* (actionArgs) {
-            const { [actionArgs.type]: worker } = {
-                [actions.runSearch]:  runSearchWorker,
-                [actions.getResults]: getResultsWorker,
-            };
-            const searchTask = yield fork(worker, actionArgs);
+        yield takeEvery(actions.getResults, function* (actionArgs) {
+            const searchTask = yield fork(getResultsWorker, actionArgs);
 
             const { payload: queryId } = actionArgs;
 
@@ -39,9 +33,6 @@ export const searchWatchers =  Object.freeze({
 
             cancelledTask && (yield cancel(searchTask));
         });
-    },
-    * submitSearchWatcher () {
-        yield takeEvery(actions.submitSearch, submitSearchWorker);
     },
     * getPriceChartWatcher () {
         yield takeEvery(actions.getPriceChart, getPriceChartWorker);
