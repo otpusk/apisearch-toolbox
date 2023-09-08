@@ -46,7 +46,7 @@ var extractDataFromOfferKey = function extractDataFromOfferKey(key) {
 };
 
 exports.extractDataFromOfferKey = extractDataFromOfferKey;
-var presetEmpyShapeForActualizedOffer = (0, _ramda.curryN)(2, function (offerID, actualizedOffers) {
-  return actualizedOffers[offerID] ? (0, _ramda.assoc)(offerID, {}, actualizedOffers) : actualizedOffers[offerID];
-});
+var presetEmpyShapeForActualizedOffer = (0, _ramda.ifElse)(Boolean, function (prevShape) {
+  return prevShape;
+}, (0, _ramda.always)({}));
 exports.presetEmpyShapeForActualizedOffer = presetEmpyShapeForActualizedOffer;

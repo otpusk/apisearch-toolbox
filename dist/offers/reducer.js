@@ -47,22 +47,22 @@ var offersReducer = (0, _reduxActions.handleActions)((_handleActions = {}, _defi
   return R.assocPath(['status', offerID], status, state);
 }), _defineProperty(_handleActions, _actions.offersActions.setActualizedOffer, function (state, _ref4) {
   var payload = _ref4.payload;
-  return R.over(R.lensProp('actualizedOffers'), R.pipe((0, _helpers.presetEmpyShapeForActualizedOffer)(payload.offerID), R.set(R.lensPath([payload.offerID, 'offer']), payload.offer)), state);
+  return R.over(R.lensPath(['actualizedOffers', payload.offerID]), R.pipe(_helpers.presetEmpyShapeForActualizedOffer, R.assoc('offer', payload.offer)), state);
 }), _defineProperty(_handleActions, _actions.offersActions.setActualizedStatus, function (state, _ref5) {
   var payload = _ref5.payload;
-  return R.over(R.lensProp('actualizedOffers'), R.pipe((0, _helpers.presetEmpyShapeForActualizedOffer)(payload.offerID), R.set(R.lensPath([payload.offerID, 'actualizedStatus']), payload.status)), state);
+  return R.over(R.lensPath(['actualizedOffers', payload.offerID]), R.pipe(_helpers.presetEmpyShapeForActualizedOffer, R.assoc('actualizedStatus', payload.status)), state);
 }), _defineProperty(_handleActions, _actions.offersActions.startActualizeOffer, function (state, _ref6) {
   var offerID = _ref6.payload;
-  return R.over(R.lensProp('actualizedOffers'), R.pipe((0, _helpers.presetEmpyShapeForActualizedOffer)(offerID), R.set(R.lensPath([offerID, 'loading']), true)), state);
+  return R.over(R.lensPath(['actualizedOffers', offerID]), R.pipe(_helpers.presetEmpyShapeForActualizedOffer, R.assoc('loading', true)), state);
 }), _defineProperty(_handleActions, _actions.offersActions.endActualizeOffer, function (state, _ref7) {
   var offerID = _ref7.payload;
-  return R.over(R.lensProp('actualizedOffers'), R.pipe((0, _helpers.presetEmpyShapeForActualizedOffer)(offerID), R.set(R.lensPath([offerID, 'loading']), false), R.set(R.lensPath([offerID, 'completed']), true)), state);
+  return R.over(R.lensPath(['actualizedOffers', offerID]), R.pipe(_helpers.presetEmpyShapeForActualizedOffer, R.assoc('loading', false), R.assoc('completed', true)), state);
 }), _defineProperty(_handleActions, _actions.offersActions.setMessageByActualizedOffer, function (state, _ref8) {
   var payload = _ref8.payload;
-  return R.over(R.lensProp('actualizedOffers'), R.pipe((0, _helpers.presetEmpyShapeForActualizedOffer)(payload.offerID), R.set(R.lensPath([payload.offerID, 'message']), payload.message)), state);
+  return R.over(R.lensPath(['actualizedOffers', payload.offerID]), R.pipe(_helpers.presetEmpyShapeForActualizedOffer, R.assoc('message', payload.message)), state);
 }), _defineProperty(_handleActions, _actions.offersActions.failActualizedOffer, function (state, _ref9) {
   var offerID = _ref9.payload;
-  return R.over(R.lensProp('actualizedOffers'), R.pipe((0, _helpers.presetEmpyShapeForActualizedOffer)(offerID), R.set(R.lensPath([offerID, 'error']), true)), state);
+  return R.over(R.lensPath(['actualizedOffers', offerID]), R.pipe(_helpers.presetEmpyShapeForActualizedOffer, R.assoc('error', true)), state);
 }), _defineProperty(_handleActions, _actions.offersActions.clearActualizedOffer, function (state, _ref10) {
   var offerID = _ref10.payload;
   return R.over(R.lensProp('actualizedOffers'), R.omit([offerID]), state);

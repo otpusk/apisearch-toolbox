@@ -1,4 +1,4 @@
-import { assoc, curryN, split } from 'ramda';
+import { always, ifElse, split } from 'ramda';
 
 export const generateOfferKey = (id, meta = {}) => `${id}-${JSON.stringify(meta)}`;
 
@@ -14,8 +14,8 @@ export const extractDataFromOfferKey= (key) => {
     };
 };
 
-export const presetEmpyShapeForActualizedOffer = curryN(2, (offerID, actualizedOffers) => {
-    return actualizedOffers[offerID]
-        ? assoc(offerID, {}, actualizedOffers)
-        : actualizedOffers[offerID];
-});
+export const presetEmpyShapeForActualizedOffer = ifElse(
+    Boolean,
+    (prevShape) => prevShape,
+    always({})
+);

@@ -49,11 +49,11 @@ export const offersReducer = handleActions({
     },
     [offersActions.setActualizedOffer]: (state, { payload }) => {
         return R.over(
-            R.lensProp('actualizedOffers'),
+            R.lensPath(['actualizedOffers', payload.offerID]),
             R.pipe(
-                presetEmpyShapeForActualizedOffer(payload.offerID),
-                R.set(
-                    R.lensPath([payload.offerID, 'offer']),
+                presetEmpyShapeForActualizedOffer,
+                R.assoc(
+                    'offer',
                     payload.offer
                 )
             ),
@@ -62,11 +62,11 @@ export const offersReducer = handleActions({
     },
     [offersActions.setActualizedStatus]: (state, { payload }) => {
         return R.over(
-            R.lensProp('actualizedOffers'),
+            R.lensPath(['actualizedOffers', payload.offerID]),
             R.pipe(
-                presetEmpyShapeForActualizedOffer(payload.offerID),
-                R.set(
-                    R.lensPath([payload.offerID, 'actualizedStatus']),
+                presetEmpyShapeForActualizedOffer,
+                R.assoc(
+                    'actualizedStatus',
                     payload.status
                 )
             ),
@@ -75,11 +75,11 @@ export const offersReducer = handleActions({
     },
     [offersActions.startActualizeOffer]: (state, { payload: offerID }) => {
         return R.over(
-            R.lensProp('actualizedOffers'),
+            R.lensPath(['actualizedOffers', offerID]),
             R.pipe(
-                presetEmpyShapeForActualizedOffer(offerID),
-                R.set(
-                    R.lensPath([offerID, 'loading']),
+                presetEmpyShapeForActualizedOffer,
+                R.assoc(
+                    'loading',
                     true
                 )
             ),
@@ -88,15 +88,15 @@ export const offersReducer = handleActions({
     },
     [offersActions.endActualizeOffer]: (state, { payload: offerID }) => {
         return R.over(
-            R.lensProp('actualizedOffers'),
+            R.lensPath(['actualizedOffers', offerID]),
             R.pipe(
-                presetEmpyShapeForActualizedOffer(offerID),
-                R.set(
-                    R.lensPath([offerID, 'loading']),
+                presetEmpyShapeForActualizedOffer,
+                R.assoc(
+                    'loading',
                     false
                 ),
-                R.set(
-                    R.lensPath([offerID, 'completed']),
+                R.assoc(
+                    'completed',
                     true
                 )
             ),
@@ -105,11 +105,11 @@ export const offersReducer = handleActions({
     },
     [offersActions.setMessageByActualizedOffer]: (state, { payload }) => {
         return R.over(
-            R.lensProp('actualizedOffers'),
+            R.lensPath(['actualizedOffers', payload.offerID]),
             R.pipe(
-                presetEmpyShapeForActualizedOffer(payload.offerID),
-                R.set(
-                    R.lensPath([payload.offerID, 'message']),
+                presetEmpyShapeForActualizedOffer,
+                R.assoc(
+                    'message',
                     payload.message
                 )
             ),
@@ -118,11 +118,11 @@ export const offersReducer = handleActions({
     },
     [offersActions.failActualizedOffer]: (state, { payload: offerID }) => {
         return R.over(
-            R.lensProp('actualizedOffers'),
+            R.lensPath(['actualizedOffers', offerID]),
             R.pipe(
-                presetEmpyShapeForActualizedOffer(offerID),
-                R.set(
-                    R.lensPath([offerID, 'error']),
+                presetEmpyShapeForActualizedOffer,
+                R.assoc(
+                    'error',
                     true
                 )
             ),
