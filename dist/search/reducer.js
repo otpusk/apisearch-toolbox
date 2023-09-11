@@ -56,8 +56,9 @@ var searchReducer = (0, _reduxActions.handleActions)((_handleActions = {}, _defi
     return R.mergeAll([prevOperators, operators]);
   }).updateIn(['results', queryId, 'prices'], function () {
     var prevPrices = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-    return R.isEmpty(prices) ? prevPrices : R.call(R.pipe(R.clone, function (items) {
-      return items[R.dec(page)] = prices, items;
+    return R.call(R.pipe(R.clone, function (items) {
+      items[R.dec(page)] = prices;
+      return items;
     }), prevPrices);
   });
 }), _defineProperty(_handleActions, _actions.searchActions.finishSearch, function (state, _ref4) {

@@ -36,16 +36,19 @@ export const searchReducer = handleActions(
                 .updateIn(['results', queryId, 'operators'], (prevOperators = {}) => R.mergeAll([
                     prevOperators, operators
                 ]))
-                .updateIn(['results', queryId, 'prices'], (prevPrices = []) => R.isEmpty(prices)
-                    ? prevPrices
-                    : R.call(
+                .updateIn(['results', queryId, 'prices'], (prevPrices = []) => {
+                    return R.call(
                         R.pipe(
                             R.clone,
-                            (items) => (items[R.dec(page)] = prices, items)
+                            (items) => {
+                                items[R.dec(page)] = prices;
+
+                                return items;
+                            }
                         ),
                         prevPrices
-                    )
-                );
+                    );
+                });
         },
         [actions.finishSearch]: (state, { payload: { queryId, total }}) => {
             return state
