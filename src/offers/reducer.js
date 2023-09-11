@@ -25,7 +25,7 @@ export const offersReducer = handleActions({
                         statuesAsMap,
                         R.mapObjIndexed(
                             R.always(ALIVE_OFFER_STATUS),
-                            R.indexBy(R.prop('id'))
+                            nextOffers
                         )
                     ])
                 )

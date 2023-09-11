@@ -35,7 +35,7 @@ var offersReducer = (0, _reduxActions.handleActions)((_handleActions = {}, _defi
   return R.call(R.pipe(R.over(R.lensProp('store'), function (offers) {
     return R.mergeAll([offers, nextOffers]);
   }), R.over(R.lensProp('status'), function (statuesAsMap) {
-    return R.mergeAll([statuesAsMap, R.mapObjIndexed(R.always(_constants.ALIVE_OFFER_STATUS), R.indexBy(R.prop('id')))]);
+    return R.mergeAll([statuesAsMap, R.mapObjIndexed(R.always(_constants.ALIVE_OFFER_STATUS), nextOffers)]);
   })), state);
 }), _defineProperty(_handleActions, _actions.offersActions.setOffer, function (state, _ref2) {
   var offer = _ref2.payload;
