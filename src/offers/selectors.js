@@ -115,7 +115,7 @@ export const getActualizedOffer = () => createSelector(
     R.prop('offer')
 );
 
-const getActualizedStatus = () => createSelector(
+export const getActualizedStatus = () => createSelector(
     getActualizedEntity(),
     R.prop('actualizedStatus')
 );

@@ -5,7 +5,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.isNotFoundActualizedOffer = exports.isExpiredOffer = exports.isEndActualizedOffer = exports.isConnectionFailedWithOperator = exports.isAliveOffer = exports.isActualizedOffer = exports.isActualazingOffer = exports.isActualLastUpdate = exports.getOffers = exports.getOfferStatus = exports.getOffer = exports.getMessageByActualizedOffer = exports.getIsStopSaleByHotel = exports.getActualizedOffer = void 0;
+exports.isNotFoundActualizedOffer = exports.isExpiredOffer = exports.isEndActualizedOffer = exports.isConnectionFailedWithOperator = exports.isAliveOffer = exports.isActualizedOffer = exports.isActualazingOffer = exports.isActualLastUpdate = exports.getOffers = exports.getOfferStatus = exports.getOffer = exports.getMessageByActualizedOffer = exports.getIsStopSaleByHotel = exports.getActualizedStatus = exports.getActualizedOffer = void 0;
 
 var _reselect = require("reselect");
 
@@ -129,6 +129,8 @@ exports.getActualizedOffer = getActualizedOffer;
 var getActualizedStatus = function getActualizedStatus() {
   return (0, _reselect.createSelector)(getActualizedEntity(), R.prop('actualizedStatus'));
 };
+
+exports.getActualizedStatus = getActualizedStatus;
 
 var isActualizedOffer = function isActualizedOffer() {
   return (0, _reselect.createSelector)(getActualizedStatus(), R.ifElse(Boolean, function (status) {
