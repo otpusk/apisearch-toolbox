@@ -6,6 +6,7 @@ import { getLang, getToken } from '../../auth/selectors';
 
 import { offersActions } from '../actions';
 import { ACTUALIZED_OFFER_STATUS } from '../constants';
+import { isOfferKey, extractDataFromOfferKey } from '../helpers';
 
 const getTextStatusByCode = (code) => R.call(
     R.cond([
@@ -49,7 +50,9 @@ export function* actualizeOfferSaga ({ payload: { adults, children, offerID, cur
         const { code, offer: nextOffer, message } = yield call(
             getToursActual,
             R.mergeAll([token, { lang }]),
-            offerID,
+            isOfferKey(offerID)
+                ? extractDataFromOfferKey(offerID).id
+                : offerID,
             generatePeopleString(adults, children),
             currency
         );
