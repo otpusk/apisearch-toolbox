@@ -9,7 +9,7 @@ import {
     ALIVE_OFFER_STATUS,
     EXPIRED_OFFER_STATUS
 } from './constants';
-import { extractDataFromOfferKey } from "./helpers";
+import { extractDataFromOfferKey, isOfferKey } from "./helpers";
 
 const EMPTY_OBJ = {};
 
@@ -18,14 +18,18 @@ const getOffersHubFromSearchMemory = (queryID) => R.prop(queryID, memoryInstance
     : {};
 
 const domain = (_) => _.offers;
-const getOfferID = (_, { offerID }) => {
-    const { id, meta, key } = extractDataFromOfferKey(offerID);
+const getOfferID = (_, { offerID: mbKey }) => {
+    if (isOfferKey(mbKey)) {
+        const { id, meta, key } = extractDataFromOfferKey(mbKey);
 
-    return {
-        offerID: id,
-        meta,
-        key,
-    };
+        return {
+            offerID: id,
+            meta,
+            key,
+        };
+    }
+
+    return { key: mbKey };
 };
 
 const getOffersStore = R.pipe(

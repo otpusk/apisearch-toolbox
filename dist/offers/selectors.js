@@ -36,17 +36,23 @@ var domain = function domain(_) {
 };
 
 var getOfferID = function getOfferID(_, _ref) {
-  var offerID = _ref.offerID;
+  var mbKey = _ref.offerID;
 
-  var _extractDataFromOffer = (0, _helpers.extractDataFromOfferKey)(offerID),
-      id = _extractDataFromOffer.id,
-      meta = _extractDataFromOffer.meta,
-      key = _extractDataFromOffer.key;
+  if ((0, _helpers.isOfferKey)(mbKey)) {
+    var _extractDataFromOffer = (0, _helpers.extractDataFromOfferKey)(mbKey),
+        id = _extractDataFromOffer.id,
+        meta = _extractDataFromOffer.meta,
+        key = _extractDataFromOffer.key;
+
+    return {
+      offerID: id,
+      meta: meta,
+      key: key
+    };
+  }
 
   return {
-    offerID: id,
-    meta: meta,
-    key: key
+    key: mbKey
   };
 };
 
