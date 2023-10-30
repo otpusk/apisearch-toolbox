@@ -1,5 +1,6 @@
 import { Map } from 'immutable';
 import { handleActions, combineActions } from 'redux-actions';
+import { clone } from 'ramda';
 
 import { hotelsActions as actions } from './actions';
 
@@ -48,6 +49,7 @@ export const hotelsReducer = handleActions(
         [actions.getSimilarHotelsSuccess]: (state, { payload: { hotelId, similarHotels }}) => {
             return state.setIn(['similar', hotelId], Map(similarHotels));
         },
+        [actions.resetHotelsStore]: () => clone(initalState),
     },
     initalState
 );

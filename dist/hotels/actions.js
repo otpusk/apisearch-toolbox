@@ -7,7 +7,6 @@ exports.hotelsActions = void 0;
 
 var _reduxActions = require("redux-actions");
 
-// Core
 var hotelsActions = (0, _reduxActions.createActions)({
   GET_HOTEL: function GET_HOTEL(hotelId) {
     return hotelId;
@@ -49,6 +48,9 @@ var hotelsActions = (0, _reduxActions.createActions)({
   },
   GET_SIMILAR_HOTELS_FAIL: function GET_SIMILAR_HOTELS_FAIL(error) {
     return error;
+  },
+  RESET_HOTELS_STORE: function RESET_HOTELS_STORE() {
+    return void 0;
   }
 });
 exports.hotelsActions = hotelsActions;

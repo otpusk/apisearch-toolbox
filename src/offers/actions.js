@@ -19,4 +19,6 @@ export const offersActions = createActions({
     FAIL_ACTUALIZE_OFFER:            (offerID) => offerID,
     CLEAR_ACTUALIZED_OFFER:          (offerID) => offerID,
     SET_MESSAGE_BY_ACTUALIZED_OFFER: (offerID, message) => ({ offerID, message }),
+
+    RESET_OFFERS_STORE: () => void 0,
 });

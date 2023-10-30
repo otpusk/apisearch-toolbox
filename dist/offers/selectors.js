@@ -38,12 +38,10 @@ var domain = function domain(_) {
 var getOfferID = function getOfferID(_, _ref) {
   var offerID = _ref.offerID;
 
-  var _ref2 = (0, _helpers.isOfferKey)(offerID) ? (0, _helpers.extractDataFromOfferKey)(offerID) : {
-    id: offerID
-  },
-      id = _ref2.id,
-      meta = _ref2.meta,
-      key = _ref2.key;
+  var _extractDataFromOffer = (0, _helpers.extractDataFromOfferKey)(offerID),
+      id = _extractDataFromOffer.id,
+      meta = _extractDataFromOffer.meta,
+      key = _extractDataFromOffer.key;
 
   return {
     offerID: id,
@@ -54,9 +52,9 @@ var getOfferID = function getOfferID(_, _ref) {
 
 var getOffersStore = R.pipe(domain, R.prop('store'));
 var getOffersStatuses = R.pipe(domain, R.prop('status'));
-var getOfferStatus = (0, _reselect.createSelector)(getOffersStatuses, getOfferID, function (map, _ref3) {
-  var offerID = _ref3.offerID;
-  return R.prop(offerID, map);
+var getOfferStatus = (0, _reselect.createSelector)(getOffersStatuses, getOfferID, function (map, _ref2) {
+  var key = _ref2.key;
+  return R.prop(key, map);
 });
 exports.getOfferStatus = getOfferStatus;
 var isAliveOffer = (0, _reselect.createSelector)(getOfferStatus, R.equals(_constants.ALIVE_OFFER_STATUS));
@@ -66,8 +64,8 @@ exports.isExpiredOffer = isExpiredOffer;
 
 var getOffers = function getOffers() {
   return (0, _reselect.createSelector)(getOffersStore, function (_) {
-    var _ref4 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
-        queryID = _ref4.queryID;
+    var _ref3 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
+        queryID = _ref3.queryID;
 
     return queryID;
   }, function (store, queryID) {
@@ -78,10 +76,10 @@ var getOffers = function getOffers() {
 exports.getOffers = getOffers;
 
 var getOffer = function getOffer() {
-  return (0, _reselect.createSelector)(getOffers(), getOfferID, function (offers, _ref5) {
-    var offerID = _ref5.offerID,
-        key = _ref5.key,
-        meta = _ref5.meta;
+  return (0, _reselect.createSelector)(getOffers(), getOfferID, function (offers, _ref4) {
+    var offerID = _ref4.offerID,
+        key = _ref4.key,
+        meta = _ref4.meta;
     return R.when(Boolean, function (offer) {
       return meta ? R.mergeAll([offer, meta, {
         id: offerID
@@ -97,8 +95,8 @@ var isActualLastUpdate = function isActualLastUpdate() {
     var _args$ttlAsMinutes;
 
     return (_args$ttlAsMinutes = args === null || args === void 0 ? void 0 : args.ttlAsMinutes) !== null && _args$ttlAsMinutes !== void 0 ? _args$ttlAsMinutes : 20;
-  }, function (_ref6, ttlAsMinutes) {
-    var updateTime = _ref6.updateTime;
+  }, function (_ref5, ttlAsMinutes) {
+    var updateTime = _ref5.updateTime;
     var isForceUpdate = ttlAsMinutes === 0;
 
     if (isForceUpdate) {
@@ -114,9 +112,11 @@ exports.isActualLastUpdate = isActualLastUpdate;
 var actualizedOffersDomain = R.pipe(domain, R.prop('actualizedOffers'));
 
 var getActualizedEntity = function getActualizedEntity() {
-  return (0, _reselect.createSelector)(actualizedOffersDomain, getOfferID, function (offer, _ref7) {
-    var offerID = _ref7.offerID;
-    return offer[offerID] || EMPTY_OBJ;
+  return (0, _reselect.createSelector)(actualizedOffersDomain, getOfferID, function (offer, _ref6) {
+    var _offer$key;
+
+    var key = _ref6.key;
+    return (_offer$key = offer[key]) !== null && _offer$key !== void 0 ? _offer$key : EMPTY_OBJ;
   });
 };
 

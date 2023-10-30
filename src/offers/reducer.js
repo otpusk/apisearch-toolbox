@@ -136,4 +136,5 @@ export const offersReducer = handleActions({
             state
         );
     },
+    [offersActions.resetOffersStore]: () => R.clone(initalState),
 }, initalState);

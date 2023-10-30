@@ -1,4 +1,3 @@
-// Core
 import { createActions } from 'redux-actions';
 
 export const hotelsActions = createActions({
@@ -16,4 +15,6 @@ export const hotelsActions = createActions({
     GET_SIMILAR_HOTELS:         (hotelId) => hotelId,
     GET_SIMILAR_HOTELS_SUCCESS: (hotelId, similarHotels) => ({ hotelId, similarHotels }),
     GET_SIMILAR_HOTELS_FAIL:    (error) => error,
+
+    RESET_HOTELS_STORE: () => void 0,
 });

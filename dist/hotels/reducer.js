@@ -9,6 +9,8 @@ var _immutable = require("immutable");
 
 var _reduxActions = require("redux-actions");
 
+var _ramda = require("ramda");
+
 var _actions = require("./actions");
 
 var _handleActions;
@@ -77,5 +79,7 @@ var hotelsReducer = (0, _reduxActions.handleActions)((_handleActions = {}, _defi
       hotelId = _ref4$payload.hotelId,
       similarHotels = _ref4$payload.similarHotels;
   return state.setIn(['similar', hotelId], (0, _immutable.Map)(similarHotels));
+}), _defineProperty(_handleActions, _actions.hotelsActions.resetHotelsStore, function () {
+  return (0, _ramda.clone)(initalState);
 }), _handleActions), initalState);
 exports.hotelsReducer = hotelsReducer;

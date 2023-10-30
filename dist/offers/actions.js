@@ -76,6 +76,9 @@ var offersActions = (0, _reduxActions.createActions)({
       offerID: offerID,
       message: message
     };
+  },
+  RESET_OFFERS_STORE: function RESET_OFFERS_STORE() {
+    return void 0;
   }
 });
 exports.offersActions = offersActions;

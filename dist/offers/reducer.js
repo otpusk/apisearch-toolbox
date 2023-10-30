@@ -66,5 +66,7 @@ var offersReducer = (0, _reduxActions.handleActions)((_handleActions = {}, _defi
 }), _defineProperty(_handleActions, _actions.offersActions.clearActualizedOffer, function (state, _ref10) {
   var offerID = _ref10.payload;
   return R.over(R.lensProp('actualizedOffers'), R.omit([offerID]), state);
+}), _defineProperty(_handleActions, _actions.offersActions.resetOffersStore, function () {
+  return R.clone(initalState);
 }), _handleActions), initalState);
 exports.offersReducer = offersReducer;

@@ -9,7 +9,7 @@ import {
     ALIVE_OFFER_STATUS,
     EXPIRED_OFFER_STATUS
 } from './constants';
-import { isOfferKey, extractDataFromOfferKey } from "./helpers";
+import { extractDataFromOfferKey } from "./helpers";
 
 const EMPTY_OBJ = {};
 
@@ -19,7 +19,7 @@ const getOffersHubFromSearchMemory = (queryID) => R.prop(queryID, memoryInstance
 
 const domain = (_) => _.offers;
 const getOfferID = (_, { offerID }) => {
-    const { id, meta, key } =  isOfferKey(offerID) ? extractDataFromOfferKey(offerID) : { id: offerID };
+    const { id, meta, key } = extractDataFromOfferKey(offerID);
 
     return {
         offerID: id,
@@ -41,7 +41,7 @@ const getOffersStatuses = R.pipe(
 export const getOfferStatus = createSelector(
     getOffersStatuses,
     getOfferID,
-    (map, { offerID }) => R.prop(offerID, map)
+    (map, { key }) => R.prop(key, map)
 );
 
 export const isAliveOffer = createSelector(
@@ -107,7 +107,7 @@ const actualizedOffersDomain = R.pipe(
 const getActualizedEntity = () => createSelector(
     actualizedOffersDomain,
     getOfferID,
-    (offer, { offerID }) => offer[offerID] || EMPTY_OBJ
+    (offer, { key }) => offer[key] ?? EMPTY_OBJ
 );
 
 export const getActualizedOffer = () => createSelector(
