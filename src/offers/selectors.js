@@ -7,7 +7,8 @@ import { memoryInstances } from '../search/saga/workers/getResultsWorker/results
 import {
     ACTUALIZED_OFFER_STATUS,
     ALIVE_OFFER_STATUS,
-    EXPIRED_OFFER_STATUS
+    EXPIRED_OFFER_STATUS,
+    UNKNOWN_OFFER_STATUS
 } from './constants';
 import { extractDataFromOfferKey, isOfferKey } from "./helpers";
 
@@ -51,6 +52,13 @@ export const getOfferStatus = createSelector(
 export const isAliveOffer = createSelector(
     getOfferStatus,
     R.equals(ALIVE_OFFER_STATUS)
+);
+export const isUnknownOffer = createSelector(
+    getOfferStatus,
+    (status) => R.or(
+        R.equals(ALIVE_OFFER_STATUS, status),
+        R.equals(UNKNOWN_OFFER_STATUS, status)
+    )
 );
 
 export const isExpiredOffer = createSelector(

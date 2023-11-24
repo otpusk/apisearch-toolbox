@@ -10,5 +10,13 @@ export const ACTUALIZED_OFFER_STATUS = {
     STOP_SALE_BY_HOTEL:          'stop_sale_by_hotel',
 };
 
-export const ALIVE_OFFER_STATUS = 'alive';
-export const EXPIRED_OFFER_STATUS = 'expired';
+
+export const {
+    ALIVE_OFFER_STATUS,
+    EXPIRED_OFFER_STATUS,
+    UNKNOWN_OFFER_STATUS,
+} = {
+    ALIVE_OFFER_STATUS:   'alive',
+    EXPIRED_OFFER_STATUS: 'expired',
+    UNKNOWN_OFFER_STATUS: 'unknown',
+};
