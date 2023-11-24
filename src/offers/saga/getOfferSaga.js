@@ -20,20 +20,20 @@ export function* getOfferSaga (offerID, fresh = false, currency) {
 }
 
 export function* bootstrapOfferSaga ({ payload: { offerId, fresh, currency }}) {
-    const { key, id } =  isOfferKey(offerId)
+    const { id } =  isOfferKey(offerId)
         ? extractDataFromOfferKey(offerId)
-        : { key: offerId, id: offerId };
+        : { id: offerId };
 
-    yield put(offersActions.setOfferStatus(key, 'pending'));
+    yield put(offersActions.setOfferStatus(offerId, 'pending'));
 
     try {
         const offer = yield call(getOfferSaga, id, fresh, currency);
 
-        yield put(offersActions.setOffer({ ...offer, id: key }));
-        yield put(offersActions.setOfferStatus(key, ALIVE_OFFER_STATUS));
-        yield put(offersActions.getOfferSuccess(key));
+        yield put(offersActions.setOffer(offer));
+        yield put(offersActions.setOfferStatus(offerId, ALIVE_OFFER_STATUS));
+        yield put(offersActions.getOfferSuccess(offerId));
     } catch (error) {
-        yield put(offersActions.setOfferStatus(key, EXPIRED_OFFER_STATUS));
-        yield put(offersActions.getOfferFail(error, key));
+        yield put(offersActions.setOfferStatus(offerId, EXPIRED_OFFER_STATUS));
+        yield put(offersActions.getOfferFail(error, offerId));
     }
 }
