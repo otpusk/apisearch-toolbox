@@ -53,13 +53,6 @@ export const isAliveOffer = createSelector(
     getOfferStatus,
     R.equals(ALIVE_OFFER_STATUS)
 );
-export const isPossiblyAliveOffer = createSelector(
-    getOfferStatus,
-    (status) => R.or(
-        R.equals(ALIVE_OFFER_STATUS, status),
-        R.equals(UNKNOWN_OFFER_STATUS, status)
-    )
-);
 
 export const isExpiredOffer = createSelector(
     getOfferStatus,
