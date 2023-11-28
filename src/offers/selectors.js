@@ -7,8 +7,7 @@ import { memoryInstances } from '../search/saga/workers/getResultsWorker/results
 import {
     ACTUALIZED_OFFER_STATUS,
     ALIVE_OFFER_STATUS,
-    EXPIRED_OFFER_STATUS,
-    UNKNOWN_OFFER_STATUS
+    EXPIRED_OFFER_STATUS
 } from './constants';
 import { extractDataFromOfferKey, isOfferKey } from "./helpers";
 
