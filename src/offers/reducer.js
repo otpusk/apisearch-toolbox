@@ -33,9 +33,9 @@ export const offersReducer = handleActions({
             state
         );
     },
-    [offersActions.setOffer]: (state, { payload: offer }) => {
+    [offersActions.setOffer]: (state, { payload: { offerID, offer }}) => {
         return R.assocPath(
-            ['store', offer.id],
+            ['store', offerID],
             offer,
             state
         );

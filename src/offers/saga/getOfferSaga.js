@@ -29,7 +29,7 @@ export function* bootstrapOfferSaga ({ payload: { offerId, fresh, currency }}) {
     try {
         const offer = yield call(getOfferSaga, id, fresh, currency);
 
-        yield put(offersActions.setOffer({ ...offer, id: offerId }));
+        yield put(offersActions.setOffer(offerId, offer));
         yield put(offersActions.setOfferStatus(offerId, ALIVE_OFFER_STATUS));
         yield put(offersActions.getOfferSuccess(offerId));
     } catch (error) {
