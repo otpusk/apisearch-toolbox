@@ -4,9 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.offersActions = void 0;
-
 var _reduxActions = require("redux-actions");
-
 var offersActions = (0, _reduxActions.createActions)({
   GET_OFFER: function GET_OFFER(offerId) {
     var fresh = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
@@ -30,8 +28,11 @@ var offersActions = (0, _reduxActions.createActions)({
   ADD_OFFERS: function ADD_OFFERS(offers) {
     return offers;
   },
-  SET_OFFER: function SET_OFFER(offer) {
-    return offer;
+  SET_OFFER: function SET_OFFER(offerID, offer) {
+    return {
+      offerID: offerID,
+      offer: offer
+    };
   },
   SET_OFFER_STATUS: function SET_OFFER_STATUS(offerID, status) {
     return {

@@ -4,9 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.operatorsActions = void 0;
-
 var _reduxActions = require("redux-actions");
-
 var operatorsActions = (0, _reduxActions.createActions)({
   GET_OPERATORS: function GET_OPERATORS(countryId, options) {
     return {

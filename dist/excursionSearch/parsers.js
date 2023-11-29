@@ -16,13 +16,9 @@ Object.defineProperty(exports, "numbersArrayParser", {
     return _parsers.numbersArrayParser;
   }
 });
-
 var _moment = _interopRequireDefault(require("moment"));
-
 var _parsers = require("../queries/parsers");
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 // Core
 
 /**
@@ -35,5 +31,4 @@ var dateParser = function dateParser(value) {
   var parsedDate = (0, _moment["default"])(value, "DD-MM-YYYY");
   return parsedDate.isValid() ? parsedDate : null;
 };
-
 exports.dateParser = dateParser;

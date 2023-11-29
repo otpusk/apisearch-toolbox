@@ -4,10 +4,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.actions = void 0;
-
 var _reduxActions = require("redux-actions");
-
 // Core
+
 var actions = (0, _reduxActions.createActions)({
   GET_MAINPAGE: function GET_MAINPAGE() {
     return void 0;

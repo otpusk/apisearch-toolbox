@@ -22,15 +22,10 @@ Object.defineProperty(exports, "toStringCompiler", {
     return _compilers.toStringCompiler;
   }
 });
-
 var _fn = require("./fn");
-
 var _moment = _interopRequireDefault(require("moment"));
-
 var _compilers = require("../queries/compilers");
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 // Instruments
 
 /**
@@ -42,5 +37,4 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 var dateCompiler = function dateCompiler(date) {
   return date ? (0, _moment["default"])(date).format("D.M.Y") : _fn.GLUE.empty;
 };
-
 exports.dateCompiler = dateCompiler;

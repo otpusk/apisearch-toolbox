@@ -4,13 +4,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.getQueryParam = exports.getQuery = void 0;
-
 var _reselect = require("reselect");
-
 var domain = function domain(_) {
   return _.queries;
 };
-
 var getQuery = (0, _reselect.createSelector)(domain, function (_, _ref) {
   var queryID = _ref.queryID;
   return queryID;

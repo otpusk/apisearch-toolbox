@@ -4,11 +4,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.servicesActions = void 0;
-
 var _reduxActions = require("redux-actions");
-
 var _constants = require("./constants");
-
 var servicesActions = (0, _reduxActions.createActions)({
   GET_SERVICES: function GET_SERVICES(countryId) {
     return countryId;

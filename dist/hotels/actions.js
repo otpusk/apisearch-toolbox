@@ -4,9 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.hotelsActions = void 0;
-
 var _reduxActions = require("redux-actions");
-
 var hotelsActions = (0, _reduxActions.createActions)({
   GET_HOTEL: function GET_HOTEL(hotelId) {
     return hotelId;

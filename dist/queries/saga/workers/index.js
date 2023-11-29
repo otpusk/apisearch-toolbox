@@ -15,7 +15,5 @@ Object.defineProperty(exports, "parseQueryStringWorker", {
     return _parseQueryStringWorker.parseQueryStringWorker;
   }
 });
-
 var _compileQueryStringWorker = require("./compileQueryStringWorker");
-
 var _parseQueryStringWorker = require("./parseQueryStringWorker");

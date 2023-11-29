@@ -27,11 +27,7 @@ Object.defineProperty(exports, "excursionSearchWatchers", {
     return _watchers.watchers;
   }
 });
-
 var _fn = require("./fn");
-
 var _actions = require("./actions");
-
 var _reducer = require("./reducer");
-
 var _watchers = require("./saga/watchers");

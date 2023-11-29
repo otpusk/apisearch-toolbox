@@ -4,10 +4,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.queriesActions = void 0;
-
 var _reduxActions = require("redux-actions");
-
 // Core
+
 var queriesActions = (0, _reduxActions.createActions)({
   CREATE_QUERY: function CREATE_QUERY(queryId, initialParams) {
     var isUrl = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;

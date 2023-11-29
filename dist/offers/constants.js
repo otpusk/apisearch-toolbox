@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.EXPIRED_OFFER_STATUS = exports.ALIVE_OFFER_STATUS = exports.ACTUALIZED_OFFER_STATUS = void 0;
+exports.UNKNOWN_OFFER_STATUS = exports.EXPIRED_OFFER_STATUS = exports.ALIVE_OFFER_STATUS = exports.ACTUALIZED_OFFER_STATUS = void 0;
 var ACTUALIZED_OFFER_STATUS = {
   ACTUALIZED: 'actualized',
   UPDATED: 'updated',
@@ -20,3 +20,5 @@ var ALIVE_OFFER_STATUS = 'alive';
 exports.ALIVE_OFFER_STATUS = ALIVE_OFFER_STATUS;
 var EXPIRED_OFFER_STATUS = 'expired';
 exports.EXPIRED_OFFER_STATUS = EXPIRED_OFFER_STATUS;
+var UNKNOWN_OFFER_STATUS = 'unknown';
+exports.UNKNOWN_OFFER_STATUS = UNKNOWN_OFFER_STATUS;
