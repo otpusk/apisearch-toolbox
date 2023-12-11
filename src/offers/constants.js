@@ -12,3 +12,4 @@ export const ACTUALIZED_OFFER_STATUS = {
 
 export const ALIVE_OFFER_STATUS = 'alive';
 export const EXPIRED_OFFER_STATUS = 'expired';
+export const UNKNOWN_OFFER_STATUS = 'unknown';

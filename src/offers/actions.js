@@ -8,7 +8,7 @@ export const offersActions = createActions({
         (_, offerID) => ({ offerID })
     ],
     ADD_OFFERS:       (offers) => offers,
-    SET_OFFER:        (offer) => offer,
+    SET_OFFER:        (offerID, offer) => ({ offerID, offer }),
     SET_OFFER_STATUS: (offerID, status) => ({ offerID, status }),
 
     ACTUALIZE_OFFER:                 (offerID, adults, children, currency) => ({ offerID, adults, children, currency }),
