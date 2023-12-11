@@ -30,8 +30,11 @@ var offersActions = (0, _reduxActions.createActions)({
   ADD_OFFERS: function ADD_OFFERS(offers) {
     return offers;
   },
-  SET_OFFER: function SET_OFFER(offer) {
-    return offer;
+  SET_OFFER: function SET_OFFER(offerID, offer) {
+    return {
+      offerID: offerID,
+      offer: offer
+    };
   },
   SET_OFFER_STATUS: function SET_OFFER_STATUS(offerID, status) {
     return {
