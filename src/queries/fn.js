@@ -54,6 +54,7 @@ const QUERY_PARAMS = {
     DISTRICTS:           'districts',
     PROVINCES:           'provinces',
     AVERAGE_RATING:      'averageRating',
+    IS_DIRECT_FLIGHT:    'isDirectFlight',
 };
 
 const getShortQueryParams = (isParam = false) => {
@@ -139,6 +140,7 @@ const DEFAULTS = {
     [QUERY_PARAMS.DISTRICTS]:           Set(),
     [QUERY_PARAMS.PROVINCES]:           Set(),
     [QUERY_PARAMS.AVERAGE_RATING]:      Map(),
+    [QUERY_PARAMS.IS_DIRECT_FLIGHT]:    false,
 };
 
 /**
@@ -217,6 +219,7 @@ function compileQuery (query) {
         [QUERY_PARAMS.DISTRICTS]:           immutableArrayCompiler,
         [QUERY_PARAMS.PROVINCES]:           immutableArrayCompiler,
         [QUERY_PARAMS.AVERAGE_RATING]:      rangeCompiler,
+        [QUERY_PARAMS.IS_DIRECT_FLIGHT]:    numberCompiler,
     };
 
     return GLUE.field + query
@@ -261,6 +264,7 @@ function compileSearchQuery (query) {
         [QUERY_PARAMS.DISTRICTS]:           immutableArrayCompiler,
         [QUERY_PARAMS.PROVINCES]:           immutableArrayCompiler,
         [QUERY_PARAMS.AVERAGE_RATING]:      rangeCompiler,
+        [QUERY_PARAMS.IS_DIRECT_FLIGHT]:    numberCompiler,
     };
 
     const startDelimeter = GLUE.question;
@@ -333,6 +337,7 @@ function convertToOtpQuery (query) {
         [QUERY_PARAMS.DISTRICTS]:           (value) => ({ 'toDistricts': value.isEmpty() ? null : value.toArray().join(',') }),
         [QUERY_PARAMS.PROVINCES]:           (value) => ({ 'toProvinces': value.isEmpty() ? null : value.toArray().join(',') }),
         [QUERY_PARAMS.AVERAGE_RATING]:      (value) => ({ 'rating': value.isEmpty() ? null : `${value.get('from')}-${value.get('to')}` }),
+        [QUERY_PARAMS.IS_DIRECT_FLIGHT]:    (value) => value ? { directFlight: true } : null,
     };
 
     return query
@@ -388,6 +393,7 @@ function parseQueryParam (currentValue, paramName, rawValue) {
         [QUERY_PARAMS.DISTRICTS]:           createImmutableNumbersArrayParser(Set),
         [QUERY_PARAMS.PROVINCES]:           createImmutableNumbersArrayParser(Set),
         [QUERY_PARAMS.AVERAGE_RATING]:      rangeParser,
+        [QUERY_PARAMS.IS_DIRECT_FLIGHT]:    Boolean,
     };
 
     if (rawValue) {
@@ -460,6 +466,7 @@ function compileQueryToHash (query) {
         [QUERY_PARAMS.DISTRICTS]:           immutableArrayCompiler,
         [QUERY_PARAMS.PROVINCES]:           immutableArrayCompiler,
         [QUERY_PARAMS.AVERAGE_RATING]:      rangeCompiler,
+        [QUERY_PARAMS.IS_DIRECT_FLIGHT]:    numberCompiler,
     };
 
     return GLUE.field + query.map((value, field) =>
@@ -509,6 +516,7 @@ function parseHashToQuery (queryString) {
             [QUERY_PARAMS.DISTRICTS]:           createImmutableNumbersArrayParser(Set),
             [QUERY_PARAMS.PROVINCES]:           createImmutableNumbersArrayParser(Set),
             [QUERY_PARAMS.AVERAGE_RATING]:      rangeParser,
+            [QUERY_PARAMS.IS_DIRECT_FLIGHT]:    Boolean,
         };
 
         if (rawValue) {
