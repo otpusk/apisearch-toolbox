@@ -4,6 +4,7 @@ import * as R from 'ramda';
 import { getLang } from '../auth/selectors';
 
 import { EMPTY_COUNTRY_ID, STATIC_LABELS_BY_LANG } from './constants';
+import { createBookingServicesKey } from './helpers';
 
 const EMPTY_OBJ = {};
 const EMPTY_ARRAY = [];
@@ -56,4 +57,15 @@ export const getCommonServicesByCountry = createSelector(
 export const getServicesIconsForHotel = createSelector(
     getServicesByCountryID,
     R.propOr(EMPTY_ARRAY, 'icons')
+);
+
+const getBookingServices = R.pipe(
+    domain,
+    R.prop('booking')
+);
+
+export const getBookingServicesByOffer = createSelector(
+    getBookingServices,
+    (_, { offerID, currency }) => createBookingServicesKey(offerID, currency),
+    (servicesMap, key) => R.propOr(EMPTY_ARRAY, key, servicesMap)
 );

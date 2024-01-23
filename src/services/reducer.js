@@ -1,11 +1,12 @@
-// Core
 import * as R from 'ramda';
 import { handleActions } from 'redux-actions';
+
 import { servicesActions } from './actions';
 
 const initialState = {
-    labels: {},
-    store:  {},
+    labels:  {},
+    store:   {},
+    booking: {},
 };
 
 export const servicesReducer = handleActions({
@@ -27,5 +28,13 @@ export const servicesReducer = handleActions({
             services,
             state
         );
+    },
+    [servicesActions.setBookingServices]: (state, { payload }) => {
+        const { key, services } = payload;
+
+        return R.assocPath(['booking', key], services, state);
+    },
+    [servicesActions.resetBookingServices]: (state, { payload: key }) => {
+        return R.dissocPath(['booking', key], state);
     },
 }, initialState);

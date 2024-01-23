@@ -23,7 +23,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 var initialState = {
   labels: {},
-  store: {}
+  store: {},
+  booking: {}
 };
 var servicesReducer = (0, _reduxActions.handleActions)((_handleActions = {}, _defineProperty(_handleActions, _actions.servicesActions.setLabels, function (state, _ref) {
   var labels = _ref.payload;
@@ -38,5 +39,13 @@ var servicesReducer = (0, _reduxActions.handleActions)((_handleActions = {}, _de
   var countryId = payload.countryId,
       services = payload.services;
   return R.set(R.lensPath(['store', countryId]), services, state);
+}), _defineProperty(_handleActions, _actions.servicesActions.setBookingServices, function (state, _ref4) {
+  var payload = _ref4.payload;
+  var key = payload.key,
+      services = payload.services;
+  return R.assocPath(['booking', key], services, state);
+}), _defineProperty(_handleActions, _actions.servicesActions.resetBookingServices, function (state, _ref5) {
+  var key = _ref5.payload;
+  return R.dissocPath(['booking', key], state);
 }), _handleActions), initialState);
 exports.servicesReducer = servicesReducer;
