@@ -24,6 +24,7 @@ function* getBookingServicesWorker ({ payload }) {
         yield put(servicesActions.setBookingServices(createBookingServicesKey(offerID, currency), services));
     } catch (error) {
         console.log(error);
+        yield put(servicesActions.getBookingServicesFail(error));
     }
 }
 

@@ -49,15 +49,17 @@ function getBookingServicesWorker(_ref) {
           return (0, _effects.put)(_actions.servicesActions.setBookingServices((0, _helpers.createBookingServicesKey)(offerID, currency), services));
 
         case 11:
-          _context.next = 16;
+          _context.next = 18;
           break;
 
         case 13:
           _context.prev = 13;
           _context.t0 = _context["catch"](5);
           console.log(_context.t0);
+          _context.next = 18;
+          return (0, _effects.put)(_actions.servicesActions.getBookingServicesFail(_context.t0));
 
-        case 16:
+        case 18:
         case "end":
           return _context.stop();
       }
