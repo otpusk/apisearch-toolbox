@@ -2,7 +2,7 @@ import { call, put, select } from 'redux-saga/effects';
 import { getToursBookServices } from '@otpusk/json-api';
 import { mergeAll } from 'ramda';
 
-import { getToken } from '../../../auth/selectors';
+import { getLang, getToken } from '../../../auth/selectors';
 
 import { servicesActions } from '../../actions';
 import { createBookingServicesKey } from '../../helpers';
@@ -10,6 +10,7 @@ import { createBookingServicesKey } from '../../helpers';
 function* getBookingServicesWorker ({ payload }) {
     const { offerID, currency } = payload;
 
+    const lang = yield select(getLang);
     const tokenAsObject = yield select(getToken);
 
     try {
@@ -18,6 +19,7 @@ function* getBookingServicesWorker ({ payload }) {
             {
                 currencyLocal: currency,
                 offerId:       offerID,
+                lang,
             }
         ]));
 

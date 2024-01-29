@@ -24,7 +24,7 @@ function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyri
 var _marked = /*#__PURE__*/_regeneratorRuntime().mark(getBookingServicesWorker);
 
 function getBookingServicesWorker(_ref) {
-  var payload, offerID, currency, tokenAsObject, services;
+  var payload, offerID, currency, lang, tokenAsObject, services;
   return _regeneratorRuntime().wrap(function getBookingServicesWorker$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
@@ -32,37 +32,43 @@ function getBookingServicesWorker(_ref) {
           payload = _ref.payload;
           offerID = payload.offerID, currency = payload.currency;
           _context.next = 4;
-          return (0, _effects.select)(_selectors.getToken);
+          return (0, _effects.select)(_selectors.getLang);
 
         case 4:
+          lang = _context.sent;
+          _context.next = 7;
+          return (0, _effects.select)(_selectors.getToken);
+
+        case 7:
           tokenAsObject = _context.sent;
-          _context.prev = 5;
-          _context.next = 8;
+          _context.prev = 8;
+          _context.next = 11;
           return (0, _effects.call)(_jsonApi.getToursBookServices, (0, _ramda.mergeAll)([tokenAsObject, {
             currencyLocal: currency,
-            offerId: offerID
+            offerId: offerID,
+            lang: lang
           }]));
 
-        case 8:
+        case 11:
           services = _context.sent;
-          _context.next = 11;
+          _context.next = 14;
           return (0, _effects.put)(_actions.servicesActions.setBookingServices((0, _helpers.createBookingServicesKey)(offerID, currency), services));
 
-        case 11:
-          _context.next = 18;
+        case 14:
+          _context.next = 21;
           break;
 
-        case 13:
-          _context.prev = 13;
-          _context.t0 = _context["catch"](5);
+        case 16:
+          _context.prev = 16;
+          _context.t0 = _context["catch"](8);
           console.log(_context.t0);
-          _context.next = 18;
+          _context.next = 21;
           return (0, _effects.put)(_actions.servicesActions.getBookingServicesFail(_context.t0));
 
-        case 18:
+        case 21:
         case "end":
           return _context.stop();
       }
     }
-  }, _marked, null, [[5, 13]]);
+  }, _marked, null, [[8, 16]]);
 }
