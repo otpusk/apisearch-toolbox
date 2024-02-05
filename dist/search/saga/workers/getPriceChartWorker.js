@@ -63,7 +63,7 @@ function getPriceChartWorker(_ref) {
           _context.prev = 7;
           params = {
             to: computedToParam(query),
-            from: query.get(_fn.QUERY_PARAMS.DEPARTURE),
+            from: query.get(_fn.QUERY_PARAMS.DEPARTURES).join(','),
             checkIn: query.get(_fn.QUERY_PARAMS.DATES).get('from').format('YYYY-MM-DD'),
             checkTo: query.get(_fn.QUERY_PARAMS.DATES).get('from').clone().add(duration || 30, 'days').format('YYYY-MM-DD'),
             people: "".concat(query.get(_fn.QUERY_PARAMS.ADULTS)).concat(query.get(_fn.QUERY_PARAMS.CHILDREN).map(function (age) {
