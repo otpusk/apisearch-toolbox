@@ -52,7 +52,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToAr
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 function getResultsWorker(_ref) {
-  var queryID, query, lang, token, otpsukQuery, activePage, memory, _yield$call, finished, hotels, offers, country, operators, _total, meta, prices, _memory$getValues2, usedPrices, totalValue, ignoreOperators, _memory$getValues3, total, _memory$getValues4, _usedPrices;
+  var queryID, query, lang, token, otpsukQuery, activePage, memory, _yield$call, finished, hotels, offers, country, operators, _total, meta, prices, _memory$getValues2, usedPrices, totalValue, ignoreOperators, _memory$getValues3, total, _error$response, _memory$getValues4, _usedPrices;
 
   return _regeneratorRuntime().wrap(function getResultsWorker$(_context2) {
     while (1) {
@@ -216,7 +216,7 @@ function getResultsWorker(_ref) {
           _context2.next = 54;
           return (0, _effects.put)(_actions.searchActions.failSearch(queryID, _context2.t1, {
             message: _context2.t1.message,
-            statusCode: parseInt(_context2.t1.message, 10) || _context2.t1.response.statusCode
+            statusCode: parseInt(_context2.t1.message, 10) || ((_error$response = _context2.t1.response) === null || _error$response === void 0 ? void 0 : _error$response.statusCode) || 500
           }));
 
         case 54:
