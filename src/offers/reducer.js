@@ -34,9 +34,22 @@ export const offersReducer = handleActions({
         );
     },
     [offersActions.setOffer]: (state, { payload: { offerID, offer }}) => {
+        const prevOffer = R.path(['store', offerID], state);
+
+        const nextOffer = prevOffer
+            ? R.over(
+                R.lensProp('price'),
+                (price) => R.mergeAll([
+                    price,
+                    prevOffer.price
+                ]),
+                offer
+            )
+            : offer;
+
         return R.assocPath(
             ['store', offerID],
-            offer,
+            nextOffer,
             state
         );
     },

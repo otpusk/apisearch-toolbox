@@ -41,7 +41,11 @@ var offersReducer = (0, _reduxActions.handleActions)((_handleActions = {}, _defi
   var _ref2$payload = _ref2.payload,
       offerID = _ref2$payload.offerID,
       offer = _ref2$payload.offer;
-  return R.assocPath(['store', offerID], offer, state);
+  var prevOffer = R.path(['store', offerID], state);
+  var nextOffer = prevOffer ? R.over(R.lensProp('price'), function (price) {
+    return R.mergeAll([price, prevOffer.price]);
+  }, offer) : offer;
+  return R.assocPath(['store', offerID], nextOffer, state);
 }), _defineProperty(_handleActions, _actions.offersActions.setOfferStatus, function (state, _ref3) {
   var _ref3$payload = _ref3.payload,
       offerID = _ref3$payload.offerID,
