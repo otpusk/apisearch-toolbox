@@ -4,11 +4,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.actions = void 0;
-
 var _reduxActions = require("redux-actions");
-
 // Core
-var actions = (0, _reduxActions.createActions)({
+
+var actions = exports.actions = (0, _reduxActions.createActions)({
   CREATE_QUERY: function CREATE_QUERY(queryId, query) {
     return {
       queryId: queryId,
@@ -109,4 +108,3 @@ var actions = (0, _reduxActions.createActions)({
 }, {
   prefix: '@apisearch/excursion'
 });
-exports.actions = actions;

@@ -4,10 +4,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.offersActions = void 0;
-
 var _reduxActions = require("redux-actions");
-
-var offersActions = (0, _reduxActions.createActions)({
+var offersActions = exports.offersActions = (0, _reduxActions.createActions)({
   GET_OFFER: function GET_OFFER(offerId) {
     var fresh = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
     var currency = arguments.length > 2 ? arguments[2] : undefined;
@@ -84,4 +82,3 @@ var offersActions = (0, _reduxActions.createActions)({
     return void 0;
   }
 });
-exports.offersActions = offersActions;

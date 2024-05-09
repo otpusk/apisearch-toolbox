@@ -4,9 +4,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.STATIC_LABELS_BY_LANG = exports.EMPTY_COUNTRY_ID = void 0;
-var EMPTY_COUNTRY_ID = 0;
-exports.EMPTY_COUNTRY_ID = EMPTY_COUNTRY_ID;
-var STATIC_LABELS_BY_LANG = {
+var EMPTY_COUNTRY_ID = exports.EMPTY_COUNTRY_ID = 0;
+var STATIC_LABELS_BY_LANG = exports.STATIC_LABELS_BY_LANG = {
   'rus': {
     'beach_line': 'Линия пляжа',
     'location': 'Расположение',
@@ -44,4 +43,3 @@ var STATIC_LABELS_BY_LANG = {
     'recommend': 'Hotels with recommendation'
   }
 };
-exports.STATIC_LABELS_BY_LANG = STATIC_LABELS_BY_LANG;

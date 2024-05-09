@@ -4,11 +4,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.actions = void 0;
-
 var _reduxActions = require("redux-actions");
-
 // Core
-var actions = (0, _reduxActions.createActions)({
+
+var actions = exports.actions = (0, _reduxActions.createActions)({
   GET_MAINPAGE: function GET_MAINPAGE() {
     return void 0;
   },
@@ -30,4 +29,3 @@ var actions = (0, _reduxActions.createActions)({
 }, {
   prefix: '@apisearch/excursion'
 });
-exports.actions = actions;

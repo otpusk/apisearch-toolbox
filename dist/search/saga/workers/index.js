@@ -21,9 +21,6 @@ Object.defineProperty(exports, "getResultsWorker", {
     return _getResultsWorker.getResultsWorker;
   }
 });
-
 var _getPriceChartWorker = require("./getPriceChartWorker");
-
 var _getAvailableDatesWorker = require("./getAvailableDatesWorker");
-
 var _getResultsWorker = require("./getResultsWorker");

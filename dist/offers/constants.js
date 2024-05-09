@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.UNKNOWN_OFFER_STATUS = exports.EXPIRED_OFFER_STATUS = exports.ALIVE_OFFER_STATUS = exports.ACTUALIZED_OFFER_STATUS = void 0;
-var ACTUALIZED_OFFER_STATUS = {
+var ACTUALIZED_OFFER_STATUS = exports.ACTUALIZED_OFFER_STATUS = {
   ACTUALIZED: 'actualized',
   UPDATED: 'updated',
   NEW_PRICE: 'new_price',
@@ -15,10 +15,6 @@ var ACTUALIZED_OFFER_STATUS = {
   STOP_SALE_BY_TRANSPORT_FROM: 'stop_sale_by_transport_from',
   STOP_SALE_BY_HOTEL: 'stop_sale_by_hotel'
 };
-exports.ACTUALIZED_OFFER_STATUS = ACTUALIZED_OFFER_STATUS;
-var ALIVE_OFFER_STATUS = 'alive';
-exports.ALIVE_OFFER_STATUS = ALIVE_OFFER_STATUS;
-var EXPIRED_OFFER_STATUS = 'expired';
-exports.EXPIRED_OFFER_STATUS = EXPIRED_OFFER_STATUS;
-var UNKNOWN_OFFER_STATUS = 'unknown';
-exports.UNKNOWN_OFFER_STATUS = UNKNOWN_OFFER_STATUS;
+var ALIVE_OFFER_STATUS = exports.ALIVE_OFFER_STATUS = 'alive';
+var EXPIRED_OFFER_STATUS = exports.EXPIRED_OFFER_STATUS = 'expired';
+var UNKNOWN_OFFER_STATUS = exports.UNKNOWN_OFFER_STATUS = 'unknown';

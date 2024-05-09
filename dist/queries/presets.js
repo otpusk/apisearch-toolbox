@@ -1,30 +1,21 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.getAvailabilitiesByCountry = void 0;
-
 var R = _interopRequireWildcard(require("ramda"));
-
 var _fn = require("./fn");
-
-function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
-
-function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-var getAvailabilitiesByCountry = function getAvailabilitiesByCountry(countryID) {
-  var _R$always, _R$always2, _R$always3;
-
+function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
+function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != _typeof(e) && "function" != typeof e) return { "default": e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && {}.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n["default"] = e, t && t.set(e, n), n; }
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+var getAvailabilitiesByCountry = exports.getAvailabilitiesByCountry = function getAvailabilitiesByCountry(countryID) {
   return R.call(R.cond([[function (id) {
     return R.includes(id, ['43', '115']);
-  }, R.always((_R$always = {}, _defineProperty(_R$always, _fn.QUERY_PARAMS.HOTEL_AVAILABILITY, ['yes', 'request']), _defineProperty(_R$always, _fn.QUERY_PARAMS.FLIGHT_AVAILABILITY, ['yes']), _R$always))], [function (id) {
+  }, R.always(_defineProperty(_defineProperty({}, _fn.QUERY_PARAMS.HOTEL_AVAILABILITY, ['yes', 'request']), _fn.QUERY_PARAMS.FLIGHT_AVAILABILITY, ['yes']))], [function (id) {
     return R.includes(id, ['92', '13', '114', '135', '10', '134', '34', '54', '79', '42', '33', '152']);
-  }, R.always((_R$always2 = {}, _defineProperty(_R$always2, _fn.QUERY_PARAMS.HOTEL_AVAILABILITY, ['yes', 'request']), _defineProperty(_R$always2, _fn.QUERY_PARAMS.FLIGHT_AVAILABILITY, ['yes']), _R$always2))], [R.T, R.always((_R$always3 = {}, _defineProperty(_R$always3, _fn.QUERY_PARAMS.HOTEL_AVAILABILITY, ['yes', 'request']), _defineProperty(_R$always3, _fn.QUERY_PARAMS.FLIGHT_AVAILABILITY, ['yes', 'request']), _R$always3))]]), countryID);
+  }, R.always(_defineProperty(_defineProperty({}, _fn.QUERY_PARAMS.HOTEL_AVAILABILITY, ['yes', 'request']), _fn.QUERY_PARAMS.FLIGHT_AVAILABILITY, ['yes']))], [R.T, R.always(_defineProperty(_defineProperty({}, _fn.QUERY_PARAMS.HOTEL_AVAILABILITY, ['yes', 'request']), _fn.QUERY_PARAMS.FLIGHT_AVAILABILITY, ['yes', 'request']))]]), countryID);
 };
-
-exports.getAvailabilitiesByCountry = getAvailabilitiesByCountry;

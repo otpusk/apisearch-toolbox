@@ -21,9 +21,6 @@ Object.defineProperty(exports, "operatorsWatchers", {
     return _watchers.operatorsWatchers;
   }
 });
-
 var _actions = require("./actions");
-
 var _reducer = require("./reducer");
-
 var _watchers = require("./saga/watchers");

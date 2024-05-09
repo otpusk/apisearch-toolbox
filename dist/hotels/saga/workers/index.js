@@ -21,9 +21,6 @@ Object.defineProperty(exports, "getSimilarHotelsWorker", {
     return _getSimilarHotelsWorker.getSimilarHotelsWorker;
   }
 });
-
 var _getHotelWorker = require("./getHotelWorker");
-
 var _getHotelsMarkersWorker = require("./getHotelsMarkersWorker");
-
 var _getSimilarHotelsWorker = require("./getSimilarHotelsWorker");
