@@ -21,7 +21,7 @@
   "dependencies": {
     "geolib": "3.3.3",
     "immutable": "4.0.0-rc.12",
-    "moment": "2.28.0",
+    "moment": "2.29.4",
     "ramda": "0.29.0",
     "redux": "4.0.5",
     "redux-actions": "2.6.5",
@@ -33,16 +33,16 @@
     "@otpusk/json-api": "1.0.33"
   },
   "devDependencies": {
-    "@babel/cli": "^7.8.3",
-    "@babel/core": "^7.8.3",
-    "@babel/node": "^7.8.3",
-    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/cli": "7.24.5",
+    "@babel/core": "7.24.5",
+    "@babel/eslint-parser": "7.24.5",
+    "@babel/node": "7.23.9",
+    "@babel/plugin-proposal-class-properties": "7.18.6",
     "@babel/plugin-proposal-nullish-coalescing-operator": "7.18.6",
-    "@babel/plugin-proposal-optional-chaining": "7.6.0",
-    "@babel/preset-env": "^7.8.3",
-    "babel-eslint": "^10.0.3",
-    "eslint": "^6.8.0",
-    "@otpusk/json-api": "latest"
+    "@babel/plugin-proposal-optional-chaining": "7.21.0",
+    "@babel/preset-env": "7.24.5",
+    "@otpusk/json-api": "latest",
+    "eslint": "8.57.0"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/"
