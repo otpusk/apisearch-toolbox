@@ -30,7 +30,7 @@
   },
   "peerDependencies": {
     "@otpusk/excursion-api": "0.0.57",
-    "@otpusk/json-api": "https://github.com/otpusk/json-api.git#development"
+    "@otpusk/json-api": "latest"
   },
   "devDependencies": {
     "@babel/cli": "7.24.5",
@@ -41,7 +41,7 @@
     "@babel/plugin-proposal-nullish-coalescing-operator": "7.18.6",
     "@babel/plugin-proposal-optional-chaining": "7.21.0",
     "@babel/preset-env": "7.24.5",
-    "@otpusk/json-api": "https://github.com/otpusk/json-api.git#development",
+    "@otpusk/json-api": "latest",
     "eslint": "8.57.0"
   },
   "publishConfig": {
