@@ -4,11 +4,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.geoActions = void 0;
-
 var _reduxActions = require("redux-actions");
-
 /* eslint-disable max-params */
-var geoActions = (0, _reduxActions.createActions)({
+
+var geoActions = exports.geoActions = (0, _reduxActions.createActions)({
   GET_SUGGESTS: function GET_SUGGESTS() {
     var key = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
     return key;
@@ -144,4 +143,3 @@ var geoActions = (0, _reduxActions.createActions)({
     return error;
   }
 });
-exports.geoActions = geoActions;

@@ -15,7 +15,5 @@ Object.defineProperty(exports, "getOperatorsWorker", {
     return _getOperators.getOperatorsWorker;
   }
 });
-
 var _getOperators = require("./getOperators");
-
 var _getCurrencyRates = require("./getCurrencyRates");

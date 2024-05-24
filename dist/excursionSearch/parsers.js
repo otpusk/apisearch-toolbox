@@ -16,13 +16,9 @@ Object.defineProperty(exports, "numbersArrayParser", {
     return _parsers.numbersArrayParser;
   }
 });
-
 var _moment = _interopRequireDefault(require("moment"));
-
 var _parsers = require("../queries/parsers");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 // Core
 
 /**
@@ -31,9 +27,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
  * @param {string} value date
  * @returns {Date} date
  */
-var dateParser = function dateParser(value) {
+var dateParser = exports.dateParser = function dateParser(value) {
   var parsedDate = (0, _moment["default"])(value, "DD-MM-YYYY");
   return parsedDate.isValid() ? parsedDate : null;
 };
-
-exports.dateParser = dateParser;
