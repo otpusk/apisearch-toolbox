@@ -34,7 +34,7 @@ var offersReducer = exports.offersReducer = (0, _reduxActions.handleActions)((_h
     offer = _ref2$payload.offer;
   var prevOffer = R.path(['store', offerID], state);
   var nextOffer = prevOffer ? R.over(R.lensProp('price'), function (price) {
-    return R.mergeAll([price, prevOffer.price]);
+    return R.mergeAll([prevOffer.price, price]);
   }, offer) : offer;
   return R.assocPath(['store', offerID], nextOffer, state);
 }), _actions.offersActions.setOfferStatus, function (state, _ref3) {
