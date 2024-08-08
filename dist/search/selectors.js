@@ -276,7 +276,7 @@ var getHotelsByMultipleSearch = exports.getHotelsByMultipleSearch = function get
     for (var _len = arguments.length, results = new Array(_len), _key = 0; _key < _len; _key++) {
       results[_key] = arguments[_key];
     }
-    return R.pipe(R.tap(console.log), R.flatten, R.uniq, R.length)(results);
+    return R.pipe(R.flatten, R.uniq, R.length)(results);
   });
 };
 var getHotelsTotal = exports.getHotelsTotal = function getHotelsTotal() {
