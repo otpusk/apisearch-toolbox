@@ -4,7 +4,7 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.selectOperators = exports.offersByKey = exports.isStart = exports.isSetSearch = exports.isSetHotelAtPrices = exports.isSearch = exports.isProccess = exports.isFail = exports.isDone = exports.hotelsByKey = exports.getTotal = exports.getSearchProgressByPercent = exports.getSearchCountry = exports.getPrices = exports.getOperatorsWithMinPrice = exports.getOperatorsByHotelID = exports.getOperatorLink = exports.getOffersFromPrices = exports.getNightsWithMinPrice = exports.getHotelsTotal = exports.getHotelsMarkers = exports.getHotelsByMinPrice = exports.getFoodsWithMinPrice = exports.getFlattenPrices = exports.getError = exports.getChart = exports.getCenterByHotelsMarkers = exports.getCategoryWithMinPrice = exports.getAvailableDates = exports.createGetDeparturesWithMinPrice = void 0;
+exports.selectOperators = exports.offersByKey = exports.isStart = exports.isSetSearch = exports.isSetHotelAtPrices = exports.isSearch = exports.isProccess = exports.isFail = exports.isDone = exports.hotelsByKey = exports.getTotal = exports.getSearchProgressByPercent = exports.getSearchCountry = exports.getPrices = exports.getOperatorsWithMinPrice = exports.getOperatorsByHotelID = exports.getOperatorLink = exports.getOffersFromPrices = exports.getNightsWithMinPrice = exports.getHotelsTotal = exports.getHotelsMarkers = exports.getHotelsByMultipleSearch = exports.getHotelsByMinPrice = exports.getFoodsWithMinPrice = exports.getFlattenPrices = exports.getError = exports.getChart = exports.getCenterByHotelsMarkers = exports.getCategoryWithMinPrice = exports.getAvailableDates = exports.createGetDeparturesWithMinPrice = void 0;
 var _reselect = require("reselect");
 var R = _interopRequireWildcard(require("ramda"));
 var _static = require("@otpusk/json-api/dist/static");
@@ -264,6 +264,19 @@ var getOperatorLink = exports.getOperatorLink = (0, _reselect.createSelector)(ge
 var getHotels = function getHotels() {
   return (0, _reselect.createSelector)(getFlattenPrices(), getQueryID, function (prices, queryID) {
     return R.concat(R.map(R.prop('hotelID'), prices), getUnusedHotelsFromSearchMemory(queryID));
+  });
+};
+var getHotelsByMultipleSearch = exports.getHotelsByMultipleSearch = function getHotelsByMultipleSearch(queryIDs) {
+  var selectors = R.map(function (queryID) {
+    return R.partialRight(getHotels(), [{
+      queryID: queryID
+    }]);
+  }, queryIDs);
+  return (0, _reselect.createSelector)(selectors, function () {
+    for (var _len = arguments.length, results = new Array(_len), _key = 0; _key < _len; _key++) {
+      results[_key] = arguments[_key];
+    }
+    return R.pipe(R.tap(console.log), R.flatten, R.uniq, R.length)(results);
   });
 };
 var getHotelsTotal = exports.getHotelsTotal = function getHotelsTotal() {

@@ -429,6 +429,25 @@ const getHotels = () => createSelector(
     )
 );
 
+export const getHotelsByMultipleSearch = (queryIDs) => {
+    const selectors = R.map(
+        (queryID) => R.partialRight(getHotels(), [{ queryID }]),
+        queryIDs
+    );
+
+
+    return createSelector(
+        selectors,
+        (...results) => {
+            return R.pipe(
+                R.flatten,
+                R.uniq,
+                R.length
+            )(results);
+        }
+    );
+};
+
 export const getHotelsTotal = () => createSelector(
     getHotels(),
     R.length
