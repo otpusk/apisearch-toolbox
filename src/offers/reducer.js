@@ -40,8 +40,8 @@ export const offersReducer = handleActions({
             ? R.over(
                 R.lensProp('price'),
                 (price) => R.mergeAll([
-                    price,
-                    prevOffer.price
+                    prevOffer.price,
+                    price
                 ]),
                 offer
             )

@@ -37,4 +37,38 @@ export const servicesReducer = handleActions({
     [servicesActions.resetBookingServices]: (state, { payload: key }) => {
         return R.dissocPath(['booking', key], state);
     },
+    [servicesActions.setBookingServicesBySource]: (state, { payload }) => {
+        const { key, services, source } = payload;
+
+        const prev = R.propOr([], ['booking', key], state);
+
+        debugger;
+
+        const next = R.pipe(
+            R.reject(R.propEq(source, 'source')),
+            R.concat(services)
+        )(prev);
+
+        debugger;
+
+        return R.assocPath(['booking', key], next, state);
+    },
+    [servicesActions.resetBookingServicesBySource]: (state, { payload }) => {
+        const { key, source } = payload;
+
+        debugger;
+
+        const next = R.pipe(
+            R.path(['booking', key]),
+            R.reject(R.propEq(source, 'source'))
+        )(state);
+
+        debugger;
+
+        if (R.isEmpty(next)) {
+            return R.dissocPath(['booking', key], state);
+        }
+
+        return R.assocPath(['booking', key], next, state);
+    },
 }, initialState);
