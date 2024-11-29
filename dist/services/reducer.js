@@ -45,17 +45,20 @@ var servicesReducer = exports.servicesReducer = (0, _reduxActions.handleActions)
     services = payload.services,
     source = payload.source;
   var prev = R.propOr([], ['booking', key], state);
-  debugger;
   var next = R.pipe(R.reject(R.propEq(source, 'source')), R.concat(services))(prev);
-  debugger;
+  console.log('key', key);
+  console.log('source', source);
+  console.log('prev', prev);
+  console.log('next', next);
   return R.assocPath(['booking', key], next, state);
 }), _actions.servicesActions.resetBookingServicesBySource, function (state, _ref7) {
   var payload = _ref7.payload;
   var key = payload.key,
     source = payload.source;
-  debugger;
   var next = R.pipe(R.path(['booking', key]), R.reject(R.propEq(source, 'source')))(state);
-  debugger;
+  console.log('key', key);
+  console.log('source', source);
+  console.log('next', next);
   if (R.isEmpty(next)) {
     return R.dissocPath(['booking', key], state);
   }
