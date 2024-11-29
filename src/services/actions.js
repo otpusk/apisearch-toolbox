@@ -14,6 +14,9 @@ export const servicesActions = createActions({
 
     GET_BOOKING_SERVICES:      (offerID, currency) => ({ offerID, currency }),
     GET_BOOKING_SERVICES_FAIL: (error) => error,
-    SET_BOOKING_SERVICES:      (key, services) => ({ key, services }),
-    RESET_BOOKING_SERVICES:    (offerID, currency) => createBookingServicesKey(offerID, currency),
+
+    SET_BOOKING_SERVICES:         (key, services) => ({ key, services }),
+    RESET_BOOKING_SERVICES:       (offerID, currency) => createBookingServicesKey(offerID, currency),
+    setBookingServicesBySource:   (key, services, source) => ({ key, services, source }),
+    resetBookingServicesBySource: (offerID, currency, source) => ({ key: createBookingServicesKey(offerID, currency), source }),
 });
