@@ -6,11 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.toStringCompiler = exports.rangeCompiler = exports.numberCompiler = exports.mapCompiler = exports.immutableArrayCompiler = exports.datesCompiler = exports.binaryCompiler = exports.arrayCompiler = void 0;
 var _fn = require("./fn");
 var _moment = _interopRequireDefault(require("moment"));
-<<<<<<< HEAD
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-=======
-function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
->>>>>>> task-45948
 // Instruments
 
 /**

@@ -46,5 +46,18 @@ var servicesActions = exports.servicesActions = (0, _reduxActions.createActions)
   },
   RESET_BOOKING_SERVICES: function RESET_BOOKING_SERVICES(offerID, currency) {
     return (0, _helpers.createBookingServicesKey)(offerID, currency);
+  },
+  setBookingServicesBySource: function setBookingServicesBySource(key, services, source) {
+    return {
+      key: key,
+      services: services,
+      source: source
+    };
+  },
+  resetBookingServicesBySource: function resetBookingServicesBySource(offerID, currency, source) {
+    return {
+      key: (0, _helpers.createBookingServicesKey)(offerID, currency),
+      source: source
+    };
   }
 });
