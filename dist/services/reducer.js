@@ -44,12 +44,14 @@ var servicesReducer = exports.servicesReducer = (0, _reduxActions.handleActions)
   var key = payload.key,
     services = payload.services,
     source = payload.source;
-  var prev = R.propOr([], ['booking', key], state);
+  var prev = state.booking[key] || [];
   var next = R.pipe(R.reject(R.propEq(source, 'source')), R.concat(services))(prev);
+  console.log(state.booking);
   console.log('key', key);
   console.log('source', source);
   console.log('prev', prev);
   console.log('next', next);
+  console.log('/////////');
   return R.assocPath(['booking', key], next, state);
 }), _actions.servicesActions.resetBookingServicesBySource, function (state, _ref7) {
   var payload = _ref7.payload;

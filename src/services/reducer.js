@@ -40,8 +40,7 @@ export const servicesReducer = handleActions({
     [servicesActions.setBookingServicesBySource]: (state, { payload }) => {
         const { key, services, source } = payload;
 
-        const prev = R.propOr([], ['booking', key], state);
-
+        const prev = state.booking[key] || [];
 
         const next = R.pipe(
             R.reject(R.propEq(source, 'source')),
@@ -49,10 +48,12 @@ export const servicesReducer = handleActions({
         )(prev);
 
 
+        console.log(state.booking);
         console.log('key', key);
         console.log('source', source);
         console.log('prev', prev);
         console.log('next', next);
+        console.log('/////////');
 
         return R.assocPath(['booking', key], next, state);
     },
