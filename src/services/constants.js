@@ -37,4 +37,16 @@ export const STATIC_LABELS_BY_LANG = {
         'sport':      'Entertainment and sports',
         'recommend':  'Hotels with recommendation',
     },
+    'pl': {
+        'beach_line': 'Linia brzegowa',
+        'location':   'Lokalizacja',
+        'beach':      'Plaża',
+        'main':       'Główne',
+        'beach_type': 'Typ plaży',
+        'child':      'Dla dzieci',
+        'hotel':      'Usługi hotelowe',
+        'room':       'Udogodnienia w pokoju',
+        'sport':      'Rozrywka i sport',
+        'recommend':  'Hotele z rekomendacją',
+    },
 };
