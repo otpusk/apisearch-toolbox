@@ -41,5 +41,17 @@ var STATIC_LABELS_BY_LANG = exports.STATIC_LABELS_BY_LANG = {
     'room': 'Room amenities',
     'sport': 'Entertainment and sports',
     'recommend': 'Hotels with recommendation'
+  },
+  'pl': {
+    'beach_line': 'Linia brzegowa',
+    'location': 'Lokalizacja',
+    'beach': 'Plaża',
+    'main': 'Główne',
+    'beach_type': 'Typ plaży',
+    'child': 'Dla dzieci',
+    'hotel': 'Usługi hotelowe',
+    'room': 'Udogodnienia w pokoju',
+    'sport': 'Rozrywka i sport',
+    'recommend': 'Hotele z rekomendacją'
   }
 };
