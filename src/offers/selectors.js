@@ -150,6 +150,10 @@ export const getIsStopSaleByHotel = makeSelectorByStatus(
     ACTUALIZED_OFFER_STATUS.STOP_SALE_BY_HOTEL
 );
 
+export const getIsInvalidActualization = makeSelectorByStatus(
+    ACTUALIZED_OFFER_STATUS.INVALID_REQUEST
+);
+
 export const getMessageByActualizedOffer = () => createSelector(
     getActualizedEntity(),
     R.prop('message')
