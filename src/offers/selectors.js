@@ -150,7 +150,7 @@ export const getIsStopSaleByHotel = makeSelectorByStatus(
     ACTUALIZED_OFFER_STATUS.STOP_SALE_BY_HOTEL
 );
 
-export const getIsInvalidActualization = makeSelectorByStatus(
+export const getIsFailedActualization = makeSelectorByStatus(
     ACTUALIZED_OFFER_STATUS.INVALID_REQUEST
 );
 
