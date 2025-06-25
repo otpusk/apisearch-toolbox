@@ -4,14 +4,14 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.isNotFoundActualizedOffer = exports.isExpiredOffer = exports.isEndActualizedOffer = exports.isConnectionFailedWithOperator = exports.isAliveOffer = exports.isActualizedOffer = exports.isActualazingOffer = exports.isActualLastUpdate = exports.getOffers = exports.getOfferStatus = exports.getOffer = exports.getMessageByActualizedOffer = exports.getIsStopSaleByHotel = exports.getActualizedStatus = exports.getActualizedOffer = void 0;
+exports.isNotFoundActualizedOffer = exports.isExpiredOffer = exports.isEndActualizedOffer = exports.isConnectionFailedWithOperator = exports.isAliveOffer = exports.isActualizedOffer = exports.isActualazingOffer = exports.isActualLastUpdate = exports.getOffers = exports.getOfferStatus = exports.getOffer = exports.getMessageByActualizedOffer = exports.getIsStopSaleByHotel = exports.getIsFailedActualization = exports.getActualizedStatus = exports.getActualizedOffer = void 0;
 var _reselect = require("reselect");
 var R = _interopRequireWildcard(require("ramda"));
 var _moment = _interopRequireDefault(require("moment"));
 var _resultsMemory = require("../search/saga/workers/getResultsWorker/resultsMemory");
 var _constants = require("./constants");
 var _helpers = require("./helpers");
-function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
 function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != _typeof(e) && "function" != typeof e) return { "default": e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && {}.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n["default"] = e, t && t.set(e, n), n; }
 var EMPTY_OBJ = {};
@@ -108,6 +108,11 @@ var makeSelectorByStatus = function makeSelectorByStatus(status) {
 var isConnectionFailedWithOperator = exports.isConnectionFailedWithOperator = makeSelectorByStatus(_constants.ACTUALIZED_OFFER_STATUS.ERROR_OPERATOR_CONNECTION);
 var isNotFoundActualizedOffer = exports.isNotFoundActualizedOffer = makeSelectorByStatus(_constants.ACTUALIZED_OFFER_STATUS.NOT_FOUND);
 var getIsStopSaleByHotel = exports.getIsStopSaleByHotel = makeSelectorByStatus(_constants.ACTUALIZED_OFFER_STATUS.STOP_SALE_BY_HOTEL);
+var getIsFailedActualization = exports.getIsFailedActualization = function getIsFailedActualization() {
+  return (0, _reselect.createSelector)(getActualizedStatus(), function (status) {
+    return [_constants.ACTUALIZED_OFFER_STATUS.NOT_FOUND, _constants.ACTUALIZED_OFFER_STATUS.ERROR_OPERATOR_CONNECTION, _constants.ACTUALIZED_OFFER_STATUS.INVALID_REQUEST, _constants.ACTUALIZED_OFFER_STATUS.STOP_SALE_BY_TRANSPORT_TO, _constants.ACTUALIZED_OFFER_STATUS.STOP_SALE_BY_TRANSPORT_FROM, _constants.ACTUALIZED_OFFER_STATUS.STOP_SALE_BY_HOTEL].includes(status);
+  });
+};
 var getMessageByActualizedOffer = exports.getMessageByActualizedOffer = function getMessageByActualizedOffer() {
   return (0, _reselect.createSelector)(getActualizedEntity(), R.prop('message'));
 };
