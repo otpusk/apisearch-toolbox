@@ -58,7 +58,12 @@ export function* actualizeOfferSaga ({ payload: { adults, children, offerID, cur
         );
 
         yield put(offersActions.setActualizedStatus(offerID, getTextStatusByCode(code)));
-        nextOffer && (yield put(offersActions.setActualizedOffer(offerID, nextOffer)));
+
+        if (nextOffer) {
+            yield put(offersActions.setActualizedOffer(offerID, nextOffer));
+            yield put(offersActions.setOffer(nextOffer.id, nextOffer));
+        }
+
         message && (yield put(offersActions.setMessageByActualizedOffer(offerID, message)));
     } catch (error) {
         console.log(error);
