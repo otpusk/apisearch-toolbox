@@ -150,8 +150,16 @@ export const getIsStopSaleByHotel = makeSelectorByStatus(
     ACTUALIZED_OFFER_STATUS.STOP_SALE_BY_HOTEL
 );
 
-export const getIsFailedActualization = makeSelectorByStatus(
-    ACTUALIZED_OFFER_STATUS.INVALID_REQUEST
+export const getIsFailedActualization = () => createSelector(
+    getActualizedStatus(),
+    (status) => [
+        ACTUALIZED_OFFER_STATUS.NOT_FOUND,
+        ACTUALIZED_OFFER_STATUS.ERROR_OPERATOR_CONNECTION,
+        ACTUALIZED_OFFER_STATUS.INVALID_REQUEST,
+        ACTUALIZED_OFFER_STATUS.STOP_SALE_BY_TRANSPORT_TO,
+        ACTUALIZED_OFFER_STATUS.STOP_SALE_BY_TRANSPORT_FROM,
+        ACTUALIZED_OFFER_STATUS.STOP_SALE_BY_HOTEL
+    ].includes(status)
 );
 
 export const getMessageByActualizedOffer = () => createSelector(
