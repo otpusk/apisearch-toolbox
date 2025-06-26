@@ -58,43 +58,45 @@ function actualizeOfferSaga(_ref) {
           _context.next = 17;
           return (0, _effects.put)(_actions.offersActions.setActualizedStatus(offerID, getTextStatusByCode(code)));
         case 17:
-          _context.t0 = nextOffer;
-          if (!_context.t0) {
-            _context.next = 21;
+          if (!nextOffer) {
+            _context.next = 22;
             break;
           }
-          _context.next = 21;
+          _context.next = 20;
           return (0, _effects.put)(_actions.offersActions.setActualizedOffer(offerID, nextOffer));
-        case 21:
-          _context.t1 = message;
-          if (!_context.t1) {
-            _context.next = 25;
+        case 20:
+          _context.next = 22;
+          return (0, _effects.put)(_actions.offersActions.setOffer(nextOffer.id, nextOffer));
+        case 22:
+          _context.t0 = message;
+          if (!_context.t0) {
+            _context.next = 26;
             break;
           }
-          _context.next = 25;
+          _context.next = 26;
           return (0, _effects.put)(_actions.offersActions.setMessageByActualizedOffer(offerID, message));
-        case 25:
-          _context.next = 34;
+        case 26:
+          _context.next = 35;
           break;
-        case 27:
-          _context.prev = 27;
-          _context.t2 = _context["catch"](8);
-          console.log(_context.t2);
-          _context.next = 32;
+        case 28:
+          _context.prev = 28;
+          _context.t1 = _context["catch"](8);
+          console.log(_context.t1);
+          _context.next = 33;
           return (0, _effects.put)(_actions.offersActions.setActualizedStatus(offerID, _constants.ACTUALIZED_OFFER_STATUS.INVALID_REQUEST));
-        case 32:
-          _context.next = 34;
+        case 33:
+          _context.next = 35;
           return (0, _effects.put)(_actions.offersActions.failActualizeOffer(offerID));
-        case 34:
-          _context.prev = 34;
-          _context.next = 37;
+        case 35:
+          _context.prev = 35;
+          _context.next = 38;
           return (0, _effects.put)(_actions.offersActions.endActualizeOffer(offerID));
-        case 37:
-          return _context.finish(34);
         case 38:
+          return _context.finish(35);
+        case 39:
         case "end":
           return _context.stop();
       }
-    }, _callee, null, [[8, 27, 34, 38]]);
+    }, _callee, null, [[8, 28, 35, 39]]);
   })();
 }
