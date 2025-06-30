@@ -59,44 +59,41 @@ function actualizeOfferSaga(_ref) {
           return (0, _effects.put)(_actions.offersActions.setActualizedStatus(offerID, getTextStatusByCode(code)));
         case 17:
           if (!nextOffer) {
-            _context.next = 22;
+            _context.next = 20;
             break;
           }
           _context.next = 20;
           return (0, _effects.put)(_actions.offersActions.setActualizedOffer(offerID, nextOffer));
         case 20:
-          _context.next = 22;
-          return (0, _effects.put)(_actions.offersActions.setOffer(nextOffer.id, nextOffer));
-        case 22:
           _context.t0 = message;
           if (!_context.t0) {
-            _context.next = 26;
+            _context.next = 24;
             break;
           }
-          _context.next = 26;
+          _context.next = 24;
           return (0, _effects.put)(_actions.offersActions.setMessageByActualizedOffer(offerID, message));
-        case 26:
-          _context.next = 35;
+        case 24:
+          _context.next = 33;
           break;
-        case 28:
-          _context.prev = 28;
+        case 26:
+          _context.prev = 26;
           _context.t1 = _context["catch"](8);
           console.log(_context.t1);
-          _context.next = 33;
+          _context.next = 31;
           return (0, _effects.put)(_actions.offersActions.setActualizedStatus(offerID, _constants.ACTUALIZED_OFFER_STATUS.INVALID_REQUEST));
-        case 33:
-          _context.next = 35;
+        case 31:
+          _context.next = 33;
           return (0, _effects.put)(_actions.offersActions.failActualizeOffer(offerID));
-        case 35:
-          _context.prev = 35;
-          _context.next = 38;
+        case 33:
+          _context.prev = 33;
+          _context.next = 36;
           return (0, _effects.put)(_actions.offersActions.endActualizeOffer(offerID));
-        case 38:
-          return _context.finish(35);
-        case 39:
+        case 36:
+          return _context.finish(33);
+        case 37:
         case "end":
           return _context.stop();
       }
-    }, _callee, null, [[8, 28, 35, 39]]);
+    }, _callee, null, [[8, 26, 33, 37]]);
   })();
 }

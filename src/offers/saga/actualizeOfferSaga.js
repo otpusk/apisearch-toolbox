@@ -61,7 +61,6 @@ export function* actualizeOfferSaga ({ payload: { adults, children, offerID, cur
 
         if (nextOffer) {
             yield put(offersActions.setActualizedOffer(offerID, nextOffer));
-            yield put(offersActions.setOffer(nextOffer.id, nextOffer));
         }
 
         message && (yield put(offersActions.setMessageByActualizedOffer(offerID, message)));
