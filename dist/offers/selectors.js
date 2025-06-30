@@ -4,7 +4,7 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.isNotFoundActualizedOffer = exports.isExpiredOffer = exports.isEndActualizedOffer = exports.isConnectionFailedWithOperator = exports.isAliveOffer = exports.isActualizedOffer = exports.isActualazingOffer = exports.isActualLastUpdate = exports.getOffers = exports.getOfferStatus = exports.getOffer = exports.getMessageByActualizedOffer = exports.getIsStopSaleByHotel = exports.getActualizedStatus = exports.getActualizedOffer = void 0;
+exports.isNotFoundActualizedOffer = exports.isExpiredOffer = exports.isEndActualizedOffer = exports.isConnectionFailedWithOperator = exports.isAliveOffer = exports.isActualizedOffer = exports.isActualazingOffer = exports.isActualLastUpdate = exports.getOffers = exports.getOfferStatus = exports.getOffer = exports.getMessageByActualizedOffer = exports.getIsStopSaleByHotel = exports.getIsFailedActualization = exports.getActualizedStatus = exports.getActualizedOffer = void 0;
 var _reselect = require("reselect");
 var R = _interopRequireWildcard(require("ramda"));
 var _moment = _interopRequireDefault(require("moment"));
@@ -108,6 +108,11 @@ var makeSelectorByStatus = function makeSelectorByStatus(status) {
 var isConnectionFailedWithOperator = exports.isConnectionFailedWithOperator = makeSelectorByStatus(_constants.ACTUALIZED_OFFER_STATUS.ERROR_OPERATOR_CONNECTION);
 var isNotFoundActualizedOffer = exports.isNotFoundActualizedOffer = makeSelectorByStatus(_constants.ACTUALIZED_OFFER_STATUS.NOT_FOUND);
 var getIsStopSaleByHotel = exports.getIsStopSaleByHotel = makeSelectorByStatus(_constants.ACTUALIZED_OFFER_STATUS.STOP_SALE_BY_HOTEL);
+var getIsFailedActualization = exports.getIsFailedActualization = function getIsFailedActualization() {
+  return (0, _reselect.createSelector)(getActualizedStatus(), function (status) {
+    return [_constants.ACTUALIZED_OFFER_STATUS.NOT_FOUND, _constants.ACTUALIZED_OFFER_STATUS.ERROR_OPERATOR_CONNECTION, _constants.ACTUALIZED_OFFER_STATUS.INVALID_REQUEST, _constants.ACTUALIZED_OFFER_STATUS.STOP_SALE_BY_TRANSPORT_TO, _constants.ACTUALIZED_OFFER_STATUS.STOP_SALE_BY_TRANSPORT_FROM, _constants.ACTUALIZED_OFFER_STATUS.STOP_SALE_BY_HOTEL].includes(status);
+  });
+};
 var getMessageByActualizedOffer = exports.getMessageByActualizedOffer = function getMessageByActualizedOffer() {
   return (0, _reselect.createSelector)(getActualizedEntity(), R.prop('message'));
 };
