@@ -114,13 +114,6 @@ const getActualizedEntity = () => createSelector(
     (offer, { key }) => offer[key] ?? EMPTY_OBJ
 );
 
-export const getLastOffer = () => createSelector(
-    actualizedOffersDomain,
-    getOffers(),
-    getOfferID,
-    (actualizedOffers, offers, { key }) => actualizedOffers[key] ?? offers[key]
-);
-
 export const getActualizedOffer = () => createSelector(
     getActualizedEntity(),
     R.prop('offer')
