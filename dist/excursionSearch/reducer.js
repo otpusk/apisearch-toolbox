@@ -7,7 +7,6 @@ exports.reducer = void 0;
 var _reduxActions = require("redux-actions");
 var _immutable = require("immutable");
 var _actions = require("./actions");
-var _handleActions;
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
@@ -19,7 +18,7 @@ var initialState = (0, _immutable.Map)({
   results: {},
   operators: {}
 });
-var reducer = exports.reducer = (0, _reduxActions.handleActions)((_handleActions = {}, _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_handleActions, (0, _reduxActions.combineActions)(_actions.actions.createQuery, _actions.actions.setQuery), function (state, _ref) {
+var reducer = exports.reducer = (0, _reduxActions.handleActions)(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty({}, (0, _reduxActions.combineActions)(_actions.actions.createQuery, _actions.actions.setQuery), function (state, _ref) {
   var _ref$payload = _ref.payload,
     queryId = _ref$payload.queryId,
     query = _ref$payload.query;
@@ -62,9 +61,4 @@ var reducer = exports.reducer = (0, _reduxActions.handleActions)((_handleActions
     key = _ref10$payload.key,
     prices = _ref10$payload.prices;
   return state.setIn(['prices', key], prices);
-}), _defineProperty(_handleActions, _actions.actions.getExcursionsCountSuccess, function (state, _ref11) {
-  var _ref11$payload = _ref11.payload,
-    queryId = _ref11$payload.queryId,
-    excursionsCount = _ref11$payload.excursionsCount;
-  return state.setIn(['searchCount', queryId], excursionsCount);
-})), initialState);
+}), initialState);
