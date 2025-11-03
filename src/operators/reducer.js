@@ -5,9 +5,10 @@ import { Map } from 'immutable';
 import { operatorsActions as actions } from './actions';
 
 const initialState = Map({
-    'rates': {},
-    'store': Map(),
-    'ui':    Map(),
+    'rates':          {},
+    'store':          Map(),
+    'ui':             Map(),
+    hotelDescriptors: {},
 });
 
 export const operatorsReducer = handleActions({
@@ -25,5 +26,10 @@ export const operatorsReducer = handleActions({
         const { key, rates } = payload;
 
         return state.setIn(['rates', key], rates);
+    },
+    [actions.getHotelDescriptorsSuccess]: (state, { payload }) => {
+        const { operatorID, descriptors } = payload;
+
+        return state.setIn(['hotelDescriptors', operatorID], descriptors);
     },
 }, initialState);

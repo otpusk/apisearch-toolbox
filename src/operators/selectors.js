@@ -13,3 +13,8 @@ export const getRatesByDate = () => createSelector(
     getRates(), getDate,
     (rates, date) => R.prop(date, rates)
 );
+
+export const getOperatorsDescriptorsHub = R.pipe(
+    domain,
+    (operators) => operators.get('hotelDescriptors')
+);
