@@ -1,5 +1,5 @@
 import { call, put, select } from 'redux-saga/effects';
-import { getToursOperatorHotelDescriptions } from "@otpusk/json-api";
+import { getToursHotelDescriptionsByOperator } from "@otpusk/json-api";
 
 import { getLang, getToken } from "../../../auth/selectors";
 
@@ -17,7 +17,7 @@ export function* getDescriptorsByOperatorWorker ({ payload: { operatorID, extern
 
     try {
         const descriptors = yield call(
-            getToursOperatorHotelDescriptions,
+            getToursHotelDescriptionsByOperator,
             token,
             {
                 lang,
