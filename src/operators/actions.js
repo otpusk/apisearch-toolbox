@@ -11,9 +11,4 @@ export const operatorsActions = createActions({
     GET_CURRENCY_RATES_FAIL:    (error) => error,
 
     SET_UI_FLAG: (path, value) => ({ path, value }),
-
-    // hotel descriptors
-    GET_HOTEL_DESCRIPTORS:         (operatorID, externalOperatorData) => ({ operatorID, externalOperatorData }),
-    GET_HOTEL_DESCRIPTORS_SUCCESS: (operatorID, descriptors) => ({ operatorID, descriptors }),
-    GET_HOTEL_DESCRIPTORS_FAIL:    (error) => error,
 }, { prefix: 'API_TOOLBOX' });

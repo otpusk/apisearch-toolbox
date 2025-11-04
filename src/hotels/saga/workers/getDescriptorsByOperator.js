@@ -3,9 +3,9 @@ import { getToursOperatorHotelDescriptions } from "@otpusk/json-api";
 
 import { getLang, getToken } from "../../../auth/selectors";
 
-import { operatorsActions } from "../../actions";
+import { hotelsActions } from "../../actions";
 
-export function* getHotelDescriptorsWorker ({ payload: { operatorID, externalOperatorData }}) {
+export function* getDescriptorsByOperatorWorker ({ payload: { operatorID, externalOperatorData }}) {
     const token = yield select(getToken);
     const lang = yield select(getLang);
 
@@ -27,11 +27,11 @@ export function* getHotelDescriptorsWorker ({ payload: { operatorID, externalOpe
             }
         );
 
-        yield put(operatorsActions.getHotelDescriptorsSuccess(
+        yield put(hotelsActions.getDescriptionsByOperatorSuccess(
             operatorID,
             descriptors
         ));
     } catch (error) {
-        yield put(operatorsActions.getHotelDescriptorsFail(error));
+        yield put(hotelsActions.getDescriptionsByOperatorFail(error));
     }
 }

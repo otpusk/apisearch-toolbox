@@ -54,3 +54,8 @@ export const getHotel = () => createSelector(
     hotelKey,
     (store, key) => store.get(key.toString())
 );
+
+export const getHotelsDescriptorsByOperatorHub = R.pipe(
+    domain,
+    (hotels) => hotels.get('descriptionsByOperator')
+);

@@ -3,7 +3,7 @@ import { takeEvery } from 'redux-saga/effects';
 
 // Instruments
 import { hotelsActions as actions } from '../actions';
-import { getHotelWorker, getHotelsMarkersWorker, getSimilarHotelsWorker } from './workers';
+import { getHotelWorker, getHotelsMarkersWorker, getSimilarHotelsWorker, getDescriptorsByOperatorWorker } from './workers';
 
 export const hotelsWatchers =  Object.freeze({
     * getHotelWatcher () {
@@ -14,5 +14,8 @@ export const hotelsWatchers =  Object.freeze({
     },
     * getSimilarHotelsWatcher () {
         yield takeEvery(actions.getSimilarHotels, getSimilarHotelsWorker);
+    },
+    * getHotelDescriptors () {
+        yield takeEvery(actions.getDescriptionsByOperator, getDescriptorsByOperatorWorker);
     },
 });

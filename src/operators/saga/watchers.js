@@ -2,7 +2,7 @@ import { takeEvery } from 'redux-saga/effects';
 
 // actions
 import { operatorsActions as actions } from './../actions';
-import { getOperatorsWorker, getCurrencyRatesWorker, getHotelDescriptorsWorker } from './workers';
+import { getOperatorsWorker, getCurrencyRatesWorker } from './workers';
 
 export const operatorsWatchers = Object.freeze({
     * getOperators () {
@@ -10,8 +10,5 @@ export const operatorsWatchers = Object.freeze({
     },
     * getCurrencyRates () {
         yield takeEvery(actions.getCurrencyRates, getCurrencyRatesWorker);
-    },
-    * getHotelDescriptors () {
-        yield takeEvery(actions.getHotelDescriptors, getHotelDescriptorsWorker);
     },
 });

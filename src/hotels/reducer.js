@@ -5,9 +5,10 @@ import { clone } from 'ramda';
 import { hotelsActions as actions } from './actions';
 
 const initalState = Map({
-    'store':   Map(),
-    'markers': Map(),
-    'similar': Map(),
+    'store':                Map(),
+    'markers':              Map(),
+    'similar':              Map(),
+    descriptionsByOperator: {},
 });
 
 const mergeTwoHotels = (fresh, base) => {
@@ -49,7 +50,12 @@ export const hotelsReducer = handleActions(
         [actions.getSimilarHotelsSuccess]: (state, { payload: { hotelId, similarHotels }}) => {
             return state.setIn(['similar', hotelId], Map(similarHotels));
         },
-        [actions.resetHotelsStore]: () => clone(initalState),
+        [actions.resetHotelsStore]:                 () => clone(initalState),
+        [actions.getDescriptionsByOperatorSuccess]: (state, { payload }) => {
+            const { operatorID, descriptions } = payload;
+
+            return state.setIn(['descriptionsByOperator', operatorID], descriptions);
+        },
     },
     initalState
 );
