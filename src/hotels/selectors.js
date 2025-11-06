@@ -61,8 +61,11 @@ export const getHotelsDescriptionsByOperatorHub = R.pipe(
     (hotels) => hotels.get('descriptionsByOperator')
 );
 
-export const makeGetHotelDescriptionsByOperator = () => createSelector(
-    getHotelsDescriptionsByOperatorHub,
-    (_, { operatorID }) => operatorID,
-    (descriptions, operatorID) => descriptions[operatorID] ?? EMPTY_ARRAY
+
+export const getHotelDescriptionsByOperator = R.converge(
+    (descriptions, operatorID) => descriptions[operatorID] ?? EMPTY_ARRAY,
+    [
+        getHotelsDescriptionsByOperatorHub,
+        (_, { operatorID }) => operatorID
+    ]
 );
