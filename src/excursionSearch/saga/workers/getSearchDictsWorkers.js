@@ -1,13 +1,18 @@
-// Core
-import { put, call } from 'redux-saga/effects';
+import { put, call, select } from 'redux-saga/effects';
+import {
+    getFilterTransport,
+    getFilterCategories,
+    getFilterOperators,
+    getFilterPrice
+} from '@otpusk/excursion-api';
 
-// Instruments
+import { getLansAsQuery } from '../../../auth/selectors';
 import { actions } from '../../actions';
-import { getFilterTransport, getFilterCategories, getFilterOperators, getFilterPrice } from '@otpusk/excursion-api';
 
 export function* getSearchOperatorsWorker () {
     try {
-        const operators = yield call(getFilterOperators);
+        const langAsQuery = yield select(getLansAsQuery);
+        const operators = yield call(getFilterOperators, langAsQuery);
 
         yield put(actions.getSearchOperatorsSuccess(0, operators));
     } catch (error) {
@@ -17,7 +22,8 @@ export function* getSearchOperatorsWorker () {
 
 export function* getSearchTransportsWorker () {
     try {
-        const transports = yield call(getFilterTransport);
+        const langAsQuery = yield select(getLansAsQuery);
+        const transports = yield call(getFilterTransport, langAsQuery);
 
         yield put(actions.getSearchTransportsSuccess(0, transports));
     } catch (error) {
@@ -27,7 +33,8 @@ export function* getSearchTransportsWorker () {
 
 export function* getSearchCategoriesWorker () {
     try {
-        const categories = yield call(getFilterCategories);
+        const langAsQuery = yield select(getLansAsQuery);
+        const categories = yield call(getFilterCategories, langAsQuery);
 
         yield put(actions.getSearchCategoriesSuccess(0, categories));
     } catch (error) {
@@ -37,7 +44,8 @@ export function* getSearchCategoriesWorker () {
 
 export function* getSearchPricesWorker () {
     try {
-        const prices = yield call(getFilterPrice);
+        const langAsQuery = yield select(getLansAsQuery);
+        const prices = yield call(getFilterPrice, langAsQuery);
 
         yield put(actions.getSearchPricesSuccess(0, prices));
     } catch (error) {

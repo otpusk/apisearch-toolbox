@@ -1,13 +1,13 @@
-// Core
-import { call, put } from 'redux-saga/effects';
-
-// Instruments
-import { actions } from '../../actions';
+import { call, put, select } from 'redux-saga/effects';
 import { getCountries } from '@otpusk/excursion-api';
+
+import { actions } from '../../actions';
+import { getLansAsQuery } from '../../../auth/selectors';
 
 export function* getCountriesWorker () {
     try {
-        const countries = yield call(getCountries);
+        const langAsQuery = yield select(getLansAsQuery);
+        const countries = yield call(getCountries, langAsQuery);
 
         yield put(actions.getCountriesSuccess(countries));
     } catch (error) {

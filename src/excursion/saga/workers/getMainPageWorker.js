@@ -1,13 +1,13 @@
-// Core
-import { call, put } from 'redux-saga/effects';
-
-// Instruments
-import { actions } from '../../actions';
+import { call, put, select } from 'redux-saga/effects';
 import { getMainpage } from '@otpusk/excursion-api';
+
+import { actions } from '../../actions';
+import { getLansAsQuery } from '../../../auth/selectors';
 
 export function* getMainpageWorker () {
     try {
-        const categories = yield call(getMainpage);
+        const langAsQuery = yield select(getLansAsQuery);
+        const categories = yield call(getMainpage, langAsQuery);
 
         yield put(actions.getMainpageSuccess(categories));
     } catch (error) {

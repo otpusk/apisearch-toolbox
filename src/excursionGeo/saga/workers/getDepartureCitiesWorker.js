@@ -1,13 +1,13 @@
-// Core
-import { call, put } from 'redux-saga/effects';
+import { call, put, select } from 'redux-saga/effects';
 import { getFilterDeparture } from '@otpusk/excursion-api';
 
-// Instruments
+import { getLansAsQuery } from '../../../auth/selectors';
 import { actions } from '../../actions';
 
 export function* getDepartureCitiesWorker ({ payload: countryId }) {
     try {
-        const cities = yield call(getFilterDeparture, countryId);
+        const langAsQuery = yield select(getLansAsQuery);
+        const cities = yield call(getFilterDeparture, langAsQuery);
 
         yield put(actions.getDepartureCitiesSuccess(countryId, cities));
     } catch (error) {

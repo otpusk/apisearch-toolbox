@@ -45,7 +45,4 @@ export const reducer = handleActions({
     [actions.getSearchPricesSuccess]: (state, { payload : { key, prices }}) => {
         return state.setIn(['prices', key], prices);
     },
-    [actions.getExcursionsCountSuccess]: (state, { payload: { queryId, excursionsCount }}) => {
-        return state.setIn(['searchCount', queryId], excursionsCount);
-    },
 }, initialState);

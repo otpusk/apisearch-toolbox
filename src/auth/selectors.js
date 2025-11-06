@@ -1,13 +1,13 @@
-import { createSelector } from 'reselect';
-
 const domain = (_) => _.auth;
 
-export const getLang = createSelector(
-    domain,
-    (auth) => auth.getIn(['otpusk', 'lang'], 'rus')
-);
+export const getLang = (state) => {
+    return domain(state).getIn(['otpusk', 'lang'], 'ru');
+};
 
-export const getToken = createSelector(
-    domain,
-    (auth) => auth.getIn(['otpusk', 'token'])
-);
+export const getLansAsQuery = (state) => {
+    return { lang: getLang(state) };
+};
+
+export const getToken = (state) => {
+    return domain(state).getIn(['otpusk', 'token']);
+};

@@ -26,8 +26,4 @@ export const actions = createActions({
     GET_SEARCH_PRICES:         () => void 0,
     GET_SEARCH_PRICES_SUCCESS: (key, prices) => ({ key, prices }),
     GET_SEARCH_PRICES_FAIL:    (error) => error,
-
-    GET_EXCURSIONS_COUNT:         (queryId) => queryId,
-    GET_EXCURSIONS_COUNT_SUCCESS: (queryId, excursionsCount) => ({ queryId, excursionsCount }),
-    GET_EXCURSIONS_COUNT_FAIL:    (error) => error,
 }, { prefix: '@apisearch/excursion' });
