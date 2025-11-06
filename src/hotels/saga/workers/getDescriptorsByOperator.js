@@ -11,12 +11,8 @@ export function* getDescriptorsByOperatorWorker ({ payload: { operatorID, extern
 
     const { subOperatorName, subHotelID } = externalOperatorData;
 
-    if (!subOperatorName || !subHotelID) {
-        return;
-    }
-
     try {
-        const descriptors = yield call(
+        const descriptions = yield call(
             getToursHotelDescriptionsByOperator,
             token,
             {
@@ -29,7 +25,7 @@ export function* getDescriptorsByOperatorWorker ({ payload: { operatorID, extern
 
         yield put(hotelsActions.getDescriptionsByOperatorSuccess(
             operatorID,
-            descriptors
+            descriptions
         ));
     } catch (error) {
         yield put(hotelsActions.getDescriptionsByOperatorFail(error));

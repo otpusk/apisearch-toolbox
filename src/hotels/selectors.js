@@ -5,6 +5,7 @@ const domain = (_) => _.hotels;
 const hotelKey = (_, key) => key;
 
 const EMPTY_OBJ = {};
+const EMPTY_ARRAY = [];
 
 const getHotelsStore = createSelector(
     domain,
@@ -58,4 +59,10 @@ export const getHotel = () => createSelector(
 export const getHotelsDescriptionsByOperatorHub = R.pipe(
     domain,
     (hotels) => hotels.get('descriptionsByOperator')
+);
+
+export const makeGetHotelDescriptionsByOperator = () => createSelector(
+    getHotelsDescriptionsByOperatorHub,
+    (_, { operatorID }) => operatorID,
+    (descriptions, operatorID) => descriptions[operatorID] ?? EMPTY_ARRAY
 );
