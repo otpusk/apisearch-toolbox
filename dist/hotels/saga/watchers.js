@@ -46,5 +46,17 @@ var hotelsWatchers = exports.hotelsWatchers = Object.freeze({
           return _context3.stop();
       }
     }, getSimilarHotelsWatcher);
+  }),
+  getHotelDescriptors: /*#__PURE__*/_regeneratorRuntime().mark(function getHotelDescriptors() {
+    return _regeneratorRuntime().wrap(function getHotelDescriptors$(_context4) {
+      while (1) switch (_context4.prev = _context4.next) {
+        case 0:
+          _context4.next = 2;
+          return (0, _effects.takeEvery)(_actions.hotelsActions.getDescriptionsByOperator, _workers.getDescriptorsByOperatorWorker);
+        case 2:
+        case "end":
+          return _context4.stop();
+      }
+    }, getHotelDescriptors);
   })
 });

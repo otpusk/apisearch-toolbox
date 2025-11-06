@@ -23,7 +23,8 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 var initalState = (0, _immutable.Map)({
   'store': (0, _immutable.Map)(),
   'markers': (0, _immutable.Map)(),
-  'similar': (0, _immutable.Map)()
+  'similar': (0, _immutable.Map)(),
+  descriptionsByOperator: {}
 });
 var mergeTwoHotels = function mergeTwoHotels(fresh, base) {
   var merged = _objectSpread({}, base);
@@ -43,7 +44,7 @@ var mergeTwoHotels = function mergeTwoHotels(fresh, base) {
   }
   return merged;
 };
-var hotelsReducer = exports.hotelsReducer = (0, _reduxActions.handleActions)(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty({}, (0, _reduxActions.combineActions)(_actions.hotelsActions.addHotel, _actions.hotelsActions.getHotelSuccess), function (state, _ref) {
+var hotelsReducer = exports.hotelsReducer = (0, _reduxActions.handleActions)(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty({}, (0, _reduxActions.combineActions)(_actions.hotelsActions.addHotel, _actions.hotelsActions.getHotelSuccess), function (state, _ref) {
   var hotel = _ref.payload;
   return state.updateIn(['store', String(hotel.id)], function (current) {
     return current ? mergeTwoHotels(hotel, current) : hotel;
@@ -63,4 +64,9 @@ var hotelsReducer = exports.hotelsReducer = (0, _reduxActions.handleActions)(_de
   return state.setIn(['similar', hotelId], (0, _immutable.Map)(similarHotels));
 }), _actions.hotelsActions.resetHotelsStore, function () {
   return (0, _ramda.clone)(initalState);
+}), _actions.hotelsActions.getDescriptionsByOperatorSuccess, function (state, _ref5) {
+  var payload = _ref5.payload;
+  var operatorID = payload.operatorID,
+    descriptions = payload.descriptions;
+  return state.setIn(['descriptionsByOperator', operatorID], descriptions);
 }), initalState);

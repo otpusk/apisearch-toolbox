@@ -4,7 +4,7 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.hotelsHub = exports.getHotelsMarkers = exports.getHotelMarker = exports.getHotel = void 0;
+exports.hotelsHub = exports.getHotelsMarkers = exports.getHotelsDescriptionsByOperatorHub = exports.getHotelMarker = exports.getHotelDescriptionsByOperator = exports.getHotel = void 0;
 var _reselect = require("reselect");
 var R = _interopRequireWildcard(require("ramda"));
 function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
@@ -22,6 +22,7 @@ var hotelKey = function hotelKey(_, key) {
   return key;
 };
 var EMPTY_OBJ = {};
+var EMPTY_ARRAY = [];
 var getHotelsStore = (0, _reselect.createSelector)(domain, function (hotels) {
   return hotels.get('store');
 });
@@ -58,3 +59,13 @@ var getHotel = exports.getHotel = function getHotel() {
     return store.get(key.toString());
   });
 };
+var getHotelsDescriptionsByOperatorHub = exports.getHotelsDescriptionsByOperatorHub = R.pipe(domain, function (hotels) {
+  return hotels.get('descriptionsByOperator');
+});
+var getHotelDescriptionsByOperator = exports.getHotelDescriptionsByOperator = R.converge(function (descriptions, operatorID) {
+  var _descriptions$operato;
+  return (_descriptions$operato = descriptions[operatorID]) !== null && _descriptions$operato !== void 0 ? _descriptions$operato : EMPTY_ARRAY;
+}, [getHotelsDescriptionsByOperatorHub, function (_, _ref4) {
+  var operatorID = _ref4.operatorID;
+  return operatorID;
+}]);
