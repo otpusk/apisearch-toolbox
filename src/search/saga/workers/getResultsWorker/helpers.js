@@ -55,7 +55,7 @@ const simplifyPrices = (prices) => R.map(
     prices
 );
 
-export const generateNextPrices = (prices, offersHub, currency) => R.call(
+export const generateNextPrices = (prices, offersHub, currency, selectedOperators = []) => R.call(
     R.pipe(
         convertPricesListToMap,
         R.toPairs,
@@ -64,6 +64,16 @@ export const generateNextPrices = (prices, offersHub, currency) => R.call(
             sortOffers(offersHub, currency),
             price
         )),
+        R.when(
+            () => !R.isEmpty(selectedOperators),
+            R.pipe(
+                R.map(R.over(
+                    R.lensProp('offers'),
+                    R.filter(({ operator }) => R.includes(operator, selectedOperators))
+                )),
+                R.filter(({ offers }) => !R.isEmpty(offers))
+            )
+        ),
         sortPrices(currency),
         simplifyPrices,
         R.take(COUNT_AT_PAGE)

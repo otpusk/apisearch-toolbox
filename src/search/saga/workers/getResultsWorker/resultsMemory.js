@@ -3,6 +3,7 @@ import * as R from 'ramda';
 const createMemory = () => {
     const memory = {
         stableHotels: [],
+        stablePrices: [],
         hotelsHub:    {},
         offersHub:    {},
         usedPrices:   [],
@@ -22,6 +23,9 @@ const createMemory = () => {
         },
         setUsedPrices: (next) => {
             memory.usedPrices = next;
+        },
+        setStablePrices: (next) => {
+            memory.stablePrices = next;
         },
         clearUsedPrices: () => {
             memory.usedPrices = [];

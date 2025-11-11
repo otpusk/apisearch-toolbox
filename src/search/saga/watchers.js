@@ -6,7 +6,8 @@ import { searchActions as actions } from '../actions';
 import {
     getResultsWorker,
     getPriceChartWorker,
-    getAvailableDatesWorker
+    getAvailableDatesWorker,
+    silentSearch
 } from './workers';
 
 export const searchWatchers =  Object.freeze({
@@ -44,5 +45,8 @@ export const searchWatchers =  Object.freeze({
         yield takeEvery(actions.clearSearch, ({ payload: queryID }) => {
             delete memoryInstances[queryID];
         });
+    },
+    * searchByOperatorsWorker () {
+        yield takeEvery(actions.silentSearch, silentSearch);
     },
 });
