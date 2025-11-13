@@ -15,6 +15,9 @@ const createMemory = () => {
         addStableHotels: (next) => {
             memory.stableHotels = R.concat(memory.stableHotels, next);
         },
+        setStableHotels: (next) => {
+            memory.stableHotels = next;
+        },
         addHotels: (next) => {
             memory.hotelsHub = R.mergeAll([memory.hotelsHub, next]);
         },
@@ -23,6 +26,9 @@ const createMemory = () => {
         },
         setUsedPrices: (next) => {
             memory.usedPrices = next;
+        },
+        addStablePrices: (next) => {
+            memory.stablePrices = R.concat(memory.stablePrices, next);
         },
         setStablePrices: (next) => {
             memory.stablePrices = next;

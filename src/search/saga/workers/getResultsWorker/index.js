@@ -64,7 +64,7 @@ export function* getResultsWorker ({ payload: queryID }) {
                     prices
                 );
 
-                const selectedOperators = yield select((state) => getQuery(state, { queryID }).get(QUERY_PARAMS.SELECTED_OPERATORS).toJS());
+                const freshSelectedOperators = yield select((state) => getQuery(state, { queryID }).get(QUERY_PARAMS.SELECTED_OPERATORS).toJS());
 
                 const nextPrices = generateNextPrices(
                     [
@@ -74,7 +74,7 @@ export function* getResultsWorker ({ payload: queryID }) {
                     ],
                     offersHub,
                     query.get(QUERY_PARAMS.CURRENCY),
-                    selectedOperators
+                    freshSelectedOperators
                 );
 
                 const hotelsFromStore = yield select(getHotelsHub);
@@ -135,7 +135,7 @@ export function* getResultsWorker ({ payload: queryID }) {
 
         const { usedPrices } = memory.getValues();
 
-        memory.setStablePrices(usedPrices);
+        memory.addStablePrices(usedPrices);
         memory.addStableHotels(getHotelsIDsFromPrices(usedPrices));
         memory.clearUsedPrices();
     }

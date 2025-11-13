@@ -110,3 +110,24 @@ export const getUnusedPrices = (nextPrices, unusedPrices) => R.call(
     ),
     nextPrices
 );
+
+
+export const getTotalBySelectedOperators = ({ offersHub, prices, selectedOperators }) => {
+    const selectedOperatorsSet = new Set(selectedOperators);
+
+    return R.pipe(
+        convertPricesListToMap,
+        R.values,
+        R.when(
+            () => selectedOperatorsSet.size,
+            R.pipe(
+                R.map(R.over(
+                    R.lensProp('offers'),
+                    R.filter((offerID) => selectedOperatorsSet.has(offersHub[offerID].operator))
+                )),
+                R.filter(({ offers }) => !R.isEmpty(offers))
+            )
+        ),
+        R.length
+    )(prices);
+};
