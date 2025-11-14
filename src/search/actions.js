@@ -9,6 +9,7 @@ export const searchActions = createActions({
     PROCESS_SEARCH: (queryId, payload) => ({ queryId, ...payload }),
     FINISH_SEARCH:  (queryId, payload) => ({ queryId, ...payload }),
     SILENT_SEARCH:  (queryID) => queryID,
+    BATCH_PRICES:   (queryId, prices) => ({ queryId, prices }),
     FAIL_SEARCH:    [
         (queryId) => queryId,
         (_, error, response) => ({ error, response })
