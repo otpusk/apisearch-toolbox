@@ -54,6 +54,9 @@ export const searchReducer = handleActions(
                 .setIn(['results', queryId, 'status'], 'done')
                 .setIn(['results', queryId, 'total'], total);
         },
+        [actions.patchSearch]: (state, { payload: { queryId, key, patch }}) => {
+            return state.setIn(['results', queryId, key], patch);
+        },
         [actions.failSearch]: (state, { payload: queryId }) => {
             return state.setIn(['results', queryId, 'status'], 'failed');
         },
@@ -67,9 +70,6 @@ export const searchReducer = handleActions(
         },
         [actions.setSearchStatus]: (state, { payload: { queryID, status }}) => {
             return state.setIn(['results', queryID, 'status'], status);
-        },
-        [actions.batchPrices]: (state, { payload: { queryId, prices }}) => {
-            return state.setIn(['results', queryId, 'prices'], prices);
         },
         [actions.getPriceChartSuccess]: (state, { payload: { queryId, chart }}) => {
             return state.setIn(['charts', queryId], chart);

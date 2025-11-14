@@ -51,7 +51,7 @@ export function* silentSearchWorker ({ payload : queryID }) {
     memory.setUnusedPrices(getUnusedPrices(nextPrices, prices));
     memory.setStableHotels(getHotelsIDsFromPrices(nextPrices));
 
-    yield put(searchActions.batchPrices(queryID, [nextPrices]));
+    yield put(searchActions.patchSearch(queryID, 'prices', [nextPrices]));
 
     yield put(searchActions.processSearch(queryID, {
         page:   1,
