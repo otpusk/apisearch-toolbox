@@ -116,11 +116,11 @@ export const getTotalBySelectedOperators = ({ offersHub, prices, selectedOperato
     const selectedOperatorsSet = new Set(selectedOperators);
 
     return R.pipe(
-        convertPricesListToMap,
-        R.values,
         R.when(
             () => selectedOperatorsSet.size,
             R.pipe(
+                convertPricesListToMap,
+                R.values,
                 R.map(R.over(
                     R.lensProp('offers'),
                     R.filter((offerID) => selectedOperatorsSet.has(offersHub[offerID].operator))
