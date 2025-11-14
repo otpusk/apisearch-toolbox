@@ -34,6 +34,16 @@ var searchActions = exports.searchActions = (0, _reduxActions.createActions)({
       queryId: queryId
     }, payload);
   },
+  PATCH_SEARCH: function PATCH_SEARCH(queryId, key, patch) {
+    return {
+      queryId: queryId,
+      key: key,
+      patch: patch
+    };
+  },
+  SILENT_SEARCH: function SILENT_SEARCH(queryID) {
+    return queryID;
+  },
   FAIL_SEARCH: [function (queryId) {
     return queryId;
   }, function (_, error, response) {

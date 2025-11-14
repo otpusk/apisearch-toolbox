@@ -11,6 +11,7 @@ function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; 
 var createMemory = function createMemory() {
   var memory = {
     stableHotels: [],
+    stablePrices: [],
     hotelsHub: {},
     offersHub: {},
     usedPrices: [],
@@ -21,6 +22,9 @@ var createMemory = function createMemory() {
     addStableHotels: function addStableHotels(next) {
       memory.stableHotels = R.concat(memory.stableHotels, next);
     },
+    setStableHotels: function setStableHotels(next) {
+      memory.stableHotels = next;
+    },
     addHotels: function addHotels(next) {
       memory.hotelsHub = R.mergeAll([memory.hotelsHub, next]);
     },
@@ -29,6 +33,12 @@ var createMemory = function createMemory() {
     },
     setUsedPrices: function setUsedPrices(next) {
       memory.usedPrices = next;
+    },
+    addStablePrices: function addStablePrices(next) {
+      memory.stablePrices = R.concat(memory.stablePrices, next);
+    },
+    setStablePrices: function setStablePrices(next) {
+      memory.stablePrices = next;
     },
     clearUsedPrices: function clearUsedPrices() {
       memory.usedPrices = [];

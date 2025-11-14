@@ -64,7 +64,7 @@ function getResultsWorker(_ref) {
           memory = _resultsMemory.memoryInstances[queryID] = _resultsMemory.memoryInstances[queryID] || (0, _resultsMemory["default"])();
           _context2.prev = 17;
           _loop = /*#__PURE__*/_regeneratorRuntime().mark(function _loop() {
-            var _yield$call, finished, hotels, offers, country, operators, total, meta, prices, _memory$getValues2, hotelsHub, offersHub, _usedPrices, unusedPrices, stableHotels, pricesWithoutStable, nextPrices, hotelsFromStore, hotelsToStore, offersToStore, _memory$getValues3, usedPrices, totalValue, ignoreOperators;
+            var _yield$call, finished, hotels, offers, country, operators, total, meta, prices, _memory$getValues2, hotelsHub, offersHub, _usedPrices, unusedPrices, stableHotels, pricesWithoutStable, freshSelectedOperators, nextPrices, hotelsFromStore, hotelsToStore, offersToStore, _memory$getValues3, usedPrices, totalValue, ignoreOperators;
             return _regeneratorRuntime().wrap(function _loop$(_context) {
               while (1) switch (_context.prev = _context.next) {
                 case 0:
@@ -88,33 +88,41 @@ function getResultsWorker(_ref) {
                     var hotelID = _ref2.hotelID;
                     return !R.includes(hotelID, stableHotels);
                   }, prices);
-                  nextPrices = (0, _helpers.generateNextPrices)([].concat(_toConsumableArray(pricesWithoutStable), _toConsumableArray(unusedPrices), _toConsumableArray(_usedPrices)), offersHub, query.get(_fn.QUERY_PARAMS.CURRENCY));
-                  _context.next = 19;
+                  _context.next = 18;
+                  return (0, _effects.select)(function (state) {
+                    return (0, _selectors.getQuery)(state, {
+                      queryID: queryID
+                    }).get(_fn.QUERY_PARAMS.SELECTED_OPERATORS).toJS();
+                  });
+                case 18:
+                  freshSelectedOperators = _context.sent;
+                  nextPrices = (0, _helpers.generateNextPrices)([].concat(_toConsumableArray(pricesWithoutStable), _toConsumableArray(unusedPrices), _toConsumableArray(_usedPrices)), offersHub, query.get(_fn.QUERY_PARAMS.CURRENCY), freshSelectedOperators);
+                  _context.next = 22;
                   return (0, _effects.select)(_selectors2.hotelsHub);
-                case 19:
+                case 22:
                   hotelsFromStore = _context.sent;
                   hotelsToStore = (0, _helpers.getHotelsEntitiesMap)(nextPrices, hotelsHub, hotelsFromStore);
                   offersToStore = (0, _helpers.getOffersEntitiesMap)(nextPrices, offersHub);
                   _context.t0 = !R.isEmpty(hotelsToStore);
                   if (!_context.t0) {
-                    _context.next = 26;
+                    _context.next = 29;
                     break;
                   }
-                  _context.next = 26;
+                  _context.next = 29;
                   return (0, _effects.put)(_actions2.hotelsActions.addHotels(hotelsToStore));
-                case 26:
+                case 29:
                   _context.t1 = !R.isEmpty(offersToStore);
                   if (!_context.t1) {
-                    _context.next = 30;
+                    _context.next = 33;
                     break;
                   }
-                  _context.next = 30;
+                  _context.next = 33;
                   return (0, _effects.put)(_actions3.offersActions.addOffers(offersToStore));
-                case 30:
+                case 33:
                   memory.setUsedPrices(nextPrices);
                   memory.setUnusedPrices((0, _helpers.getUnusedPrices)(nextPrices, [].concat(_toConsumableArray(pricesWithoutStable), _toConsumableArray(unusedPrices))));
                   _memory$getValues3 = memory.getValues(), usedPrices = _memory$getValues3.usedPrices, totalValue = _memory$getValues3.total;
-                  _context.next = 35;
+                  _context.next = 38;
                   return (0, _effects.put)(_actions.searchActions.processSearch(queryID, {
                     page: activePage,
                     operators: operators,
@@ -123,20 +131,20 @@ function getResultsWorker(_ref) {
                     meta: meta,
                     prices: R.clone(usedPrices)
                   }));
-                case 35:
+                case 38:
                   if (!finished) {
-                    _context.next = 37;
+                    _context.next = 40;
                     break;
                   }
                   return _context.abrupt("return", 1);
-                case 37:
-                  _context.next = 39;
+                case 40:
+                  _context.next = 42;
                   return (0, _effects.delay)(5000);
-                case 39:
+                case 42:
                   ignoreOperators = (0, _helpers.getIgnoreOperators)(operators);
                   !R.isEmpty(ignoreOperators) && (0, _helpers.addIgnoreOperators)(otpsukQuery, ignoreOperators);
                   otpsukQuery.number += 1;
-                case 42:
+                case 45:
                 case "end":
                   return _context.stop();
               }
@@ -187,13 +195,14 @@ function getResultsWorker(_ref) {
           return (0, _effects.put)(_actions.searchActions.resetSearch(queryID));
         case 39:
           _memory$getValues4 = memory.getValues(), usedPrices = _memory$getValues4.usedPrices;
+          memory.addStablePrices(usedPrices);
           memory.addStableHotels((0, _helpers.getHotelsIDsFromPrices)(usedPrices));
           memory.clearUsedPrices();
           return _context2.finish(33);
-        case 43:
+        case 44:
         case "end":
           return _context2.stop();
       }
-    }, _callee, null, [[17, 28, 33, 43]]);
+    }, _callee, null, [[17, 28, 33, 44]]);
   })();
 }

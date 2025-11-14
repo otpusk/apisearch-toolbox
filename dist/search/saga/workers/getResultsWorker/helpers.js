@@ -4,7 +4,7 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getUnusedPrices = exports.getOffersEntitiesMap = exports.getIgnoreOperators = exports.getHotelsIDsFromPrices = exports.getHotelsEntitiesMap = exports.generateNextPrices = exports.addIgnoreOperators = void 0;
+exports.getUnusedPrices = exports.getTotalBySelectedOperators = exports.getOffersEntitiesMap = exports.getIgnoreOperators = exports.getHotelsIDsFromPrices = exports.getHotelsEntitiesMap = exports.generateNextPrices = exports.addIgnoreOperators = void 0;
 var R = _interopRequireWildcard(require("ramda"));
 var _constants = require("./constants");
 function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
@@ -58,18 +58,27 @@ var simplifyPrices = function simplifyPrices(prices) {
   return R.map(R.over(R.lensProp('offers'), R.map(R.prop('id'))), prices);
 };
 var generateNextPrices = exports.generateNextPrices = function generateNextPrices(prices, offersHub, currency) {
+  var selectedOperators = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : [];
   return R.call(R.pipe(convertPricesListToMap, R.toPairs, R.map(function (_ref3) {
     var _ref4 = _slicedToArray(_ref3, 2),
       price = _ref4[1];
     return R.over(R.lensProp('offers'), sortOffers(offersHub, currency), price);
-  }), sortPrices(currency), simplifyPrices, R.take(_constants.COUNT_AT_PAGE)), prices);
+  }), R.when(function () {
+    return !R.isEmpty(selectedOperators);
+  }, R.pipe(R.map(R.over(R.lensProp('offers'), R.filter(function (_ref5) {
+    var operator = _ref5.operator;
+    return R.includes(operator, selectedOperators);
+  }))), R.filter(function (_ref6) {
+    var offers = _ref6.offers;
+    return !R.isEmpty(offers);
+  }))), sortPrices(currency), simplifyPrices, R.take(_constants.COUNT_AT_PAGE)), prices);
 };
 var getHotelsEntitiesMap = exports.getHotelsEntitiesMap = function getHotelsEntitiesMap(prices, hotelsHub, hotelsFromStore) {
-  return R.call(R.pipe(R.filter(function (_ref5) {
-    var hotelID = _ref5.hotelID;
+  return R.call(R.pipe(R.filter(function (_ref7) {
+    var hotelID = _ref7.hotelID;
     return !hotelsFromStore[hotelID];
-  }), R.map(function (_ref6) {
-    var hotelID = _ref6.hotelID;
+  }), R.map(function (_ref8) {
+    var hotelID = _ref8.hotelID;
     return [hotelID, hotelsHub[hotelID]];
   }), R.fromPairs), prices);
 };
@@ -80,9 +89,23 @@ var getOffersEntitiesMap = exports.getOffersEntitiesMap = function getOffersEnti
 };
 var getUnusedPrices = exports.getUnusedPrices = function getUnusedPrices(nextPrices, unusedPrices) {
   return R.call(R.pipe(getHotelsIDsFromPrices, function (usedHotels) {
-    return R.filter(function (_ref7) {
-      var hotelID = _ref7.hotelID;
+    return R.filter(function (_ref9) {
+      var hotelID = _ref9.hotelID;
       return !R.includes(hotelID, usedHotels);
     }, unusedPrices);
   }), nextPrices);
+};
+var getTotalBySelectedOperators = exports.getTotalBySelectedOperators = function getTotalBySelectedOperators(_ref10) {
+  var offersHub = _ref10.offersHub,
+    prices = _ref10.prices,
+    selectedOperators = _ref10.selectedOperators;
+  var selectedOperatorsSet = new Set(selectedOperators);
+  return R.pipe(R.when(function () {
+    return selectedOperatorsSet.size;
+  }, R.pipe(convertPricesListToMap, R.values, R.map(R.over(R.lensProp('offers'), R.filter(function (offerID) {
+    return selectedOperatorsSet.has(offersHub[offerID].operator);
+  }))), R.filter(function (_ref11) {
+    var offers = _ref11.offers;
+    return !R.isEmpty(offers);
+  }))), R.length)(prices);
 };
