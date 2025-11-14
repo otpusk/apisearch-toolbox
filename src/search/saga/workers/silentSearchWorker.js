@@ -20,7 +20,7 @@ import {
 } from "./getResultsWorker/helpers";
 
 
-export function* silentSearch ({ payload : queryID }) {
+export function* silentSearchWorker ({ payload : queryID }) {
     const query = yield select((state) => getQuery(state, { queryID }));
 
     const { [queryID]: memory } =  memoryInstances;

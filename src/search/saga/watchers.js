@@ -7,7 +7,7 @@ import {
     getResultsWorker,
     getPriceChartWorker,
     getAvailableDatesWorker,
-    silentSearch
+    silentSearchWorker
 } from './workers';
 
 export const searchWatchers =  Object.freeze({
@@ -46,7 +46,7 @@ export const searchWatchers =  Object.freeze({
             delete memoryInstances[queryID];
         });
     },
-    * searchByOperatorsWorker () {
-        yield takeEvery(actions.silentSearch, silentSearch);
+    * searchByOperatorsWatcher () {
+        yield takeEvery(actions.silentSearch, silentSearchWorker);
     },
 });
