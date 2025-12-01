@@ -38,7 +38,7 @@ var searchReducer = exports.searchReducer = (0, _reduxActions.handleActions)((_h
     meta = _ref3$payload.meta;
   return state.mergeDeepIn(['results', queryId], (0, _immutable.Map)({
     total: total ? total : state.getIn(['results', queryId, 'total']),
-    meta: meta
+    meta: meta ? meta : state.getIn(['results', queryId, 'meta'])
   })).updateIn(['results', queryId, 'country'], function (value) {
     return value ? value : country;
   }).updateIn(['results', queryId, 'operators'], function () {
