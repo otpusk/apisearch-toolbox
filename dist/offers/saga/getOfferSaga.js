@@ -16,6 +16,7 @@ function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyri
 function getOfferSaga(offerID) {
   var fresh = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
   var currency = arguments.length > 2 ? arguments[2] : undefined;
+  var withShortCode = arguments.length > 3 ? arguments[3] : undefined;
   return /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
     var lang, token, offer;
     return _regeneratorRuntime().wrap(function _callee$(_context) {
@@ -30,7 +31,7 @@ function getOfferSaga(offerID) {
         case 5:
           token = _context.sent;
           _context.next = 8;
-          return (0, _effects.call)(_jsonApi.getToursOffer, token, offerID, fresh, currency, lang);
+          return (0, _effects.call)(_jsonApi.getToursOffer, token, offerID, fresh, currency, lang, withShortCode);
         case 8:
           offer = _context.sent;
           if (!offer.error) {
@@ -51,7 +52,8 @@ function bootstrapOfferSaga(_ref) {
   var _ref$payload = _ref.payload,
     offerId = _ref$payload.offerId,
     fresh = _ref$payload.fresh,
-    currency = _ref$payload.currency;
+    currency = _ref$payload.currency,
+    withShortCode = _ref$payload.withShortCode;
   return /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
     var _ref2, id, offer;
     return _regeneratorRuntime().wrap(function _callee2$(_context2) {
@@ -65,7 +67,7 @@ function bootstrapOfferSaga(_ref) {
         case 3:
           _context2.prev = 3;
           _context2.next = 6;
-          return (0, _effects.call)(getOfferSaga, id, fresh, currency);
+          return (0, _effects.call)(getOfferSaga, id, fresh, currency, withShortCode);
         case 6:
           offer = _context2.sent;
           _context2.next = 9;
