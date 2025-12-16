@@ -3,10 +3,10 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-Object.defineProperty(exports, "getDescriptorsByOperatorWorker", {
+Object.defineProperty(exports, "getDescriptionsByOperatorWorker", {
   enumerable: true,
   get: function get() {
-    return _getDescriptorsByOperator.getDescriptorsByOperatorWorker;
+    return _getDescriptionsByOperator.getDescriptionsByOperatorWorker;
   }
 });
 Object.defineProperty(exports, "getHotelWorker", {
@@ -30,4 +30,4 @@ Object.defineProperty(exports, "getSimilarHotelsWorker", {
 var _getHotelWorker = require("./getHotelWorker");
 var _getHotelsMarkersWorker = require("./getHotelsMarkersWorker");
 var _getSimilarHotelsWorker = require("./getSimilarHotelsWorker");
-var _getDescriptorsByOperator = require("./getDescriptorsByOperator");
+var _getDescriptionsByOperator = require("./getDescriptionsByOperator");

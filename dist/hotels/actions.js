@@ -50,10 +50,11 @@ var hotelsActions = exports.hotelsActions = (0, _reduxActions.createActions)({
   RESET_HOTELS_STORE: function RESET_HOTELS_STORE() {
     return void 0;
   },
-  GET_DESCRIPTIONS_BY_OPERATOR: function GET_DESCRIPTIONS_BY_OPERATOR(operatorID, externalOperatorData) {
+  GET_DESCRIPTIONS_BY_OPERATOR: function GET_DESCRIPTIONS_BY_OPERATOR(operatorID, externalOperatorData, isOriginalLang) {
     return {
       operatorID: operatorID,
-      externalOperatorData: externalOperatorData
+      externalOperatorData: externalOperatorData,
+      isOriginalLang: isOriginalLang
     };
   },
   GET_DESCRIPTIONS_BY_OPERATOR_SUCCESS: function GET_DESCRIPTIONS_BY_OPERATOR_SUCCESS(operatorID, descriptions) {
