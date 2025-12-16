@@ -65,13 +65,13 @@ var generateNextPrices = exports.generateNextPrices = function generateNextPrice
     return R.over(R.lensProp('offers'), sortOffers(offersHub, currency), price);
   }), R.when(function () {
     return !R.isEmpty(selectedOperators);
-  }, R.pipe(R.map(R.over(R.lensProp('offers'), R.filter(function (_ref5) {
-    var operator = _ref5.operator;
-    return R.includes(operator, selectedOperators);
-  }))), R.filter(function (_ref6) {
-    var offers = _ref6.offers;
-    return !R.isEmpty(offers);
-  }))), sortPrices(currency), simplifyPrices, R.take(_constants.COUNT_AT_PAGE)), prices);
+  }, R.filter(function (_ref5) {
+    var offers = _ref5.offers;
+    return offers.some(function (_ref6) {
+      var operator = _ref6.operator;
+      return R.includes(operator, selectedOperators);
+    });
+  })), sortPrices(currency), simplifyPrices, R.take(_constants.COUNT_AT_PAGE)), prices);
 };
 var getHotelsEntitiesMap = exports.getHotelsEntitiesMap = function getHotelsEntitiesMap(prices, hotelsHub, hotelsFromStore) {
   return R.call(R.pipe(R.filter(function (_ref7) {
