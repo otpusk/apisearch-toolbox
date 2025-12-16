@@ -104,5 +104,17 @@ var searchWatchers = exports.searchWatchers = Object.freeze({
           return _context5.stop();
       }
     }, clearSearchWorker);
+  }),
+  searchByOperatorsWatcher: /*#__PURE__*/_regeneratorRuntime().mark(function searchByOperatorsWatcher() {
+    return _regeneratorRuntime().wrap(function searchByOperatorsWatcher$(_context6) {
+      while (1) switch (_context6.prev = _context6.next) {
+        case 0:
+          _context6.next = 2;
+          return (0, _effects.takeEvery)(_actions.searchActions.silentSearch, _workers.silentSearchWorker);
+        case 2:
+        case "end":
+          return _context6.stop();
+      }
+    }, searchByOperatorsWatcher);
   })
 });
