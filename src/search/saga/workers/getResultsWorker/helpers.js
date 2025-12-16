@@ -66,12 +66,8 @@ export const generateNextPrices = (prices, offersHub, currency, selectedOperator
         )),
         R.when(
             () => !R.isEmpty(selectedOperators),
-            R.pipe(
-                R.map(R.over(
-                    R.lensProp('offers'),
-                    R.filter(({ operator }) => R.includes(operator, selectedOperators))
-                )),
-                R.filter(({ offers }) => !R.isEmpty(offers))
+            R.filter(
+                ({ offers }) => offers.some(({ operator }) => R.includes(operator, selectedOperators))
             )
         ),
         sortPrices(currency),
