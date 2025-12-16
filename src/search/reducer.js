@@ -25,14 +25,13 @@ export const searchReducer = handleActions(
                 .setIn(['results', queryId, 'status'], 'starting')
                 .removeIn(['charts', queryId]);
         },
-        [actions.processSearch]: (state, { payload: { hotels, operators, queryId, country, total, page, prices, meta }}) => {
+        [actions.processSearch]: (state, { payload: { operators, queryId, country, total, page, prices, meta }}) => {
             return state
                 .mergeDeepIn(['results', queryId], Map({
                     total: total ? total : state.getIn(['results', queryId, 'total']),
-                    meta,
+                    meta:  meta ? meta : state.getIn(['results', queryId, 'meta']),
                 }))
                 .updateIn(['results', queryId, 'country'], (value) => value ? value : country)
-                .setIn(['results', queryId, 'hotels', page], hotels)
                 .updateIn(['results', queryId, 'operators'], (prevOperators = {}) => R.mergeAll([
                     prevOperators, operators
                 ]))
@@ -54,6 +53,9 @@ export const searchReducer = handleActions(
             return state
                 .setIn(['results', queryId, 'status'], 'done')
                 .setIn(['results', queryId, 'total'], total);
+        },
+        [actions.patchSearch]: (state, { payload: { queryId, key, patch }}) => {
+            return state.setIn(['results', queryId, key], patch);
         },
         [actions.failSearch]: (state, { payload: queryId }) => {
             return state.setIn(['results', queryId, 'status'], 'failed');
