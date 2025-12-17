@@ -52,7 +52,7 @@ var hotelsWatchers = exports.hotelsWatchers = Object.freeze({
       while (1) switch (_context4.prev = _context4.next) {
         case 0:
           _context4.next = 2;
-          return (0, _effects.takeEvery)(_actions.hotelsActions.getDescriptionsByOperator, _workers.getDescriptorsByOperatorWorker);
+          return (0, _effects.takeEvery)(_actions.hotelsActions.getDescriptionsByOperator, _workers.getDescriptionsByOperatorWorker);
         case 2:
         case "end":
           return _context4.stop();
