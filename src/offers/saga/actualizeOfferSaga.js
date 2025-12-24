@@ -40,7 +40,7 @@ const generatePeopleString = (adults, children) => R.call(
     ]
 );
 
-export function* actualizeOfferSaga ({ payload: { adults, children, offerID, currency }}) {
+export function* actualizeOfferSaga ({ payload: { adults, children, offerID, currency, withShortCode }}) {
     const token = yield select(getToken);
     const lang = yield select(getLang);
 
@@ -54,7 +54,8 @@ export function* actualizeOfferSaga ({ payload: { adults, children, offerID, cur
                 ? extractDataFromOfferKey(offerID).id
                 : offerID,
             generatePeopleString(adults, children),
-            currency
+            currency,
+            withShortCode
         );
 
         yield put(offersActions.setActualizedStatus(offerID, getTextStatusByCode(code)));
