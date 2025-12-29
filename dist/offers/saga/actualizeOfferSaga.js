@@ -28,7 +28,8 @@ function actualizeOfferSaga(_ref) {
     adults = _ref$payload.adults,
     children = _ref$payload.children,
     offerID = _ref$payload.offerID,
-    currency = _ref$payload.currency;
+    currency = _ref$payload.currency,
+    withShortCode = _ref$payload.withShortCode;
   return /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
     var token, lang, _yield$call, code, nextOffer, message;
     return _regeneratorRuntime().wrap(function _callee$(_context) {
@@ -49,7 +50,7 @@ function actualizeOfferSaga(_ref) {
           _context.next = 11;
           return (0, _effects.call)(_jsonApi.getToursActual, R.mergeAll([token, {
             lang: lang
-          }]), (0, _helpers.isOfferKey)(offerID) ? (0, _helpers.extractDataFromOfferKey)(offerID).id : offerID, generatePeopleString(adults, children), currency);
+          }]), (0, _helpers.isOfferKey)(offerID) ? (0, _helpers.extractDataFromOfferKey)(offerID).id : offerID, generatePeopleString(adults, children), currency, withShortCode);
         case 11:
           _yield$call = _context.sent;
           code = _yield$call.code;

@@ -9,10 +9,12 @@ var offersActions = exports.offersActions = (0, _reduxActions.createActions)({
   GET_OFFER: function GET_OFFER(offerId) {
     var fresh = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
     var currency = arguments.length > 2 ? arguments[2] : undefined;
+    var withShortCode = arguments.length > 3 ? arguments[3] : undefined;
     return {
       offerId: offerId,
       fresh: fresh,
-      currency: currency
+      currency: currency,
+      withShortCode: withShortCode
     };
   },
   GET_OFFER_SUCCESS: function GET_OFFER_SUCCESS(offerID) {
@@ -40,12 +42,13 @@ var offersActions = exports.offersActions = (0, _reduxActions.createActions)({
       status: status
     };
   },
-  ACTUALIZE_OFFER: function ACTUALIZE_OFFER(offerID, adults, children, currency) {
+  ACTUALIZE_OFFER: function ACTUALIZE_OFFER(offerID, adults, children, currency, withShortCode) {
     return {
       offerID: offerID,
       adults: adults,
       children: children,
-      currency: currency
+      currency: currency,
+      withShortCode: withShortCode
     };
   },
   SET_ACTUALIZED_OFFER: function SET_ACTUALIZED_OFFER(offerID, offer) {
