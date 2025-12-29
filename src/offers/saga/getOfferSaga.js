@@ -7,10 +7,10 @@ import { offersActions } from '../actions';
 import { ALIVE_OFFER_STATUS, EXPIRED_OFFER_STATUS } from '../constants';
 import { extractDataFromOfferKey, isOfferKey } from "../helpers";
 
-export function* getOfferSaga (offerID, fresh = false, currency) {
+export function* getOfferSaga (offerID, fresh = false, currency, withShortCode) {
     const lang = yield select(getLang);
     const token = yield select(getToken);
-    const offer = yield call(getToursOffer, token, offerID, fresh, currency, lang);
+    const offer = yield call(getToursOffer, token, offerID, fresh, currency, lang, withShortCode);
 
     if (offer.error) {
         throw new Error(offer.error);
@@ -19,7 +19,7 @@ export function* getOfferSaga (offerID, fresh = false, currency) {
     return offer;
 }
 
-export function* bootstrapOfferSaga ({ payload: { offerId, fresh, currency }}) {
+export function* bootstrapOfferSaga ({ payload: { offerId, fresh, currency, withShortCode }}) {
     const { id } =  isOfferKey(offerId)
         ? extractDataFromOfferKey(offerId)
         : { id: offerId };
@@ -27,7 +27,7 @@ export function* bootstrapOfferSaga ({ payload: { offerId, fresh, currency }}) {
     yield put(offersActions.setOfferStatus(offerId, 'pending'));
 
     try {
-        const offer = yield call(getOfferSaga, id, fresh, currency);
+        const offer = yield call(getOfferSaga, id, fresh, currency, withShortCode);
 
         yield put(offersActions.setOffer(offerId, offer));
         yield put(offersActions.setOfferStatus(offerId, ALIVE_OFFER_STATUS));
