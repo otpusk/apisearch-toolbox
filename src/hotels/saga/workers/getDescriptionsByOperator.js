@@ -5,9 +5,9 @@ import { getLang, getToken } from "../../../auth/selectors";
 
 import { hotelsActions } from "../../actions";
 
-export function* getDescriptionsByOperatorWorker ({ payload: { operatorID, externalOperatorData, isOriginalLang }}) {
+export function* getDescriptionsByOperatorWorker ({ payload: { operatorID, externalOperatorData }}) {
     const token = yield select(getToken);
-    const lang = isOriginalLang ? 'pl' : yield select(getLang);
+    const lang = yield select(getLang);
 
     const { subOperatorName, subHotelID } = externalOperatorData;
 

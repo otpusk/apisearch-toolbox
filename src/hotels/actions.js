@@ -18,7 +18,7 @@ export const hotelsActions = createActions({
 
     RESET_HOTELS_STORE: () => void 0,
 
-    GET_DESCRIPTIONS_BY_OPERATOR:         (operatorID, externalOperatorData, isOriginalLang) => ({ operatorID, externalOperatorData, isOriginalLang }),
+    GET_DESCRIPTIONS_BY_OPERATOR:         (operatorID, externalOperatorData) => ({ operatorID, externalOperatorData }),
     GET_DESCRIPTIONS_BY_OPERATOR_SUCCESS: (operatorID, descriptions) => ({ operatorID, descriptions }),
     GET_DESCRIPTIONS_BY_OPERATOR_FAIL:    (error) => error,
 });
