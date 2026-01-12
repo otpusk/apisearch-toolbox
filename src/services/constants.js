@@ -49,4 +49,16 @@ export const STATIC_LABELS_BY_LANG = {
         'sport':      'Rozrywka i sport',
         'recommend':  'Hotele z rekomendacją',
     },
+    'ro': {
+        'beach_line': 'Linia plajei',
+        'location':   'Locație',
+        'beach':      'Plajă',
+        'main':       'Principal',
+        'beach_type': 'Tipul plajei',
+        'child':      'Pentru copii',
+        'hotel':      'Servicii în hotel',
+        'room':       'Facilități în camere',
+        'sport':      'Divertisment și sport',
+        'recommend':  'Hoteluri recomandate',
+    },
 };
