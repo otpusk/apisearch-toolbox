@@ -1,1 +1,5 @@
-export const DONE_SEARCH_STATUS = 'done';
+export const SEARCH_STATUSES = {
+    PROCESSING: 'processing',
+    DONE:       'done',
+    FAILED:     'failed',
+};
