@@ -3,5 +3,9 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.DONE_SEARCH_STATUS = void 0;
-var DONE_SEARCH_STATUS = exports.DONE_SEARCH_STATUS = 'done';
+exports.SEARCH_STATUSES = void 0;
+var SEARCH_STATUSES = exports.SEARCH_STATUSES = {
+  PROCESSING: 'processing',
+  DONE: 'done',
+  FAILED: 'failed'
+};
