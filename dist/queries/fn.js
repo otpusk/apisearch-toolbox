@@ -66,7 +66,8 @@ var QUERY_PARAMS = exports.QUERY_PARAMS = {
   DISTRICTS: 'districts',
   PROVINCES: 'provinces',
   AVERAGE_RATING: 'averageRating',
-  IS_DIRECT_FLIGHT: 'isDirectFlight'
+  IS_DIRECT_FLIGHT: 'isDirectFlight',
+  SELECTED_OFFER_DATE: 'offerDate'
 };
 var getShortQueryParams = function getShortQueryParams() {
   var isParam = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
@@ -119,7 +120,7 @@ var DEFAULTS = (_DEFAULTS = {}, _defineProperty(_defineProperty(_defineProperty(
   'train': true,
   'ship': true,
   'no': false
-}))), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_DEFAULTS, QUERY_PARAMS.CITIES, (0, _immutable.Set)()), QUERY_PARAMS.HOTELS, (0, _immutable.Set)()), QUERY_PARAMS.PRICE, (0, _immutable.Map)()), QUERY_PARAMS.PAGE, 1), QUERY_PARAMS.SERVICES, (0, _immutable.Set)()), QUERY_PARAMS.SHORT, null), QUERY_PARAMS.RATING, (0, _immutable.Map)()), QUERY_PARAMS.CURRENCY, null), QUERY_PARAMS.OPERATORS, (0, _immutable.Set)()), QUERY_PARAMS.SELECTED_OPERATORS, (0, _immutable.Set)()), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_DEFAULTS, QUERY_PARAMS.FLIGHT_AVAILABILITY, (0, _immutable.Set)()), QUERY_PARAMS.HOTEL_AVAILABILITY, (0, _immutable.Set)()), QUERY_PARAMS.WITHOUT_SPO, false), QUERY_PARAMS.LANGUAGE, null), QUERY_PARAMS.IGNORE_SERVICES, (0, _immutable.Set)()), QUERY_PARAMS.GROUP, null), QUERY_PARAMS.DISTRICTS, (0, _immutable.Set)()), QUERY_PARAMS.PROVINCES, (0, _immutable.Set)()), QUERY_PARAMS.AVERAGE_RATING, (0, _immutable.Map)()), QUERY_PARAMS.IS_DIRECT_FLIGHT, false));
+}))), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_DEFAULTS, QUERY_PARAMS.CITIES, (0, _immutable.Set)()), QUERY_PARAMS.HOTELS, (0, _immutable.Set)()), QUERY_PARAMS.PRICE, (0, _immutable.Map)()), QUERY_PARAMS.PAGE, 1), QUERY_PARAMS.SERVICES, (0, _immutable.Set)()), QUERY_PARAMS.SHORT, null), QUERY_PARAMS.RATING, (0, _immutable.Map)()), QUERY_PARAMS.CURRENCY, null), QUERY_PARAMS.OPERATORS, (0, _immutable.Set)()), QUERY_PARAMS.SELECTED_OPERATORS, (0, _immutable.Set)()), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_DEFAULTS, QUERY_PARAMS.FLIGHT_AVAILABILITY, (0, _immutable.Set)()), QUERY_PARAMS.HOTEL_AVAILABILITY, (0, _immutable.Set)()), QUERY_PARAMS.WITHOUT_SPO, false), QUERY_PARAMS.LANGUAGE, null), QUERY_PARAMS.IGNORE_SERVICES, (0, _immutable.Set)()), QUERY_PARAMS.GROUP, null), QUERY_PARAMS.DISTRICTS, (0, _immutable.Set)()), QUERY_PARAMS.PROVINCES, (0, _immutable.Set)()), QUERY_PARAMS.AVERAGE_RATING, (0, _immutable.Map)()), QUERY_PARAMS.IS_DIRECT_FLIGHT, false), _defineProperty(_DEFAULTS, QUERY_PARAMS.SELECTED_OFFER_DATE, null));
 
 /**
  * Query string glue
@@ -300,7 +301,7 @@ function convertToOtpQuery(query) {
     return {
       'stopSale': value.toArray()
     };
-  }), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_converters, QUERY_PARAMS.WITHOUT_SPO, function (value) {
+  }), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_converters, QUERY_PARAMS.WITHOUT_SPO, function (value) {
     return {
       'noPromo': value
     };
@@ -331,6 +332,10 @@ function convertToOtpQuery(query) {
   }), QUERY_PARAMS.IS_DIRECT_FLIGHT, function (value) {
     return value ? {
       directFlight: true
+    } : null;
+  }), QUERY_PARAMS.SELECTED_OFFER_DATE, function (value) {
+    return value ? {
+      offerDate: value
     } : null;
   }));
   return query.filter(function (value, param) {

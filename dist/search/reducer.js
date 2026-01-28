@@ -10,7 +10,8 @@ var R = _interopRequireWildcard(require("ramda"));
 var _actions = require("./actions");
 var _fn = require("../queries/fn");
 var _handleActions;
-function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, "default": e }; if (null === e || "object" != _typeof(e) && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
+function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
+function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != _typeof(e) && "function" != typeof e) return { "default": e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && {}.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n["default"] = e, t && t.set(e, n), n; }
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
@@ -77,13 +78,13 @@ var searchReducer = exports.searchReducer = (0, _reduxActions.handleActions)((_h
     queryID = _ref9$payload.queryID,
     status = _ref9$payload.status;
   return state.setIn(['results', queryID, 'status'], status);
-}), _actions.searchActions.getPriceChartSuccess, function (state, _ref0) {
-  var _ref0$payload = _ref0.payload,
-    queryId = _ref0$payload.queryId,
-    chart = _ref0$payload.chart;
+}), _actions.searchActions.getPriceChartSuccess, function (state, _ref10) {
+  var _ref10$payload = _ref10.payload,
+    queryId = _ref10$payload.queryId,
+    chart = _ref10$payload.chart;
   return state.setIn(['charts', queryId], chart);
-}), _defineProperty(_handleActions, _actions.searchActions.getAvailableDatesSuccess, function (state, _ref1) {
-  var payload = _ref1.payload;
+}), _defineProperty(_handleActions, _actions.searchActions.getAvailableDatesSuccess, function (state, _ref11) {
+  var payload = _ref11.payload;
   var key = payload.key,
     dates = payload.dates;
   return state.setIn(['availableDates', key], dates);

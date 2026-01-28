@@ -56,9 +56,9 @@ var reducer = exports.reducer = (0, _reduxActions.handleActions)(_defineProperty
     key = _ref9$payload.key,
     transports = _ref9$payload.transports;
   return state.setIn(['transports', key], transports);
-}), _actions.actions.getSearchPricesSuccess, function (state, _ref0) {
-  var _ref0$payload = _ref0.payload,
-    key = _ref0$payload.key,
-    prices = _ref0$payload.prices;
+}), _actions.actions.getSearchPricesSuccess, function (state, _ref10) {
+  var _ref10$payload = _ref10.payload,
+    key = _ref10$payload.key,
+    prices = _ref10$payload.prices;
   return state.setIn(['prices', key], prices);
 }), initialState);

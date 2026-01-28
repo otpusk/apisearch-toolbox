@@ -64,8 +64,8 @@ var geoReducer = exports.geoReducer = (0, _reduxActions.handleActions)((_handleA
     id = _ref9$payload.id,
     data = _ref9$payload.data;
   return state.setIn(['locations', id], data);
-}), _defineProperty(_handleActions, _actions.geoActions.getFlightPortSuccess, function (state, _ref0) {
-  var payload = _ref0.payload;
+}), _defineProperty(_handleActions, _actions.geoActions.getFlightPortSuccess, function (state, _ref10) {
+  var payload = _ref10.payload;
   var key = payload.key,
     port = payload.port;
   return state.setIn(['flightPorts', key], port);
