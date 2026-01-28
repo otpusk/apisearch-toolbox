@@ -7,7 +7,7 @@ import { getToursSimilar } from '@otpusk/json-api';
 
 export function* getSimilarHotelsWorker ({ payload: hotelId }) {
     try {
-        const token = yield select((state) => state.auth.getIn(['otpusk', 'token']));
+        const token = yield select(getToken)
         const similar = yield call(getToursSimilar, token, hotelId, 9);
 
         yield put(actions.getSimilarHotelsSuccess(hotelId, similar));

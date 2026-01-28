@@ -1,6 +1,7 @@
 import { call, put, select } from 'redux-saga/effects';
 import { getToursHotels } from '@otpusk/json-api';
 
+import { getLang, getToken } from '../../../auth/selectors';
 import { geoActions } from '../../actions';
 import { generateHotelKey } from '../../helpers';
 
@@ -14,8 +15,8 @@ export function* getHotelsWorker ({ payload }) {
     } = payload;
 
     try {
-        const token = yield select((state) => state.auth.getIn(['otpusk', 'token']));
-        const lang = yield select((state) => state.auth.getIn(['otpusk', 'lang'], 'rus'));
+        const token = yield select(getToken);
+        const lang = yield select(getLang);
 
         const hotels = yield call(
             getToursHotels,

@@ -14,21 +14,21 @@ const getHotelKey = (_, { hotelKey }) => hotelKey;
 
 const getDeparturesByImmutableStructure = createSelector(
     domain,
-    (geo) => geo.get('departures')
+    (geo) => geo.departures
 );
 
 export const getDepartures = () => createSelector(
     getDeparturesByImmutableStructure,
     departureGeoID,
-    (map, geoID) => R.propOr(EMPTY_ARRAY, geoID, map.toJS())
+    (store, geoID) => R.propOr(EMPTY_ARRAY, geoID, store)
 );
 
 export const getDepartureByDefaultGeo = () => createSelector(
     getDeparturesByImmutableStructure,
     getDepartureID,
-    (map, id) => R.find(
+    (store, id) => R.find(
         (departure) => departure.id === id,
-        R.propOr(EMPTY_ARRAY, DEFAULT_DEPARTURE_GEO_ID, map.toJS())
+        R.propOr(EMPTY_ARRAY, DEFAULT_DEPARTURE_GEO_ID, store)
     )
 );
 
@@ -43,7 +43,7 @@ export const getDepartureByIATA = () => createSelector(
 
 export const getFlightPorts = createSelector(
     domain,
-    (geo) => geo.get('flightPorts')
+    (geo) => geo.flightPorts
 );
 
 export const getFlightPort = () => createSelector(
@@ -55,18 +55,7 @@ export const getFlightPort = () => createSelector(
 export const getOperators = () => createSelector(
     domain,
     (_, { key }) => key,
-    (geo, key) => R.call(
-        R.pipe(
-            (operators) => operators.toObject(),
-            R.prop(key),
-            R.ifElse(
-                Boolean,
-                (operators) => operators.toArray(),
-                R.always(EMPTY_ARRAY)
-            )
-        ),
-        geo.get('operators')
-    )
+    (geo, key) => R.propOr(EMPTY_ARRAY, key, geo.operators || {})
 );
 
 export const getOperatorsMap = () => createSelector(
@@ -94,14 +83,9 @@ export const getActiveOperators = () => createSelector(
     R.filter(R.prop('active'))
 );
 
-const getCountriesByImmutableStructure = createSelector(
-    domain,
-    (geo) => geo.get('countries')
-);
-
 export const getCountries = createSelector(
-    getCountriesByImmutableStructure,
-    (countries) => countries.toArray()
+    domain,
+    (geo) => geo.countries
 );
 
 export const getCountry = () => createSelector(
@@ -123,18 +107,18 @@ export const getTopCountry = createSelector(
 
 const getHotelsStore = createSelector(
     domain,
-    (geo) => geo.get('hotels')
+    (geo) => geo.hotels
 );
 
-const getHotelsImmutableStructureByCountry = () => createSelector(
+const getHotelsByCountryStore = () => createSelector(
     getHotelsStore,
     getCountryID,
-    (store, countryID) => R.prop(countryID, store.toObject())
+    (store, countryID) => R.prop(countryID, store)
 );
 
 export const getHotelsByCountry = () => createSelector(
-    getHotelsImmutableStructureByCountry(),
-    (hotels) => hotels ? hotels.toArray() : EMPTY_ARRAY
+    getHotelsByCountryStore(),
+    (hotels) => Array.isArray(hotels) ? hotels : EMPTY_ARRAY
 );
 
 export const getHotelByCountry = () => createSelector(
@@ -149,9 +133,7 @@ export const getHotelByCountry = () => createSelector(
 export const getHotelsByKey = () => createSelector(
     getHotelsStore,
     getHotelKey,
-    (hotelsStore, key) => hotelsStore.has(key)
-        ? hotelsStore.get(key).toArray()
-        : EMPTY_ARRAY
+    (hotelsStore, key) => R.propOr(EMPTY_ARRAY, key, hotelsStore)
 );
 
 export const getHotelByKey = () => createSelector(

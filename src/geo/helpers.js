@@ -18,3 +18,7 @@ export const generateOperatorKey = (countryID, departureID) => R.join(
         Number(departureID)
     ])
 );
+
+export const setIn = (obj, path, value) => R.assocPath(path, value, obj);
+
+export const removeIn = (obj, path) => R.dissocPath(path, obj);
