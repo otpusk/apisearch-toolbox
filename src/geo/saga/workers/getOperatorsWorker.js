@@ -2,13 +2,14 @@ import { call, put, select } from 'redux-saga/effects';
 import { List } from 'immutable';
 import { getToursOperators } from '@otpusk/json-api';
 
+import { getToken } from '../../../auth/selectors';
 import { geoActions } from '../../actions';
 import { generateOperatorKey } from '../../helpers';
 
 export function* getOperatorsWorker ({ payload }) {
     const { countryId, departureID, methodVersion } = payload;
 
-    const token = yield select((state) => state.auth.getIn(['otpusk', 'token']));
+    const token = yield select(getToken);
 
     try {
         const operators = yield call(

@@ -15,7 +15,7 @@ import {
 } from '../../parsers';
 
 function* parseQueryParam (paramName, rawValue, queryId) {
-    const token = yield select((state) => state.auth.getIn(['otpusk', 'token']));
+    const token = yield select(getToken)
     const currentValue = yield select((state) => state.queries.get(queryId).get(paramName, null));
 
     const paramsToParsers = {

@@ -1,6 +1,7 @@
 import { call, cancelled, delay, put, select } from 'redux-saga/effects';
 import * as R from 'ramda';
 import { getToursNextSearch } from '@otpusk/json-api';
+import {getLang, getToken} from '../../../../auth/selectors';
 
 import { getQuery } from '../../../../queries/selectors';
 import { convertToOtpQuery, QUERY_PARAMS } from '../../../../queries/fn';
@@ -23,8 +24,8 @@ import { GUARANTEED_RESULT_STEP } from './constants';
 
 export function* getResultsWorker ({ payload: queryID }) {
     const query = yield select((state) => getQuery(state, { queryID }));
-    const lang = yield select((state) => state.auth.getIn(['otpusk', 'lang'], null));
-    const token = yield select((state) => state.auth.getIn(['otpusk', 'token']));
+    const lang = yield select(getLang);
+    const token = yield select(getToken)
     const otpsukQuery = convertToOtpQuery(query.set(QUERY_PARAMS.LANGUAGE, lang));
 
     yield put(searchActions.startSearch(queryID));
