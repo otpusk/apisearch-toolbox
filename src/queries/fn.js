@@ -56,6 +56,7 @@ const QUERY_PARAMS = {
     PROVINCES:           'provinces',
     AVERAGE_RATING:      'averageRating',
     IS_DIRECT_FLIGHT:    'isDirectFlight',
+    SELECTED_OFFER_DATE: 'offerDate',
 };
 
 const getShortQueryParams = (isParam = false) => {
@@ -143,6 +144,7 @@ const DEFAULTS = {
     [QUERY_PARAMS.PROVINCES]:           Set(),
     [QUERY_PARAMS.AVERAGE_RATING]:      Map(),
     [QUERY_PARAMS.IS_DIRECT_FLIGHT]:    false,
+    [QUERY_PARAMS.SELECTED_OFFER_DATE]: null,
 };
 
 /**
@@ -340,6 +342,7 @@ function convertToOtpQuery (query) {
         [QUERY_PARAMS.PROVINCES]:           (value) => ({ 'toProvinces': value.isEmpty() ? null : value.toArray().join(',') }),
         [QUERY_PARAMS.AVERAGE_RATING]:      (value) => ({ 'rating': value.isEmpty() ? null : `${value.get('from')}-${value.get('to')}` }),
         [QUERY_PARAMS.IS_DIRECT_FLIGHT]:    (value) => value ? { directFlight: true } : null,
+        [QUERY_PARAMS.SELECTED_OFFER_DATE]: (value) => value ? { offerDate: value } : null,
     };
 
     return query
