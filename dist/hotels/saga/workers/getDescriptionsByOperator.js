@@ -13,8 +13,7 @@ function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyri
 function getDescriptionsByOperatorWorker(_ref) {
   var _ref$payload = _ref.payload,
     operatorID = _ref$payload.operatorID,
-    externalOperatorData = _ref$payload.externalOperatorData,
-    isOriginalLang = _ref$payload.isOriginalLang;
+    externalOperatorData = _ref$payload.externalOperatorData;
   return /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
     var token, lang, subOperatorName, subHotelID, descriptions;
     return _regeneratorRuntime().wrap(function _callee$(_context) {
@@ -24,45 +23,35 @@ function getDescriptionsByOperatorWorker(_ref) {
           return (0, _effects.select)(_selectors.getToken);
         case 2:
           token = _context.sent;
-          if (!isOriginalLang) {
-            _context.next = 7;
-            break;
-          }
-          _context.t0 = 'pl';
-          _context.next = 10;
-          break;
-        case 7:
-          _context.next = 9;
+          _context.next = 5;
           return (0, _effects.select)(_selectors.getLang);
-        case 9:
-          _context.t0 = _context.sent;
-        case 10:
-          lang = _context.t0;
+        case 5:
+          lang = _context.sent;
           subOperatorName = externalOperatorData.subOperatorName, subHotelID = externalOperatorData.subHotelID;
-          _context.prev = 12;
-          _context.next = 15;
+          _context.prev = 7;
+          _context.next = 10;
           return (0, _effects.call)(_jsonApi.getToursHotelDescriptionsByOperator, token, {
             lang: lang,
             subHotelID: subHotelID,
             subOperatorName: subOperatorName,
             operatorId: operatorID
           });
-        case 15:
+        case 10:
           descriptions = _context.sent;
-          _context.next = 18;
+          _context.next = 13;
           return (0, _effects.put)(_actions.hotelsActions.getDescriptionsByOperatorSuccess(operatorID, descriptions));
-        case 18:
-          _context.next = 24;
+        case 13:
+          _context.next = 19;
           break;
-        case 20:
-          _context.prev = 20;
-          _context.t1 = _context["catch"](12);
-          _context.next = 24;
-          return (0, _effects.put)(_actions.hotelsActions.getDescriptionsByOperatorFail(_context.t1));
-        case 24:
+        case 15:
+          _context.prev = 15;
+          _context.t0 = _context["catch"](7);
+          _context.next = 19;
+          return (0, _effects.put)(_actions.hotelsActions.getDescriptionsByOperatorFail(_context.t0));
+        case 19:
         case "end":
           return _context.stop();
       }
-    }, _callee, null, [[12, 20]]);
+    }, _callee, null, [[7, 15]]);
   })();
 }
