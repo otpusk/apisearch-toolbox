@@ -17,6 +17,7 @@ function getOfferSaga(offerID) {
   var fresh = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
   var currency = arguments.length > 2 ? arguments[2] : undefined;
   var withShortCode = arguments.length > 3 ? arguments[3] : undefined;
+  var customLang = arguments.length > 4 ? arguments[4] : undefined;
   return /*#__PURE__*/_regenerator().m(function _callee() {
     var lang, token, offer;
     return _regenerator().w(function (_context) {
@@ -31,7 +32,7 @@ function getOfferSaga(offerID) {
         case 2:
           token = _context.v;
           _context.n = 3;
-          return (0, _effects.call)(_jsonApi.getToursOffer, token, offerID, fresh, currency, lang, withShortCode);
+          return (0, _effects.call)(_jsonApi.getToursOffer, token, offerID, fresh, currency, customLang || lang, withShortCode);
         case 3:
           offer = _context.v;
           if (!offer.error) {
@@ -50,7 +51,8 @@ function bootstrapOfferSaga(_ref) {
     offerId = _ref$payload.offerId,
     fresh = _ref$payload.fresh,
     currency = _ref$payload.currency,
-    withShortCode = _ref$payload.withShortCode;
+    withShortCode = _ref$payload.withShortCode,
+    customLang = _ref$payload.customLang;
   return /*#__PURE__*/_regenerator().m(function _callee2() {
     var _ref2, id, offer, _t;
     return _regenerator().w(function (_context2) {
@@ -64,7 +66,7 @@ function bootstrapOfferSaga(_ref) {
         case 1:
           _context2.p = 1;
           _context2.n = 2;
-          return (0, _effects.call)(getOfferSaga, id, fresh, currency, withShortCode);
+          return (0, _effects.call)(getOfferSaga, id, fresh, currency, withShortCode, customLang);
         case 2:
           offer = _context2.v;
           _context2.n = 3;
