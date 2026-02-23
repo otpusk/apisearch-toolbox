@@ -121,6 +121,16 @@ export const getTopCountry = createSelector(
     )
 );
 
+const getCitiesByImmutableStructure = createSelector(
+    domain,
+    (geo) => geo.get('cities')
+);
+
+export const getCities = createSelector(
+    getCitiesByImmutableStructure,
+    (cities) => cities.toArray()
+);
+
 const getHotelsStore = createSelector(
     domain,
     (geo) => geo.get('hotels')
