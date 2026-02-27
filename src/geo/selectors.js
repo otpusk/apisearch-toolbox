@@ -137,6 +137,10 @@ export const getCitiesByCountry = createSelector(
     (cities) => cities ? cities.toArray() : EMPTY_ARRAY
 );
 
+export const getCities = createSelector(
+    getCitiesStore, (store) => store.valueSeq().toArray()
+);
+
 const getHotelsStore = createSelector(
     domain,
     (geo) => geo.get('hotels')
