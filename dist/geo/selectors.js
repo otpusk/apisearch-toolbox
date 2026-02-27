@@ -4,7 +4,7 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getTopCountry = exports.getTopCountries = exports.getOperatorsMap = exports.getOperators = exports.getOperator = exports.getHotelsByKey = exports.getHotelsByCountry = exports.getHotelByKey = exports.getHotelByCountry = exports.getFlightPorts = exports.getFlightPort = exports.getDepartures = exports.getDepartureByIATA = exports.getDepartureByDefaultGeo = exports.getCountry = exports.getCountries = exports.getCitiesByCountry = exports.getActiveOperators = void 0;
+exports.getTopCountry = exports.getTopCountries = exports.getOperatorsMap = exports.getOperators = exports.getOperator = exports.getHotelsByKey = exports.getHotelsByCountry = exports.getHotelByKey = exports.getHotelByCountry = exports.getFlightPorts = exports.getFlightPort = exports.getDepartures = exports.getDepartureByIATA = exports.getDepartureByDefaultGeo = exports.getCountry = exports.getCountries = exports.getCitiesByCountry = exports.getCities = exports.getActiveOperators = void 0;
 var _reselect = require("reselect");
 var R = _interopRequireWildcard(require("ramda"));
 function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, "default": e }; if (null === e || "object" != _typeof(e) && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
@@ -125,6 +125,9 @@ var getCitiesByImmutableStructureByCountry = (0, _reselect.createSelector)(getCi
 });
 var getCitiesByCountry = exports.getCitiesByCountry = (0, _reselect.createSelector)(getCitiesByImmutableStructureByCountry, function (cities) {
   return cities ? cities.toArray() : EMPTY_ARRAY;
+});
+var getCities = exports.getCities = (0, _reselect.createSelector)(getCitiesStore, function (store) {
+  return store.valueSeq().toArray();
 });
 var getHotelsStore = (0, _reselect.createSelector)(domain, function (geo) {
   return geo.get('hotels');
