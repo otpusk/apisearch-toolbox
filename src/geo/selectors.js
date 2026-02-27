@@ -138,7 +138,7 @@ export const getCitiesByCountry = createSelector(
 );
 
 export const getCities = createSelector(
-    getCitiesStore, (store) => store.valueSeq().toArray()
+    getCitiesStore, (store) => store.valueSeq().flatten(true).toArray()
 );
 
 const getHotelsStore = createSelector(
