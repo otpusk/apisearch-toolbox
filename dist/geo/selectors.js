@@ -127,7 +127,7 @@ var getCitiesByCountry = exports.getCitiesByCountry = (0, _reselect.createSelect
   return cities ? cities.toArray() : EMPTY_ARRAY;
 });
 var getCities = exports.getCities = (0, _reselect.createSelector)(getCitiesStore, function (store) {
-  return store.valueSeq().toArray();
+  return store.valueSeq().flatten(true).toArray();
 });
 var getHotelsStore = (0, _reselect.createSelector)(domain, function (geo) {
   return geo.get('hotels');
