@@ -123,22 +123,18 @@ export const getTopCountry = createSelector(
 
 const getCitiesStore = createSelector(
     domain,
-    (geo) => geo.get('cities')
+    (geo) => geo.get('cities').toObject()
 );
 
 const getCitiesByImmutableStructureByCountry = createSelector(
     getCitiesStore,
     getCountryID,
-    (store, countryID) => R.prop(countryID, store.toObject())
+    (store, countryID) => R.prop(countryID, store)
 );
 
 export const getCitiesByCountry = createSelector(
     getCitiesByImmutableStructureByCountry,
     (cities) => cities ? cities.toArray() : EMPTY_ARRAY
-);
-
-export const getCities = createSelector(
-    getCitiesStore, (store) => store.valueSeq().flatten(true).toArray()
 );
 
 const getHotelsStore = createSelector(
