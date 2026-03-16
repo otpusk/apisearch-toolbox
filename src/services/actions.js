@@ -4,7 +4,7 @@ import { EMPTY_COUNTRY_ID } from './constants';
 import { createBookingServicesKey } from './helpers';
 
 export const servicesActions = createActions({
-    GET_SERVICES:         (countryId) => countryId,
+    GET_SERVICES:         (countryId, options) => ({ countryId, options }),
     GET_ALL_SERVICES:     () => EMPTY_COUNTRY_ID,
     GET_SERVICES_SUCCESS: (countryId, services) => ({ countryId, services }),
     GET_SERVICES_FAIL:    (error) => error,
