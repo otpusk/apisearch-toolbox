@@ -38,13 +38,15 @@ const extractLabels = (services) => R.call(
     services
 );
 
-export function* getServicesWorker ({ payload: countryId }) {
+export function* getServicesWorker ({ payload: { countryId, options = {}}}) {
+    const { withIcons } = options;
+
     try {
         const { token, lang } = yield select(({ auth }) => ({
             token: auth.getIn(['otpusk', 'token']),
             lang:  auth.getIn(['otpusk', 'lang']),
         }));
-        const services = yield call(getToursServices, token, countryId, lang);
+        const services = yield call(getToursServices, token, countryId, lang, withIcons);
 
         yield put(servicesActions.mergeLabels(extractLabels(services)));
         yield put(servicesActions.getServicesSuccess(countryId, normalizeServices(services)));
