@@ -126,7 +126,7 @@ export const getTopCountry = createSelector(
     )
 );
 
-const getCitiesStore = createSelector(
+export const getCitiesStore = createSelector(
     domain,
     (geo) => geo.get('cities').toObject()
 );
