@@ -10,13 +10,11 @@ var offersActions = exports.offersActions = (0, _reduxActions.createActions)({
     var fresh = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
     var currency = arguments.length > 2 ? arguments[2] : undefined;
     var withShortCode = arguments.length > 3 ? arguments[3] : undefined;
-    var customLang = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : null;
     return {
       offerId: offerId,
       fresh: fresh,
       currency: currency,
-      withShortCode: withShortCode,
-      customLang: customLang
+      withShortCode: withShortCode
     };
   },
   GET_OFFER_SUCCESS: function GET_OFFER_SUCCESS(offerID) {

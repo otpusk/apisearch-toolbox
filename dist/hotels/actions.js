@@ -7,11 +7,7 @@ exports.hotelsActions = void 0;
 var _reduxActions = require("redux-actions");
 var hotelsActions = exports.hotelsActions = (0, _reduxActions.createActions)({
   GET_HOTEL: function GET_HOTEL(hotelId) {
-    var customLang = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-    return {
-      hotelId: hotelId,
-      customLang: customLang
-    };
+    return hotelId;
   },
   GET_HOTEL_SUCCESS: function GET_HOTEL_SUCCESS(hotel) {
     return hotel;
