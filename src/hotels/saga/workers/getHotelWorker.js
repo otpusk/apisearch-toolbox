@@ -4,7 +4,7 @@ import * as R from 'ramda';
 
 import { hotelsActions } from '../../actions';
 
-export function* getHotelWorker ({ payload: { hotelId, customLang }}) {
+export function* getHotelWorker ({ payload: hotelId }) {
     try {
         const { token, lang } = yield select(({ auth }) => ({
             token: auth.getIn(['otpusk', 'token']),
@@ -17,7 +17,7 @@ export function* getHotelWorker ({ payload: { hotelId, customLang }}) {
                 { data: 'extlinks' }
             ]),
             hotelId,
-            customLang || lang
+            lang
         );
 
         yield put(hotelsActions.getHotelSuccess(hotel));
