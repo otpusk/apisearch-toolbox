@@ -43,7 +43,7 @@ export const geoReducer = handleActions(
             return state.setIn(['operators', key], operators);
         },
         [geoActions.getGeoTreeSuccess]: (state, { payload: { countryId, geoTree }}) => {
-            return state.setIn(['toursGeoTree', countryId], geoTree);
+            return state.setIn(['geoTree', countryId], geoTree);
         },
         [geoActions.getLocationDataSuccess]: (state, { payload : { id, data }}) => {
             return state.setIn(['locations', id], data);
