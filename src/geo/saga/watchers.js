@@ -10,6 +10,7 @@ import { getHotelsWorker } from './workers/getHotelsWorker';
 import { getDepartureCitiesWorker } from './workers/getDepartureCitiesWorker';
 import { getOperatorsWorker } from './workers/getOperatorsWorker';
 import { getGeoTreeWorker } from './workers/getGeoTreeWorker';
+import { getGeoToursTreeWorker } from './workers/getGeoToursTreeWorker';
 import { getLocationDataWorker } from './workers/getLocationDataWorker';
 import { getFlightPortWorker } from './workers/getFlightPortWorker';
 
@@ -34,6 +35,9 @@ export const geoWatchers =  Object.freeze({
     },
     * getGeoTreeWatcher () {
         yield takeEvery(geoActions.getGeoTree, getGeoTreeWorker);
+    },
+    * getGeoToursTreeWatcher () {
+        yield takeEvery(geoActions.getGeoToursTree, getGeoToursTreeWorker);
     },
     * getLocationDataWatcher () {
         yield takeEvery(geoActions.getLocationData, getLocationDataWorker);

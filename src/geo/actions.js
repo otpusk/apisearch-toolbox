@@ -47,6 +47,10 @@ export const geoActions = createActions({
     GET_GEO_TREE_SUCCESS: (geoTree) => ({ geoTree }),
     GET_GEO_TREE_FAIL:    (error) => error,
 
+    GET_GEO_TOURS_TREE:         (countryId, withPrice = false) => ({ countryId, withPrice }),
+    GET_GEO_TOURS_TREE_SUCCESS: (countryId, geoTree) => ({ countryId, geoTree }),
+    GET_GEO_TOURS_TREE_FAIL:    (error) => error,
+
     GET_LOCATION_DATA:         (id) => ({ id }),
     GET_LOCATION_DATA_SUCCESS: (id, data) => ({ id, data }),
     GET_LOCATION_DATA_FAIL:    (error) => error,

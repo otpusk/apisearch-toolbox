@@ -45,6 +45,9 @@ export const geoReducer = handleActions(
         [geoActions.getGeoTreeSuccess]: (state, { payload: { geoTree }}) => {
             return state.set('geoTree', geoTree);
         },
+        [geoActions.getGeoToursTreeSuccess]: (state, { payload: { countryId, geoTree }}) => {
+            return state.setIn(['toursGeoTree', countryId], geoTree);
+        },
         [geoActions.getLocationDataSuccess]: (state, { payload : { id, data }}) => {
             return state.setIn(['locations', id], data);
         },
