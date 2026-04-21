@@ -12,6 +12,7 @@ const initalState = Map({
     cities:      Map(),
     hotels:      Map(),
     operators:   Map(),
+    geoTree:     Map(),
     statuses:    Map(),
     flightPorts: {},
 });

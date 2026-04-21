@@ -5,12 +5,12 @@ import { geoActions } from '../../actions';
 
 export function* getCountriesWorker ({ payload }) {
     const { options = { 'with': 'price' }, methodVersion } = payload;
+    const { token, lang } = yield select(({ auth }) => ({
+        token: auth.getIn(['otpusk', 'token']),
+        lang:  auth.getIn(['otpusk', 'lang'], 'rus'),
+    }));
 
     try {
-        const { token, lang } = yield select(({ auth }) => ({
-            token: auth.getIn(['otpusk', 'token']),
-            lang:  auth.getIn(['otpusk', 'lang'], 'rus'),
-        }));
         const countries = yield call(getToursCountries, token, { lang, ...options }, methodVersion);
 
         yield put(geoActions.getCountriesSuccess(countries));

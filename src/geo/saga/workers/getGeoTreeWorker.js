@@ -5,17 +5,17 @@ import { put, call, select } from 'redux-saga/effects';
 import { geoActions } from '../../actions';
 import { getToursGeoTree } from '@otpusk/json-api';
 
-export function* getGeoTreeWorker ({ payload: { countryId, withPrice }}) {
-    const isSet = yield select((state) => Boolean(state.geo && state.geo.getIn(['toursGeoTree', countryId])));
+export function* getGeoTreeWorker ({ payload: { countryId, withPrice, depth= 'city' }}) {
+    const token = yield select((state) => state.auth.getIn(['otpusk', 'token'], 'rus'));
 
-    if (isSet) {
-        return;
-    }
+    const options = {
+        depth,
+        id: countryId,
+        ...withPrice ? { with: 'price' } : {},
+    };
 
     try {
-        const token = yield select((state) => state.auth.getIn(['otpusk', 'token']));
-
-        const geoTree = yield call(getToursGeoTree, token, { countryId, withPrice });
+        const geoTree = yield call(getToursGeoTree, token, options);
 
         yield put(geoActions.getGeoTreeSuccess(countryId, geoTree));
     } catch (error) {

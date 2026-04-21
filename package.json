@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "latest"
+    "url": "git+https://github.com/otpusk/apisearch-toolbox.git"
   },
   "author": "",
   "license": "ISC",
