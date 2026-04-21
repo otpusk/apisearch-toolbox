@@ -168,5 +168,5 @@ const getGeoTree = createSelector(
 export const getGeoTreeById = createSelector(
     getGeoTree,
     getCountryID,
-    (geoTree, countryID) => countryID && geoTree.get(countryID) || EMPTY_ARRAY
+    (geoTree, countryID) => (countryID && geoTree[countryID]) || EMPTY_ARRAY
 );

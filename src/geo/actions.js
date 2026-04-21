@@ -43,7 +43,7 @@ export const geoActions = createActions({
     GET_OPERATORS_SUCCESS: (key, operators) => ({ key, operators }),
     GET_OPERATORS_FAIL:    (error) => error,
 
-    GET_GEO_TREE:         (countryId, withPrice = false) => ({ countryId, withPrice }),
+    GET_GEO_TREE:         (countryId, withPrice = false, depth = 'city') => ({ countryId, withPrice, depth }),
     GET_GEO_TREE_SUCCESS: (countryId, geoTree) => ({ countryId, geoTree }),
     GET_GEO_TREE_FAIL:    (error) => error,
 
