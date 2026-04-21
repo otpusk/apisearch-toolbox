@@ -159,3 +159,14 @@ export const getHotelByKey = () => createSelector(
     getHotelID,
     (hotels, id) => R.find((hotel) => hotel.id === id, hotels)
 );
+
+const getGeoTree = createSelector(
+    domain,
+    (geo) => geo.get('geoTree')
+);
+
+export const getGeoTreeById = createSelector(
+    getGeoTree,
+    getCountryID,
+    (geoTree, countryID) => countryID && geoTree.get(countryID) || EMPTY_ARRAY
+);
