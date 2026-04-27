@@ -104,6 +104,11 @@ export const getCountries = createSelector(
     (countries) => countries.toArray()
 );
 
+export const getTopCountries = createSelector(
+    getCountries,
+    (countries) => countries.filter((country) => country.weight > 0)
+);
+
 export const getCountry = () => createSelector(
     getCountries,
     getCountryID,
