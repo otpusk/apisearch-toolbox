@@ -8,8 +8,11 @@ var _reduxActions = require("redux-actions");
 var _constants = require("./constants");
 var _helpers = require("./helpers");
 var servicesActions = exports.servicesActions = (0, _reduxActions.createActions)({
-  GET_SERVICES: function GET_SERVICES(countryId) {
-    return countryId;
+  GET_SERVICES: function GET_SERVICES(countryId, options) {
+    return {
+      countryId: countryId,
+      options: options
+    };
   },
   GET_ALL_SERVICES: function GET_ALL_SERVICES() {
     return _constants.EMPTY_COUNTRY_ID;
