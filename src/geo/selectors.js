@@ -126,6 +126,17 @@ export const getTopCountry = createSelector(
     )
 );
 
+export const getCitiesStore = createSelector(
+    domain,
+    (geo) => geo.get('cities').toObject()
+);
+
+export const getCitiesByCountry = createSelector(
+    getCitiesStore,
+    getCountryID,
+    (citiesStore, countryID) => R.prop(countryID, citiesStore)?.toArray() ?? EMPTY_ARRAY
+);
+
 const getHotelsStore = createSelector(
     domain,
     (geo) => geo.get('hotels')
