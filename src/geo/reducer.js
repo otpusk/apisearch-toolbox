@@ -12,6 +12,7 @@ const initalState = Map({
     cities:      Map(),
     hotels:      Map(),
     operators:   Map(),
+    geoTree:     {},
     statuses:    Map(),
     flightPorts: {},
 });
@@ -42,8 +43,8 @@ export const geoReducer = handleActions(
         [geoActions.getOperatorsSuccess]: (state, { payload: { key, operators }}) => {
             return state.setIn(['operators', key], operators);
         },
-        [geoActions.getGeoTreeSuccess]: (state, { payload: { geoTree }}) => {
-            return state.set('geoTree', geoTree);
+        [geoActions.getGeoTreeSuccess]: (state, { payload: { countryId, geoTree }}) => {
+            return state.setIn(['geoTree', countryId], geoTree);
         },
         [geoActions.getLocationDataSuccess]: (state, { payload : { id, data }}) => {
             return state.setIn(['locations', id], data);
