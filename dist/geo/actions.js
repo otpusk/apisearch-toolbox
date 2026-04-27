@@ -105,11 +105,18 @@ var geoActions = exports.geoActions = (0, _reduxActions.createActions)({
   GET_OPERATORS_FAIL: function GET_OPERATORS_FAIL(error) {
     return error;
   },
-  GET_GEO_TREE: function GET_GEO_TREE() {
-    return void 0;
-  },
-  GET_GEO_TREE_SUCCESS: function GET_GEO_TREE_SUCCESS(geoTree) {
+  GET_GEO_TREE: function GET_GEO_TREE(countryId) {
+    var withPrice = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+    var depth = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'city';
     return {
+      countryId: countryId,
+      withPrice: withPrice,
+      depth: depth
+    };
+  },
+  GET_GEO_TREE_SUCCESS: function GET_GEO_TREE_SUCCESS(countryId, geoTree) {
+    return {
+      countryId: countryId,
       geoTree: geoTree
     };
   },
