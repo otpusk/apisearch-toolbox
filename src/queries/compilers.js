@@ -1,6 +1,8 @@
 // Instruments
-import { GLUE } from './fn';
 import moment from 'moment';
+
+import { GLUE } from './fn';
+import { RANGE_DATE_FIELD, RANGE_DATE_TAG } from './constants';
 
 /**
  * Compile boolean list
@@ -30,6 +32,17 @@ export const rangeCompiler = (value) => {
  * @returns {String} dates param
  */
 export const datesCompiler = (value) => {
+    const isSetRangeDateField = value.get(RANGE_DATE_FIELD) === 'number';
+
+    if (isSetRangeDateField) {
+        const range = value.get(RANGE_DATE_FIELD);
+
+        return [
+            moment(value.get('from')).add(range, 'days').format('D.M.Y'),
+            `${RANGE_DATE_TAG}${range}`
+        ].join('');
+    }
+
     return [value.get('from'), value.get('to')]
         .map((date) => date ? moment(date).format('D.M.Y') : GLUE.empty)
         .join(GLUE.range);

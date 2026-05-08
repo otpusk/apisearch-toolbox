@@ -19,7 +19,7 @@ import {
     createImmutableNumbersArrayParser,
     parseStringIntengerToBoolean
 } from './parsers';
-import { EMPTY_DEPARTURE_VALUE } from './constants';
+import { EMPTY_DEPARTURE_VALUE, RANGE_DATE_FIELD } from './constants';
 
 /**
  * Query params names
@@ -97,8 +97,9 @@ const DEFAULTS = {
         5: true,
     }),
     [QUERY_PARAMS.DATES]: Map({
-        from: moment().add(7, 'days'),
-        to:   moment().add(14, 'days'),
+        from:               moment().add(7, 'days'),
+        to:                 moment().add(14, 'days'),
+        [RANGE_DATE_FIELD]: undefined,
     }),
     [QUERY_PARAMS.DURATION]: Map({
         from: 7,
