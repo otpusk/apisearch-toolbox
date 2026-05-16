@@ -4,9 +4,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.toStringCompiler = exports.rangeCompiler = exports.numberCompiler = exports.mapCompiler = exports.immutableArrayCompiler = exports.datesCompiler = exports.binaryCompiler = exports.arrayCompiler = void 0;
-var _fn = require("./fn");
 var _moment = _interopRequireDefault(require("moment"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+var _fn = require("./fn");
+var _constants = require("./constants");
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 // Instruments
 
 /**
@@ -43,6 +44,11 @@ var rangeCompiler = exports.rangeCompiler = function rangeCompiler(value) {
  * @returns {String} dates param
  */
 var datesCompiler = exports.datesCompiler = function datesCompiler(value) {
+  var isSetRangeDateField = value.get(_constants.RANGE_DATE_FIELD) === 'number';
+  if (isSetRangeDateField) {
+    var range = value.get(_constants.RANGE_DATE_FIELD);
+    return [(0, _moment["default"])(value.get('from')).add(range, 'days').format('D.M.Y'), "".concat(_constants.RANGE_DATE_TAG).concat(range)].join('');
+  }
   return [value.get('from'), value.get('to')].map(function (date) {
     return date ? (0, _moment["default"])(date).format('D.M.Y') : _fn.GLUE.empty;
   }).join(_fn.GLUE.range);

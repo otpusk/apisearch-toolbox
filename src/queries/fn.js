@@ -19,7 +19,21 @@ import {
     createImmutableNumbersArrayParser,
     parseStringIntengerToBoolean
 } from './parsers';
-import { EMPTY_DEPARTURE_VALUE } from './constants';
+import { EMPTY_DEPARTURE_VALUE, RANGE_DATE_FIELD } from './constants';
+
+const CHILD_BIRTHDATE_FORMAT = 'DD.MM.YYYY';
+const CHILD_AGE_FIELD_LENGTH = 2;
+
+const isChildBirthdate = (birthday) => typeof birthday === 'string';
+
+const birthdateToAge = (birthdate) =>
+    moment().diff(moment(birthdate, CHILD_BIRTHDATE_FORMAT), 'years');
+
+const resolveChildAge = (age) =>
+    isChildBirthdate(age) ? birthdateToAge(age) : age;
+
+export const compileChildrenToPeopleField = (children) =>
+    children.map(resolveChildAge).map((age) => String(age).padStart(CHILD_AGE_FIELD_LENGTH, '0')).join('');
 
 /**
  * Query params names
@@ -97,8 +111,9 @@ const DEFAULTS = {
         5: true,
     }),
     [QUERY_PARAMS.DATES]: Map({
-        from: moment().add(7, 'days'),
-        to:   moment().add(14, 'days'),
+        from:               moment().add(7, 'days'),
+        to:                 moment().add(14, 'days'),
+        [RANGE_DATE_FIELD]: undefined,
     }),
     [QUERY_PARAMS.DURATION]: Map({
         from: 7,
@@ -316,7 +331,7 @@ function convertToOtpQuery (query) {
         [QUERY_PARAMS.DATES]:      (value) => ({ 'checkIn': value.get('from').format('Y-MM-DD'), 'checkTo': value.get('to').format('Y-MM-DD') }),
         [QUERY_PARAMS.DURATION]:   (value) => ({ 'nights': value.get('from'), 'nightsTo': value.get('to') }),
         [QUERY_PARAMS.ADULTS]:     (value) => ({ 'people': value }),
-        [QUERY_PARAMS.CHILDREN]:   (value) => ({ 'people': value.map((age) => typeof age === 'string' ? age.replace(/\D.+/, '') : age).map(String).map((age) => age.length === 1 ? `0${age}` : age).join('') }),
+        [QUERY_PARAMS.CHILDREN]:   (value) => ({ 'people': compileChildrenToPeopleField(value) }),
         [QUERY_PARAMS.FOOD]:       (value) => ({ 'food': value.filter((status) => status).keySeq().toList().join(',') }),
         [QUERY_PARAMS.TRANSPORTS]: (list) => {
             const value = list.first();
@@ -376,11 +391,18 @@ function parseQueryParam (currentValue, paramName, rawValue) {
                 (value) => binaryParser(value, { prevValue: prevList.first() })
             );
         },
-        [QUERY_PARAMS.FOOD]:                binaryParser,
-        [QUERY_PARAMS.DATES]:               datesParser,
-        [QUERY_PARAMS.DURATION]:            rangeParser,
-        [QUERY_PARAMS.ADULTS]:              Number,
-        [QUERY_PARAMS.CHILDREN]:            createImmutableNumbersArrayParser(List),
+        [QUERY_PARAMS.FOOD]:     binaryParser,
+        [QUERY_PARAMS.DATES]:    datesParser,
+        [QUERY_PARAMS.DURATION]: rangeParser,
+        [QUERY_PARAMS.ADULTS]:   Number,
+        [QUERY_PARAMS.CHILDREN]: (value) => {
+            const parseToList = createImmutableArrayParser(List);
+            const isPureNumber = (item) => (/^\d+$/).test(item);
+
+            return parseToList(value).map((item) => {
+                return isPureNumber(item) ? Number(item) : item;
+            });
+        },
         [QUERY_PARAMS.COUNTRY]:             String,
         [QUERY_PARAMS.CITIES]:              createImmutableNumbersArrayParser(Set),
         [QUERY_PARAMS.HOTELS]:              createImmutableArrayParser(Set),

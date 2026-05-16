@@ -1,18 +1,27 @@
 // Core
 import { put, call, select } from 'redux-saga/effects';
+import {getLang, getToken} from '../../../auth/selectors';
 
 // Instruments
 import { geoActions } from '../../actions';
-import { getToursSuggests } from '@otpusk/json-api';
+import { getToursGeoTree } from '@otpusk/json-api';
 
-export function* getGeoTreeWorker () {
+export function* getGeoTreeWorker ({ payload: { countryId, withPrice, depth = 'city' }}) {
+    const token = yield select(getToken);
+    const lang = yield select(getLang);
+
+    const options = {
+        ...token,
+        lang,
+        depth,
+        id: countryId,
+        ...withPrice ? { with: 'price' } : {},
+    };
+
     try {
-        const token = yield select((state) => state.auth.getIn(['otpusk', 'token']));
-        const lang = yield select((state) => state.auth.getIn(['otpusk', 'lang'], 'rus'));
+        const geoTree = yield call(getToursGeoTree, options);
 
-        const geoTree = yield call(getToursSuggests, token, null, { lang, 'with': 'price&city', nsv: 1 });
-
-        yield put(geoActions.getGeoTreeSuccess(geoTree));
+        yield put(geoActions.getGeoTreeSuccess(countryId, geoTree));
     } catch (error) {
         yield put(geoActions.getGeoTreeFail(error));
     }

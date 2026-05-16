@@ -1,10 +1,11 @@
 // Core
 import { List, Map } from 'immutable';
 import moment from 'moment';
+import { getToursGeoById } from '@otpusk/json-api';
 
 // Instruments
+import { RANGE_DATE_TAG, RANGE_DATE_FIELD } from './constants';
 import { GLUE } from './fn';
-import { getToursGeoById } from '@otpusk/json-api';
 
 /**
  * Parse binary string
@@ -54,6 +55,16 @@ export const rangeParser =  (value) => {
  * @returns {Map} dates
  */
 export const datesParser =  (value) => {
+    if (value.includes(encodeURIComponent(RANGE_DATE_TAG))) {
+        const [mediana, range] = value.split(encodeURIComponent(RANGE_DATE_TAG));
+
+        return Map({
+            from:               moment(mediana, 'DD.MM.YYYY').startOf('day').subtract(Number(range), 'days'),
+            to:                 moment(mediana, 'DD.MM.YYYY').startOf('day').add(Number(range), 'days'),
+            [RANGE_DATE_FIELD]: range,
+        });
+    }
+
     const [from, to] = value
         .split(GLUE.range)
         .map((str) => moment(str, 'DD-MM-YYYY'))
