@@ -21,6 +21,7 @@ import {
 } from './parsers';
 import { EMPTY_DEPARTURE_VALUE, RANGE_DATE_FIELD } from './constants';
 
+console.log('init query fn');
 const CHILD_BIRTHDATE_FORMAT = 'DD.MM.YYYY';
 const CHILD_AGE_FIELD_LENGTH = 2;
 
