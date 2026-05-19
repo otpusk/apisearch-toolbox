@@ -46,7 +46,7 @@ var resolveChildAge = function resolveChildAge(age) {
 };
 var compileChildrenToPeopleField = exports.compileChildrenToPeopleField = function compileChildrenToPeopleField(children) {
   return children.map(resolveChildAge).map(function (age) {
-    return String(age).padStart(CHILD_AGE_FIELD_LENGTH, '0');
+    return String(Math.max(age, 1)).padStart(CHILD_AGE_FIELD_LENGTH, '0');
   }).join('');
 };
 
@@ -381,7 +381,12 @@ function parseQueryParam(currentValue, paramName, rawValue) {
     var isPureNumber = function isPureNumber(item) {
       return /^\d+$/.test(item);
     };
-    return parseToList(value).map(function (item) {
+    var isValidBirthdate = function isValidBirthdate(item) {
+      return (0, _moment["default"])(item, CHILD_BIRTHDATE_FORMAT, true).isValid();
+    };
+    return parseToList(value).filter(function (item) {
+      return isPureNumber(item) || isValidBirthdate(item);
+    }).map(function (item) {
       return isPureNumber(item) ? Number(item) : item;
     });
   }), QUERY_PARAMS.COUNTRY, String), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_paramsToParsers, QUERY_PARAMS.CITIES, (0, _parsers.createImmutableNumbersArrayParser)(_immutable.Set)), QUERY_PARAMS.HOTELS, (0, _parsers.createImmutableArrayParser)(_immutable.Set)), QUERY_PARAMS.PRICE, _parsers.rangeParser), QUERY_PARAMS.SERVICES, (0, _parsers.createImmutableArrayParser)(_immutable.Set)), QUERY_PARAMS.RATING, _parsers.rangeParser), QUERY_PARAMS.CURRENCY, String), QUERY_PARAMS.WITHOUT_SPO, _parsers.parseStringIntengerToBoolean), QUERY_PARAMS.FLIGHT_AVAILABILITY, (0, _parsers.createImmutableArrayParser)(_immutable.Set)), QUERY_PARAMS.HOTEL_AVAILABILITY, (0, _parsers.createImmutableArrayParser)(_immutable.Set)), QUERY_PARAMS.PAGE, Number), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_paramsToParsers, QUERY_PARAMS.OPERATORS, (0, _parsers.createImmutableNumbersArrayParser)(_immutable.Set)), QUERY_PARAMS.IGNORE_SERVICES, (0, _parsers.createImmutableArrayParser)(_immutable.Set)), QUERY_PARAMS.GROUP, Number), QUERY_PARAMS.DISTRICTS, (0, _parsers.createImmutableNumbersArrayParser)(_immutable.Set)), QUERY_PARAMS.PROVINCES, (0, _parsers.createImmutableNumbersArrayParser)(_immutable.Set)), QUERY_PARAMS.AVERAGE_RATING, _parsers.rangeParser), QUERY_PARAMS.IS_DIRECT_FLIGHT, Boolean));
