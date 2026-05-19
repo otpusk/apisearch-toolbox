@@ -34,7 +34,7 @@ const resolveChildAge = (age) =>
     isChildBirthdate(age) ? birthdateToAge(age) : age;
 
 export const compileChildrenToPeopleField = (children) =>
-    children.map(resolveChildAge).map((age) => String(age).padStart(CHILD_AGE_FIELD_LENGTH, '0')).join('');
+    children.map(resolveChildAge).map((age) => String(Math.max(age, 1)).padStart(CHILD_AGE_FIELD_LENGTH, '0')).join('');
 
 /**
  * Query params names
@@ -399,10 +399,12 @@ function parseQueryParam (currentValue, paramName, rawValue) {
         [QUERY_PARAMS.CHILDREN]: (value) => {
             const parseToList = createImmutableArrayParser(List);
             const isPureNumber = (item) => (/^\d+$/).test(item);
+            const isValidBirthdate = (item) =>
+                moment(item, CHILD_BIRTHDATE_FORMAT, true).isValid();
 
-            return parseToList(value).map((item) => {
-                return isPureNumber(item) ? Number(item) : item;
-            });
+            return parseToList(value)
+                .filter((item) => isPureNumber(item) || isValidBirthdate(item))
+                .map((item) => isPureNumber(item) ? Number(item) : item);
         },
         [QUERY_PARAMS.COUNTRY]:             String,
         [QUERY_PARAMS.CITIES]:              createImmutableNumbersArrayParser(Set),
