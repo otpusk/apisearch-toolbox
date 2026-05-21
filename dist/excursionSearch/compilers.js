@@ -25,7 +25,7 @@ Object.defineProperty(exports, "toStringCompiler", {
 var _fn = require("./fn");
 var _moment = _interopRequireDefault(require("moment"));
 var _compilers = require("../queries/compilers");
-function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 // Instruments
 
 /**
