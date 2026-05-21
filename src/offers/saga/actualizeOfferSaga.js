@@ -1,12 +1,24 @@
 import { call, put, select } from 'redux-saga/effects';
 import * as R from 'ramda';
+import moment from 'moment';
 import { getToursActual } from '@otpusk/json-api';
 
 import { getLang, getToken } from '../../auth/selectors';
 
+import { compileChildrenToPeopleField } from '../../queries/fn';
+
 import { offersActions } from '../actions';
 import { ACTUALIZED_OFFER_STATUS } from '../constants';
 import { isOfferKey, extractDataFromOfferKey } from '../helpers';
+
+const CHILD_BIRTHDATE_INPUT_FORMAT = 'DD.MM.YYYY';
+const CHILD_BIRTHDATE_OUTPUT_FORMAT = 'YYYY-MM-DD';
+
+const areAllChildrenBirthDates = (children) =>
+    children.length > 0 && children.every((value) => typeof value === 'string');
+
+const mapChildrenToBirthDates = (children) =>
+    children.map((value) => moment(value, CHILD_BIRTHDATE_INPUT_FORMAT).format(CHILD_BIRTHDATE_OUTPUT_FORMAT));
 
 const getTextStatusByCode = (code) => R.call(
     R.cond([
@@ -25,22 +37,16 @@ const getTextStatusByCode = (code) => R.call(
 
 const generatePeopleString = (adults, children) => R.call(
     R.pipe(
-        R.flatten,
         R.filter(Boolean),
         R.join('')
     ),
     [
         adults,
-        children
-            ? R.map(
-                (age) => age.toString().length === 2 ? age : `0${age}`,
-                children
-            )
-            : []
+        compileChildrenToPeopleField(children)
     ]
 );
 
-export function* actualizeOfferSaga ({ payload: { adults, children, offerID, currency, withShortCode }}) {
+export function* actualizeOfferSaga ({ payload: { adults, children = [], offerID, currency, withShortCode }}) {
     const token = yield select(getToken);
     const lang = yield select(getLang);
 
@@ -55,7 +61,8 @@ export function* actualizeOfferSaga ({ payload: { adults, children, offerID, cur
                 : offerID,
             generatePeopleString(adults, children),
             currency,
-            withShortCode
+            withShortCode,
+            areAllChildrenBirthDates(children) ? mapChildrenToBirthDates(children) : undefined
         );
 
         yield put(offersActions.setActualizedStatus(offerID, getTextStatusByCode(code)));
