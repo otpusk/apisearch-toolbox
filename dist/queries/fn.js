@@ -4,7 +4,7 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.QUERY_PARAMS = exports.GLUE = void 0;
+exports.compileChildrenToPeopleField = exports.QUERY_PARAMS = exports.GLUE = void 0;
 exports.compileQuery = compileQuery;
 exports.compileQueryToHash = compileQueryToHash;
 exports.compileSearchQuery = compileSearchQuery;
@@ -32,6 +32,23 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
 function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
 function _arrayWithHoles(r) { if (Array.isArray(r)) return r; } // Core
 // Instruments
+var CHILD_BIRTHDATE_FORMAT = 'DD.MM.YYYY';
+var CHILD_AGE_FIELD_LENGTH = 2;
+var isChildBirthdate = function isChildBirthdate(birthday) {
+  return typeof birthday === 'string';
+};
+var birthdateToAge = function birthdateToAge(birthdate) {
+  return (0, _moment["default"])().diff((0, _moment["default"])(birthdate, CHILD_BIRTHDATE_FORMAT), 'years');
+};
+var resolveChildAge = function resolveChildAge(age) {
+  return isChildBirthdate(age) ? birthdateToAge(age) : age;
+};
+var compileChildrenToPeopleField = exports.compileChildrenToPeopleField = function compileChildrenToPeopleField(children) {
+  return children.map(resolveChildAge).map(function (age) {
+    return String(Math.max(age, 1)).padStart(CHILD_AGE_FIELD_LENGTH, '0');
+  }).join('');
+};
+
 /**
  * Query params names
  */
@@ -237,11 +254,7 @@ function convertToOtpQuery(query) {
     };
   }), QUERY_PARAMS.CHILDREN, function (value) {
     return {
-      'people': value.map(function (age) {
-        return typeof age === 'string' ? age.replace(/\D.+/, '') : age;
-      }).map(String).map(function (age) {
-        return age.length === 1 ? "0".concat(age) : age;
-      }).join('')
+      'people': compileChildrenToPeopleField(value)
     };
   }), QUERY_PARAMS.FOOD, function (value) {
     return {
@@ -362,7 +375,20 @@ function parseQueryParam(currentValue, paramName, rawValue) {
         prevValue: prevList.first()
       });
     });
-  }), QUERY_PARAMS.FOOD, _parsers.binaryParser), QUERY_PARAMS.DATES, _parsers.datesParser), QUERY_PARAMS.DURATION, _parsers.rangeParser), QUERY_PARAMS.ADULTS, Number), QUERY_PARAMS.CHILDREN, (0, _parsers.createImmutableNumbersArrayParser)(_immutable.List)), QUERY_PARAMS.COUNTRY, String), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_paramsToParsers, QUERY_PARAMS.CITIES, (0, _parsers.createImmutableNumbersArrayParser)(_immutable.Set)), QUERY_PARAMS.HOTELS, (0, _parsers.createImmutableArrayParser)(_immutable.Set)), QUERY_PARAMS.PRICE, _parsers.rangeParser), QUERY_PARAMS.SERVICES, (0, _parsers.createImmutableArrayParser)(_immutable.Set)), QUERY_PARAMS.RATING, _parsers.rangeParser), QUERY_PARAMS.CURRENCY, String), QUERY_PARAMS.WITHOUT_SPO, _parsers.parseStringIntengerToBoolean), QUERY_PARAMS.FLIGHT_AVAILABILITY, (0, _parsers.createImmutableArrayParser)(_immutable.Set)), QUERY_PARAMS.HOTEL_AVAILABILITY, (0, _parsers.createImmutableArrayParser)(_immutable.Set)), QUERY_PARAMS.PAGE, Number), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_paramsToParsers, QUERY_PARAMS.OPERATORS, (0, _parsers.createImmutableNumbersArrayParser)(_immutable.Set)), QUERY_PARAMS.IGNORE_SERVICES, (0, _parsers.createImmutableArrayParser)(_immutable.Set)), QUERY_PARAMS.GROUP, Number), QUERY_PARAMS.DISTRICTS, (0, _parsers.createImmutableNumbersArrayParser)(_immutable.Set)), QUERY_PARAMS.PROVINCES, (0, _parsers.createImmutableNumbersArrayParser)(_immutable.Set)), QUERY_PARAMS.AVERAGE_RATING, _parsers.rangeParser), QUERY_PARAMS.IS_DIRECT_FLIGHT, Boolean));
+  }), QUERY_PARAMS.FOOD, _parsers.binaryParser), QUERY_PARAMS.DATES, _parsers.datesParser), QUERY_PARAMS.DURATION, _parsers.rangeParser), QUERY_PARAMS.ADULTS, Number), QUERY_PARAMS.CHILDREN, function (value) {
+    var parseToList = (0, _parsers.createImmutableArrayParser)(_immutable.List);
+    var isPureNumber = function isPureNumber(item) {
+      return /^\d+$/.test(item);
+    };
+    var isValidBirthdate = function isValidBirthdate(item) {
+      return (0, _moment["default"])(item, CHILD_BIRTHDATE_FORMAT, true).isValid();
+    };
+    return parseToList(value).filter(function (item) {
+      return isPureNumber(item) || isValidBirthdate(item);
+    }).map(function (item) {
+      return isPureNumber(item) ? Number(item) : item;
+    });
+  }), QUERY_PARAMS.COUNTRY, String), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_paramsToParsers, QUERY_PARAMS.CITIES, (0, _parsers.createImmutableNumbersArrayParser)(_immutable.Set)), QUERY_PARAMS.HOTELS, (0, _parsers.createImmutableArrayParser)(_immutable.Set)), QUERY_PARAMS.PRICE, _parsers.rangeParser), QUERY_PARAMS.SERVICES, (0, _parsers.createImmutableArrayParser)(_immutable.Set)), QUERY_PARAMS.RATING, _parsers.rangeParser), QUERY_PARAMS.CURRENCY, String), QUERY_PARAMS.WITHOUT_SPO, _parsers.parseStringIntengerToBoolean), QUERY_PARAMS.FLIGHT_AVAILABILITY, (0, _parsers.createImmutableArrayParser)(_immutable.Set)), QUERY_PARAMS.HOTEL_AVAILABILITY, (0, _parsers.createImmutableArrayParser)(_immutable.Set)), QUERY_PARAMS.PAGE, Number), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_paramsToParsers, QUERY_PARAMS.OPERATORS, (0, _parsers.createImmutableNumbersArrayParser)(_immutable.Set)), QUERY_PARAMS.IGNORE_SERVICES, (0, _parsers.createImmutableArrayParser)(_immutable.Set)), QUERY_PARAMS.GROUP, Number), QUERY_PARAMS.DISTRICTS, (0, _parsers.createImmutableNumbersArrayParser)(_immutable.Set)), QUERY_PARAMS.PROVINCES, (0, _parsers.createImmutableNumbersArrayParser)(_immutable.Set)), QUERY_PARAMS.AVERAGE_RATING, _parsers.rangeParser), QUERY_PARAMS.IS_DIRECT_FLIGHT, Boolean));
   if (rawValue) {
     if (rawValue === GLUE.empty) {
       return DEFAULTS[paramName];
