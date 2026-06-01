@@ -6,16 +6,24 @@ Object.defineProperty(exports, "__esModule", {
 exports.geoReducer = void 0;
 var _immutable = require("immutable");
 var _reduxActions = require("redux-actions");
+var _ramda = require("ramda");
 var _actions = require("./actions");
 var _handleActions;
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); } // Core
 // Instruments
 var initalState = (0, _immutable.Map)({
   countries: (0, _immutable.List)(),
-  suggestions: (0, _immutable.Map)(),
+  suggestions: {},
+  suggestEntities: {
+    country: {},
+    city: {},
+    hotel: {}
+  },
   departures: (0, _immutable.Map)(),
   cities: (0, _immutable.Map)(),
   hotels: (0, _immutable.Map)(),
@@ -28,7 +36,24 @@ var geoReducer = exports.geoReducer = (0, _reduxActions.handleActions)((_handleA
   var _ref$payload = _ref.payload,
     key = _ref$payload.key,
     suggestions = _ref$payload.suggestions;
-  return state.setIn(['suggestions', key], (0, _immutable.Map)(suggestions));
+  var _suggestions$country = suggestions.country,
+    country = _suggestions$country === void 0 ? [] : _suggestions$country,
+    _suggestions$city = suggestions.city,
+    city = _suggestions$city === void 0 ? [] : _suggestions$city,
+    _suggestions$hotel = suggestions.hotel,
+    hotel = _suggestions$hotel === void 0 ? [] : _suggestions$hotel;
+  var toById = (0, _ramda.indexBy)((0, _ramda.prop)('id'));
+  return state.setIn(['suggestions', key], {
+    country: (0, _ramda.pluck)('id', country),
+    city: (0, _ramda.pluck)('id', city),
+    hotel: (0, _ramda.pluck)('id', hotel)
+  }).updateIn(['suggestEntities', 'country'], function (existing) {
+    return _objectSpread(_objectSpread({}, existing), toById(country));
+  }).updateIn(['suggestEntities', 'city'], function (existing) {
+    return _objectSpread(_objectSpread({}, existing), toById(city));
+  }).updateIn(['suggestEntities', 'hotel'], function (existing) {
+    return _objectSpread(_objectSpread({}, existing), toById(hotel));
+  });
 }), _actions.geoActions.getCountriesSuccess, function (state, _ref2) {
   var countries = _ref2.payload;
   return state.set('countries', (0, _immutable.List)(countries)).setIn(['statuses', 'countries'], 'loaded');

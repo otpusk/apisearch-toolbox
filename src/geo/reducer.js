@@ -1,13 +1,19 @@
 // Core
 import { Map, List } from 'immutable';
 import { handleActions } from 'redux-actions';
+import { pluck, indexBy, prop } from 'ramda';
 
 // Instruments
 import { geoActions } from './actions';
 
 const initalState = Map({
-    countries:   List(),
-    suggestions: Map(),
+    countries:       List(),
+    suggestions:     {},
+    suggestEntities: {
+        country: {},
+        city:    {},
+        hotel:   {},
+    },
     departures:  Map(),
     cities:      Map(),
     hotels:      Map(),
@@ -20,7 +26,18 @@ const initalState = Map({
 export const geoReducer = handleActions(
     {
         [geoActions.getSuggestsSuccess]: (state, { payload: { key, suggestions }}) => {
-            return state.setIn(['suggestions', key], Map(suggestions));
+            const { country = [], city = [], hotel = []} = suggestions;
+            const toById = indexBy(prop('id'));
+
+            return state
+                .setIn(['suggestions', key], {
+                    country: pluck('id', country),
+                    city:    pluck('id', city),
+                    hotel:   pluck('id', hotel),
+                })
+                .updateIn(['suggestEntities', 'country'], (existing) => ({ ...existing, ...toById(country) }))
+                .updateIn(['suggestEntities', 'city'], (existing) => ({ ...existing, ...toById(city) }))
+                .updateIn(['suggestEntities', 'hotel'], (existing) => ({ ...existing, ...toById(hotel) }));
         },
         [geoActions.getCountriesSuccess]: (state, { payload: countries }) => {
             return state.set('countries', List(countries)).setIn(['statuses', 'countries'], 'loaded');

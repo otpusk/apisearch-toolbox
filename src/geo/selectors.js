@@ -179,3 +179,32 @@ export const getHotelByKey = () => createSelector(
 const getGeoTree = (state) => domain(state).get('geoTree');
 
 export const getGeoTreeByCountryId = (state, { countryID }) => getGeoTree(state)[countryID] || EMPTY_ARRAY;
+
+const getSuggestEntities = createSelector(
+    domain,
+    (geo) => geo.get('suggestEntities')
+);
+
+const getSuggestionIndex = (state, { key }) => domain(state).getIn(['suggestions', key]);
+
+export const getSuggests = () => createSelector(
+    getSuggestEntities,
+    getSuggestionIndex,
+    (entities, index) => {
+        if (!index) {
+            return index;
+        }
+
+        const hydrate = (type) => (index[type] || EMPTY_ARRAY)
+            .map((id) => entities[type][id])
+            .filter(Boolean);
+
+        return {
+            country: hydrate('country'),
+            city:    hydrate('city'),
+            hotel:   hydrate('hotel'),
+        };
+    }
+);
+
+export const getSuggestEntity = (state, { type, id }) => getSuggestEntities(state)[type]?.[id];
