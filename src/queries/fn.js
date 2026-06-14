@@ -73,28 +73,40 @@ const QUERY_PARAMS = {
     SELECTED_OFFER_DATE: 'offerDate',
 };
 
-const getShortQueryParams = (isParam = false) => {
-    let uniqKeys = new Set();
-    const result = {};
-
-    for (const [key, val] of Object.entries(QUERY_PARAMS)) {
-        let count = 1;
-
-        while (count < val.length) {
-            if (!uniqKeys.has(val.slice(0, count))) {
-                break;
-            }
-            count+=1;
-        }
-
-        uniqKeys = uniqKeys.add(val.slice(0, count));
-        result[isParam ? key : val] = val.slice(0, count);
-    }
-
-    return result;
+const SHORT_QUERY_NAMES = {
+    [QUERY_PARAMS.AUTOSTART]:           'a',
+    [QUERY_PARAMS.DEPARTURES]:          'd',
+    [QUERY_PARAMS.COUNTRY]:             'c',
+    [QUERY_PARAMS.CITIES]:              'ci',
+    [QUERY_PARAMS.HOTELS]:              'h',
+    [QUERY_PARAMS.CATEGORY]:            'ca',
+    [QUERY_PARAMS.DATES]:               'da',
+    [QUERY_PARAMS.DURATION]:            'du',
+    [QUERY_PARAMS.ADULTS]:              'ad',
+    [QUERY_PARAMS.CHILDREN]:            'ch',
+    [QUERY_PARAMS.FOOD]:                'f',
+    [QUERY_PARAMS.TRANSPORTS]:          't',
+    [QUERY_PARAMS.PRICE]:               'p',
+    [QUERY_PARAMS.PAGE]:                'pa',
+    [QUERY_PARAMS.SERVICES]:            's',
+    [QUERY_PARAMS.SHORT]:               'sh',
+    [QUERY_PARAMS.RATING]:              'r',
+    [QUERY_PARAMS.CURRENCY]:            'cu',
+    [QUERY_PARAMS.OPERATORS]:           'o',
+    [QUERY_PARAMS.SELECTED_OPERATORS]:  'se',
+    [QUERY_PARAMS.FLIGHT_AVAILABILITY]: 'fl',
+    [QUERY_PARAMS.HOTEL_AVAILABILITY]:  'ho',
+    [QUERY_PARAMS.WITHOUT_SPO]:         'w',
+    [QUERY_PARAMS.LANGUAGE]:            'l',
+    [QUERY_PARAMS.NO_AGENCY_STATS]:     'n',
+    [QUERY_PARAMS.IGNORE_SERVICES]:     'i',
+    [QUERY_PARAMS.GROUP]:               'g',
+    [QUERY_PARAMS.DISTRICTS]:           'di',
+    [QUERY_PARAMS.PROVINCES]:           'pr',
+    [QUERY_PARAMS.AVERAGE_RATING]:      'av',
+    [QUERY_PARAMS.IS_DIRECT_FLIGHT]:    'is',
+    [QUERY_PARAMS.SELECTED_OFFER_DATE]: 'of',
 };
-
-const SHORT_QUERY_NAMES = getShortQueryParams();
 
 /**
  * Query defaults
@@ -572,6 +584,7 @@ function parseHashToQuery (queryString) {
 }
 
 export {
+    SHORT_QUERY_NAMES,
     QUERY_PARAMS,
     GLUE,
     createQuery,
