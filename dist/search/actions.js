@@ -24,6 +24,9 @@ var searchActions = exports.searchActions = (0, _reduxActions.createActions)({
   START_SEARCH: function START_SEARCH(queryId) {
     return queryId;
   },
+  WARMUP_SEARCH: function WARMUP_SEARCH(queryId) {
+    return queryId;
+  },
   PROCESS_SEARCH: function PROCESS_SEARCH(queryId, payload) {
     return _objectSpread({
       queryId: queryId

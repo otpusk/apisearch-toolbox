@@ -27,7 +27,14 @@ Object.defineProperty(exports, "silentSearchWorker", {
     return _silentSearchWorker.silentSearchWorker;
   }
 });
+Object.defineProperty(exports, "warmupSearchWorker", {
+  enumerable: true,
+  get: function get() {
+    return _warmupSearchWorker.warmupSearchWorker;
+  }
+});
 var _getPriceChartWorker = require("./getPriceChartWorker");
 var _getAvailableDatesWorker = require("./getAvailableDatesWorker");
 var _getResultsWorker = require("./getResultsWorker");
 var _silentSearchWorker = require("./silentSearchWorker");
+var _warmupSearchWorker = require("./warmupSearchWorker");
