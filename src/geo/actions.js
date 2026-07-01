@@ -23,13 +23,15 @@ export const geoActions = createActions({
         withPrice = true,
         services,
         rating,
-        methodVersion
+        methodVersion,
+        withServices = true
     ) => ({
         countryId,
         withPrice,
         services,
         rating,
         methodVersion,
+        withServices,
     }),
     GET_HOTELS_SUCCESS: (countryId, key, hotels) => ({ countryId, key, hotels }),
     GET_HOTELS_FAIL:    (error) => error,

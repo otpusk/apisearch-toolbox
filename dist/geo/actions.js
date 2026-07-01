@@ -68,12 +68,14 @@ var geoActions = exports.geoActions = (0, _reduxActions.createActions)({
     var services = arguments.length > 2 ? arguments[2] : undefined;
     var rating = arguments.length > 3 ? arguments[3] : undefined;
     var methodVersion = arguments.length > 4 ? arguments[4] : undefined;
+    var withServices = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : true;
     return {
       countryId: countryId,
       withPrice: withPrice,
       services: services,
       rating: rating,
-      methodVersion: methodVersion
+      methodVersion: methodVersion,
+      withServices: withServices
     };
   },
   GET_HOTELS_SUCCESS: function GET_HOTELS_SUCCESS(countryId, key, hotels) {

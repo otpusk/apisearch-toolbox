@@ -13,11 +13,11 @@ function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyri
 function getHotelsWorker(_ref) {
   var payload = _ref.payload;
   return /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-    var countryId, withPrice, services, rating, methodVersion, token, lang, hotels, storeKey;
+    var countryId, withPrice, services, rating, methodVersion, withServices, token, lang, hotels, storeKey;
     return _regeneratorRuntime().wrap(function _callee$(_context) {
       while (1) switch (_context.prev = _context.next) {
         case 0:
-          countryId = payload.countryId, withPrice = payload.withPrice, services = payload.services, rating = payload.rating, methodVersion = payload.methodVersion;
+          countryId = payload.countryId, withPrice = payload.withPrice, services = payload.services, rating = payload.rating, methodVersion = payload.methodVersion, withServices = payload.withServices;
           _context.prev = 1;
           _context.next = 4;
           return (0, _effects.select)(function (state) {
@@ -36,7 +36,8 @@ function getHotelsWorker(_ref) {
             lang: lang,
             withPrice: withPrice,
             services: services,
-            rating: rating
+            rating: rating,
+            withServices: withServices
           }, methodVersion);
         case 10:
           hotels = _context.sent;
