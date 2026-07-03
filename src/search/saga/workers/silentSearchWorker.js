@@ -37,6 +37,8 @@ export function* silentSearchWorker ({ payload : queryID }) {
         prices,
         offersHub,
         query.get(QUERY_PARAMS.CURRENCY),
+        query.get(QUERY_PARAMS.SORT),
+        hotelsHub,
         selectedOperators
     );
 

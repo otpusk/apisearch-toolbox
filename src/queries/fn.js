@@ -19,7 +19,7 @@ import {
     createImmutableNumbersArrayParser,
     parseStringIntengerToBoolean
 } from './parsers';
-import { EMPTY_DEPARTURE_VALUE, RANGE_DATE_FIELD } from './constants';
+import { EMPTY_DEPARTURE_VALUE, RANGE_DATE_FIELD, DEFAULT_SORT_BY } from './constants';
 
 const CHILD_BIRTHDATE_FORMAT = 'DD.MM.YYYY';
 const CHILD_AGE_FIELD_LENGTH = 2;
@@ -71,6 +71,7 @@ const QUERY_PARAMS = {
     AVERAGE_RATING:      'averageRating',
     IS_DIRECT_FLIGHT:    'isDirectFlight',
     SELECTED_OFFER_DATE: 'offerDate',
+    SORT:                'sort',
 };
 
 const SHORT_QUERY_NAMES = {
@@ -106,6 +107,7 @@ const SHORT_QUERY_NAMES = {
     [QUERY_PARAMS.AVERAGE_RATING]:      'av',
     [QUERY_PARAMS.IS_DIRECT_FLIGHT]:    'is',
     [QUERY_PARAMS.SELECTED_OFFER_DATE]: 'of',
+    [QUERY_PARAMS.SORT]:                'so',
 };
 
 /**
@@ -172,6 +174,7 @@ const DEFAULTS = {
     [QUERY_PARAMS.AVERAGE_RATING]:      Map(),
     [QUERY_PARAMS.IS_DIRECT_FLIGHT]:    false,
     [QUERY_PARAMS.SELECTED_OFFER_DATE]: null,
+    [QUERY_PARAMS.SORT]:                DEFAULT_SORT_BY,
 };
 
 /**
@@ -251,6 +254,7 @@ function compileQuery (query) {
         [QUERY_PARAMS.PROVINCES]:           immutableArrayCompiler,
         [QUERY_PARAMS.AVERAGE_RATING]:      rangeCompiler,
         [QUERY_PARAMS.IS_DIRECT_FLIGHT]:    numberCompiler,
+        [QUERY_PARAMS.SORT]:                toStringCompiler,
     };
 
     return GLUE.field + query
@@ -296,6 +300,7 @@ function compileSearchQuery (query) {
         [QUERY_PARAMS.PROVINCES]:           immutableArrayCompiler,
         [QUERY_PARAMS.AVERAGE_RATING]:      rangeCompiler,
         [QUERY_PARAMS.IS_DIRECT_FLIGHT]:    numberCompiler,
+        [QUERY_PARAMS.SORT]:                toStringCompiler,
     };
 
     const startDelimeter = GLUE.question;
@@ -370,6 +375,7 @@ function convertToOtpQuery (query) {
         [QUERY_PARAMS.AVERAGE_RATING]:      (value) => ({ 'rating': value.isEmpty() ? null : `${value.get('from')}-${value.get('to')}` }),
         [QUERY_PARAMS.IS_DIRECT_FLIGHT]:    (value) => value ? { directFlight: true } : null,
         [QUERY_PARAMS.SELECTED_OFFER_DATE]: (value) => value ? { offerDate: value } : null,
+        [QUERY_PARAMS.SORT]:                (value) => ({ 'sort': value }),
     };
 
     return query
@@ -435,6 +441,7 @@ function parseQueryParam (currentValue, paramName, rawValue) {
         [QUERY_PARAMS.PROVINCES]:           createImmutableNumbersArrayParser(Set),
         [QUERY_PARAMS.AVERAGE_RATING]:      rangeParser,
         [QUERY_PARAMS.IS_DIRECT_FLIGHT]:    Boolean,
+        [QUERY_PARAMS.SORT]:                String,
     };
 
     if (rawValue) {
@@ -508,6 +515,7 @@ function compileQueryToHash (query) {
         [QUERY_PARAMS.PROVINCES]:           immutableArrayCompiler,
         [QUERY_PARAMS.AVERAGE_RATING]:      rangeCompiler,
         [QUERY_PARAMS.IS_DIRECT_FLIGHT]:    numberCompiler,
+        [QUERY_PARAMS.SORT]:                toStringCompiler,
     };
 
     return GLUE.field + query.map((value, field) =>
@@ -558,6 +566,7 @@ function parseHashToQuery (queryString) {
             [QUERY_PARAMS.PROVINCES]:           createImmutableNumbersArrayParser(Set),
             [QUERY_PARAMS.AVERAGE_RATING]:      rangeParser,
             [QUERY_PARAMS.IS_DIRECT_FLIGHT]:    Boolean,
+            [QUERY_PARAMS.SORT]:                String,
         };
 
         if (rawValue) {

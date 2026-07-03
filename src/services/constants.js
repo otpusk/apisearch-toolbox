@@ -1,6 +1,19 @@
 export const EMPTY_COUNTRY_ID = 0;
 
 export const STATIC_LABELS_BY_LANG = {
+    'ru': {
+        'beach_line': 'Линия пляжа',
+        'location':   'Расположение',
+        'beach':      'Пляж',
+        'main':       'Главное',
+        'beach_type': 'Тип пляжа',
+        'child':      'Для детей',
+        'hotel':      'Услуги в отеле',
+        'room':       'Удобства в номерах',
+        'sport':      'Развлечения и спорт',
+        'recommend':  'Отели с рекомендацией',
+        'chains':     'Сеть отелей',
+    },
     'rus': {
         'beach_line': 'Линия пляжа',
         'location':   'Расположение',
@@ -12,6 +25,20 @@ export const STATIC_LABELS_BY_LANG = {
         'room':       'Удобства в номерах',
         'sport':      'Развлечения и спорт',
         'recommend':  'Отели с рекомендацией',
+        'chains':     'Сеть отелей',
+    },
+    'uk': {
+        'beach_line': 'Лінія пляжу',
+        'location':   'Розташування',
+        'beach':      'Пляж',
+        'main':       'Головне',
+        'beach_type': 'Тип пляжу',
+        'child':      'Для дітей',
+        'hotel':      'Послуги в готелі',
+        'room':       'Зручності у номерах',
+        'sport':      'Розваги та спорт',
+        'recommend':  'Готелі з рекомендацією',
+        'chains':     'Мережа готелів',
     },
     'ukr': {
         'beach_line': 'Лінія пляжу',
@@ -24,6 +51,7 @@ export const STATIC_LABELS_BY_LANG = {
         'room':       'Зручності у номерах',
         'sport':      'Розваги та спорт',
         'recommend':  'Готелі з рекомендацією',
+        'chains':     'Мережа готелів',
     },
     'en': {
         'beach_line': 'Beach line',
@@ -48,6 +76,7 @@ export const STATIC_LABELS_BY_LANG = {
         'room':       'Udogodnienia w pokoju',
         'sport':      'Rozrywka i sport',
         'recommend':  'Hotele z rekomendacją',
+        "chains":     "Sieć hotelowa",
     },
     'ro': {
         'beach_line': 'Linia plajei',
