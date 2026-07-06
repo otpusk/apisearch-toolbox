@@ -1,7 +1,7 @@
 import { createActions } from 'redux-actions';
 
 export const hotelsActions = createActions({
-    GET_HOTEL:         (hotelId) => hotelId,
+    GET_HOTEL:         (hotelId, customLang = null) => ({ hotelId, customLang }),
     GET_HOTEL_SUCCESS: (hotel) => hotel,
     GET_HOTEL_FAIL:    (error) => error,
 
