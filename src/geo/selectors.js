@@ -33,12 +33,11 @@ export const getDepartureByDefaultGeo = () => createSelector(
 );
 
 export const getDepartureById = () => createSelector(
-    getDeparturesByImmutableStructure,
-    departureGeoID,
+    getDepartures(),
     getDepartureID,
-    (map, geoID, id) => R.find(
+    (departures, id) => R.find(
         (departure) => departure.id === id,
-        R.propOr(EMPTY_ARRAY, geoID, map.toJS())
+        departures
     )
 );
 
