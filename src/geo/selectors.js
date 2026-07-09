@@ -32,6 +32,15 @@ export const getDepartureByDefaultGeo = () => createSelector(
     )
 );
 
+export const getDepartureById = () => createSelector(
+    getDepartures(),
+    getDepartureID,
+    (list, id) => R.find(
+        R.pipe(R.prop('id'), R.equals(id)),
+        list
+    )
+);
+
 export const getDepartureByIATA = () => createSelector(
     getDepartures(),
     getIATA,
