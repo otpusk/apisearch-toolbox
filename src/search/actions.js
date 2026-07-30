@@ -6,6 +6,7 @@ export const searchActions = createActions({
     GET_RESULTS:    (queryId) => queryId,
     RESET_SEARCH:   (queryId) => queryId,
     START_SEARCH:   (queryId) => queryId,
+    WARMUP_SEARCH:  (queryId) => queryId,
     PROCESS_SEARCH: (queryId, payload) => ({ queryId, ...payload }),
     FINISH_SEARCH:  (queryId, payload) => ({ queryId, ...payload }),
     PATCH_SEARCH:   (queryId, key, patch) => ({

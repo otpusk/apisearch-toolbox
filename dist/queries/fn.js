@@ -1,10 +1,9 @@
 "use strict";
 
-function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.compileChildrenToPeopleField = exports.QUERY_PARAMS = exports.GLUE = void 0;
+exports.compileChildrenToPeopleField = exports.SHORT_QUERY_NAMES = exports.QUERY_PARAMS = exports.GLUE = void 0;
 exports.compileQuery = compileQuery;
 exports.compileQueryToHash = compileQueryToHash;
 exports.compileSearchQuery = compileSearchQuery;
@@ -18,21 +17,21 @@ var _moment = _interopRequireDefault(require("moment"));
 var _compilers = require("./compilers");
 var _parsers = require("./parsers");
 var _constants = require("./constants");
-var _DEFAULTS;
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
-function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+var _SHORT_QUERY_NAMES, _DEFAULTS;
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
 function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; } // Core
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); } // Core
 // Instruments
-console.log('init query fn');
 var CHILD_BIRTHDATE_FORMAT = 'DD.MM.YYYY';
 var CHILD_AGE_FIELD_LENGTH = 2;
 var isChildBirthdate = function isChildBirthdate(birthday) {
@@ -85,29 +84,10 @@ var QUERY_PARAMS = exports.QUERY_PARAMS = {
   PROVINCES: 'provinces',
   AVERAGE_RATING: 'averageRating',
   IS_DIRECT_FLIGHT: 'isDirectFlight',
-  SELECTED_OFFER_DATE: 'offerDate'
+  SELECTED_OFFER_DATE: 'offerDate',
+  SORT: 'sort'
 };
-var getShortQueryParams = function getShortQueryParams() {
-  var isParam = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-  var uniqKeys = new _immutable.Set();
-  var result = {};
-  for (var _i = 0, _Object$entries = Object.entries(QUERY_PARAMS); _i < _Object$entries.length; _i++) {
-    var _Object$entries$_i = _slicedToArray(_Object$entries[_i], 2),
-      key = _Object$entries$_i[0],
-      val = _Object$entries$_i[1];
-    var count = 1;
-    while (count < val.length) {
-      if (!uniqKeys.has(val.slice(0, count))) {
-        break;
-      }
-      count += 1;
-    }
-    uniqKeys = uniqKeys.add(val.slice(0, count));
-    result[isParam ? key : val] = val.slice(0, count);
-  }
-  return result;
-};
-var SHORT_QUERY_NAMES = getShortQueryParams();
+var SHORT_QUERY_NAMES = exports.SHORT_QUERY_NAMES = (_SHORT_QUERY_NAMES = {}, _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_SHORT_QUERY_NAMES, QUERY_PARAMS.AUTOSTART, 'a'), QUERY_PARAMS.DEPARTURES, 'd'), QUERY_PARAMS.COUNTRY, 'c'), QUERY_PARAMS.CITIES, 'ci'), QUERY_PARAMS.HOTELS, 'h'), QUERY_PARAMS.CATEGORY, 'ca'), QUERY_PARAMS.DATES, 'da'), QUERY_PARAMS.DURATION, 'du'), QUERY_PARAMS.ADULTS, 'ad'), QUERY_PARAMS.CHILDREN, 'ch'), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_SHORT_QUERY_NAMES, QUERY_PARAMS.FOOD, 'f'), QUERY_PARAMS.TRANSPORTS, 't'), QUERY_PARAMS.PRICE, 'p'), QUERY_PARAMS.PAGE, 'pa'), QUERY_PARAMS.SERVICES, 's'), QUERY_PARAMS.SHORT, 'sh'), QUERY_PARAMS.RATING, 'r'), QUERY_PARAMS.CURRENCY, 'cu'), QUERY_PARAMS.OPERATORS, 'o'), QUERY_PARAMS.SELECTED_OPERATORS, 'se'), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_SHORT_QUERY_NAMES, QUERY_PARAMS.FLIGHT_AVAILABILITY, 'fl'), QUERY_PARAMS.HOTEL_AVAILABILITY, 'ho'), QUERY_PARAMS.WITHOUT_SPO, 'w'), QUERY_PARAMS.LANGUAGE, 'l'), QUERY_PARAMS.NO_AGENCY_STATS, 'n'), QUERY_PARAMS.IGNORE_SERVICES, 'i'), QUERY_PARAMS.GROUP, 'g'), QUERY_PARAMS.DISTRICTS, 'di'), QUERY_PARAMS.PROVINCES, 'pr'), QUERY_PARAMS.AVERAGE_RATING, 'av'), _defineProperty(_defineProperty(_defineProperty(_SHORT_QUERY_NAMES, QUERY_PARAMS.IS_DIRECT_FLIGHT, 'is'), QUERY_PARAMS.SELECTED_OFFER_DATE, 'of'), QUERY_PARAMS.SORT, 'so'));
 
 /**
  * Query defaults
@@ -138,7 +118,7 @@ var DEFAULTS = (_DEFAULTS = {}, _defineProperty(_defineProperty(_defineProperty(
   'train': true,
   'ship': true,
   'no': false
-}))), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_DEFAULTS, QUERY_PARAMS.CITIES, (0, _immutable.Set)()), QUERY_PARAMS.HOTELS, (0, _immutable.Set)()), QUERY_PARAMS.PRICE, (0, _immutable.Map)()), QUERY_PARAMS.PAGE, 1), QUERY_PARAMS.SERVICES, (0, _immutable.Set)()), QUERY_PARAMS.SHORT, null), QUERY_PARAMS.RATING, (0, _immutable.Map)()), QUERY_PARAMS.CURRENCY, null), QUERY_PARAMS.OPERATORS, (0, _immutable.Set)()), QUERY_PARAMS.SELECTED_OPERATORS, (0, _immutable.Set)()), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_DEFAULTS, QUERY_PARAMS.FLIGHT_AVAILABILITY, (0, _immutable.Set)()), QUERY_PARAMS.HOTEL_AVAILABILITY, (0, _immutable.Set)()), QUERY_PARAMS.WITHOUT_SPO, false), QUERY_PARAMS.LANGUAGE, null), QUERY_PARAMS.IGNORE_SERVICES, (0, _immutable.Set)()), QUERY_PARAMS.GROUP, null), QUERY_PARAMS.DISTRICTS, (0, _immutable.Set)()), QUERY_PARAMS.PROVINCES, (0, _immutable.Set)()), QUERY_PARAMS.AVERAGE_RATING, (0, _immutable.Map)()), QUERY_PARAMS.IS_DIRECT_FLIGHT, false), _defineProperty(_DEFAULTS, QUERY_PARAMS.SELECTED_OFFER_DATE, null));
+}))), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_DEFAULTS, QUERY_PARAMS.CITIES, (0, _immutable.Set)()), QUERY_PARAMS.HOTELS, (0, _immutable.Set)()), QUERY_PARAMS.PRICE, (0, _immutable.Map)()), QUERY_PARAMS.PAGE, 1), QUERY_PARAMS.SERVICES, (0, _immutable.Set)()), QUERY_PARAMS.SHORT, null), QUERY_PARAMS.RATING, (0, _immutable.Map)()), QUERY_PARAMS.CURRENCY, null), QUERY_PARAMS.OPERATORS, (0, _immutable.Set)()), QUERY_PARAMS.SELECTED_OPERATORS, (0, _immutable.Set)()), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_DEFAULTS, QUERY_PARAMS.FLIGHT_AVAILABILITY, (0, _immutable.Set)()), QUERY_PARAMS.HOTEL_AVAILABILITY, (0, _immutable.Set)()), QUERY_PARAMS.WITHOUT_SPO, false), QUERY_PARAMS.LANGUAGE, null), QUERY_PARAMS.IGNORE_SERVICES, (0, _immutable.Set)()), QUERY_PARAMS.GROUP, null), QUERY_PARAMS.DISTRICTS, (0, _immutable.Set)()), QUERY_PARAMS.PROVINCES, (0, _immutable.Set)()), QUERY_PARAMS.AVERAGE_RATING, (0, _immutable.Map)()), QUERY_PARAMS.IS_DIRECT_FLIGHT, false), _defineProperty(_defineProperty(_DEFAULTS, QUERY_PARAMS.SELECTED_OFFER_DATE, null), QUERY_PARAMS.SORT, _constants.DEFAULT_SORT_BY));
 
 /**
  * Query string glue
@@ -190,7 +170,7 @@ function compileQuery(query) {
   var _fieldsToCompilers;
   var fieldsToCompilers = (_fieldsToCompilers = {}, _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_fieldsToCompilers, QUERY_PARAMS.AUTOSTART, _compilers.numberCompiler), QUERY_PARAMS.DEPARTURES, _compilers.immutableArrayCompiler), QUERY_PARAMS.COUNTRY, _compilers.numberCompiler), QUERY_PARAMS.CITIES, _compilers.immutableArrayCompiler), QUERY_PARAMS.HOTELS, _compilers.immutableArrayCompiler), QUERY_PARAMS.CATEGORY, _compilers.binaryCompiler), QUERY_PARAMS.DATES, _compilers.datesCompiler), QUERY_PARAMS.DURATION, _compilers.rangeCompiler), QUERY_PARAMS.ADULTS, _compilers.toStringCompiler), QUERY_PARAMS.CHILDREN, _compilers.immutableArrayCompiler), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_fieldsToCompilers, QUERY_PARAMS.FOOD, _compilers.binaryCompiler), QUERY_PARAMS.TRANSPORTS, function (transportsList) {
     return (0, _compilers.immutableArrayCompiler)(transportsList.map(_compilers.binaryCompiler));
-  }), QUERY_PARAMS.PRICE, _compilers.rangeCompiler), QUERY_PARAMS.SERVICES, _compilers.immutableArrayCompiler), QUERY_PARAMS.RATING, _compilers.rangeCompiler), QUERY_PARAMS.CURRENCY, _compilers.toStringCompiler), QUERY_PARAMS.WITHOUT_SPO, _compilers.numberCompiler), QUERY_PARAMS.FLIGHT_AVAILABILITY, _compilers.immutableArrayCompiler), QUERY_PARAMS.HOTEL_AVAILABILITY, _compilers.immutableArrayCompiler), QUERY_PARAMS.IGNORE_SERVICES, _compilers.immutableArrayCompiler), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_fieldsToCompilers, QUERY_PARAMS.OPERATORS, _compilers.immutableArrayCompiler), QUERY_PARAMS.GROUP, _compilers.numberCompiler), QUERY_PARAMS.DISTRICTS, _compilers.immutableArrayCompiler), QUERY_PARAMS.PROVINCES, _compilers.immutableArrayCompiler), QUERY_PARAMS.AVERAGE_RATING, _compilers.rangeCompiler), QUERY_PARAMS.IS_DIRECT_FLIGHT, _compilers.numberCompiler));
+  }), QUERY_PARAMS.PRICE, _compilers.rangeCompiler), QUERY_PARAMS.SERVICES, _compilers.immutableArrayCompiler), QUERY_PARAMS.RATING, _compilers.rangeCompiler), QUERY_PARAMS.CURRENCY, _compilers.toStringCompiler), QUERY_PARAMS.WITHOUT_SPO, _compilers.numberCompiler), QUERY_PARAMS.FLIGHT_AVAILABILITY, _compilers.immutableArrayCompiler), QUERY_PARAMS.HOTEL_AVAILABILITY, _compilers.immutableArrayCompiler), QUERY_PARAMS.IGNORE_SERVICES, _compilers.immutableArrayCompiler), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_fieldsToCompilers, QUERY_PARAMS.OPERATORS, _compilers.immutableArrayCompiler), QUERY_PARAMS.GROUP, _compilers.numberCompiler), QUERY_PARAMS.DISTRICTS, _compilers.immutableArrayCompiler), QUERY_PARAMS.PROVINCES, _compilers.immutableArrayCompiler), QUERY_PARAMS.AVERAGE_RATING, _compilers.rangeCompiler), QUERY_PARAMS.IS_DIRECT_FLIGHT, _compilers.numberCompiler), QUERY_PARAMS.SORT, _compilers.toStringCompiler));
   return GLUE.field + query.map(function (value, field) {
     return value && field in fieldsToCompilers ? fieldsToCompilers[field](value) : GLUE.empty;
   }).toList().join(GLUE.field).replace(new RegExp("[".concat(GLUE.field).concat(GLUE.empty, "]+$")), '');
@@ -199,7 +179,7 @@ function compileSearchQuery(query) {
   var _fieldsToCompilers2;
   var fieldsToCompilers = (_fieldsToCompilers2 = {}, _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_fieldsToCompilers2, QUERY_PARAMS.AUTOSTART, _compilers.numberCompiler), QUERY_PARAMS.DEPARTURES, _compilers.immutableArrayCompiler), QUERY_PARAMS.COUNTRY, _compilers.numberCompiler), QUERY_PARAMS.CITIES, _compilers.immutableArrayCompiler), QUERY_PARAMS.HOTELS, _compilers.immutableArrayCompiler), QUERY_PARAMS.CATEGORY, _compilers.binaryCompiler), QUERY_PARAMS.DATES, _compilers.datesCompiler), QUERY_PARAMS.DURATION, _compilers.rangeCompiler), QUERY_PARAMS.ADULTS, _compilers.toStringCompiler), QUERY_PARAMS.CHILDREN, _compilers.immutableArrayCompiler), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_fieldsToCompilers2, QUERY_PARAMS.FOOD, _compilers.binaryCompiler), QUERY_PARAMS.TRANSPORTS, function (transportsList) {
     return (0, _compilers.immutableArrayCompiler)(transportsList.map(_compilers.binaryCompiler));
-  }), QUERY_PARAMS.PRICE, _compilers.rangeCompiler), QUERY_PARAMS.SERVICES, _compilers.immutableArrayCompiler), QUERY_PARAMS.RATING, _compilers.rangeCompiler), QUERY_PARAMS.CURRENCY, _compilers.toStringCompiler), QUERY_PARAMS.WITHOUT_SPO, _compilers.numberCompiler), QUERY_PARAMS.FLIGHT_AVAILABILITY, _compilers.immutableArrayCompiler), QUERY_PARAMS.HOTEL_AVAILABILITY, _compilers.immutableArrayCompiler), QUERY_PARAMS.PAGE, _compilers.numberCompiler), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_fieldsToCompilers2, QUERY_PARAMS.OPERATORS, _compilers.immutableArrayCompiler), QUERY_PARAMS.IGNORE_SERVICES, _compilers.immutableArrayCompiler), QUERY_PARAMS.GROUP, _compilers.numberCompiler), QUERY_PARAMS.DISTRICTS, _compilers.immutableArrayCompiler), QUERY_PARAMS.PROVINCES, _compilers.immutableArrayCompiler), QUERY_PARAMS.AVERAGE_RATING, _compilers.rangeCompiler), QUERY_PARAMS.IS_DIRECT_FLIGHT, _compilers.numberCompiler));
+  }), QUERY_PARAMS.PRICE, _compilers.rangeCompiler), QUERY_PARAMS.SERVICES, _compilers.immutableArrayCompiler), QUERY_PARAMS.RATING, _compilers.rangeCompiler), QUERY_PARAMS.CURRENCY, _compilers.toStringCompiler), QUERY_PARAMS.WITHOUT_SPO, _compilers.numberCompiler), QUERY_PARAMS.FLIGHT_AVAILABILITY, _compilers.immutableArrayCompiler), QUERY_PARAMS.HOTEL_AVAILABILITY, _compilers.immutableArrayCompiler), QUERY_PARAMS.PAGE, _compilers.numberCompiler), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_fieldsToCompilers2, QUERY_PARAMS.OPERATORS, _compilers.immutableArrayCompiler), QUERY_PARAMS.IGNORE_SERVICES, _compilers.immutableArrayCompiler), QUERY_PARAMS.GROUP, _compilers.numberCompiler), QUERY_PARAMS.DISTRICTS, _compilers.immutableArrayCompiler), QUERY_PARAMS.PROVINCES, _compilers.immutableArrayCompiler), QUERY_PARAMS.AVERAGE_RATING, _compilers.rangeCompiler), QUERY_PARAMS.IS_DIRECT_FLIGHT, _compilers.numberCompiler), QUERY_PARAMS.SORT, _compilers.toStringCompiler));
   var startDelimeter = GLUE.question;
   var emptyDelimeter = GLUE.empty;
   var delimeter = GLUE.and;
@@ -315,7 +295,7 @@ function convertToOtpQuery(query) {
     return {
       'stopSale': value.toArray()
     };
-  }), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_converters, QUERY_PARAMS.WITHOUT_SPO, function (value) {
+  }), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_converters, QUERY_PARAMS.WITHOUT_SPO, function (value) {
     return {
       'noPromo': value
     };
@@ -351,16 +331,20 @@ function convertToOtpQuery(query) {
     return value ? {
       offerDate: value
     } : null;
+  }), QUERY_PARAMS.SORT, function (value) {
+    return {
+      'sort': value
+    };
   }));
   return query.filter(function (value, param) {
     return param in converters;
   }).map(function (value, param) {
     return value ? converters[param](value) : {};
   }).reduce(function (summary, values) {
-    for (var _i2 = 0, _Object$entries2 = Object.entries(values); _i2 < _Object$entries2.length; _i2++) {
-      var _Object$entries2$_i = _slicedToArray(_Object$entries2[_i2], 2),
-        param = _Object$entries2$_i[0],
-        value = _Object$entries2$_i[1];
+    for (var _i = 0, _Object$entries = Object.entries(values); _i < _Object$entries.length; _i++) {
+      var _Object$entries$_i = _slicedToArray(_Object$entries[_i], 2),
+        param = _Object$entries$_i[0],
+        value = _Object$entries$_i[1];
       value && Object.assign(summary, _defineProperty({}, param, param in summary ? summary[param] + value : value));
     }
     return summary;
@@ -389,7 +373,7 @@ function parseQueryParam(currentValue, paramName, rawValue) {
     }).map(function (item) {
       return isPureNumber(item) ? Number(item) : item;
     });
-  }), QUERY_PARAMS.COUNTRY, String), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_paramsToParsers, QUERY_PARAMS.CITIES, (0, _parsers.createImmutableNumbersArrayParser)(_immutable.Set)), QUERY_PARAMS.HOTELS, (0, _parsers.createImmutableArrayParser)(_immutable.Set)), QUERY_PARAMS.PRICE, _parsers.rangeParser), QUERY_PARAMS.SERVICES, (0, _parsers.createImmutableArrayParser)(_immutable.Set)), QUERY_PARAMS.RATING, _parsers.rangeParser), QUERY_PARAMS.CURRENCY, String), QUERY_PARAMS.WITHOUT_SPO, _parsers.parseStringIntengerToBoolean), QUERY_PARAMS.FLIGHT_AVAILABILITY, (0, _parsers.createImmutableArrayParser)(_immutable.Set)), QUERY_PARAMS.HOTEL_AVAILABILITY, (0, _parsers.createImmutableArrayParser)(_immutable.Set)), QUERY_PARAMS.PAGE, Number), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_paramsToParsers, QUERY_PARAMS.OPERATORS, (0, _parsers.createImmutableNumbersArrayParser)(_immutable.Set)), QUERY_PARAMS.IGNORE_SERVICES, (0, _parsers.createImmutableArrayParser)(_immutable.Set)), QUERY_PARAMS.GROUP, Number), QUERY_PARAMS.DISTRICTS, (0, _parsers.createImmutableNumbersArrayParser)(_immutable.Set)), QUERY_PARAMS.PROVINCES, (0, _parsers.createImmutableNumbersArrayParser)(_immutable.Set)), QUERY_PARAMS.AVERAGE_RATING, _parsers.rangeParser), QUERY_PARAMS.IS_DIRECT_FLIGHT, Boolean));
+  }), QUERY_PARAMS.COUNTRY, String), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_paramsToParsers, QUERY_PARAMS.CITIES, (0, _parsers.createImmutableNumbersArrayParser)(_immutable.Set)), QUERY_PARAMS.HOTELS, (0, _parsers.createImmutableArrayParser)(_immutable.Set)), QUERY_PARAMS.PRICE, _parsers.rangeParser), QUERY_PARAMS.SERVICES, (0, _parsers.createImmutableArrayParser)(_immutable.Set)), QUERY_PARAMS.RATING, _parsers.rangeParser), QUERY_PARAMS.CURRENCY, String), QUERY_PARAMS.WITHOUT_SPO, _parsers.parseStringIntengerToBoolean), QUERY_PARAMS.FLIGHT_AVAILABILITY, (0, _parsers.createImmutableArrayParser)(_immutable.Set)), QUERY_PARAMS.HOTEL_AVAILABILITY, (0, _parsers.createImmutableArrayParser)(_immutable.Set)), QUERY_PARAMS.PAGE, Number), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_paramsToParsers, QUERY_PARAMS.OPERATORS, (0, _parsers.createImmutableNumbersArrayParser)(_immutable.Set)), QUERY_PARAMS.IGNORE_SERVICES, (0, _parsers.createImmutableArrayParser)(_immutable.Set)), QUERY_PARAMS.GROUP, Number), QUERY_PARAMS.DISTRICTS, (0, _parsers.createImmutableNumbersArrayParser)(_immutable.Set)), QUERY_PARAMS.PROVINCES, (0, _parsers.createImmutableNumbersArrayParser)(_immutable.Set)), QUERY_PARAMS.AVERAGE_RATING, _parsers.rangeParser), QUERY_PARAMS.IS_DIRECT_FLIGHT, Boolean), QUERY_PARAMS.SORT, String));
   if (rawValue) {
     if (rawValue === GLUE.empty) {
       return DEFAULTS[paramName];
@@ -430,7 +414,7 @@ function compileQueryToHash(query) {
   var _fieldsToCompilers3;
   var fieldsToCompilers = (_fieldsToCompilers3 = {}, _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_fieldsToCompilers3, QUERY_PARAMS.AUTOSTART, _compilers.numberCompiler), QUERY_PARAMS.DEPARTURES, _compilers.immutableArrayCompiler), QUERY_PARAMS.COUNTRY, _compilers.numberCompiler), QUERY_PARAMS.CITIES, _compilers.immutableArrayCompiler), QUERY_PARAMS.HOTELS, _compilers.immutableArrayCompiler), QUERY_PARAMS.CATEGORY, _compilers.binaryCompiler), QUERY_PARAMS.DATES, _compilers.datesCompiler), QUERY_PARAMS.DURATION, _compilers.rangeCompiler), QUERY_PARAMS.ADULTS, _compilers.toStringCompiler), QUERY_PARAMS.CHILDREN, _compilers.immutableArrayCompiler), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_fieldsToCompilers3, QUERY_PARAMS.FOOD, _compilers.binaryCompiler), QUERY_PARAMS.TRANSPORTS, function (transportsList) {
     return (0, _compilers.immutableArrayCompiler)(transportsList.map(_compilers.binaryCompiler));
-  }), QUERY_PARAMS.PRICE, _compilers.rangeCompiler), QUERY_PARAMS.SERVICES, _compilers.immutableArrayCompiler), QUERY_PARAMS.RATING, _compilers.rangeCompiler), QUERY_PARAMS.CURRENCY, _compilers.toStringCompiler), QUERY_PARAMS.WITHOUT_SPO, _compilers.numberCompiler), QUERY_PARAMS.FLIGHT_AVAILABILITY, _compilers.immutableArrayCompiler), QUERY_PARAMS.HOTEL_AVAILABILITY, _compilers.immutableArrayCompiler), QUERY_PARAMS.OPERATORS, _compilers.immutableArrayCompiler), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_fieldsToCompilers3, QUERY_PARAMS.IGNORE_SERVICES, _compilers.immutableArrayCompiler), QUERY_PARAMS.GROUP, _compilers.numberCompiler), QUERY_PARAMS.DISTRICTS, _compilers.immutableArrayCompiler), QUERY_PARAMS.PROVINCES, _compilers.immutableArrayCompiler), QUERY_PARAMS.AVERAGE_RATING, _compilers.rangeCompiler), QUERY_PARAMS.IS_DIRECT_FLIGHT, _compilers.numberCompiler));
+  }), QUERY_PARAMS.PRICE, _compilers.rangeCompiler), QUERY_PARAMS.SERVICES, _compilers.immutableArrayCompiler), QUERY_PARAMS.RATING, _compilers.rangeCompiler), QUERY_PARAMS.CURRENCY, _compilers.toStringCompiler), QUERY_PARAMS.WITHOUT_SPO, _compilers.numberCompiler), QUERY_PARAMS.FLIGHT_AVAILABILITY, _compilers.immutableArrayCompiler), QUERY_PARAMS.HOTEL_AVAILABILITY, _compilers.immutableArrayCompiler), QUERY_PARAMS.OPERATORS, _compilers.immutableArrayCompiler), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_fieldsToCompilers3, QUERY_PARAMS.IGNORE_SERVICES, _compilers.immutableArrayCompiler), QUERY_PARAMS.GROUP, _compilers.numberCompiler), QUERY_PARAMS.DISTRICTS, _compilers.immutableArrayCompiler), QUERY_PARAMS.PROVINCES, _compilers.immutableArrayCompiler), QUERY_PARAMS.AVERAGE_RATING, _compilers.rangeCompiler), QUERY_PARAMS.IS_DIRECT_FLIGHT, _compilers.numberCompiler), QUERY_PARAMS.SORT, _compilers.toStringCompiler));
   return GLUE.field + query.map(function (value, field) {
     return value && field in fieldsToCompilers ? fieldsToCompilers[field](value) : GLUE.empty;
   }).toList().join(GLUE.field).replace(new RegExp("[".concat(GLUE.field).concat(GLUE.empty, "]+$")), '');
@@ -448,7 +432,7 @@ function parseHashToQuery(queryString) {
           prevValue: prevList.first()
         });
       });
-    }), QUERY_PARAMS.FOOD, _parsers.binaryParser), QUERY_PARAMS.DATES, _parsers.datesParser), QUERY_PARAMS.DURATION, _parsers.rangeParser), QUERY_PARAMS.ADULTS, Number), QUERY_PARAMS.CHILDREN, (0, _parsers.createImmutableNumbersArrayParser)(_immutable.List)), QUERY_PARAMS.COUNTRY, String), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_paramsToParsers2, QUERY_PARAMS.CITIES, (0, _parsers.createImmutableNumbersArrayParser)(_immutable.Set)), QUERY_PARAMS.HOTELS, (0, _parsers.createImmutableArrayParser)(_immutable.Set)), QUERY_PARAMS.PRICE, _parsers.rangeParser), QUERY_PARAMS.SERVICES, (0, _parsers.createImmutableArrayParser)(_immutable.Set)), QUERY_PARAMS.RATING, _parsers.rangeParser), QUERY_PARAMS.CURRENCY, String), QUERY_PARAMS.WITHOUT_SPO, _parsers.parseStringIntengerToBoolean), QUERY_PARAMS.FLIGHT_AVAILABILITY, (0, _parsers.createImmutableArrayParser)(_immutable.Set)), QUERY_PARAMS.HOTEL_AVAILABILITY, (0, _parsers.createImmutableArrayParser)(_immutable.Set)), QUERY_PARAMS.OPERATORS, (0, _parsers.createImmutableNumbersArrayParser)(_immutable.Set)), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_paramsToParsers2, QUERY_PARAMS.IGNORE_SERVICES, (0, _parsers.createImmutableArrayParser)(_immutable.Set)), QUERY_PARAMS.GROUP, Number), QUERY_PARAMS.DISTRICTS, (0, _parsers.createImmutableNumbersArrayParser)(_immutable.Set)), QUERY_PARAMS.PROVINCES, (0, _parsers.createImmutableNumbersArrayParser)(_immutable.Set)), QUERY_PARAMS.AVERAGE_RATING, _parsers.rangeParser), QUERY_PARAMS.IS_DIRECT_FLIGHT, Boolean));
+    }), QUERY_PARAMS.FOOD, _parsers.binaryParser), QUERY_PARAMS.DATES, _parsers.datesParser), QUERY_PARAMS.DURATION, _parsers.rangeParser), QUERY_PARAMS.ADULTS, Number), QUERY_PARAMS.CHILDREN, (0, _parsers.createImmutableNumbersArrayParser)(_immutable.List)), QUERY_PARAMS.COUNTRY, String), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_paramsToParsers2, QUERY_PARAMS.CITIES, (0, _parsers.createImmutableNumbersArrayParser)(_immutable.Set)), QUERY_PARAMS.HOTELS, (0, _parsers.createImmutableArrayParser)(_immutable.Set)), QUERY_PARAMS.PRICE, _parsers.rangeParser), QUERY_PARAMS.SERVICES, (0, _parsers.createImmutableArrayParser)(_immutable.Set)), QUERY_PARAMS.RATING, _parsers.rangeParser), QUERY_PARAMS.CURRENCY, String), QUERY_PARAMS.WITHOUT_SPO, _parsers.parseStringIntengerToBoolean), QUERY_PARAMS.FLIGHT_AVAILABILITY, (0, _parsers.createImmutableArrayParser)(_immutable.Set)), QUERY_PARAMS.HOTEL_AVAILABILITY, (0, _parsers.createImmutableArrayParser)(_immutable.Set)), QUERY_PARAMS.OPERATORS, (0, _parsers.createImmutableNumbersArrayParser)(_immutable.Set)), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_paramsToParsers2, QUERY_PARAMS.IGNORE_SERVICES, (0, _parsers.createImmutableArrayParser)(_immutable.Set)), QUERY_PARAMS.GROUP, Number), QUERY_PARAMS.DISTRICTS, (0, _parsers.createImmutableNumbersArrayParser)(_immutable.Set)), QUERY_PARAMS.PROVINCES, (0, _parsers.createImmutableNumbersArrayParser)(_immutable.Set)), QUERY_PARAMS.AVERAGE_RATING, _parsers.rangeParser), QUERY_PARAMS.IS_DIRECT_FLIGHT, Boolean), QUERY_PARAMS.SORT, String));
     if (rawValue) {
       if (rawValue === GLUE.empty) {
         return DEFAULTS[paramName];

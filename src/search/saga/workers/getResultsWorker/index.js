@@ -74,6 +74,8 @@ export function* getResultsWorker ({ payload: queryID }) {
                     ],
                     offersHub,
                     query.get(QUERY_PARAMS.CURRENCY),
+                    query.get(QUERY_PARAMS.SORT),
+                    hotelsHub,
                     freshSelectedOperators
                 );
 

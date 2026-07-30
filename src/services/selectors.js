@@ -59,6 +59,8 @@ export const getServicesIconsForHotel = createSelector(
     R.propOr(EMPTY_ARRAY, 'icons')
 );
 
+export const getChains = (state, params) => R.propOr(EMPTY_ARRAY, 'chains', getServicesByCountryID(state, params));
+
 const getBookingServices = R.pipe(
     domain,
     R.prop('booking')

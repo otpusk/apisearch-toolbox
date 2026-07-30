@@ -4,7 +4,7 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getTopCountry = exports.getTopCountries = exports.getOperatorsMap = exports.getOperators = exports.getOperator = exports.getHotelsByKey = exports.getHotelsByCountry = exports.getHotelByKey = exports.getHotelByCountry = exports.getGeoTreeByCountryId = exports.getFlightPorts = exports.getFlightPort = exports.getDepartures = exports.getDepartureByIATA = exports.getDepartureByDefaultGeo = exports.getCountry = exports.getCountries = exports.getCitiesStore = exports.getCitiesByCountry = exports.getActiveOperators = void 0;
+exports.getTopCountry = exports.getTopCountries = exports.getSuggests = exports.getSuggestEntity = exports.getOperatorsMap = exports.getOperators = exports.getOperator = exports.getHotelsByKey = exports.getHotelsByCountry = exports.getHotelByKey = exports.getHotelByCountry = exports.getGeoTreeByCountryId = exports.getFlightPorts = exports.getFlightPort = exports.getDepartures = exports.getDepartureById = exports.getDepartureByIATA = exports.getDepartureByDefaultGeo = exports.getCountry = exports.getCountries = exports.getCitiesStore = exports.getCitiesByCountry = exports.getActiveOperators = void 0;
 var _reselect = require("reselect");
 var R = _interopRequireWildcard(require("ramda"));
 function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
@@ -51,6 +51,11 @@ var getDepartureByDefaultGeo = exports.getDepartureByDefaultGeo = function getDe
     return R.find(function (departure) {
       return departure.id === id;
     }, R.propOr(EMPTY_ARRAY, DEFAULT_DEPARTURE_GEO_ID, map.toJS()));
+  });
+};
+var getDepartureById = exports.getDepartureById = function getDepartureById() {
+  return (0, _reselect.createSelector)(getDepartures(), getDepartureID, function (list, id) {
+    return R.find(R.pipe(R.prop('id'), R.equals(id)), list);
   });
 };
 var getDepartureByIATA = exports.getDepartureByIATA = function getDepartureByIATA() {
@@ -163,4 +168,34 @@ var getGeoTree = function getGeoTree(state) {
 var getGeoTreeByCountryId = exports.getGeoTreeByCountryId = function getGeoTreeByCountryId(state, _ref10) {
   var countryID = _ref10.countryID;
   return getGeoTree(state)[countryID] || EMPTY_ARRAY;
+};
+var getSuggestEntities = (0, _reselect.createSelector)(domain, function (geo) {
+  return geo.get('suggestEntities');
+});
+var getSuggestionIndex = function getSuggestionIndex(state, _ref11) {
+  var key = _ref11.key;
+  return domain(state).getIn(['suggestions', key]);
+};
+var getSuggests = exports.getSuggests = function getSuggests() {
+  return (0, _reselect.createSelector)(getSuggestEntities, getSuggestionIndex, function (entities, index) {
+    if (!index) {
+      return index;
+    }
+    var hydrate = function hydrate(type) {
+      return (index[type] || EMPTY_ARRAY).map(function (id) {
+        return entities[type][id];
+      }).filter(Boolean);
+    };
+    return {
+      country: hydrate('country'),
+      city: hydrate('city'),
+      hotel: hydrate('hotel')
+    };
+  });
+};
+var getSuggestEntity = exports.getSuggestEntity = function getSuggestEntity(state, _ref12) {
+  var _getSuggestEntities$t;
+  var type = _ref12.type,
+    id = _ref12.id;
+  return (_getSuggestEntities$t = getSuggestEntities(state)[type]) === null || _getSuggestEntities$t === void 0 ? void 0 : _getSuggestEntities$t[id];
 };

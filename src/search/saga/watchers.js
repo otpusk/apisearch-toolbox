@@ -7,7 +7,8 @@ import {
     getResultsWorker,
     getPriceChartWorker,
     getAvailableDatesWorker,
-    silentSearchWorker
+    silentSearchWorker,
+    warmupSearchWorker
 } from './workers';
 
 export const searchWatchers =  Object.freeze({
@@ -48,5 +49,8 @@ export const searchWatchers =  Object.freeze({
     },
     * searchByOperatorsWatcher () {
         yield takeEvery(actions.silentSearch, silentSearchWorker);
+    },
+    * warmupSearchWatcher () {
+        yield takeEvery(actions.warmupSearch, warmupSearchWorker);
     },
 });

@@ -96,7 +96,7 @@ function getResultsWorker(_ref) {
                   });
                 case 18:
                   freshSelectedOperators = _context.sent;
-                  nextPrices = (0, _helpers.generateNextPrices)([].concat(_toConsumableArray(pricesWithoutStable), _toConsumableArray(unusedPrices), _toConsumableArray(_usedPrices)), offersHub, query.get(_fn.QUERY_PARAMS.CURRENCY), freshSelectedOperators);
+                  nextPrices = (0, _helpers.generateNextPrices)([].concat(_toConsumableArray(pricesWithoutStable), _toConsumableArray(unusedPrices), _toConsumableArray(_usedPrices)), offersHub, query.get(_fn.QUERY_PARAMS.CURRENCY), query.get(_fn.QUERY_PARAMS.SORT), hotelsHub, freshSelectedOperators);
                   _context.next = 22;
                   return (0, _effects.select)(_selectors2.hotelsHub);
                 case 22:

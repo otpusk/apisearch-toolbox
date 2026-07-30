@@ -19,7 +19,7 @@ import {
     createImmutableNumbersArrayParser,
     parseStringIntengerToBoolean
 } from './parsers';
-import { EMPTY_DEPARTURE_VALUE, RANGE_DATE_FIELD } from './constants';
+import { EMPTY_DEPARTURE_VALUE, RANGE_DATE_FIELD, DEFAULT_SORT_BY } from './constants';
 
 console.log('init query fn');
 const CHILD_BIRTHDATE_FORMAT = 'DD.MM.YYYY';
@@ -59,6 +59,7 @@ const QUERY_PARAMS = {
     RATING:              'rating',
     CURRENCY:            'currency',
     OPERATORS:           'operators',
+    BYPASS_R_FILTER:     'bypassRFilter',
     SELECTED_OPERATORS:  'selectedOperators',
     FLIGHT_AVAILABILITY: 'flightAvailability',
     HOTEL_AVAILABILITY:  'hotelAvailability',
@@ -72,30 +73,44 @@ const QUERY_PARAMS = {
     AVERAGE_RATING:      'averageRating',
     IS_DIRECT_FLIGHT:    'isDirectFlight',
     SELECTED_OFFER_DATE: 'offerDate',
+    SORT:                'sort',
 };
 
-const getShortQueryParams = (isParam = false) => {
-    let uniqKeys = new Set();
-    const result = {};
-
-    for (const [key, val] of Object.entries(QUERY_PARAMS)) {
-        let count = 1;
-
-        while (count < val.length) {
-            if (!uniqKeys.has(val.slice(0, count))) {
-                break;
-            }
-            count+=1;
-        }
-
-        uniqKeys = uniqKeys.add(val.slice(0, count));
-        result[isParam ? key : val] = val.slice(0, count);
-    }
-
-    return result;
+const SHORT_QUERY_NAMES = {
+    [QUERY_PARAMS.AUTOSTART]:           'a',
+    [QUERY_PARAMS.DEPARTURES]:          'd',
+    [QUERY_PARAMS.COUNTRY]:             'c',
+    [QUERY_PARAMS.CITIES]:              'ci',
+    [QUERY_PARAMS.HOTELS]:              'h',
+    [QUERY_PARAMS.CATEGORY]:            'ca',
+    [QUERY_PARAMS.DATES]:               'da',
+    [QUERY_PARAMS.DURATION]:            'du',
+    [QUERY_PARAMS.ADULTS]:              'ad',
+    [QUERY_PARAMS.CHILDREN]:            'ch',
+    [QUERY_PARAMS.FOOD]:                'f',
+    [QUERY_PARAMS.TRANSPORTS]:          't',
+    [QUERY_PARAMS.PRICE]:               'p',
+    [QUERY_PARAMS.PAGE]:                'pa',
+    [QUERY_PARAMS.SERVICES]:            's',
+    [QUERY_PARAMS.SHORT]:               'sh',
+    [QUERY_PARAMS.RATING]:              'r',
+    [QUERY_PARAMS.CURRENCY]:            'cu',
+    [QUERY_PARAMS.OPERATORS]:           'o',
+    [QUERY_PARAMS.SELECTED_OPERATORS]:  'se',
+    [QUERY_PARAMS.FLIGHT_AVAILABILITY]: 'fl',
+    [QUERY_PARAMS.HOTEL_AVAILABILITY]:  'ho',
+    [QUERY_PARAMS.WITHOUT_SPO]:         'w',
+    [QUERY_PARAMS.LANGUAGE]:            'l',
+    [QUERY_PARAMS.NO_AGENCY_STATS]:     'n',
+    [QUERY_PARAMS.IGNORE_SERVICES]:     'i',
+    [QUERY_PARAMS.GROUP]:               'g',
+    [QUERY_PARAMS.DISTRICTS]:           'di',
+    [QUERY_PARAMS.PROVINCES]:           'pr',
+    [QUERY_PARAMS.AVERAGE_RATING]:      'av',
+    [QUERY_PARAMS.IS_DIRECT_FLIGHT]:    'is',
+    [QUERY_PARAMS.SELECTED_OFFER_DATE]: 'of',
+    [QUERY_PARAMS.SORT]:                'so',
 };
-
-const SHORT_QUERY_NAMES = getShortQueryParams();
 
 /**
  * Query defaults
@@ -149,6 +164,7 @@ const DEFAULTS = {
     [QUERY_PARAMS.RATING]:              Map(),
     [QUERY_PARAMS.CURRENCY]:            null,
     [QUERY_PARAMS.OPERATORS]:           Set(),
+    [QUERY_PARAMS.BYPASS_R_FILTER]:     Set(),
     [QUERY_PARAMS.SELECTED_OPERATORS]:  Set(),
     [QUERY_PARAMS.FLIGHT_AVAILABILITY]: Set(),
     [QUERY_PARAMS.HOTEL_AVAILABILITY]:  Set(),
@@ -161,6 +177,7 @@ const DEFAULTS = {
     [QUERY_PARAMS.AVERAGE_RATING]:      Map(),
     [QUERY_PARAMS.IS_DIRECT_FLIGHT]:    false,
     [QUERY_PARAMS.SELECTED_OFFER_DATE]: null,
+    [QUERY_PARAMS.SORT]:                DEFAULT_SORT_BY,
 };
 
 /**
@@ -240,6 +257,7 @@ function compileQuery (query) {
         [QUERY_PARAMS.PROVINCES]:           immutableArrayCompiler,
         [QUERY_PARAMS.AVERAGE_RATING]:      rangeCompiler,
         [QUERY_PARAMS.IS_DIRECT_FLIGHT]:    numberCompiler,
+        [QUERY_PARAMS.SORT]:                toStringCompiler,
     };
 
     return GLUE.field + query
@@ -285,6 +303,7 @@ function compileSearchQuery (query) {
         [QUERY_PARAMS.PROVINCES]:           immutableArrayCompiler,
         [QUERY_PARAMS.AVERAGE_RATING]:      rangeCompiler,
         [QUERY_PARAMS.IS_DIRECT_FLIGHT]:    numberCompiler,
+        [QUERY_PARAMS.SORT]:                toStringCompiler,
     };
 
     const startDelimeter = GLUE.question;
@@ -348,6 +367,7 @@ function convertToOtpQuery (query) {
         [QUERY_PARAMS.RATING]:              (value) => ({ 'rate': value.isEmpty() ? null : `${value.get('from')}-${value.get('to')}` }),
         [QUERY_PARAMS.CURRENCY]:            (value) => ({ 'currencyLocal': value }),
         [QUERY_PARAMS.OPERATORS]:           (value) => ({ 'toOperators': value.toArray() }),
+        [QUERY_PARAMS.BYPASS_R_FILTER]:     (value) => ({ 'bypassRFilter': value.toArray() }),
         [QUERY_PARAMS.FLIGHT_AVAILABILITY]: (value) => ({ 'availableFlight': value.toArray() }),
         [QUERY_PARAMS.HOTEL_AVAILABILITY]:  (value) => ({ 'stopSale': value.toArray() }),
         [QUERY_PARAMS.WITHOUT_SPO]:         (value) => ({ 'noPromo': value }),
@@ -359,6 +379,7 @@ function convertToOtpQuery (query) {
         [QUERY_PARAMS.AVERAGE_RATING]:      (value) => ({ 'rating': value.isEmpty() ? null : `${value.get('from')}-${value.get('to')}` }),
         [QUERY_PARAMS.IS_DIRECT_FLIGHT]:    (value) => value ? { directFlight: true } : null,
         [QUERY_PARAMS.SELECTED_OFFER_DATE]: (value) => value ? { offerDate: value } : null,
+        [QUERY_PARAMS.SORT]:                (value) => ({ 'sort': value }),
     };
 
     return query
@@ -424,6 +445,7 @@ function parseQueryParam (currentValue, paramName, rawValue) {
         [QUERY_PARAMS.PROVINCES]:           createImmutableNumbersArrayParser(Set),
         [QUERY_PARAMS.AVERAGE_RATING]:      rangeParser,
         [QUERY_PARAMS.IS_DIRECT_FLIGHT]:    Boolean,
+        [QUERY_PARAMS.SORT]:                String,
     };
 
     if (rawValue) {
@@ -497,6 +519,7 @@ function compileQueryToHash (query) {
         [QUERY_PARAMS.PROVINCES]:           immutableArrayCompiler,
         [QUERY_PARAMS.AVERAGE_RATING]:      rangeCompiler,
         [QUERY_PARAMS.IS_DIRECT_FLIGHT]:    numberCompiler,
+        [QUERY_PARAMS.SORT]:                toStringCompiler,
     };
 
     return GLUE.field + query.map((value, field) =>
@@ -547,6 +570,7 @@ function parseHashToQuery (queryString) {
             [QUERY_PARAMS.PROVINCES]:           createImmutableNumbersArrayParser(Set),
             [QUERY_PARAMS.AVERAGE_RATING]:      rangeParser,
             [QUERY_PARAMS.IS_DIRECT_FLIGHT]:    Boolean,
+            [QUERY_PARAMS.SORT]:                String,
         };
 
         if (rawValue) {
@@ -573,6 +597,7 @@ function parseHashToQuery (queryString) {
 }
 
 export {
+    SHORT_QUERY_NAMES,
     QUERY_PARAMS,
     GLUE,
     createQuery,

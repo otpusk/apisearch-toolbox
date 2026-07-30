@@ -43,7 +43,7 @@ function silentSearchWorker(_ref) {
           selectedOperators = query.get(_fn.QUERY_PARAMS.SELECTED_OPERATORS).toJS();
           _memory$getValues = memory.getValues(), hotelsHub = _memory$getValues.hotelsHub, offersHub = _memory$getValues.offersHub, unusedPrices = _memory$getValues.unusedPrices, stablePrices = _memory$getValues.stablePrices;
           prices = [].concat(_toConsumableArray(stablePrices), _toConsumableArray(unusedPrices));
-          nextPrices = (0, _helpers.generateNextPrices)(prices, offersHub, query.get(_fn.QUERY_PARAMS.CURRENCY), selectedOperators);
+          nextPrices = (0, _helpers.generateNextPrices)(prices, offersHub, query.get(_fn.QUERY_PARAMS.CURRENCY), query.get(_fn.QUERY_PARAMS.SORT), hotelsHub, selectedOperators);
           _context.next = 10;
           return (0, _effects.select)(_selectors2.hotelsHub);
         case 10:

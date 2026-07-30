@@ -4,7 +4,7 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getServicesIconsForHotel = exports.getServicesByCountryID = exports.getLabels = exports.getCommonServicesByCountry = exports.getBookingServicesByOffer = exports.getAllServices = void 0;
+exports.getServicesIconsForHotel = exports.getServicesByCountryID = exports.getLabels = exports.getCommonServicesByCountry = exports.getChains = exports.getBookingServicesByOffer = exports.getAllServices = void 0;
 var _reselect = require("reselect");
 var R = _interopRequireWildcard(require("ramda"));
 var _selectors = require("../auth/selectors");
@@ -41,6 +41,9 @@ var getCommonServicesByCountry = exports.getCommonServicesByCountry = (0, _resel
   };
 });
 var getServicesIconsForHotel = exports.getServicesIconsForHotel = (0, _reselect.createSelector)(getServicesByCountryID, R.propOr(EMPTY_ARRAY, 'icons'));
+var getChains = exports.getChains = function getChains(state, params) {
+  return R.propOr(EMPTY_ARRAY, 'chains', getServicesByCountryID(state, params));
+};
 var getBookingServices = R.pipe(domain, R.prop('booking'));
 var getBookingServicesByOffer = exports.getBookingServicesByOffer = (0, _reselect.createSelector)(getBookingServices, function (_, _ref2) {
   var offerID = _ref2.offerID,

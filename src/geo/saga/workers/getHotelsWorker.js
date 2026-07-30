@@ -11,6 +11,7 @@ export function* getHotelsWorker ({ payload }) {
         services,
         rating,
         methodVersion,
+        withServices,
     } = payload;
 
     try {
@@ -26,6 +27,7 @@ export function* getHotelsWorker ({ payload }) {
                 withPrice,
                 services,
                 rating,
+                withServices,
             },
             methodVersion
         );

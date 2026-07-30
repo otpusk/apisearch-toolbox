@@ -34,7 +34,7 @@ var normalizeServices = function normalizeServices(services) {
   }), R.fromPairs), services);
 };
 var extractLabels = function extractLabels(services) {
-  return R.call(R.pipe(R.omit(['byCountries']), R.toPairs, R.map(function (_ref5) {
+  return R.call(R.pipe(R.omit(['byCountries', 'chains']), R.toPairs, R.map(function (_ref5) {
     var _ref6 = _slicedToArray(_ref5, 2),
       group = _ref6[1];
     return group;

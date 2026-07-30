@@ -1,5 +1,7 @@
 import * as R from 'ramda';
 
+import { SORT_BY_PRICE } from '../../../../queries/constants';
+
 import { COUNT_AT_PAGE } from './constants';
 
 export const getIgnoreOperators = (operators) => R.call(
@@ -35,6 +37,24 @@ const sortPrices = (currency) => (prices) => R.sort(
     prices
 );
 
+const sortByReviews = (ratingsA, ratingsB) => R.descend(
+    R.reduce((acc, { reviews }) => R.add(acc, reviews), 0),
+    ratingsA,
+    ratingsB
+);
+
+const sortPricesByRatings = (hotelsHub) => (prices) => R.sort(
+    ({ hotelID: idA }, { hotelID: idB }) => {
+        const { averageRating: averageRatingA, sourceRatings: ratingsA } = hotelsHub[idA];
+        const { averageRating: averageRatingB, sourceRatings: ratingsB } = hotelsHub[idB];
+
+        return averageRatingA === averageRatingB
+            ? sortByReviews(ratingsA, ratingsB)
+            : averageRatingB - averageRatingA;
+    },
+    prices
+);
+
 const convertPricesListToMap = (prices) => R.reduce(
     (acc, price) => R.over(
         R.lensProp(price.hotelID),
@@ -55,7 +75,7 @@ const simplifyPrices = (prices) => R.map(
     prices
 );
 
-export const generateNextPrices = (prices, offersHub, currency, selectedOperators = []) => R.call(
+export const generateNextPrices = (prices, offersHub, currency, sortBy, hotelsHub, selectedOperators = []) => R.call(
     R.pipe(
         convertPricesListToMap,
         R.toPairs,
@@ -70,7 +90,9 @@ export const generateNextPrices = (prices, offersHub, currency, selectedOperator
                 ({ offers }) => offers.some(({ operator }) => R.includes(operator, selectedOperators))
             )
         ),
-        sortPrices(currency),
+        sortBy === SORT_BY_PRICE
+            ? sortPrices(currency)
+            : sortPricesByRatings(hotelsHub),
         simplifyPrices,
         R.take(COUNT_AT_PAGE)
     ),

@@ -6,7 +6,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.getUnusedPrices = exports.getTotalBySelectedOperators = exports.getOffersEntitiesMap = exports.getIgnoreOperators = exports.getHotelsIDsFromPrices = exports.getHotelsEntitiesMap = exports.generateNextPrices = exports.addIgnoreOperators = void 0;
 var R = _interopRequireWildcard(require("ramda"));
-var _constants = require("./constants");
+var _constants = require("../../../../queries/constants");
+var _constants2 = require("./constants");
 function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
 function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != _typeof(e) && "function" != typeof e) return { "default": e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && {}.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n["default"] = e, t && t.set(e, n), n; }
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
@@ -45,6 +46,27 @@ var sortPrices = function sortPrices(currency) {
     return R.sort(R.ascend(R.path(['offers', 0, 'price', currency])), prices);
   };
 };
+var sortByReviews = function sortByReviews(ratingsA, ratingsB) {
+  return R.descend(R.reduce(function (acc, _ref3) {
+    var reviews = _ref3.reviews;
+    return R.add(acc, reviews);
+  }, 0), ratingsA, ratingsB);
+};
+var sortPricesByRatings = function sortPricesByRatings(hotelsHub) {
+  return function (prices) {
+    return R.sort(function (_ref4, _ref5) {
+      var idA = _ref4.hotelID;
+      var idB = _ref5.hotelID;
+      var _hotelsHub$idA = hotelsHub[idA],
+        averageRatingA = _hotelsHub$idA.averageRating,
+        ratingsA = _hotelsHub$idA.sourceRatings;
+      var _hotelsHub$idB = hotelsHub[idB],
+        averageRatingB = _hotelsHub$idB.averageRating,
+        ratingsB = _hotelsHub$idB.sourceRatings;
+      return averageRatingA === averageRatingB ? sortByReviews(ratingsA, ratingsB) : averageRatingB - averageRatingA;
+    }, prices);
+  };
+};
 var convertPricesListToMap = function convertPricesListToMap(prices) {
   return R.reduce(function (acc, price) {
     return R.over(R.lensProp(price.hotelID), function (prevPrice) {
@@ -57,28 +79,28 @@ var convertPricesListToMap = function convertPricesListToMap(prices) {
 var simplifyPrices = function simplifyPrices(prices) {
   return R.map(R.over(R.lensProp('offers'), R.map(R.prop('id'))), prices);
 };
-var generateNextPrices = exports.generateNextPrices = function generateNextPrices(prices, offersHub, currency) {
-  var selectedOperators = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : [];
-  return R.call(R.pipe(convertPricesListToMap, R.toPairs, R.map(function (_ref3) {
-    var _ref4 = _slicedToArray(_ref3, 2),
-      price = _ref4[1];
+var generateNextPrices = exports.generateNextPrices = function generateNextPrices(prices, offersHub, currency, sortBy, hotelsHub) {
+  var selectedOperators = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : [];
+  return R.call(R.pipe(convertPricesListToMap, R.toPairs, R.map(function (_ref6) {
+    var _ref7 = _slicedToArray(_ref6, 2),
+      price = _ref7[1];
     return R.over(R.lensProp('offers'), sortOffers(offersHub, currency), price);
   }), R.when(function () {
     return !R.isEmpty(selectedOperators);
-  }, R.filter(function (_ref5) {
-    var offers = _ref5.offers;
-    return offers.some(function (_ref6) {
-      var operator = _ref6.operator;
+  }, R.filter(function (_ref8) {
+    var offers = _ref8.offers;
+    return offers.some(function (_ref9) {
+      var operator = _ref9.operator;
       return R.includes(operator, selectedOperators);
     });
-  })), sortPrices(currency), simplifyPrices, R.take(_constants.COUNT_AT_PAGE)), prices);
+  })), sortBy === _constants.SORT_BY_PRICE ? sortPrices(currency) : sortPricesByRatings(hotelsHub), simplifyPrices, R.take(_constants2.COUNT_AT_PAGE)), prices);
 };
 var getHotelsEntitiesMap = exports.getHotelsEntitiesMap = function getHotelsEntitiesMap(prices, hotelsHub, hotelsFromStore) {
-  return R.call(R.pipe(R.filter(function (_ref7) {
-    var hotelID = _ref7.hotelID;
+  return R.call(R.pipe(R.filter(function (_ref10) {
+    var hotelID = _ref10.hotelID;
     return !hotelsFromStore[hotelID];
-  }), R.map(function (_ref8) {
-    var hotelID = _ref8.hotelID;
+  }), R.map(function (_ref11) {
+    var hotelID = _ref11.hotelID;
     return [hotelID, hotelsHub[hotelID]];
   }), R.fromPairs), prices);
 };
@@ -89,23 +111,23 @@ var getOffersEntitiesMap = exports.getOffersEntitiesMap = function getOffersEnti
 };
 var getUnusedPrices = exports.getUnusedPrices = function getUnusedPrices(nextPrices, unusedPrices) {
   return R.call(R.pipe(getHotelsIDsFromPrices, function (usedHotels) {
-    return R.filter(function (_ref9) {
-      var hotelID = _ref9.hotelID;
+    return R.filter(function (_ref12) {
+      var hotelID = _ref12.hotelID;
       return !R.includes(hotelID, usedHotels);
     }, unusedPrices);
   }), nextPrices);
 };
-var getTotalBySelectedOperators = exports.getTotalBySelectedOperators = function getTotalBySelectedOperators(_ref10) {
-  var offersHub = _ref10.offersHub,
-    prices = _ref10.prices,
-    selectedOperators = _ref10.selectedOperators;
+var getTotalBySelectedOperators = exports.getTotalBySelectedOperators = function getTotalBySelectedOperators(_ref13) {
+  var offersHub = _ref13.offersHub,
+    prices = _ref13.prices,
+    selectedOperators = _ref13.selectedOperators;
   var selectedOperatorsSet = new Set(selectedOperators);
   return R.pipe(R.when(function () {
     return selectedOperatorsSet.size;
   }, R.pipe(convertPricesListToMap, R.values, R.map(R.over(R.lensProp('offers'), R.filter(function (offerID) {
     return selectedOperatorsSet.has(offersHub[offerID].operator);
-  }))), R.filter(function (_ref11) {
-    var offers = _ref11.offers;
+  }))), R.filter(function (_ref14) {
+    var offers = _ref14.offers;
     return !R.isEmpty(offers);
   }))), R.length)(prices);
 };
