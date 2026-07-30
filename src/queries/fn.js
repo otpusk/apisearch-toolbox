@@ -125,9 +125,9 @@ const DEFAULTS = {
         5: true,
     }),
     [QUERY_PARAMS.DATES]: Map({
-        from:               moment().add(7, 'days'),
-        to:                 moment().add(14, 'days'),
-        [RANGE_DATE_FIELD]: undefined,
+        from: moment().add(7, 'days'),
+        to:   moment().add(14, 'days'),
+        // [RANGE_DATE_FIELD]: undefined,
     }),
     [QUERY_PARAMS.DURATION]: Map({
         from: 7,

@@ -11,31 +11,10 @@ const initalState = Map({
     descriptionsByOperator: {},
 });
 
-const mergeTwoHotels = (fresh, base) => {
-    const merged = { ...base };
-
-    for (const [key, value] of Object.entries(fresh)) {
-        if (Array.isArray(merged[key])) {
-            merged[key] = merged[key]
-                .concat(value)
-                .filter((el, i, arr) => i === arr.findIndex((_) => JSON.stringify(_) === JSON.stringify(el)));
-        } else {
-            merged[key] = value;
-        }
-    }
-
-    return merged;
-};
-
 export const hotelsReducer = handleActions(
     {
         [combineActions(actions.addHotel, actions.getHotelSuccess)]: (state, { payload: hotel }) => {
-            return state.updateIn(
-                ['store', String(hotel.id)],
-                (current) => current
-                    ? mergeTwoHotels(hotel, current)
-                    : hotel
-            );
+            return state.setIn(['store', String(hotel.id)], hotel);
         },
         [actions.addHotels]: (state, { payload: hotels }) => {
             return state

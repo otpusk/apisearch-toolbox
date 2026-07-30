@@ -98,10 +98,11 @@ var DEFAULTS = (_DEFAULTS = {}, _defineProperty(_defineProperty(_defineProperty(
   3: true,
   4: true,
   5: true
-})), QUERY_PARAMS.DATES, (0, _immutable.Map)(_defineProperty({
+})), QUERY_PARAMS.DATES, (0, _immutable.Map)({
   from: (0, _moment["default"])().add(7, 'days'),
   to: (0, _moment["default"])().add(14, 'days')
-}, _constants.RANGE_DATE_FIELD, undefined))), QUERY_PARAMS.DURATION, (0, _immutable.Map)({
+  // [RANGE_DATE_FIELD]: undefined,
+})), QUERY_PARAMS.DURATION, (0, _immutable.Map)({
   from: 7,
   to: 9
 })), QUERY_PARAMS.ADULTS, 2), QUERY_PARAMS.CHILDREN, (0, _immutable.List)()), QUERY_PARAMS.FOOD, (0, _immutable.Map)({
