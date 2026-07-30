@@ -7,8 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.getTopCountry = exports.getTopCountries = exports.getSuggests = exports.getSuggestEntity = exports.getOperatorsMap = exports.getOperators = exports.getOperator = exports.getHotelsByKey = exports.getHotelsByCountry = exports.getHotelByKey = exports.getHotelByCountry = exports.getGeoTreeByCountryId = exports.getFlightPorts = exports.getFlightPort = exports.getDepartures = exports.getDepartureById = exports.getDepartureByIATA = exports.getDepartureByDefaultGeo = exports.getCountry = exports.getCountries = exports.getCitiesStore = exports.getCitiesByCountry = exports.getActiveOperators = void 0;
 var _reselect = require("reselect");
 var R = _interopRequireWildcard(require("ramda"));
-function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
-function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != _typeof(e) && "function" != typeof e) return { "default": e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && {}.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n["default"] = e, t && t.set(e, n), n; }
+function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, "default": e }; if (null === e || "object" != _typeof(e) && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
 var EMPTY_ARRAY = [];
 var DEFAULT_DEPARTURE_GEO_ID = 0;
 var domain = function domain(_) {
@@ -165,15 +164,15 @@ var getHotelByKey = exports.getHotelByKey = function getHotelByKey() {
 var getGeoTree = function getGeoTree(state) {
   return domain(state).get('geoTree');
 };
-var getGeoTreeByCountryId = exports.getGeoTreeByCountryId = function getGeoTreeByCountryId(state, _ref10) {
-  var countryID = _ref10.countryID;
+var getGeoTreeByCountryId = exports.getGeoTreeByCountryId = function getGeoTreeByCountryId(state, _ref0) {
+  var countryID = _ref0.countryID;
   return getGeoTree(state)[countryID] || EMPTY_ARRAY;
 };
 var getSuggestEntities = (0, _reselect.createSelector)(domain, function (geo) {
   return geo.get('suggestEntities');
 });
-var getSuggestionIndex = function getSuggestionIndex(state, _ref11) {
-  var key = _ref11.key;
+var getSuggestionIndex = function getSuggestionIndex(state, _ref1) {
+  var key = _ref1.key;
   return domain(state).getIn(['suggestions', key]);
 };
 var getSuggests = exports.getSuggests = function getSuggests() {
@@ -193,9 +192,9 @@ var getSuggests = exports.getSuggests = function getSuggests() {
     };
   });
 };
-var getSuggestEntity = exports.getSuggestEntity = function getSuggestEntity(state, _ref12) {
+var getSuggestEntity = exports.getSuggestEntity = function getSuggestEntity(state, _ref10) {
   var _getSuggestEntities$t;
-  var type = _ref12.type,
-    id = _ref12.id;
+  var type = _ref10.type,
+    id = _ref10.id;
   return (_getSuggestEntities$t = getSuggestEntities(state)[type]) === null || _getSuggestEntities$t === void 0 ? void 0 : _getSuggestEntities$t[id];
 };

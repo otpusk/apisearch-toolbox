@@ -8,14 +8,13 @@ exports.getUnusedPrices = exports.getTotalBySelectedOperators = exports.getOffer
 var R = _interopRequireWildcard(require("ramda"));
 var _constants = require("../../../../queries/constants");
 var _constants2 = require("./constants");
-function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
-function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != _typeof(e) && "function" != typeof e) return { "default": e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && {}.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n["default"] = e, t && t.set(e, n), n; }
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, "default": e }; if (null === e || "object" != _typeof(e) && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
+function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 var getIgnoreOperators = exports.getIgnoreOperators = function getIgnoreOperators(operators) {
   return R.call(R.pipe(R.toPairs, R.filter(function (_ref) {
     var _ref2 = _slicedToArray(_ref, 2),
@@ -96,11 +95,11 @@ var generateNextPrices = exports.generateNextPrices = function generateNextPrice
   })), sortBy === _constants.SORT_BY_PRICE ? sortPrices(currency) : sortPricesByRatings(hotelsHub), simplifyPrices, R.take(_constants2.COUNT_AT_PAGE)), prices);
 };
 var getHotelsEntitiesMap = exports.getHotelsEntitiesMap = function getHotelsEntitiesMap(prices, hotelsHub, hotelsFromStore) {
-  return R.call(R.pipe(R.filter(function (_ref10) {
-    var hotelID = _ref10.hotelID;
+  return R.call(R.pipe(R.filter(function (_ref0) {
+    var hotelID = _ref0.hotelID;
     return !hotelsFromStore[hotelID];
-  }), R.map(function (_ref11) {
-    var hotelID = _ref11.hotelID;
+  }), R.map(function (_ref1) {
+    var hotelID = _ref1.hotelID;
     return [hotelID, hotelsHub[hotelID]];
   }), R.fromPairs), prices);
 };
@@ -111,23 +110,23 @@ var getOffersEntitiesMap = exports.getOffersEntitiesMap = function getOffersEnti
 };
 var getUnusedPrices = exports.getUnusedPrices = function getUnusedPrices(nextPrices, unusedPrices) {
   return R.call(R.pipe(getHotelsIDsFromPrices, function (usedHotels) {
-    return R.filter(function (_ref12) {
-      var hotelID = _ref12.hotelID;
+    return R.filter(function (_ref10) {
+      var hotelID = _ref10.hotelID;
       return !R.includes(hotelID, usedHotels);
     }, unusedPrices);
   }), nextPrices);
 };
-var getTotalBySelectedOperators = exports.getTotalBySelectedOperators = function getTotalBySelectedOperators(_ref13) {
-  var offersHub = _ref13.offersHub,
-    prices = _ref13.prices,
-    selectedOperators = _ref13.selectedOperators;
+var getTotalBySelectedOperators = exports.getTotalBySelectedOperators = function getTotalBySelectedOperators(_ref11) {
+  var offersHub = _ref11.offersHub,
+    prices = _ref11.prices,
+    selectedOperators = _ref11.selectedOperators;
   var selectedOperatorsSet = new Set(selectedOperators);
   return R.pipe(R.when(function () {
     return selectedOperatorsSet.size;
   }, R.pipe(convertPricesListToMap, R.values, R.map(R.over(R.lensProp('offers'), R.filter(function (offerID) {
     return selectedOperatorsSet.has(offersHub[offerID].operator);
-  }))), R.filter(function (_ref14) {
-    var offers = _ref14.offers;
+  }))), R.filter(function (_ref12) {
+    var offers = _ref12.offers;
     return !R.isEmpty(offers);
   }))), R.length)(prices);
 };
