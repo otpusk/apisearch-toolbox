@@ -63,12 +63,16 @@ var getHotelPhotoCategories = exports.getHotelPhotoCategories = function getHote
   return (0, _reselect.createSelector)(getHotel(), R.pipe(R.propOr(EMPTY_ARRAY, 'photosByCategory'), R.map(R.prop('category')), R.uniqBy(R.prop('id'))));
 };
 var getHotelPhotosByCategory = exports.getHotelPhotosByCategory = function getHotelPhotosByCategory() {
-  return (0, _reselect.createSelector)(getHotel(), R.pipe(R.propOr(EMPTY_ARRAY, 'photosByCategory'), R.groupBy(R.path(['category', 'id'])), R.values, R.map(function (items) {
-    return {
-      category: items[0].category,
-      photos: R.map(R.prop('photo'), items)
-    };
-  })));
+  return (0, _reselect.createSelector)(getHotel(), R.pipe(R.propOr(EMPTY_ARRAY, 'photosByCategory'), function (items) {
+    return R.map(function (category) {
+      return {
+        category: category,
+        photos: R.pipe(R.filter(function (item) {
+          return item.category.id === category.id;
+        }), R.map(R.prop('photo')))(items)
+      };
+    }, R.uniqBy(R.prop('id'), R.map(R.prop('category'), items)));
+  }));
 };
 var getHotelsDescriptionsByOperatorHub = exports.getHotelsDescriptionsByOperatorHub = R.pipe(domain, function (hotels) {
   return hotels.get('descriptionsByOperator');

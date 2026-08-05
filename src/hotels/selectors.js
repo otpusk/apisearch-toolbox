@@ -69,12 +69,16 @@ export const getHotelPhotosByCategory = () => createSelector(
     getHotel(),
     R.pipe(
         R.propOr(EMPTY_ARRAY, 'photosByCategory'),
-        R.groupBy(R.path(['category', 'id'])),
-        R.values,
-        R.map((items) => ({
-            category: items[0].category,
-            photos:   R.map(R.prop('photo'), items),
-        }))
+        (items) => R.map(
+            (category) => ({
+                category,
+                photos: R.pipe(
+                    R.filter((item) => item.category.id === category.id),
+                    R.map(R.prop('photo'))
+                )(items),
+            }),
+            R.uniqBy(R.prop('id'), R.map(R.prop('category'), items))
+        )
     )
 );
 
