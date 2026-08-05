@@ -56,6 +56,28 @@ export const getHotel = () => createSelector(
     (store, key) => store.get(key.toString())
 );
 
+export const getHotelPhotoCategories = () => createSelector(
+    getHotel(),
+    R.pipe(
+        R.propOr(EMPTY_ARRAY, 'photosByCategory'),
+        R.map(R.prop('category')),
+        R.uniqBy(R.prop('id'))
+    )
+);
+
+export const getHotelPhotosByCategory = () => createSelector(
+    getHotel(),
+    R.pipe(
+        R.propOr(EMPTY_ARRAY, 'photosByCategory'),
+        R.groupBy(R.path(['category', 'id'])),
+        R.values,
+        R.map((items) => ({
+            category: items[0].category,
+            photos:   R.map(R.prop('photo'), items),
+        }))
+    )
+);
+
 export const getHotelsDescriptionsByOperatorHub = R.pipe(
     domain,
     (hotels) => hotels.get('descriptionsByOperator')

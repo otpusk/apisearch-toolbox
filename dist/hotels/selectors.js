@@ -4,7 +4,7 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.hotelsHub = exports.getHotelsMarkers = exports.getHotelsDescriptionsByOperatorHub = exports.getHotelMarker = exports.getHotelDescriptionsByOperator = exports.getHotel = void 0;
+exports.hotelsHub = exports.getHotelsMarkers = exports.getHotelsDescriptionsByOperatorHub = exports.getHotelPhotosByCategory = exports.getHotelPhotoCategories = exports.getHotelMarker = exports.getHotelDescriptionsByOperator = exports.getHotel = void 0;
 var _reselect = require("reselect");
 var R = _interopRequireWildcard(require("ramda"));
 function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
@@ -58,6 +58,17 @@ var getHotel = exports.getHotel = function getHotel() {
   return (0, _reselect.createSelector)(getHotelsStore, hotelKey, function (store, key) {
     return store.get(key.toString());
   });
+};
+var getHotelPhotoCategories = exports.getHotelPhotoCategories = function getHotelPhotoCategories() {
+  return (0, _reselect.createSelector)(getHotel(), R.pipe(R.propOr(EMPTY_ARRAY, 'photosByCategory'), R.map(R.prop('category')), R.uniqBy(R.prop('id'))));
+};
+var getHotelPhotosByCategory = exports.getHotelPhotosByCategory = function getHotelPhotosByCategory() {
+  return (0, _reselect.createSelector)(getHotel(), R.pipe(R.propOr(EMPTY_ARRAY, 'photosByCategory'), R.groupBy(R.path(['category', 'id'])), R.values, R.map(function (items) {
+    return {
+      category: items[0].category,
+      photos: R.map(R.prop('photo'), items)
+    };
+  })));
 };
 var getHotelsDescriptionsByOperatorHub = exports.getHotelsDescriptionsByOperatorHub = R.pipe(domain, function (hotels) {
   return hotels.get('descriptionsByOperator');
