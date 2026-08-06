@@ -8,14 +8,17 @@ import { generateOperatorKey } from '../../helpers';
 export function* getOperatorsWorker ({ payload }) {
     const { countryId, departureID, methodVersion } = payload;
 
-    const token = yield select((state) => state.auth.getIn(['otpusk', 'token']));
+    const { token, lang } = yield select(({ auth }) => ({
+        token: auth.getIn(['otpusk', 'token']),
+        lang:  auth.getIn(['otpusk', 'lang'], 'rus'),
+    }));
 
     try {
         const operators = yield call(
             getToursOperators,
             token,
             countryId,
-            departureID ? { from: departureID } : undefined,
+            departureID ? { from: departureID, lang } : { lang },
             methodVersion
         );
 
