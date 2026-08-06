@@ -14,22 +14,31 @@ function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { 
 function getOperatorsWorker(_ref) {
   var payload = _ref.payload;
   return /*#__PURE__*/_regenerator().m(function _callee() {
-    var countryId, departureID, methodVersion, token, operators, _t;
+    var countryId, departureID, methodVersion, _yield$select, token, lang, operators, _t;
     return _regenerator().w(function (_context) {
       while (1) switch (_context.p = _context.n) {
         case 0:
           countryId = payload.countryId, departureID = payload.departureID, methodVersion = payload.methodVersion;
           _context.n = 1;
-          return (0, _effects.select)(function (state) {
-            return state.auth.getIn(['otpusk', 'token']);
+          return (0, _effects.select)(function (_ref2) {
+            var auth = _ref2.auth;
+            return {
+              token: auth.getIn(['otpusk', 'token']),
+              lang: auth.getIn(['otpusk', 'lang'], 'rus')
+            };
           });
         case 1:
-          token = _context.v;
+          _yield$select = _context.v;
+          token = _yield$select.token;
+          lang = _yield$select.lang;
           _context.p = 2;
           _context.n = 3;
           return (0, _effects.call)(_jsonApi.getToursOperators, token, countryId, departureID ? {
-            from: departureID
-          } : undefined, methodVersion);
+            from: departureID,
+            lang: lang
+          } : {
+            lang: lang
+          }, methodVersion);
         case 3:
           operators = _context.v;
           _context.n = 4;
