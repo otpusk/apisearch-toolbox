@@ -7,7 +7,7 @@ exports.toStringCompiler = exports.rangeCompiler = exports.numberCompiler = expo
 var _moment = _interopRequireDefault(require("moment"));
 var _fn = require("./fn");
 var _constants = require("./constants");
-function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 // Instruments
 
 /**

@@ -18,17 +18,17 @@ var _compilers = require("./compilers");
 var _parsers = require("./parsers");
 var _constants = require("./constants");
 var _SHORT_QUERY_NAMES, _DEFAULTS;
-function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
-function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
-function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
 function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); } // Core
 // Instruments
@@ -72,6 +72,7 @@ var QUERY_PARAMS = exports.QUERY_PARAMS = {
   RATING: 'rating',
   CURRENCY: 'currency',
   OPERATORS: 'operators',
+  BYPASS_R_FILTER: 'bypassRFilter',
   SELECTED_OPERATORS: 'selectedOperators',
   FLIGHT_AVAILABILITY: 'flightAvailability',
   HOTEL_AVAILABILITY: 'hotelAvailability',
@@ -119,7 +120,7 @@ var DEFAULTS = (_DEFAULTS = {}, _defineProperty(_defineProperty(_defineProperty(
   'train': true,
   'ship': true,
   'no': false
-}))), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_DEFAULTS, QUERY_PARAMS.CITIES, (0, _immutable.Set)()), QUERY_PARAMS.HOTELS, (0, _immutable.Set)()), QUERY_PARAMS.PRICE, (0, _immutable.Map)()), QUERY_PARAMS.PAGE, 1), QUERY_PARAMS.SERVICES, (0, _immutable.Set)()), QUERY_PARAMS.SHORT, null), QUERY_PARAMS.RATING, (0, _immutable.Map)()), QUERY_PARAMS.CURRENCY, null), QUERY_PARAMS.OPERATORS, (0, _immutable.Set)()), QUERY_PARAMS.SELECTED_OPERATORS, (0, _immutable.Set)()), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_DEFAULTS, QUERY_PARAMS.FLIGHT_AVAILABILITY, (0, _immutable.Set)()), QUERY_PARAMS.HOTEL_AVAILABILITY, (0, _immutable.Set)()), QUERY_PARAMS.WITHOUT_SPO, false), QUERY_PARAMS.LANGUAGE, null), QUERY_PARAMS.IGNORE_SERVICES, (0, _immutable.Set)()), QUERY_PARAMS.GROUP, null), QUERY_PARAMS.DISTRICTS, (0, _immutable.Set)()), QUERY_PARAMS.PROVINCES, (0, _immutable.Set)()), QUERY_PARAMS.AVERAGE_RATING, (0, _immutable.Map)()), QUERY_PARAMS.IS_DIRECT_FLIGHT, false), _defineProperty(_defineProperty(_DEFAULTS, QUERY_PARAMS.SELECTED_OFFER_DATE, null), QUERY_PARAMS.SORT, _constants.DEFAULT_SORT_BY));
+}))), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_DEFAULTS, QUERY_PARAMS.CITIES, (0, _immutable.Set)()), QUERY_PARAMS.HOTELS, (0, _immutable.Set)()), QUERY_PARAMS.PRICE, (0, _immutable.Map)()), QUERY_PARAMS.PAGE, 1), QUERY_PARAMS.SERVICES, (0, _immutable.Set)()), QUERY_PARAMS.SHORT, null), QUERY_PARAMS.RATING, (0, _immutable.Map)()), QUERY_PARAMS.CURRENCY, null), QUERY_PARAMS.OPERATORS, (0, _immutable.Set)()), QUERY_PARAMS.BYPASS_R_FILTER, (0, _immutable.Set)()), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_DEFAULTS, QUERY_PARAMS.SELECTED_OPERATORS, (0, _immutable.Set)()), QUERY_PARAMS.FLIGHT_AVAILABILITY, (0, _immutable.Set)()), QUERY_PARAMS.HOTEL_AVAILABILITY, (0, _immutable.Set)()), QUERY_PARAMS.WITHOUT_SPO, false), QUERY_PARAMS.LANGUAGE, null), QUERY_PARAMS.IGNORE_SERVICES, (0, _immutable.Set)()), QUERY_PARAMS.GROUP, null), QUERY_PARAMS.DISTRICTS, (0, _immutable.Set)()), QUERY_PARAMS.PROVINCES, (0, _immutable.Set)()), QUERY_PARAMS.AVERAGE_RATING, (0, _immutable.Map)()), _defineProperty(_defineProperty(_defineProperty(_DEFAULTS, QUERY_PARAMS.IS_DIRECT_FLIGHT, false), QUERY_PARAMS.SELECTED_OFFER_DATE, null), QUERY_PARAMS.SORT, _constants.DEFAULT_SORT_BY));
 
 /**
  * Query string glue
@@ -288,15 +289,19 @@ function convertToOtpQuery(query) {
     return {
       'toOperators': value.toArray()
     };
+  }), QUERY_PARAMS.BYPASS_R_FILTER, function (value) {
+    return {
+      'bypassRFilter': value.toArray()
+    };
   }), QUERY_PARAMS.FLIGHT_AVAILABILITY, function (value) {
     return {
       'availableFlight': value.toArray()
     };
-  }), QUERY_PARAMS.HOTEL_AVAILABILITY, function (value) {
+  }), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_converters, QUERY_PARAMS.HOTEL_AVAILABILITY, function (value) {
     return {
       'stopSale': value.toArray()
     };
-  }), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_converters, QUERY_PARAMS.WITHOUT_SPO, function (value) {
+  }), QUERY_PARAMS.WITHOUT_SPO, function (value) {
     return {
       'noPromo': value
     };
@@ -332,7 +337,7 @@ function convertToOtpQuery(query) {
     return value ? {
       offerDate: value
     } : null;
-  }), QUERY_PARAMS.SORT, function (value) {
+  }), _defineProperty(_converters, QUERY_PARAMS.SORT, function (value) {
     return {
       'sort': value
     };

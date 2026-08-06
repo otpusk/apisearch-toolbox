@@ -14,39 +14,48 @@ function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyri
 function getOperatorsWorker(_ref) {
   var payload = _ref.payload;
   return /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-    var countryId, departureID, methodVersion, token, operators;
+    var countryId, departureID, methodVersion, _yield$select, token, lang, operators;
     return _regeneratorRuntime().wrap(function _callee$(_context) {
       while (1) switch (_context.prev = _context.next) {
         case 0:
           countryId = payload.countryId, departureID = payload.departureID, methodVersion = payload.methodVersion;
           _context.next = 3;
-          return (0, _effects.select)(function (state) {
-            return state.auth.getIn(['otpusk', 'token']);
+          return (0, _effects.select)(function (_ref2) {
+            var auth = _ref2.auth;
+            return {
+              token: auth.getIn(['otpusk', 'token']),
+              lang: auth.getIn(['otpusk', 'lang'], 'rus')
+            };
           });
         case 3:
-          token = _context.sent;
-          _context.prev = 4;
-          _context.next = 7;
+          _yield$select = _context.sent;
+          token = _yield$select.token;
+          lang = _yield$select.lang;
+          _context.prev = 6;
+          _context.next = 9;
           return (0, _effects.call)(_jsonApi.getToursOperators, token, countryId, departureID ? {
-            from: departureID
-          } : undefined, methodVersion);
-        case 7:
+            from: departureID,
+            lang: lang
+          } : {
+            lang: lang
+          }, methodVersion);
+        case 9:
           operators = _context.sent;
-          _context.next = 10;
+          _context.next = 12;
           return (0, _effects.put)(_actions.geoActions.getOperatorsSuccess((0, _helpers.generateOperatorKey)(countryId, departureID), (0, _immutable.List)(operators)));
-        case 10:
-          _context.next = 17;
-          break;
         case 12:
-          _context.prev = 12;
-          _context.t0 = _context["catch"](4);
+          _context.next = 19;
+          break;
+        case 14:
+          _context.prev = 14;
+          _context.t0 = _context["catch"](6);
           console.log('error', _context.t0);
-          _context.next = 17;
+          _context.next = 19;
           return (0, _effects.put)(_actions.geoActions.getOperatorsFail(_context.t0));
-        case 17:
+        case 19:
         case "end":
           return _context.stop();
       }
-    }, _callee, null, [[4, 12]]);
+    }, _callee, null, [[6, 14]]);
   })();
 }
