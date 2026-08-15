@@ -4,7 +4,7 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.selectOperators = exports.offersByKey = exports.isStart = exports.isSetSearch = exports.isSetHotelAtPrices = exports.isSearch = exports.isProccess = exports.isFail = exports.isDone = exports.hotelsByKey = exports.getTotal = exports.getSearchProgressByPercent = exports.getSearchCountry = exports.getPrices = exports.getOperatorsWithMinPrice = exports.getOperatorsByHotelID = exports.getOperatorLink = exports.getOffersFromPrices = exports.getNightsWithMinPrice = exports.getHotelsTotal = exports.getHotelsMarkers = exports.getHotelsByMultipleSearch = exports.getHotelsByMinPrice = exports.getFoodsWithMinPrice = exports.getFlattenPrices = exports.getError = exports.getChart = exports.getCenterByHotelsMarkers = exports.getCategoryWithMinPrice = exports.getAvailableDates = exports.createGetDeparturesWithMinPrice = void 0;
+exports.selectOperators = exports.offersByKey = exports.isStart = exports.isSetSearch = exports.isSetHotelAtPrices = exports.isSearch = exports.isProccess = exports.isFail = exports.isDone = exports.hotelsByKey = exports.getTotal = exports.getSearchProgressByPercent = exports.getSearchCountry = exports.getPricesWithEntities = exports.getPrices = exports.getOperatorsWithMinPrice = exports.getOperatorsByHotelID = exports.getOperatorLink = exports.getOffersFromPrices = exports.getNightsWithMinPrice = exports.getHotelsTotal = exports.getHotelsMarkers = exports.getHotelsByMultipleSearch = exports.getHotelsByMinPrice = exports.getFoodsWithMinPrice = exports.getFlattenPrices = exports.getError = exports.getChart = exports.getCenterByHotelsMarkers = exports.getCategoryWithMinPrice = exports.getBoundsByHotelsMarkers = exports.getAvailableDates = exports.createGetDeparturesWithMinPrice = void 0;
 var _reselect = require("reselect");
 var R = _interopRequireWildcard(require("ramda"));
 var _static = require("@otpusk/json-api/dist/static");
@@ -21,17 +21,17 @@ function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return 
 function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != _typeof(e) && "function" != typeof e) return { "default": e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && {}.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n["default"] = e, t && t.set(e, n), n; }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } } return target; }
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function _objectWithoutProperties(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], t.indexOf(o) >= 0 || {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
+function _objectWithoutPropertiesLoose(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (e.indexOf(n) >= 0) continue; t[n] = r[n]; } return t; }
+function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 var domain = function domain(_) {
   return _.search;
 };
@@ -129,9 +129,24 @@ var getOffersFromPrices = exports.getOffersFromPrices = function getOffersFromPr
     })), pricesByPages) : EMPTY_ARRAY;
   });
 };
+var getPricesWithEntities = exports.getPricesWithEntities = function getPricesWithEntities() {
+  return (0, _reselect.createSelector)(getFlattenPrices(), _selectors2.hotelsHub, (0, _selectors.getOffers)(), function (prices, hotels, offers) {
+    return R.map(function (_ref7) {
+      var hotelID = _ref7.hotelID,
+        ids = _ref7.offers;
+      return R.mergeAll([{
+        hotel: hotels[hotelID]
+      }, {
+        offers: R.map(function (id) {
+          return offers[id];
+        }, ids)
+      }]);
+    }, prices);
+  });
+};
 var isSetHotelAtPrices = exports.isSetHotelAtPrices = function isSetHotelAtPrices() {
-  return (0, _reselect.createSelector)(getFlattenPrices(), function (_, _ref7) {
-    var hotelID = _ref7.hotelID;
+  return (0, _reselect.createSelector)(getFlattenPrices(), function (_, _ref8) {
+    var hotelID = _ref8.hotelID;
     return hotelID;
   }, function (prices, hotelID) {
     return R.any(R.propEq(hotelID, 'hotelID'), prices);
@@ -140,40 +155,40 @@ var isSetHotelAtPrices = exports.isSetHotelAtPrices = function isSetHotelAtPrice
 var getError = exports.getError = function getError() {
   return (0, _reselect.createSelector)(searchByKey, R.prop('error'));
 };
-var isStart = exports.isStart = (0, _reselect.createSelector)(searchByKey, function (_ref8) {
-  var status = _ref8.status;
+var isStart = exports.isStart = (0, _reselect.createSelector)(searchByKey, function (_ref9) {
+  var status = _ref9.status;
   return status === 'starting';
 });
-var isDone = exports.isDone = (0, _reselect.createSelector)(searchByKey, function (_ref9) {
-  var status = _ref9.status;
+var isDone = exports.isDone = (0, _reselect.createSelector)(searchByKey, function (_ref10) {
+  var status = _ref10.status;
   return status === 'done';
 });
-var isSearch = exports.isSearch = (0, _reselect.createSelector)(searchByKey, function (_ref10) {
-  var status = _ref10.status;
+var isSearch = exports.isSearch = (0, _reselect.createSelector)(searchByKey, function (_ref11) {
+  var status = _ref11.status;
   return status === 'processing';
 });
-var isFail = exports.isFail = (0, _reselect.createSelector)(searchByKey, function (_ref11) {
-  var status = _ref11.status;
+var isFail = exports.isFail = (0, _reselect.createSelector)(searchByKey, function (_ref12) {
+  var status = _ref12.status;
   return status === 'failed';
 });
 var isProccess = exports.isProccess = (0, _reselect.createSelector)(isStart, isSearch, R.or);
 var getOperatorsWithMinPrice = exports.getOperatorsWithMinPrice = function getOperatorsWithMinPrice() {
   return (0, _reselect.createSelector)(selectOperators(), getOffersFromPrices(), getQueryID, _selectors3.getQuery, function (operatorsObject, offers, queryID, query) {
-    return operatorsObject ? R.call(R.pipe(R.toPairs, R.map(function (_ref12) {
-      var _ref13 = _slicedToArray(_ref12, 2),
-        id = _ref13[0],
-        isReady = _ref13[1];
+    return operatorsObject ? R.call(R.pipe(R.toPairs, R.map(function (_ref13) {
+      var _ref14 = _slicedToArray(_ref13, 2),
+        id = _ref14[0],
+        isReady = _ref14[1];
       return {
         id: Number(id),
         isReady: isReady,
-        offer: R.call(R.pipe(R.filter(function (_ref14) {
-          var operator = _ref14.operator;
+        offer: R.call(R.pipe(R.filter(function (_ref15) {
+          var operator = _ref15.operator;
           return operator === Number(id);
         }), (0, _helpers.sortOffersByMinPrice)(query.get(_fn.QUERY_PARAMS.CURRENCY)), R.head), R.concat(offers, getOffersListFromSearchMemory(queryID)))
       };
-    }), R.sort(R.ascend(R.pathOr(Infinity, ['offer', 'price', query.get(_fn.QUERY_PARAMS.CURRENCY)]))), R.map(function (_ref15) {
-      var offer = _ref15.offer,
-        entity = _objectWithoutProperties(_ref15, _excluded);
+    }), R.sort(R.ascend(R.pathOr(Infinity, ['offer', 'price', query.get(_fn.QUERY_PARAMS.CURRENCY)]))), R.map(function (_ref16) {
+      var offer = _ref16.offer,
+        entity = _objectWithoutProperties(_ref16, _excluded);
       return R.mergeAll([entity, {
         offerID: R.prop('id', offer)
       }]);
@@ -183,8 +198,8 @@ var getOperatorsWithMinPrice = exports.getOperatorsWithMinPrice = function getOp
 var getFoodsWithMinPrice = exports.getFoodsWithMinPrice = function getFoodsWithMinPrice() {
   return (0, _reselect.createSelector)(getOffersFromPrices(), getQueryID, _selectors3.getQuery, function (offers, queryID, query) {
     var groupedByFood = R.groupBy(R.prop('food'), R.concat(offers, getOffersListFromSearchMemory(queryID)));
-    return R.map(function (_ref16) {
-      var code = _ref16.code;
+    return R.map(function (_ref17) {
+      var code = _ref17.code;
       return {
         code: code,
         offerID: R.prop(code, groupedByFood) ? R.call(R.pipe(R.prop(code), (0, _helpers.sortOffersByMinPrice)(query.get(_fn.QUERY_PARAMS.CURRENCY)), R.head, R.prop('id')), groupedByFood) : undefined
@@ -193,30 +208,18 @@ var getFoodsWithMinPrice = exports.getFoodsWithMinPrice = function getFoodsWithM
   });
 };
 var getCategoryWithMinPrice = exports.getCategoryWithMinPrice = function getCategoryWithMinPrice() {
-  return (0, _reselect.createSelector)(getFlattenPrices(), _selectors2.hotelsHub, (0, _selectors.getOffers)(), getQueryID, _selectors3.getQuery, function (prices, hotels, offers, queryID, query) {
+  return (0, _reselect.createSelector)(getPricesWithEntities(), _selectors3.getQuery, function (prices, query) {
     var categoriesAsArray = query ? R.map(R.head, R.toPairs(query.get(_fn.QUERY_PARAMS.CATEGORY).toObject())) : EMPTY_ARRAY;
-    var groupedByCaregory = R.groupBy(R.path(['hotel', 'stars']), R.map(function (_ref17) {
-      var hotelID = _ref17.hotelID,
-        ids = _ref17.offers;
-      return R.mergeAll([{
-        hotel: hotels[hotelID]
-      }, {
-        offers: R.map(function (id) {
-          return R.mergeAll([offers[id], {
-            hotelID: hotelID
-          }]);
-        }, ids)
-      }]);
-    }, R.concat(prices, getUnusedPricesFromSearchMemory(queryID))));
+    var groupedByCaregory = R.groupBy(R.path(['hotel', 'stars']), prices);
     return R.map(function (category) {
       return _objectSpread({
         category: category
       }, R.call(R.ifElse(Boolean, R.pipe(R.map(R.prop('offers')), R.flatten, (0, _helpers.sortOffersByMinPrice)(query.get(_fn.QUERY_PARAMS.CURRENCY)), R.head, function (_ref18) {
         var id = _ref18.id,
-          hotelID = _ref18.hotelID;
+          hotelId = _ref18.hotelId;
         return {
           offerID: id,
-          hotelID: hotelID
+          hotelID: hotelId
         };
       }), R.always({
         offerID: undefined,
@@ -301,13 +304,13 @@ var getChart = exports.getChart = (0, _reselect.createSelector)(getCharts, getQu
   return charts.get(queryID, EMPTY_ARRAY);
 });
 var getHotelsMarkers = exports.getHotelsMarkers = function getHotelsMarkers() {
-  return (0, _reselect.createSelector)(getFlattenPrices(), _selectors2.hotelsHub, function (prices, hotels) {
+  return (0, _reselect.createSelector)(getPricesWithEntities(), function (prices) {
     return R.filter(Boolean, R.map(R.pipe(function (_ref21) {
-      var hotelID = _ref21.hotelID,
+      var hotel = _ref21.hotel,
         _ref21$offers = _slicedToArray(_ref21.offers, 1),
-        offerID = _ref21$offers[0];
-      return R.mergeAll([hotels[hotelID], {
-        offerID: offerID
+        offer = _ref21$offers[0];
+      return R.mergeAll([hotel, {
+        offerID: R.prop('id', offer)
       }]);
     }, R.ifElse(R.prop('location'), function (_ref22) {
       var id = _ref22.id,
@@ -333,6 +336,29 @@ var getCenterByHotelsMarkers = exports.getCenterByHotelsMarkers = function getCe
       lat: R.prop('latitude'),
       lng: R.prop('longitude')
     })), markers) : undefined;
+  });
+};
+var getBoundsByHotelsMarkers = exports.getBoundsByHotelsMarkers = function getBoundsByHotelsMarkers() {
+  return (0, _reselect.createSelector)(getHotelsMarkers(), function (markers) {
+    return !R.isEmpty(markers) ? R.call(R.pipe(R.map(R.applySpec({
+      latitude: R.path(['position', 'lat']),
+      longitude: R.path(['position', 'lng'])
+    })), _geolib.getBounds, function (_ref23) {
+      var minLat = _ref23.minLat,
+        maxLat = _ref23.maxLat,
+        minLng = _ref23.minLng,
+        maxLng = _ref23.maxLng;
+      return {
+        ne: {
+          lat: maxLat,
+          lng: maxLng
+        },
+        sw: {
+          lat: minLat,
+          lng: minLng
+        }
+      };
+    }), markers) : undefined;
   });
 };
 var getAvailableDates = exports.getAvailableDates = R.useWith(function (availableDates, key) {

@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 import * as R from 'ramda';
 import { FOODS } from '@otpusk/json-api/dist/static';
-import { getCenter } from 'geolib';
+import { getBounds, getCenter } from 'geolib';
 
 import { getOffers } from './../offers/selectors';
 import { hotelsHub } from './../hotels/selectors';
@@ -166,6 +166,19 @@ export const getOffersFromPrices = () => createSelector(
         : EMPTY_ARRAY
 );
 
+export const getPricesWithEntities = () => createSelector(
+    getFlattenPrices(),
+    hotelsHub,
+    getOffers(),
+    (prices, hotels, offers) => R.map(
+        ({ hotelID, offers: ids }) => R.mergeAll([
+            { hotel: hotels[hotelID] },
+            { offers: R.map((id) => offers[id], ids) }
+        ]),
+        prices
+    )
+);
+
 export const isSetHotelAtPrices = () => createSelector(
     getFlattenPrices(),
     (_, { hotelID }) => hotelID,
@@ -270,12 +283,9 @@ export const getFoodsWithMinPrice = () => createSelector(
 );
 
 export const getCategoryWithMinPrice = () => createSelector(
-    getFlattenPrices(),
-    hotelsHub,
-    getOffers(),
-    getQueryID,
+    getPricesWithEntities(),
     getQuery,
-    (prices, hotels, offers, queryID, query) => {
+    (prices, query) => {
         const categoriesAsArray = query
             ? R.map(
                 R.head,
@@ -285,16 +295,7 @@ export const getCategoryWithMinPrice = () => createSelector(
 
         const groupedByCaregory = R.groupBy(
             R.path(['hotel', 'stars']),
-            R.map(
-                ({ hotelID, offers: ids }) => R.mergeAll([
-                    { hotel: hotels[hotelID] },
-                    { offers: R.map((id) => R.mergeAll([offers[id], { hotelID }]), ids) }
-                ]),
-                R.concat(
-                    prices,
-                    getUnusedPricesFromSearchMemory(queryID)
-                )
-            )
+            prices
         );
 
         return R.map(
@@ -308,7 +309,7 @@ export const getCategoryWithMinPrice = () => createSelector(
                             R.flatten,
                             sortOffersByMinPrice(query.get(QUERY_PARAMS.CURRENCY)),
                             R.head,
-                            ({ id, hotelID }) => ({ offerID: id, hotelID })
+                            ({ id, hotelId }) => ({ offerID: id, hotelID: hotelId })
                         ),
                         R.always({ offerID: undefined, hotelID: undefined })
                     ),
@@ -484,15 +485,14 @@ export const getChart = createSelector(
 );
 
 export const getHotelsMarkers = () => createSelector(
-    getFlattenPrices(),
-    hotelsHub,
-    (prices, hotels) => R.filter(
+    getPricesWithEntities(),
+    (prices) => R.filter(
         Boolean,
         R.map(
             R.pipe(
-                ({ hotelID, offers:[offerID] }) => R.mergeAll([
-                    hotels[hotelID],
-                    { offerID }
+                ({ hotel, offers: [offer] }) => R.mergeAll([
+                    hotel,
+                    { offerID: R.prop('id', offer) }
                 ]),
                 R.ifElse(
                     R.prop('location'),
@@ -524,6 +524,26 @@ export const getCenterByHotelsMarkers = () => createSelector(
                 R.applySpec({
                     lat: R.prop('latitude'),
                     lng: R.prop('longitude'),
+                })
+            ),
+            markers
+        )
+        : undefined
+);
+
+export const getBoundsByHotelsMarkers = () => createSelector(
+    getHotelsMarkers(),
+    (markers) => !R.isEmpty(markers)
+        ? R.call(
+            R.pipe(
+                R.map(R.applySpec({
+                    latitude:  R.path(['position', 'lat']),
+                    longitude: R.path(['position', 'lng']),
+                })),
+                getBounds,
+                ({ minLat, maxLat, minLng, maxLng }) => ({
+                    ne: { lat: maxLat, lng: maxLng },
+                    sw: { lat: minLat, lng: minLng },
                 })
             ),
             markers
