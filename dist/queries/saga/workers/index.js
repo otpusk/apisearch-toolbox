@@ -5,13 +5,13 @@ Object.defineProperty(exports, "__esModule", {
 });
 Object.defineProperty(exports, "compileQueryStringWorker", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _compileQueryStringWorker.compileQueryStringWorker;
   }
 });
 Object.defineProperty(exports, "parseQueryStringWorker", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _parseQueryStringWorker.parseQueryStringWorker;
   }
 });

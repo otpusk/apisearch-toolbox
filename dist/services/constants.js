@@ -4,8 +4,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.STATIC_LABELS_BY_LANG = exports.EMPTY_COUNTRY_ID = void 0;
-var EMPTY_COUNTRY_ID = exports.EMPTY_COUNTRY_ID = 0;
-var STATIC_LABELS_BY_LANG = exports.STATIC_LABELS_BY_LANG = {
+const EMPTY_COUNTRY_ID = exports.EMPTY_COUNTRY_ID = 0;
+const STATIC_LABELS_BY_LANG = exports.STATIC_LABELS_BY_LANG = {
   'ru': {
     'beach_line': 'Линия пляжа',
     'location': 'Расположение',

@@ -1,6 +1,5 @@
 "use strict";
 
-function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -10,45 +9,36 @@ var R = _interopRequireWildcard(require("ramda"));
 var _selectors = require("../auth/selectors");
 var _constants = require("./constants");
 var _helpers = require("./helpers");
-function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
-function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != _typeof(e) && "function" != typeof e) return { "default": e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && {}.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n["default"] = e, t && t.set(e, n), n; }
-var EMPTY_OBJ = {};
-var EMPTY_ARRAY = [];
-var domain = function domain(_) {
-  return _.services;
-};
-var getCommonLabesl = (0, _reselect.createSelector)(domain, R.prop('labels'));
-var getLabels = exports.getLabels = (0, _reselect.createSelector)(getCommonLabesl, _selectors.getLang, function (labels, lang) {
-  return R.mergeAll([labels, _constants.STATIC_LABELS_BY_LANG[lang] || _constants.STATIC_LABELS_BY_LANG.rus]);
-});
-var getServicesStore = (0, _reselect.createSelector)(domain, R.prop('store'));
-var getAllServices = exports.getAllServices = (0, _reselect.createSelector)(getServicesStore, function (servicesStore) {
-  return R.propOr(EMPTY_OBJ, _constants.EMPTY_COUNTRY_ID, servicesStore);
-});
-var getServicesByCountryID = exports.getServicesByCountryID = (0, _reselect.createSelector)(getServicesStore, function (_, _ref) {
-  var countryID = _ref.countryID;
+function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function (e) { return e ? t : r; })(e); }
+function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != typeof e && "function" != typeof e) return { default: e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && {}.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n.default = e, t && t.set(e, n), n; }
+const EMPTY_OBJ = {};
+const EMPTY_ARRAY = [];
+const domain = _ => _.services;
+const getCommonLabesl = (0, _reselect.createSelector)(domain, R.prop('labels'));
+const getLabels = exports.getLabels = (0, _reselect.createSelector)(getCommonLabesl, _selectors.getLang, (labels, lang) => R.mergeAll([labels, _constants.STATIC_LABELS_BY_LANG[lang] || _constants.STATIC_LABELS_BY_LANG.rus]));
+const getServicesStore = (0, _reselect.createSelector)(domain, R.prop('store'));
+const getAllServices = exports.getAllServices = (0, _reselect.createSelector)(getServicesStore, servicesStore => R.propOr(EMPTY_OBJ, _constants.EMPTY_COUNTRY_ID, servicesStore));
+const getServicesByCountryID = exports.getServicesByCountryID = (0, _reselect.createSelector)(getServicesStore, (_, _ref) => {
+  let {
+    countryID
+  } = _ref;
   return countryID;
-}, function (servicesStore, countryID) {
-  return R.propOr(EMPTY_OBJ, countryID, servicesStore);
+}, (servicesStore, countryID) => R.propOr(EMPTY_OBJ, countryID, servicesStore));
+const getCommonServicesByCountry = exports.getCommonServicesByCountry = (0, _reselect.createSelector)(getServicesByCountryID, servicesMap => R.isEmpty(servicesMap) ? servicesMap : {
+  beach: servicesMap.beach,
+  main: servicesMap.main,
+  sport: servicesMap.sport,
+  child: servicesMap.child,
+  renovation: servicesMap.renovation
 });
-var getCommonServicesByCountry = exports.getCommonServicesByCountry = (0, _reselect.createSelector)(getServicesByCountryID, function (servicesMap) {
-  return R.isEmpty(servicesMap) ? servicesMap : {
-    beach: servicesMap.beach,
-    main: servicesMap.main,
-    sport: servicesMap.sport,
-    child: servicesMap.child,
-    renovation: servicesMap.renovation
-  };
-});
-var getServicesIconsForHotel = exports.getServicesIconsForHotel = (0, _reselect.createSelector)(getServicesByCountryID, R.propOr(EMPTY_ARRAY, 'icons'));
-var getChains = exports.getChains = function getChains(state, params) {
-  return R.propOr(EMPTY_ARRAY, 'chains', getServicesByCountryID(state, params));
-};
-var getBookingServices = R.pipe(domain, R.prop('booking'));
-var getBookingServicesByOffer = exports.getBookingServicesByOffer = (0, _reselect.createSelector)(getBookingServices, function (_, _ref2) {
-  var offerID = _ref2.offerID,
-    currency = _ref2.currency;
+const getServicesIconsForHotel = exports.getServicesIconsForHotel = (0, _reselect.createSelector)(getServicesByCountryID, R.propOr(EMPTY_ARRAY, 'icons'));
+const getChains = (state, params) => R.propOr(EMPTY_ARRAY, 'chains', getServicesByCountryID(state, params));
+exports.getChains = getChains;
+const getBookingServices = R.pipe(domain, R.prop('booking'));
+const getBookingServicesByOffer = exports.getBookingServicesByOffer = (0, _reselect.createSelector)(getBookingServices, (_, _ref2) => {
+  let {
+    offerID,
+    currency
+  } = _ref2;
   return (0, _helpers.createBookingServicesKey)(offerID, currency);
-}, function (servicesMap, key) {
-  return R.propOr(EMPTY_ARRAY, key, servicesMap);
-});
+}, (servicesMap, key) => R.propOr(EMPTY_ARRAY, key, servicesMap));

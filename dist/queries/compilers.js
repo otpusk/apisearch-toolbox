@@ -7,7 +7,7 @@ exports.toStringCompiler = exports.rangeCompiler = exports.numberCompiler = expo
 var _moment = _interopRequireDefault(require("moment"));
 var _fn = require("./fn");
 var _constants = require("./constants");
-function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
 // Instruments
 
 /**
@@ -16,11 +16,7 @@ function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default":
  * @param {Map} value flags list
  * @returns {String} binary param
  */
-var binaryCompiler = exports.binaryCompiler = function binaryCompiler(value) {
-  return Number(value.toList().map(function (flag) {
-    return Number(flag);
-  }).join(_fn.GLUE.binary)).toString(36);
-};
+const binaryCompiler = value => Number(value.toList().map(flag => Number(flag)).join(_fn.GLUE.binary)).toString(36);
 
 /**
  * Range compiler
@@ -28,12 +24,12 @@ var binaryCompiler = exports.binaryCompiler = function binaryCompiler(value) {
  * @param {Map} value range
  * @return {String} range param
  */
-var rangeCompiler = exports.rangeCompiler = function rangeCompiler(value) {
-  var _value$toObject = value.toObject(),
-    _value$toObject$from = _value$toObject.from,
-    from = _value$toObject$from === void 0 ? '' : _value$toObject$from,
-    _value$toObject$to = _value$toObject.to,
-    to = _value$toObject$to === void 0 ? '' : _value$toObject$to;
+exports.binaryCompiler = binaryCompiler;
+const rangeCompiler = value => {
+  const {
+    from = '',
+    to = ''
+  } = value.toObject();
   return (from === to ? [from] : [from, to]).join(_fn.GLUE.range);
 };
 
@@ -43,15 +39,14 @@ var rangeCompiler = exports.rangeCompiler = function rangeCompiler(value) {
  * @param {Map} value dates
  * @returns {String} dates param
  */
-var datesCompiler = exports.datesCompiler = function datesCompiler(value) {
-  var isSetRangeDateField = value.get(_constants.RANGE_DATE_FIELD) === 'number';
+exports.rangeCompiler = rangeCompiler;
+const datesCompiler = value => {
+  const isSetRangeDateField = value.get(_constants.RANGE_DATE_FIELD) === 'number';
   if (isSetRangeDateField) {
-    var range = value.get(_constants.RANGE_DATE_FIELD);
-    return [(0, _moment["default"])(value.get('from')).add(range, 'days').format('D.M.Y'), "".concat(_constants.RANGE_DATE_TAG).concat(range)].join('');
+    const range = value.get(_constants.RANGE_DATE_FIELD);
+    return [(0, _moment.default)(value.get('from')).add(range, 'days').format('D.M.Y'), `${_constants.RANGE_DATE_TAG}${range}`].join('');
   }
-  return [value.get('from'), value.get('to')].map(function (date) {
-    return date ? (0, _moment["default"])(date).format('D.M.Y') : _fn.GLUE.empty;
-  }).join(_fn.GLUE.range);
+  return [value.get('from'), value.get('to')].map(date => date ? (0, _moment.default)(date).format('D.M.Y') : _fn.GLUE.empty).join(_fn.GLUE.range);
 };
 
 /**
@@ -60,9 +55,8 @@ var datesCompiler = exports.datesCompiler = function datesCompiler(value) {
  * @param {Array} value values
  * @returns {String} param
  */
-var arrayCompiler = exports.arrayCompiler = function arrayCompiler(value) {
-  return value.length ? value.join(_fn.GLUE.list) : _fn.GLUE.empty;
-};
+exports.datesCompiler = datesCompiler;
+const arrayCompiler = value => value.length ? value.join(_fn.GLUE.list) : _fn.GLUE.empty;
 
 /**
  * Map structure compiler
@@ -70,9 +64,8 @@ var arrayCompiler = exports.arrayCompiler = function arrayCompiler(value) {
  * @param {Map} value value
  * @returns {String} map keys
  */
-var mapCompiler = exports.mapCompiler = function mapCompiler(value) {
-  return value && value.count() ? value.keySeq().toArray().join(_fn.GLUE.list) : _fn.GLUE.empty;
-};
+exports.arrayCompiler = arrayCompiler;
+const mapCompiler = value => value && value.count() ? value.keySeq().toArray().join(_fn.GLUE.list) : _fn.GLUE.empty;
 
 /**
  * toStringCompiler
@@ -80,9 +73,8 @@ var mapCompiler = exports.mapCompiler = function mapCompiler(value) {
  * @param {any} value value
  * @returns {String} param
  */
-var toStringCompiler = exports.toStringCompiler = function toStringCompiler(value) {
-  return value.toString();
-};
+exports.mapCompiler = mapCompiler;
+const toStringCompiler = value => value.toString();
 
 /**
  * Number compiler
@@ -90,12 +82,10 @@ var toStringCompiler = exports.toStringCompiler = function toStringCompiler(valu
  * @param {Number} value value
  * @returns {string} param
  */
-var numberCompiler = exports.numberCompiler = function numberCompiler(value) {
-  return Number(value).toString();
-};
+exports.toStringCompiler = toStringCompiler;
+const numberCompiler = value => Number(value).toString();
 
 /* Immutable List, Set compiler */
-
-var immutableArrayCompiler = exports.immutableArrayCompiler = function immutableArrayCompiler(value) {
-  return value.size ? value.join(_fn.GLUE.list) : _fn.GLUE.empty;
-};
+exports.numberCompiler = numberCompiler;
+const immutableArrayCompiler = value => value.size ? value.join(_fn.GLUE.list) : _fn.GLUE.empty;
+exports.immutableArrayCompiler = immutableArrayCompiler;

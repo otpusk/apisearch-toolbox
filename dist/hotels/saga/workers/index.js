@@ -5,25 +5,25 @@ Object.defineProperty(exports, "__esModule", {
 });
 Object.defineProperty(exports, "getDescriptionsByOperatorWorker", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _getDescriptionsByOperator.getDescriptionsByOperatorWorker;
   }
 });
 Object.defineProperty(exports, "getHotelWorker", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _getHotelWorker.getHotelWorker;
   }
 });
 Object.defineProperty(exports, "getHotelsMarkersWorker", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _getHotelsMarkersWorker.getHotelsMarkersWorker;
   }
 });
 Object.defineProperty(exports, "getSimilarHotelsWorker", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _getSimilarHotelsWorker.getSimilarHotelsWorker;
   }
 });

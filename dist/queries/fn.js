@@ -17,42 +17,23 @@ var _moment = _interopRequireDefault(require("moment"));
 var _compilers = require("./compilers");
 var _parsers = require("./parsers");
 var _constants = require("./constants");
-var _SHORT_QUERY_NAMES, _DEFAULTS;
-function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
-function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
-function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
-function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
-function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
-function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); } // Core
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
+// Core
+
 // Instruments
-var CHILD_BIRTHDATE_FORMAT = 'DD.MM.YYYY';
-var CHILD_AGE_FIELD_LENGTH = 2;
-var isChildBirthdate = function isChildBirthdate(birthday) {
-  return typeof birthday === 'string';
-};
-var birthdateToAge = function birthdateToAge(birthdate) {
-  return (0, _moment["default"])().diff((0, _moment["default"])(birthdate, CHILD_BIRTHDATE_FORMAT), 'years');
-};
-var resolveChildAge = function resolveChildAge(age) {
-  return isChildBirthdate(age) ? birthdateToAge(age) : age;
-};
-var compileChildrenToPeopleField = exports.compileChildrenToPeopleField = function compileChildrenToPeopleField(children) {
-  return children.map(resolveChildAge).map(function (age) {
-    return String(Math.max(age, 1)).padStart(CHILD_AGE_FIELD_LENGTH, '0');
-  }).join('');
-};
+
+const CHILD_BIRTHDATE_FORMAT = 'DD.MM.YYYY';
+const CHILD_AGE_FIELD_LENGTH = 2;
+const isChildBirthdate = birthday => typeof birthday === 'string';
+const birthdateToAge = birthdate => (0, _moment.default)().diff((0, _moment.default)(birthdate, CHILD_BIRTHDATE_FORMAT), 'years');
+const resolveChildAge = age => isChildBirthdate(age) ? birthdateToAge(age) : age;
+const compileChildrenToPeopleField = children => children.map(resolveChildAge).map(age => String(Math.max(age, 1)).padStart(CHILD_AGE_FIELD_LENGTH, '0')).join('');
 
 /**
  * Query params names
  */
-var QUERY_PARAMS = exports.QUERY_PARAMS = {
+exports.compileChildrenToPeopleField = compileChildrenToPeopleField;
+const QUERY_PARAMS = exports.QUERY_PARAMS = {
   AUTOSTART: 'autostart',
   DEPARTURES: 'departures',
   COUNTRY: 'country',
@@ -88,44 +69,112 @@ var QUERY_PARAMS = exports.QUERY_PARAMS = {
   SELECTED_OFFER_DATE: 'offerDate',
   SORT: 'sort'
 };
-var SHORT_QUERY_NAMES = exports.SHORT_QUERY_NAMES = (_SHORT_QUERY_NAMES = {}, _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_SHORT_QUERY_NAMES, QUERY_PARAMS.AUTOSTART, 'a'), QUERY_PARAMS.DEPARTURES, 'd'), QUERY_PARAMS.COUNTRY, 'c'), QUERY_PARAMS.CITIES, 'ci'), QUERY_PARAMS.HOTELS, 'h'), QUERY_PARAMS.CATEGORY, 'ca'), QUERY_PARAMS.DATES, 'da'), QUERY_PARAMS.DURATION, 'du'), QUERY_PARAMS.ADULTS, 'ad'), QUERY_PARAMS.CHILDREN, 'ch'), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_SHORT_QUERY_NAMES, QUERY_PARAMS.FOOD, 'f'), QUERY_PARAMS.TRANSPORTS, 't'), QUERY_PARAMS.PRICE, 'p'), QUERY_PARAMS.PAGE, 'pa'), QUERY_PARAMS.SERVICES, 's'), QUERY_PARAMS.SHORT, 'sh'), QUERY_PARAMS.RATING, 'r'), QUERY_PARAMS.CURRENCY, 'cu'), QUERY_PARAMS.OPERATORS, 'o'), QUERY_PARAMS.SELECTED_OPERATORS, 'se'), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_SHORT_QUERY_NAMES, QUERY_PARAMS.FLIGHT_AVAILABILITY, 'fl'), QUERY_PARAMS.HOTEL_AVAILABILITY, 'ho'), QUERY_PARAMS.WITHOUT_SPO, 'w'), QUERY_PARAMS.LANGUAGE, 'l'), QUERY_PARAMS.NO_AGENCY_STATS, 'n'), QUERY_PARAMS.IGNORE_SERVICES, 'i'), QUERY_PARAMS.GROUP, 'g'), QUERY_PARAMS.DISTRICTS, 'di'), QUERY_PARAMS.PROVINCES, 'pr'), QUERY_PARAMS.AVERAGE_RATING, 'av'), _defineProperty(_defineProperty(_defineProperty(_SHORT_QUERY_NAMES, QUERY_PARAMS.IS_DIRECT_FLIGHT, 'is'), QUERY_PARAMS.SELECTED_OFFER_DATE, 'of'), QUERY_PARAMS.SORT, 'so'));
+const SHORT_QUERY_NAMES = exports.SHORT_QUERY_NAMES = {
+  [QUERY_PARAMS.AUTOSTART]: 'a',
+  [QUERY_PARAMS.DEPARTURES]: 'd',
+  [QUERY_PARAMS.COUNTRY]: 'c',
+  [QUERY_PARAMS.CITIES]: 'ci',
+  [QUERY_PARAMS.HOTELS]: 'h',
+  [QUERY_PARAMS.CATEGORY]: 'ca',
+  [QUERY_PARAMS.DATES]: 'da',
+  [QUERY_PARAMS.DURATION]: 'du',
+  [QUERY_PARAMS.ADULTS]: 'ad',
+  [QUERY_PARAMS.CHILDREN]: 'ch',
+  [QUERY_PARAMS.FOOD]: 'f',
+  [QUERY_PARAMS.TRANSPORTS]: 't',
+  [QUERY_PARAMS.PRICE]: 'p',
+  [QUERY_PARAMS.PAGE]: 'pa',
+  [QUERY_PARAMS.SERVICES]: 's',
+  [QUERY_PARAMS.SHORT]: 'sh',
+  [QUERY_PARAMS.RATING]: 'r',
+  [QUERY_PARAMS.CURRENCY]: 'cu',
+  [QUERY_PARAMS.OPERATORS]: 'o',
+  [QUERY_PARAMS.SELECTED_OPERATORS]: 'se',
+  [QUERY_PARAMS.FLIGHT_AVAILABILITY]: 'fl',
+  [QUERY_PARAMS.HOTEL_AVAILABILITY]: 'ho',
+  [QUERY_PARAMS.WITHOUT_SPO]: 'w',
+  [QUERY_PARAMS.LANGUAGE]: 'l',
+  [QUERY_PARAMS.NO_AGENCY_STATS]: 'n',
+  [QUERY_PARAMS.IGNORE_SERVICES]: 'i',
+  [QUERY_PARAMS.GROUP]: 'g',
+  [QUERY_PARAMS.DISTRICTS]: 'di',
+  [QUERY_PARAMS.PROVINCES]: 'pr',
+  [QUERY_PARAMS.AVERAGE_RATING]: 'av',
+  [QUERY_PARAMS.IS_DIRECT_FLIGHT]: 'is',
+  [QUERY_PARAMS.SELECTED_OFFER_DATE]: 'of',
+  [QUERY_PARAMS.SORT]: 'so'
+};
 
 /**
  * Query defaults
  */
-var DEFAULTS = (_DEFAULTS = {}, _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_DEFAULTS, QUERY_PARAMS.AUTOSTART, false), QUERY_PARAMS.DEPARTURES, (0, _immutable.List)()), QUERY_PARAMS.COUNTRY, null), QUERY_PARAMS.CATEGORY, (0, _immutable.Map)({
-  1: true,
-  2: true,
-  3: true,
-  4: true,
-  5: true
-})), QUERY_PARAMS.DATES, (0, _immutable.Map)({
-  from: (0, _moment["default"])().add(7, 'days'),
-  to: (0, _moment["default"])().add(14, 'days')
-  // [RANGE_DATE_FIELD]: undefined,
-})), QUERY_PARAMS.DURATION, (0, _immutable.Map)({
-  from: 7,
-  to: 9
-})), QUERY_PARAMS.ADULTS, 2), QUERY_PARAMS.CHILDREN, (0, _immutable.List)()), QUERY_PARAMS.FOOD, (0, _immutable.Map)({
-  'uai': true,
-  'ai': true,
-  'fb': true,
-  'hb': true,
-  'bb': true,
-  'ob': true,
-  'ro': false
-})), QUERY_PARAMS.TRANSPORTS, (0, _immutable.List)().push((0, _immutable.Map)({
-  'air': true,
-  'bus': true,
-  'train': true,
-  'ship': true,
-  'no': false
-}))), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_DEFAULTS, QUERY_PARAMS.CITIES, (0, _immutable.Set)()), QUERY_PARAMS.HOTELS, (0, _immutable.Set)()), QUERY_PARAMS.PRICE, (0, _immutable.Map)()), QUERY_PARAMS.PAGE, 1), QUERY_PARAMS.SERVICES, (0, _immutable.Set)()), QUERY_PARAMS.SHORT, null), QUERY_PARAMS.RATING, (0, _immutable.Map)()), QUERY_PARAMS.CURRENCY, null), QUERY_PARAMS.OPERATORS, (0, _immutable.Set)()), QUERY_PARAMS.BYPASS_R_FILTER, (0, _immutable.Set)()), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_DEFAULTS, QUERY_PARAMS.SELECTED_OPERATORS, (0, _immutable.Set)()), QUERY_PARAMS.FLIGHT_AVAILABILITY, (0, _immutable.Set)()), QUERY_PARAMS.HOTEL_AVAILABILITY, (0, _immutable.Set)()), QUERY_PARAMS.WITHOUT_SPO, false), QUERY_PARAMS.LANGUAGE, null), QUERY_PARAMS.IGNORE_SERVICES, (0, _immutable.Set)()), QUERY_PARAMS.GROUP, null), QUERY_PARAMS.DISTRICTS, (0, _immutable.Set)()), QUERY_PARAMS.PROVINCES, (0, _immutable.Set)()), QUERY_PARAMS.AVERAGE_RATING, (0, _immutable.Map)()), _defineProperty(_defineProperty(_defineProperty(_DEFAULTS, QUERY_PARAMS.IS_DIRECT_FLIGHT, false), QUERY_PARAMS.SELECTED_OFFER_DATE, null), QUERY_PARAMS.SORT, _constants.DEFAULT_SORT_BY));
+const DEFAULTS = {
+  [QUERY_PARAMS.AUTOSTART]: false,
+  [QUERY_PARAMS.DEPARTURES]: (0, _immutable.List)(),
+  [QUERY_PARAMS.COUNTRY]: null,
+  [QUERY_PARAMS.CATEGORY]: (0, _immutable.Map)({
+    1: true,
+    2: true,
+    3: true,
+    4: true,
+    5: true
+  }),
+  [QUERY_PARAMS.DATES]: (0, _immutable.Map)({
+    from: (0, _moment.default)().add(7, 'days'),
+    to: (0, _moment.default)().add(14, 'days')
+    // [RANGE_DATE_FIELD]: undefined,
+  }),
+  [QUERY_PARAMS.DURATION]: (0, _immutable.Map)({
+    from: 7,
+    to: 9
+  }),
+  [QUERY_PARAMS.ADULTS]: 2,
+  [QUERY_PARAMS.CHILDREN]: (0, _immutable.List)(),
+  [QUERY_PARAMS.FOOD]: (0, _immutable.Map)({
+    'uai': true,
+    'ai': true,
+    'fb': true,
+    'hb': true,
+    'bb': true,
+    'ob': true,
+    'ro': false
+  }),
+  [QUERY_PARAMS.TRANSPORTS]: (0, _immutable.List)().push((0, _immutable.Map)({
+    'air': true,
+    'bus': true,
+    'train': true,
+    'ship': true,
+    'no': false
+  })),
+  [QUERY_PARAMS.CITIES]: (0, _immutable.Set)(),
+  [QUERY_PARAMS.HOTELS]: (0, _immutable.Set)(),
+  [QUERY_PARAMS.PRICE]: (0, _immutable.Map)(),
+  [QUERY_PARAMS.PAGE]: 1,
+  [QUERY_PARAMS.SERVICES]: (0, _immutable.Set)(),
+  [QUERY_PARAMS.SHORT]: null,
+  [QUERY_PARAMS.RATING]: (0, _immutable.Map)(),
+  [QUERY_PARAMS.CURRENCY]: null,
+  [QUERY_PARAMS.OPERATORS]: (0, _immutable.Set)(),
+  [QUERY_PARAMS.BYPASS_R_FILTER]: (0, _immutable.Set)(),
+  [QUERY_PARAMS.SELECTED_OPERATORS]: (0, _immutable.Set)(),
+  [QUERY_PARAMS.FLIGHT_AVAILABILITY]: (0, _immutable.Set)(),
+  [QUERY_PARAMS.HOTEL_AVAILABILITY]: (0, _immutable.Set)(),
+  [QUERY_PARAMS.WITHOUT_SPO]: false,
+  [QUERY_PARAMS.LANGUAGE]: null,
+  [QUERY_PARAMS.IGNORE_SERVICES]: (0, _immutable.Set)(),
+  [QUERY_PARAMS.GROUP]: null,
+  [QUERY_PARAMS.DISTRICTS]: (0, _immutable.Set)(),
+  [QUERY_PARAMS.PROVINCES]: (0, _immutable.Set)(),
+  [QUERY_PARAMS.AVERAGE_RATING]: (0, _immutable.Map)(),
+  [QUERY_PARAMS.IS_DIRECT_FLIGHT]: false,
+  [QUERY_PARAMS.SELECTED_OFFER_DATE]: null,
+  [QUERY_PARAMS.SORT]: _constants.DEFAULT_SORT_BY
+};
 
 /**
  * Query string glue
  */
-var GLUE = exports.GLUE = {
+const GLUE = exports.GLUE = {
   field: '/',
   range: '-',
   list: ',',
@@ -142,8 +191,10 @@ var GLUE = exports.GLUE = {
  * @returns {OrderedMap} query
  */
 function createQuery() {
-  var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  return new _immutable.OrderedMap(_objectSpread({}, DEFAULTS)).merge(params);
+  let params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  return new _immutable.OrderedMap({
+    ...DEFAULTS
+  }).merge(params);
 }
 
 /**
@@ -169,31 +220,76 @@ function createResultBones() {
  * @returns {string} query string
  */
 function compileQuery(query) {
-  var _fieldsToCompilers;
-  var fieldsToCompilers = (_fieldsToCompilers = {}, _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_fieldsToCompilers, QUERY_PARAMS.AUTOSTART, _compilers.numberCompiler), QUERY_PARAMS.DEPARTURES, _compilers.immutableArrayCompiler), QUERY_PARAMS.COUNTRY, _compilers.numberCompiler), QUERY_PARAMS.CITIES, _compilers.immutableArrayCompiler), QUERY_PARAMS.HOTELS, _compilers.immutableArrayCompiler), QUERY_PARAMS.CATEGORY, _compilers.binaryCompiler), QUERY_PARAMS.DATES, _compilers.datesCompiler), QUERY_PARAMS.DURATION, _compilers.rangeCompiler), QUERY_PARAMS.ADULTS, _compilers.toStringCompiler), QUERY_PARAMS.CHILDREN, _compilers.immutableArrayCompiler), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_fieldsToCompilers, QUERY_PARAMS.FOOD, _compilers.binaryCompiler), QUERY_PARAMS.TRANSPORTS, function (transportsList) {
-    return (0, _compilers.immutableArrayCompiler)(transportsList.map(_compilers.binaryCompiler));
-  }), QUERY_PARAMS.PRICE, _compilers.rangeCompiler), QUERY_PARAMS.SERVICES, _compilers.immutableArrayCompiler), QUERY_PARAMS.RATING, _compilers.rangeCompiler), QUERY_PARAMS.CURRENCY, _compilers.toStringCompiler), QUERY_PARAMS.WITHOUT_SPO, _compilers.numberCompiler), QUERY_PARAMS.FLIGHT_AVAILABILITY, _compilers.immutableArrayCompiler), QUERY_PARAMS.HOTEL_AVAILABILITY, _compilers.immutableArrayCompiler), QUERY_PARAMS.IGNORE_SERVICES, _compilers.immutableArrayCompiler), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_fieldsToCompilers, QUERY_PARAMS.OPERATORS, _compilers.immutableArrayCompiler), QUERY_PARAMS.GROUP, _compilers.numberCompiler), QUERY_PARAMS.DISTRICTS, _compilers.immutableArrayCompiler), QUERY_PARAMS.PROVINCES, _compilers.immutableArrayCompiler), QUERY_PARAMS.AVERAGE_RATING, _compilers.rangeCompiler), QUERY_PARAMS.IS_DIRECT_FLIGHT, _compilers.numberCompiler), QUERY_PARAMS.SORT, _compilers.toStringCompiler));
-  return GLUE.field + query.map(function (value, field) {
-    return value && field in fieldsToCompilers ? fieldsToCompilers[field](value) : GLUE.empty;
-  }).toList().join(GLUE.field).replace(new RegExp("[".concat(GLUE.field).concat(GLUE.empty, "]+$")), '');
+  const fieldsToCompilers = {
+    [QUERY_PARAMS.AUTOSTART]: _compilers.numberCompiler,
+    [QUERY_PARAMS.DEPARTURES]: _compilers.immutableArrayCompiler,
+    [QUERY_PARAMS.COUNTRY]: _compilers.numberCompiler,
+    [QUERY_PARAMS.CITIES]: _compilers.immutableArrayCompiler,
+    [QUERY_PARAMS.HOTELS]: _compilers.immutableArrayCompiler,
+    [QUERY_PARAMS.CATEGORY]: _compilers.binaryCompiler,
+    [QUERY_PARAMS.DATES]: _compilers.datesCompiler,
+    [QUERY_PARAMS.DURATION]: _compilers.rangeCompiler,
+    [QUERY_PARAMS.ADULTS]: _compilers.toStringCompiler,
+    [QUERY_PARAMS.CHILDREN]: _compilers.immutableArrayCompiler,
+    [QUERY_PARAMS.FOOD]: _compilers.binaryCompiler,
+    [QUERY_PARAMS.TRANSPORTS]: transportsList => (0, _compilers.immutableArrayCompiler)(transportsList.map(_compilers.binaryCompiler)),
+    [QUERY_PARAMS.PRICE]: _compilers.rangeCompiler,
+    [QUERY_PARAMS.SERVICES]: _compilers.immutableArrayCompiler,
+    [QUERY_PARAMS.RATING]: _compilers.rangeCompiler,
+    [QUERY_PARAMS.CURRENCY]: _compilers.toStringCompiler,
+    [QUERY_PARAMS.WITHOUT_SPO]: _compilers.numberCompiler,
+    [QUERY_PARAMS.FLIGHT_AVAILABILITY]: _compilers.immutableArrayCompiler,
+    [QUERY_PARAMS.HOTEL_AVAILABILITY]: _compilers.immutableArrayCompiler,
+    [QUERY_PARAMS.IGNORE_SERVICES]: _compilers.immutableArrayCompiler,
+    [QUERY_PARAMS.OPERATORS]: _compilers.immutableArrayCompiler,
+    [QUERY_PARAMS.GROUP]: _compilers.numberCompiler,
+    [QUERY_PARAMS.DISTRICTS]: _compilers.immutableArrayCompiler,
+    [QUERY_PARAMS.PROVINCES]: _compilers.immutableArrayCompiler,
+    [QUERY_PARAMS.AVERAGE_RATING]: _compilers.rangeCompiler,
+    [QUERY_PARAMS.IS_DIRECT_FLIGHT]: _compilers.numberCompiler,
+    [QUERY_PARAMS.SORT]: _compilers.toStringCompiler
+  };
+  return GLUE.field + query.map((value, field) => value && field in fieldsToCompilers ? fieldsToCompilers[field](value) : GLUE.empty).toList().join(GLUE.field).replace(new RegExp(`[${GLUE.field}${GLUE.empty}]+$`), '');
 }
 function compileSearchQuery(query) {
-  var _fieldsToCompilers2;
-  var fieldsToCompilers = (_fieldsToCompilers2 = {}, _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_fieldsToCompilers2, QUERY_PARAMS.AUTOSTART, _compilers.numberCompiler), QUERY_PARAMS.DEPARTURES, _compilers.immutableArrayCompiler), QUERY_PARAMS.COUNTRY, _compilers.numberCompiler), QUERY_PARAMS.CITIES, _compilers.immutableArrayCompiler), QUERY_PARAMS.HOTELS, _compilers.immutableArrayCompiler), QUERY_PARAMS.CATEGORY, _compilers.binaryCompiler), QUERY_PARAMS.DATES, _compilers.datesCompiler), QUERY_PARAMS.DURATION, _compilers.rangeCompiler), QUERY_PARAMS.ADULTS, _compilers.toStringCompiler), QUERY_PARAMS.CHILDREN, _compilers.immutableArrayCompiler), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_fieldsToCompilers2, QUERY_PARAMS.FOOD, _compilers.binaryCompiler), QUERY_PARAMS.TRANSPORTS, function (transportsList) {
-    return (0, _compilers.immutableArrayCompiler)(transportsList.map(_compilers.binaryCompiler));
-  }), QUERY_PARAMS.PRICE, _compilers.rangeCompiler), QUERY_PARAMS.SERVICES, _compilers.immutableArrayCompiler), QUERY_PARAMS.RATING, _compilers.rangeCompiler), QUERY_PARAMS.CURRENCY, _compilers.toStringCompiler), QUERY_PARAMS.WITHOUT_SPO, _compilers.numberCompiler), QUERY_PARAMS.FLIGHT_AVAILABILITY, _compilers.immutableArrayCompiler), QUERY_PARAMS.HOTEL_AVAILABILITY, _compilers.immutableArrayCompiler), QUERY_PARAMS.PAGE, _compilers.numberCompiler), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_fieldsToCompilers2, QUERY_PARAMS.OPERATORS, _compilers.immutableArrayCompiler), QUERY_PARAMS.IGNORE_SERVICES, _compilers.immutableArrayCompiler), QUERY_PARAMS.GROUP, _compilers.numberCompiler), QUERY_PARAMS.DISTRICTS, _compilers.immutableArrayCompiler), QUERY_PARAMS.PROVINCES, _compilers.immutableArrayCompiler), QUERY_PARAMS.AVERAGE_RATING, _compilers.rangeCompiler), QUERY_PARAMS.IS_DIRECT_FLIGHT, _compilers.numberCompiler), QUERY_PARAMS.SORT, _compilers.toStringCompiler));
-  var startDelimeter = GLUE.question;
-  var emptyDelimeter = GLUE.empty;
-  var delimeter = GLUE.and;
-  return startDelimeter + query.map(function (value, field) {
-    var composeValue = function composeValue(val) {
-      return "".concat([SHORT_QUERY_NAMES[field]], "=").concat(val);
-    };
-    var val = value && field in fieldsToCompilers ? composeValue(fieldsToCompilers[field](value)) : composeValue(emptyDelimeter);
+  const fieldsToCompilers = {
+    [QUERY_PARAMS.AUTOSTART]: _compilers.numberCompiler,
+    [QUERY_PARAMS.DEPARTURES]: _compilers.immutableArrayCompiler,
+    [QUERY_PARAMS.COUNTRY]: _compilers.numberCompiler,
+    [QUERY_PARAMS.CITIES]: _compilers.immutableArrayCompiler,
+    [QUERY_PARAMS.HOTELS]: _compilers.immutableArrayCompiler,
+    [QUERY_PARAMS.CATEGORY]: _compilers.binaryCompiler,
+    [QUERY_PARAMS.DATES]: _compilers.datesCompiler,
+    [QUERY_PARAMS.DURATION]: _compilers.rangeCompiler,
+    [QUERY_PARAMS.ADULTS]: _compilers.toStringCompiler,
+    [QUERY_PARAMS.CHILDREN]: _compilers.immutableArrayCompiler,
+    [QUERY_PARAMS.FOOD]: _compilers.binaryCompiler,
+    [QUERY_PARAMS.TRANSPORTS]: transportsList => (0, _compilers.immutableArrayCompiler)(transportsList.map(_compilers.binaryCompiler)),
+    [QUERY_PARAMS.PRICE]: _compilers.rangeCompiler,
+    [QUERY_PARAMS.SERVICES]: _compilers.immutableArrayCompiler,
+    [QUERY_PARAMS.RATING]: _compilers.rangeCompiler,
+    [QUERY_PARAMS.CURRENCY]: _compilers.toStringCompiler,
+    [QUERY_PARAMS.WITHOUT_SPO]: _compilers.numberCompiler,
+    [QUERY_PARAMS.FLIGHT_AVAILABILITY]: _compilers.immutableArrayCompiler,
+    [QUERY_PARAMS.HOTEL_AVAILABILITY]: _compilers.immutableArrayCompiler,
+    [QUERY_PARAMS.PAGE]: _compilers.numberCompiler,
+    [QUERY_PARAMS.OPERATORS]: _compilers.immutableArrayCompiler,
+    [QUERY_PARAMS.IGNORE_SERVICES]: _compilers.immutableArrayCompiler,
+    [QUERY_PARAMS.GROUP]: _compilers.numberCompiler,
+    [QUERY_PARAMS.DISTRICTS]: _compilers.immutableArrayCompiler,
+    [QUERY_PARAMS.PROVINCES]: _compilers.immutableArrayCompiler,
+    [QUERY_PARAMS.AVERAGE_RATING]: _compilers.rangeCompiler,
+    [QUERY_PARAMS.IS_DIRECT_FLIGHT]: _compilers.numberCompiler,
+    [QUERY_PARAMS.SORT]: _compilers.toStringCompiler
+  };
+  const startDelimeter = GLUE.question;
+  const emptyDelimeter = GLUE.empty;
+  const delimeter = GLUE.and;
+  return startDelimeter + query.map((value, field) => {
+    const composeValue = val => `${[SHORT_QUERY_NAMES[field]]}=${val}`;
+    const val = value && field in fieldsToCompilers ? composeValue(fieldsToCompilers[field](value)) : composeValue(emptyDelimeter);
     return val;
-  }).toList().map(function (v) {
-    return v.replace('!', '');
-  }).join(delimeter).replace(new RegExp("[".concat(delimeter).concat(emptyDelimeter, "]+$")), '');
+  }).toList().map(v => v.replace('!', '')).join(delimeter).replace(new RegExp(`[${delimeter}${emptyDelimeter}]+$`), '');
 }
 
 /**
@@ -203,183 +299,167 @@ function compileSearchQuery(query) {
  * @returns {Object} otp query
  */
 function convertToOtpQuery(query) {
-  var _converters;
-  var converters = (_converters = {}, _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_converters, QUERY_PARAMS.DEPARTURES, function (list) {
-    var value = list.first();
-    return value !== _constants.EMPTY_DEPARTURE_VALUE ? {
-      'from': value
-    } : {};
-  }), QUERY_PARAMS.COUNTRY, function (value) {
-    return {
+  const converters = {
+    [QUERY_PARAMS.DEPARTURES]: list => {
+      const value = list.first();
+      return value !== _constants.EMPTY_DEPARTURE_VALUE ? {
+        'from': value
+      } : {};
+    },
+    [QUERY_PARAMS.COUNTRY]: value => ({
       'to': value
-    };
-  }), QUERY_PARAMS.CATEGORY, function (value) {
-    var selected = value.filter(function (status) {
-      return status;
-    }).keySeq().toList();
-    var everySelected = selected.size === DEFAULTS[QUERY_PARAMS.CATEGORY].size;
-    return {
-      'stars': everySelected ? '' : selected.join(',')
-    };
-  }), QUERY_PARAMS.DATES, function (value) {
-    return {
+    }),
+    [QUERY_PARAMS.CATEGORY]: value => {
+      const selected = value.filter(status => status).keySeq().toList();
+      const everySelected = selected.size === DEFAULTS[QUERY_PARAMS.CATEGORY].size;
+      return {
+        'stars': everySelected ? '' : selected.join(',')
+      };
+    },
+    [QUERY_PARAMS.DATES]: value => ({
       'checkIn': value.get('from').format('Y-MM-DD'),
       'checkTo': value.get('to').format('Y-MM-DD')
-    };
-  }), QUERY_PARAMS.DURATION, function (value) {
-    return {
+    }),
+    [QUERY_PARAMS.DURATION]: value => ({
       'nights': value.get('from'),
       'nightsTo': value.get('to')
-    };
-  }), QUERY_PARAMS.ADULTS, function (value) {
-    return {
+    }),
+    [QUERY_PARAMS.ADULTS]: value => ({
       'people': value
-    };
-  }), QUERY_PARAMS.CHILDREN, function (value) {
-    return {
+    }),
+    [QUERY_PARAMS.CHILDREN]: value => ({
       'people': compileChildrenToPeopleField(value)
-    };
-  }), QUERY_PARAMS.FOOD, function (value) {
-    return {
-      'food': value.filter(function (status) {
-        return status;
-      }).keySeq().toList().join(',')
-    };
-  }), QUERY_PARAMS.TRANSPORTS, function (list) {
-    var value = list.first();
-    return {
-      'transport': value.filter(function (status) {
-        return status;
-      }).keySeq().toList().join(',')
-    };
-  }), QUERY_PARAMS.CITIES, function (value) {
-    return {
+    }),
+    [QUERY_PARAMS.FOOD]: value => ({
+      'food': value.filter(status => status).keySeq().toList().join(',')
+    }),
+    [QUERY_PARAMS.TRANSPORTS]: list => {
+      const value = list.first();
+      return {
+        'transport': value.filter(status => status).keySeq().toList().join(',')
+      };
+    },
+    [QUERY_PARAMS.CITIES]: value => ({
       'toCities': value.join(',')
-    };
-  }), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_converters, QUERY_PARAMS.HOTELS, function (value) {
-    return {
+    }),
+    [QUERY_PARAMS.HOTELS]: value => ({
       'toHotels': value.join(',')
-    };
-  }), QUERY_PARAMS.PRICE, function (value) {
-    return {
+    }),
+    [QUERY_PARAMS.PRICE]: value => ({
       'price': value.get('from'),
       'priceTo': value.get('to')
-    };
-  }), QUERY_PARAMS.PAGE, function (value) {
-    return {
+    }),
+    [QUERY_PARAMS.PAGE]: value => ({
       'page': value
-    };
-  }), QUERY_PARAMS.SERVICES, function (value) {
-    return {
+    }),
+    [QUERY_PARAMS.SERVICES]: value => ({
       'services': value.join(',')
-    };
-  }), QUERY_PARAMS.SHORT, function (value) {
-    return {
+    }),
+    [QUERY_PARAMS.SHORT]: value => ({
       'short': value
-    };
-  }), QUERY_PARAMS.RATING, function (value) {
-    return {
-      'rate': value.isEmpty() ? null : "".concat(value.get('from'), "-").concat(value.get('to'))
-    };
-  }), QUERY_PARAMS.CURRENCY, function (value) {
-    return {
+    }),
+    [QUERY_PARAMS.RATING]: value => ({
+      'rate': value.isEmpty() ? null : `${value.get('from')}-${value.get('to')}`
+    }),
+    [QUERY_PARAMS.CURRENCY]: value => ({
       'currencyLocal': value
-    };
-  }), QUERY_PARAMS.OPERATORS, function (value) {
-    return {
+    }),
+    [QUERY_PARAMS.OPERATORS]: value => ({
       'toOperators': value.toArray()
-    };
-  }), QUERY_PARAMS.BYPASS_R_FILTER, function (value) {
-    return {
+    }),
+    [QUERY_PARAMS.BYPASS_R_FILTER]: value => ({
       'bypassRFilter': value.toArray()
-    };
-  }), QUERY_PARAMS.FLIGHT_AVAILABILITY, function (value) {
-    return {
+    }),
+    [QUERY_PARAMS.FLIGHT_AVAILABILITY]: value => ({
       'availableFlight': value.toArray()
-    };
-  }), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_converters, QUERY_PARAMS.HOTEL_AVAILABILITY, function (value) {
-    return {
+    }),
+    [QUERY_PARAMS.HOTEL_AVAILABILITY]: value => ({
       'stopSale': value.toArray()
-    };
-  }), QUERY_PARAMS.WITHOUT_SPO, function (value) {
-    return {
+    }),
+    [QUERY_PARAMS.WITHOUT_SPO]: value => ({
       'noPromo': value
-    };
-  }), QUERY_PARAMS.LANGUAGE, function (value) {
-    return {
+    }),
+    [QUERY_PARAMS.LANGUAGE]: value => ({
       'lang': value
-    };
-  }), QUERY_PARAMS.IGNORE_SERVICES, function (value) {
-    return {
+    }),
+    [QUERY_PARAMS.IGNORE_SERVICES]: value => ({
       'ignoreServices': value.join(',')
-    };
-  }), QUERY_PARAMS.GROUP, function (group) {
-    return {
-      group: group
-    };
-  }), QUERY_PARAMS.DISTRICTS, function (value) {
-    return {
+    }),
+    [QUERY_PARAMS.GROUP]: group => ({
+      group
+    }),
+    [QUERY_PARAMS.DISTRICTS]: value => ({
       'toDistricts': value.isEmpty() ? null : value.toArray().join(',')
-    };
-  }), QUERY_PARAMS.PROVINCES, function (value) {
-    return {
+    }),
+    [QUERY_PARAMS.PROVINCES]: value => ({
       'toProvinces': value.isEmpty() ? null : value.toArray().join(',')
-    };
-  }), QUERY_PARAMS.AVERAGE_RATING, function (value) {
-    return {
-      'rating': value.isEmpty() ? null : "".concat(value.get('from'), "-").concat(value.get('to'))
-    };
-  }), QUERY_PARAMS.IS_DIRECT_FLIGHT, function (value) {
-    return value ? {
+    }),
+    [QUERY_PARAMS.AVERAGE_RATING]: value => ({
+      'rating': value.isEmpty() ? null : `${value.get('from')}-${value.get('to')}`
+    }),
+    [QUERY_PARAMS.IS_DIRECT_FLIGHT]: value => value ? {
       directFlight: true
-    } : null;
-  }), QUERY_PARAMS.SELECTED_OFFER_DATE, function (value) {
-    return value ? {
+    } : null,
+    [QUERY_PARAMS.SELECTED_OFFER_DATE]: value => value ? {
       offerDate: value
-    } : null;
-  }), _defineProperty(_converters, QUERY_PARAMS.SORT, function (value) {
-    return {
+    } : null,
+    [QUERY_PARAMS.SORT]: value => ({
       'sort': value
-    };
-  }));
-  return query.filter(function (value, param) {
-    return param in converters;
-  }).map(function (value, param) {
-    return value ? converters[param](value) : {};
-  }).reduce(function (summary, values) {
-    for (var _i = 0, _Object$entries = Object.entries(values); _i < _Object$entries.length; _i++) {
-      var _Object$entries$_i = _slicedToArray(_Object$entries[_i], 2),
-        param = _Object$entries$_i[0],
-        value = _Object$entries$_i[1];
-      value && Object.assign(summary, _defineProperty({}, param, param in summary ? summary[param] + value : value));
+    })
+  };
+  return query.filter((value, param) => param in converters).map((value, param) => value ? converters[param](value) : {}).reduce((summary, values) => {
+    for (const [param, value] of Object.entries(values)) {
+      value && Object.assign(summary, {
+        [param]: param in summary ? summary[param] + value : value
+      });
     }
     return summary;
   }, {});
 }
 function parseQueryParam(currentValue, paramName, rawValue) {
-  var _paramsToParsers;
-  var paramsToParsers = (_paramsToParsers = {}, _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_paramsToParsers, QUERY_PARAMS.AUTOSTART, Boolean), QUERY_PARAMS.DEPARTURES, (0, _parsers.createImmutableNumbersArrayParser)(_immutable.List)), QUERY_PARAMS.CATEGORY, _parsers.binaryParser), QUERY_PARAMS.TRANSPORTS, function (raw, _ref) {
-    var prevList = _ref.prevValue;
-    var arrayParser = (0, _parsers.createImmutableArrayParser)(_immutable.List);
-    return arrayParser(raw).map(function (value) {
-      return (0, _parsers.binaryParser)(value, {
+  const paramsToParsers = {
+    [QUERY_PARAMS.AUTOSTART]: Boolean,
+    [QUERY_PARAMS.DEPARTURES]: (0, _parsers.createImmutableNumbersArrayParser)(_immutable.List),
+    [QUERY_PARAMS.CATEGORY]: _parsers.binaryParser,
+    [QUERY_PARAMS.TRANSPORTS]: (raw, _ref) => {
+      let {
+        prevValue: prevList
+      } = _ref;
+      const arrayParser = (0, _parsers.createImmutableArrayParser)(_immutable.List);
+      return arrayParser(raw).map(value => (0, _parsers.binaryParser)(value, {
         prevValue: prevList.first()
-      });
-    });
-  }), QUERY_PARAMS.FOOD, _parsers.binaryParser), QUERY_PARAMS.DATES, _parsers.datesParser), QUERY_PARAMS.DURATION, _parsers.rangeParser), QUERY_PARAMS.ADULTS, Number), QUERY_PARAMS.CHILDREN, function (value) {
-    var parseToList = (0, _parsers.createImmutableArrayParser)(_immutable.List);
-    var isPureNumber = function isPureNumber(item) {
-      return /^\d+$/.test(item);
-    };
-    var isValidBirthdate = function isValidBirthdate(item) {
-      return (0, _moment["default"])(item, CHILD_BIRTHDATE_FORMAT, true).isValid();
-    };
-    return parseToList(value).filter(function (item) {
-      return isPureNumber(item) || isValidBirthdate(item);
-    }).map(function (item) {
-      return isPureNumber(item) ? Number(item) : item;
-    });
-  }), QUERY_PARAMS.COUNTRY, String), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_paramsToParsers, QUERY_PARAMS.CITIES, (0, _parsers.createImmutableNumbersArrayParser)(_immutable.Set)), QUERY_PARAMS.HOTELS, (0, _parsers.createImmutableArrayParser)(_immutable.Set)), QUERY_PARAMS.PRICE, _parsers.rangeParser), QUERY_PARAMS.SERVICES, (0, _parsers.createImmutableArrayParser)(_immutable.Set)), QUERY_PARAMS.RATING, _parsers.rangeParser), QUERY_PARAMS.CURRENCY, String), QUERY_PARAMS.WITHOUT_SPO, _parsers.parseStringIntengerToBoolean), QUERY_PARAMS.FLIGHT_AVAILABILITY, (0, _parsers.createImmutableArrayParser)(_immutable.Set)), QUERY_PARAMS.HOTEL_AVAILABILITY, (0, _parsers.createImmutableArrayParser)(_immutable.Set)), QUERY_PARAMS.PAGE, Number), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_paramsToParsers, QUERY_PARAMS.OPERATORS, (0, _parsers.createImmutableNumbersArrayParser)(_immutable.Set)), QUERY_PARAMS.IGNORE_SERVICES, (0, _parsers.createImmutableArrayParser)(_immutable.Set)), QUERY_PARAMS.GROUP, Number), QUERY_PARAMS.DISTRICTS, (0, _parsers.createImmutableNumbersArrayParser)(_immutable.Set)), QUERY_PARAMS.PROVINCES, (0, _parsers.createImmutableNumbersArrayParser)(_immutable.Set)), QUERY_PARAMS.AVERAGE_RATING, _parsers.rangeParser), QUERY_PARAMS.IS_DIRECT_FLIGHT, Boolean), QUERY_PARAMS.SORT, String));
+      }));
+    },
+    [QUERY_PARAMS.FOOD]: _parsers.binaryParser,
+    [QUERY_PARAMS.DATES]: _parsers.datesParser,
+    [QUERY_PARAMS.DURATION]: _parsers.rangeParser,
+    [QUERY_PARAMS.ADULTS]: Number,
+    [QUERY_PARAMS.CHILDREN]: value => {
+      const parseToList = (0, _parsers.createImmutableArrayParser)(_immutable.List);
+      const isPureNumber = item => /^\d+$/.test(item);
+      const isValidBirthdate = item => (0, _moment.default)(item, CHILD_BIRTHDATE_FORMAT, true).isValid();
+      return parseToList(value).filter(item => isPureNumber(item) || isValidBirthdate(item)).map(item => isPureNumber(item) ? Number(item) : item);
+    },
+    [QUERY_PARAMS.COUNTRY]: String,
+    [QUERY_PARAMS.CITIES]: (0, _parsers.createImmutableNumbersArrayParser)(_immutable.Set),
+    [QUERY_PARAMS.HOTELS]: (0, _parsers.createImmutableArrayParser)(_immutable.Set),
+    [QUERY_PARAMS.PRICE]: _parsers.rangeParser,
+    [QUERY_PARAMS.SERVICES]: (0, _parsers.createImmutableArrayParser)(_immutable.Set),
+    [QUERY_PARAMS.RATING]: _parsers.rangeParser,
+    [QUERY_PARAMS.CURRENCY]: String,
+    [QUERY_PARAMS.WITHOUT_SPO]: _parsers.parseStringIntengerToBoolean,
+    [QUERY_PARAMS.FLIGHT_AVAILABILITY]: (0, _parsers.createImmutableArrayParser)(_immutable.Set),
+    [QUERY_PARAMS.HOTEL_AVAILABILITY]: (0, _parsers.createImmutableArrayParser)(_immutable.Set),
+    [QUERY_PARAMS.PAGE]: Number,
+    [QUERY_PARAMS.OPERATORS]: (0, _parsers.createImmutableNumbersArrayParser)(_immutable.Set),
+    [QUERY_PARAMS.IGNORE_SERVICES]: (0, _parsers.createImmutableArrayParser)(_immutable.Set),
+    [QUERY_PARAMS.GROUP]: Number,
+    [QUERY_PARAMS.DISTRICTS]: (0, _parsers.createImmutableNumbersArrayParser)(_immutable.Set),
+    [QUERY_PARAMS.PROVINCES]: (0, _parsers.createImmutableNumbersArrayParser)(_immutable.Set),
+    [QUERY_PARAMS.AVERAGE_RATING]: _parsers.rangeParser,
+    [QUERY_PARAMS.IS_DIRECT_FLIGHT]: Boolean,
+    [QUERY_PARAMS.SORT]: String
+  };
   if (rawValue) {
     if (rawValue === GLUE.empty) {
       return DEFAULTS[paramName];
@@ -402,43 +482,89 @@ function parseQueryParam(currentValue, paramName, rawValue) {
  * @returns {OrderedMap} query
  */
 function parseQueryString(queryString) {
-  var baseQuery = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : createQuery();
-  var isSearchString = queryString.startsWith('?');
-  var params = isSearchString ? queryString.split('&').map(function (param) {
-    return param.split('=')[1];
-  }) : queryString.split(GLUE.field);
-  var keysOfQuery = baseQuery.keySeq();
-  return baseQuery.map(function (currentValue, paramName) {
-    var position = keysOfQuery.findIndex(function (f) {
-      return f === paramName;
-    });
-    var rawValue = position in params ? params[position] : null;
+  let baseQuery = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : createQuery();
+  const isSearchString = queryString.startsWith('?');
+  const params = isSearchString ? queryString.split('&').map(param => param.split('=')[1]) : queryString.split(GLUE.field);
+  const keysOfQuery = baseQuery.keySeq();
+  return baseQuery.map((currentValue, paramName) => {
+    const position = keysOfQuery.findIndex(f => f === paramName);
+    const rawValue = position in params ? params[position] : null;
     return rawValue ? parseQueryParam(currentValue, paramName, rawValue) : baseQuery.get(paramName, DEFAULTS[paramName]);
   });
 }
 function compileQueryToHash(query) {
-  var _fieldsToCompilers3;
-  var fieldsToCompilers = (_fieldsToCompilers3 = {}, _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_fieldsToCompilers3, QUERY_PARAMS.AUTOSTART, _compilers.numberCompiler), QUERY_PARAMS.DEPARTURES, _compilers.immutableArrayCompiler), QUERY_PARAMS.COUNTRY, _compilers.numberCompiler), QUERY_PARAMS.CITIES, _compilers.immutableArrayCompiler), QUERY_PARAMS.HOTELS, _compilers.immutableArrayCompiler), QUERY_PARAMS.CATEGORY, _compilers.binaryCompiler), QUERY_PARAMS.DATES, _compilers.datesCompiler), QUERY_PARAMS.DURATION, _compilers.rangeCompiler), QUERY_PARAMS.ADULTS, _compilers.toStringCompiler), QUERY_PARAMS.CHILDREN, _compilers.immutableArrayCompiler), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_fieldsToCompilers3, QUERY_PARAMS.FOOD, _compilers.binaryCompiler), QUERY_PARAMS.TRANSPORTS, function (transportsList) {
-    return (0, _compilers.immutableArrayCompiler)(transportsList.map(_compilers.binaryCompiler));
-  }), QUERY_PARAMS.PRICE, _compilers.rangeCompiler), QUERY_PARAMS.SERVICES, _compilers.immutableArrayCompiler), QUERY_PARAMS.RATING, _compilers.rangeCompiler), QUERY_PARAMS.CURRENCY, _compilers.toStringCompiler), QUERY_PARAMS.WITHOUT_SPO, _compilers.numberCompiler), QUERY_PARAMS.FLIGHT_AVAILABILITY, _compilers.immutableArrayCompiler), QUERY_PARAMS.HOTEL_AVAILABILITY, _compilers.immutableArrayCompiler), QUERY_PARAMS.OPERATORS, _compilers.immutableArrayCompiler), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_fieldsToCompilers3, QUERY_PARAMS.IGNORE_SERVICES, _compilers.immutableArrayCompiler), QUERY_PARAMS.GROUP, _compilers.numberCompiler), QUERY_PARAMS.DISTRICTS, _compilers.immutableArrayCompiler), QUERY_PARAMS.PROVINCES, _compilers.immutableArrayCompiler), QUERY_PARAMS.AVERAGE_RATING, _compilers.rangeCompiler), QUERY_PARAMS.IS_DIRECT_FLIGHT, _compilers.numberCompiler), QUERY_PARAMS.SORT, _compilers.toStringCompiler));
-  return GLUE.field + query.map(function (value, field) {
-    return value && field in fieldsToCompilers ? fieldsToCompilers[field](value) : GLUE.empty;
-  }).toList().join(GLUE.field).replace(new RegExp("[".concat(GLUE.field).concat(GLUE.empty, "]+$")), '');
+  const fieldsToCompilers = {
+    [QUERY_PARAMS.AUTOSTART]: _compilers.numberCompiler,
+    [QUERY_PARAMS.DEPARTURES]: _compilers.immutableArrayCompiler,
+    [QUERY_PARAMS.COUNTRY]: _compilers.numberCompiler,
+    [QUERY_PARAMS.CITIES]: _compilers.immutableArrayCompiler,
+    [QUERY_PARAMS.HOTELS]: _compilers.immutableArrayCompiler,
+    [QUERY_PARAMS.CATEGORY]: _compilers.binaryCompiler,
+    [QUERY_PARAMS.DATES]: _compilers.datesCompiler,
+    [QUERY_PARAMS.DURATION]: _compilers.rangeCompiler,
+    [QUERY_PARAMS.ADULTS]: _compilers.toStringCompiler,
+    [QUERY_PARAMS.CHILDREN]: _compilers.immutableArrayCompiler,
+    [QUERY_PARAMS.FOOD]: _compilers.binaryCompiler,
+    [QUERY_PARAMS.TRANSPORTS]: transportsList => (0, _compilers.immutableArrayCompiler)(transportsList.map(_compilers.binaryCompiler)),
+    [QUERY_PARAMS.PRICE]: _compilers.rangeCompiler,
+    [QUERY_PARAMS.SERVICES]: _compilers.immutableArrayCompiler,
+    [QUERY_PARAMS.RATING]: _compilers.rangeCompiler,
+    [QUERY_PARAMS.CURRENCY]: _compilers.toStringCompiler,
+    [QUERY_PARAMS.WITHOUT_SPO]: _compilers.numberCompiler,
+    [QUERY_PARAMS.FLIGHT_AVAILABILITY]: _compilers.immutableArrayCompiler,
+    [QUERY_PARAMS.HOTEL_AVAILABILITY]: _compilers.immutableArrayCompiler,
+    [QUERY_PARAMS.OPERATORS]: _compilers.immutableArrayCompiler,
+    [QUERY_PARAMS.IGNORE_SERVICES]: _compilers.immutableArrayCompiler,
+    [QUERY_PARAMS.GROUP]: _compilers.numberCompiler,
+    [QUERY_PARAMS.DISTRICTS]: _compilers.immutableArrayCompiler,
+    [QUERY_PARAMS.PROVINCES]: _compilers.immutableArrayCompiler,
+    [QUERY_PARAMS.AVERAGE_RATING]: _compilers.rangeCompiler,
+    [QUERY_PARAMS.IS_DIRECT_FLIGHT]: _compilers.numberCompiler,
+    [QUERY_PARAMS.SORT]: _compilers.toStringCompiler
+  };
+  return GLUE.field + query.map((value, field) => value && field in fieldsToCompilers ? fieldsToCompilers[field](value) : GLUE.empty).toList().join(GLUE.field).replace(new RegExp(`[${GLUE.field}${GLUE.empty}]+$`), '');
 }
 function parseHashToQuery(queryString) {
-  var query = createQuery();
-  var params = queryString.replace('#/', '').split('/');
-  var parseQueryParam = function parseQueryParam(currentValue, paramName, rawValue) {
-    var _paramsToParsers2;
-    var paramsToParsers = (_paramsToParsers2 = {}, _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_paramsToParsers2, QUERY_PARAMS.AUTOSTART, Boolean), QUERY_PARAMS.DEPARTURES, (0, _parsers.createImmutableNumbersArrayParser)(_immutable.List)), QUERY_PARAMS.CATEGORY, _parsers.binaryParser), QUERY_PARAMS.TRANSPORTS, function (list, _ref2) {
-      var prevList = _ref2.prevValue;
-      var arrayParser = (0, _parsers.createImmutableArrayParser)(_immutable.List);
-      return arrayParser(list).map(function (value) {
-        return (0, _parsers.binaryParser)(value, {
+  const query = createQuery();
+  const params = queryString.replace('#/', '').split('/');
+  const parseQueryParam = (currentValue, paramName, rawValue) => {
+    const paramsToParsers = {
+      [QUERY_PARAMS.AUTOSTART]: Boolean,
+      [QUERY_PARAMS.DEPARTURES]: (0, _parsers.createImmutableNumbersArrayParser)(_immutable.List),
+      [QUERY_PARAMS.CATEGORY]: _parsers.binaryParser,
+      [QUERY_PARAMS.TRANSPORTS]: (list, _ref2) => {
+        let {
+          prevValue: prevList
+        } = _ref2;
+        const arrayParser = (0, _parsers.createImmutableArrayParser)(_immutable.List);
+        return arrayParser(list).map(value => (0, _parsers.binaryParser)(value, {
           prevValue: prevList.first()
-        });
-      });
-    }), QUERY_PARAMS.FOOD, _parsers.binaryParser), QUERY_PARAMS.DATES, _parsers.datesParser), QUERY_PARAMS.DURATION, _parsers.rangeParser), QUERY_PARAMS.ADULTS, Number), QUERY_PARAMS.CHILDREN, (0, _parsers.createImmutableNumbersArrayParser)(_immutable.List)), QUERY_PARAMS.COUNTRY, String), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_paramsToParsers2, QUERY_PARAMS.CITIES, (0, _parsers.createImmutableNumbersArrayParser)(_immutable.Set)), QUERY_PARAMS.HOTELS, (0, _parsers.createImmutableArrayParser)(_immutable.Set)), QUERY_PARAMS.PRICE, _parsers.rangeParser), QUERY_PARAMS.SERVICES, (0, _parsers.createImmutableArrayParser)(_immutable.Set)), QUERY_PARAMS.RATING, _parsers.rangeParser), QUERY_PARAMS.CURRENCY, String), QUERY_PARAMS.WITHOUT_SPO, _parsers.parseStringIntengerToBoolean), QUERY_PARAMS.FLIGHT_AVAILABILITY, (0, _parsers.createImmutableArrayParser)(_immutable.Set)), QUERY_PARAMS.HOTEL_AVAILABILITY, (0, _parsers.createImmutableArrayParser)(_immutable.Set)), QUERY_PARAMS.OPERATORS, (0, _parsers.createImmutableNumbersArrayParser)(_immutable.Set)), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_paramsToParsers2, QUERY_PARAMS.IGNORE_SERVICES, (0, _parsers.createImmutableArrayParser)(_immutable.Set)), QUERY_PARAMS.GROUP, Number), QUERY_PARAMS.DISTRICTS, (0, _parsers.createImmutableNumbersArrayParser)(_immutable.Set)), QUERY_PARAMS.PROVINCES, (0, _parsers.createImmutableNumbersArrayParser)(_immutable.Set)), QUERY_PARAMS.AVERAGE_RATING, _parsers.rangeParser), QUERY_PARAMS.IS_DIRECT_FLIGHT, Boolean), QUERY_PARAMS.SORT, String));
+        }));
+      },
+      [QUERY_PARAMS.FOOD]: _parsers.binaryParser,
+      [QUERY_PARAMS.DATES]: _parsers.datesParser,
+      [QUERY_PARAMS.DURATION]: _parsers.rangeParser,
+      [QUERY_PARAMS.ADULTS]: Number,
+      [QUERY_PARAMS.CHILDREN]: (0, _parsers.createImmutableNumbersArrayParser)(_immutable.List),
+      [QUERY_PARAMS.COUNTRY]: String,
+      [QUERY_PARAMS.CITIES]: (0, _parsers.createImmutableNumbersArrayParser)(_immutable.Set),
+      [QUERY_PARAMS.HOTELS]: (0, _parsers.createImmutableArrayParser)(_immutable.Set),
+      [QUERY_PARAMS.PRICE]: _parsers.rangeParser,
+      [QUERY_PARAMS.SERVICES]: (0, _parsers.createImmutableArrayParser)(_immutable.Set),
+      [QUERY_PARAMS.RATING]: _parsers.rangeParser,
+      [QUERY_PARAMS.CURRENCY]: String,
+      [QUERY_PARAMS.WITHOUT_SPO]: _parsers.parseStringIntengerToBoolean,
+      [QUERY_PARAMS.FLIGHT_AVAILABILITY]: (0, _parsers.createImmutableArrayParser)(_immutable.Set),
+      [QUERY_PARAMS.HOTEL_AVAILABILITY]: (0, _parsers.createImmutableArrayParser)(_immutable.Set),
+      [QUERY_PARAMS.OPERATORS]: (0, _parsers.createImmutableNumbersArrayParser)(_immutable.Set),
+      [QUERY_PARAMS.IGNORE_SERVICES]: (0, _parsers.createImmutableArrayParser)(_immutable.Set),
+      [QUERY_PARAMS.GROUP]: Number,
+      [QUERY_PARAMS.DISTRICTS]: (0, _parsers.createImmutableNumbersArrayParser)(_immutable.Set),
+      [QUERY_PARAMS.PROVINCES]: (0, _parsers.createImmutableNumbersArrayParser)(_immutable.Set),
+      [QUERY_PARAMS.AVERAGE_RATING]: _parsers.rangeParser,
+      [QUERY_PARAMS.IS_DIRECT_FLIGHT]: Boolean,
+      [QUERY_PARAMS.SORT]: String
+    };
     if (rawValue) {
       if (rawValue === GLUE.empty) {
         return DEFAULTS[paramName];
@@ -451,11 +577,9 @@ function parseHashToQuery(queryString) {
     }
     return currentValue;
   };
-  return query.map(function (currentValue, paramName) {
-    var position = query.keySeq().findIndex(function (f) {
-      return f === paramName;
-    });
-    var rawValue = position in params ? params[position] : null;
+  return query.map((currentValue, paramName) => {
+    const position = query.keySeq().findIndex(f => f === paramName);
+    const rawValue = position in params ? params[position] : null;
     return rawValue ? parseQueryParam(currentValue, paramName, rawValue) : currentValue;
   });
 }

@@ -1,201 +1,141 @@
 "use strict";
 
-function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.getTopCountry = exports.getTopCountries = exports.getSuggests = exports.getSuggestEntity = exports.getOperatorsMap = exports.getOperators = exports.getOperator = exports.getHotelsByKey = exports.getHotelsByCountry = exports.getHotelByKey = exports.getHotelByCountry = exports.getGeoTreeByCountryId = exports.getFlightPorts = exports.getFlightPort = exports.getDepartures = exports.getDepartureById = exports.getDepartureByIATA = exports.getDepartureByDefaultGeo = exports.getCountry = exports.getCountries = exports.getCitiesStore = exports.getCitiesByCountry = exports.getActiveOperators = void 0;
 var _reselect = require("reselect");
 var R = _interopRequireWildcard(require("ramda"));
-function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
-function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != _typeof(e) && "function" != typeof e) return { "default": e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && {}.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n["default"] = e, t && t.set(e, n), n; }
-var EMPTY_ARRAY = [];
-var DEFAULT_DEPARTURE_GEO_ID = 0;
-var domain = function domain(_) {
-  return _.geo;
-};
-var departureGeoID = function departureGeoID(_, _ref) {
-  var geoID = _ref.geoID;
+function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function (e) { return e ? t : r; })(e); }
+function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != typeof e && "function" != typeof e) return { default: e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && {}.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n.default = e, t && t.set(e, n), n; }
+const EMPTY_ARRAY = [];
+const DEFAULT_DEPARTURE_GEO_ID = 0;
+const domain = _ => _.geo;
+const departureGeoID = (_, _ref) => {
+  let {
+    geoID
+  } = _ref;
   return geoID;
 };
-var getDepartureID = function getDepartureID(_, _ref2) {
-  var departureID = _ref2.departureID;
+const getDepartureID = (_, _ref2) => {
+  let {
+    departureID
+  } = _ref2;
   return departureID;
 };
-var getIATA = function getIATA(_, _ref3) {
-  var iata = _ref3.iata;
+const getIATA = (_, _ref3) => {
+  let {
+    iata
+  } = _ref3;
   return iata;
 };
-var getCountryID = function getCountryID(_, _ref4) {
-  var countryID = _ref4.countryID;
+const getCountryID = (_, _ref4) => {
+  let {
+    countryID
+  } = _ref4;
   return countryID;
 };
-var getHotelID = function getHotelID(_, _ref5) {
-  var hotelID = _ref5.hotelID;
+const getHotelID = (_, _ref5) => {
+  let {
+    hotelID
+  } = _ref5;
   return hotelID;
 };
-var getHotelKey = function getHotelKey(_, _ref6) {
-  var hotelKey = _ref6.hotelKey;
+const getHotelKey = (_, _ref6) => {
+  let {
+    hotelKey
+  } = _ref6;
   return hotelKey;
 };
-var getDeparturesByImmutableStructure = (0, _reselect.createSelector)(domain, function (geo) {
-  return geo.get('departures');
+const getDeparturesByImmutableStructure = (0, _reselect.createSelector)(domain, geo => geo.get('departures'));
+const getDepartures = () => (0, _reselect.createSelector)(getDeparturesByImmutableStructure, departureGeoID, (map, geoID) => R.propOr(EMPTY_ARRAY, geoID, map.toJS()));
+exports.getDepartures = getDepartures;
+const getDepartureByDefaultGeo = () => (0, _reselect.createSelector)(getDeparturesByImmutableStructure, getDepartureID, (map, id) => R.find(departure => departure.id === id, R.propOr(EMPTY_ARRAY, DEFAULT_DEPARTURE_GEO_ID, map.toJS())));
+exports.getDepartureByDefaultGeo = getDepartureByDefaultGeo;
+const getDepartureById = () => (0, _reselect.createSelector)(getDepartures(), getDepartureID, (list, id) => R.find(R.pipe(R.prop('id'), R.equals(id)), list));
+exports.getDepartureById = getDepartureById;
+const getDepartureByIATA = () => (0, _reselect.createSelector)(getDepartures(), getIATA, (list, code) => R.find(R.pipe(R.prop('iata'), R.equals(code)), list));
+exports.getDepartureByIATA = getDepartureByIATA;
+const getFlightPorts = exports.getFlightPorts = (0, _reselect.createSelector)(domain, geo => geo.get('flightPorts'));
+const getFlightPort = () => (0, _reselect.createSelector)(getFlightPorts, getIATA, (ports, iata) => R.prop(iata, ports));
+exports.getFlightPort = getFlightPort;
+const getOperators = () => (0, _reselect.createSelector)(domain, (_, _ref7) => {
+  let {
+    key
+  } = _ref7;
+  return key;
+}, (geo, key) => R.call(R.pipe(operators => operators.toObject(), R.prop(key), R.ifElse(Boolean, operators => operators.toArray(), R.always(EMPTY_ARRAY))), geo.get('operators')));
+exports.getOperators = getOperators;
+const getOperatorsMap = () => (0, _reselect.createSelector)(getOperators(), operators => R.call(R.pipe(R.map(operator => [operator.id, operator]), R.fromPairs), operators));
+exports.getOperatorsMap = getOperatorsMap;
+const getOperator = () => (0, _reselect.createSelector)(getOperators(), (_, _ref8) => {
+  let {
+    operatorID
+  } = _ref8;
+  return operatorID;
+}, (operatorsArray, findID) => R.find(_ref9 => {
+  let {
+    id
+  } = _ref9;
+  return Number(id) === Number(findID);
+}, operatorsArray));
+exports.getOperator = getOperator;
+const getActiveOperators = () => (0, _reselect.createSelector)(getOperators(), R.filter(R.prop('active')));
+exports.getActiveOperators = getActiveOperators;
+const getCountriesByImmutableStructure = (0, _reselect.createSelector)(domain, geo => geo.get('countries'));
+const getCountries = exports.getCountries = (0, _reselect.createSelector)(getCountriesByImmutableStructure, countries => countries.toArray());
+const getTopCountries = exports.getTopCountries = (0, _reselect.createSelector)(getCountries, countries => countries.filter(country => country.weight > 0));
+const getCountry = () => (0, _reselect.createSelector)(getCountries, getCountryID, (countries, id) => R.find(country => country.id === id, countries));
+exports.getCountry = getCountry;
+const getTopCountry = exports.getTopCountry = (0, _reselect.createSelector)(getCountries, R.pipe(R.sort(R.descend(R.prop('weight'))), R.head));
+const getCitiesStore = exports.getCitiesStore = (0, _reselect.createSelector)(domain, geo => geo.get('cities').toObject());
+const getCitiesByCountry = exports.getCitiesByCountry = (0, _reselect.createSelector)(getCitiesStore, getCountryID, (citiesStore, countryID) => {
+  var _R$prop;
+  return ((_R$prop = R.prop(countryID, citiesStore)) === null || _R$prop === void 0 ? void 0 : _R$prop.toArray()) ?? EMPTY_ARRAY;
 });
-var getDepartures = exports.getDepartures = function getDepartures() {
-  return (0, _reselect.createSelector)(getDeparturesByImmutableStructure, departureGeoID, function (map, geoID) {
-    return R.propOr(EMPTY_ARRAY, geoID, map.toJS());
-  });
-};
-var getDepartureByDefaultGeo = exports.getDepartureByDefaultGeo = function getDepartureByDefaultGeo() {
-  return (0, _reselect.createSelector)(getDeparturesByImmutableStructure, getDepartureID, function (map, id) {
-    return R.find(function (departure) {
-      return departure.id === id;
-    }, R.propOr(EMPTY_ARRAY, DEFAULT_DEPARTURE_GEO_ID, map.toJS()));
-  });
-};
-var getDepartureById = exports.getDepartureById = function getDepartureById() {
-  return (0, _reselect.createSelector)(getDepartures(), getDepartureID, function (list, id) {
-    return R.find(R.pipe(R.prop('id'), R.equals(id)), list);
-  });
-};
-var getDepartureByIATA = exports.getDepartureByIATA = function getDepartureByIATA() {
-  return (0, _reselect.createSelector)(getDepartures(), getIATA, function (list, code) {
-    return R.find(R.pipe(R.prop('iata'), R.equals(code)), list);
-  });
-};
-var getFlightPorts = exports.getFlightPorts = (0, _reselect.createSelector)(domain, function (geo) {
-  return geo.get('flightPorts');
-});
-var getFlightPort = exports.getFlightPort = function getFlightPort() {
-  return (0, _reselect.createSelector)(getFlightPorts, getIATA, function (ports, iata) {
-    return R.prop(iata, ports);
-  });
-};
-var getOperators = exports.getOperators = function getOperators() {
-  return (0, _reselect.createSelector)(domain, function (_, _ref7) {
-    var key = _ref7.key;
-    return key;
-  }, function (geo, key) {
-    return R.call(R.pipe(function (operators) {
-      return operators.toObject();
-    }, R.prop(key), R.ifElse(Boolean, function (operators) {
-      return operators.toArray();
-    }, R.always(EMPTY_ARRAY))), geo.get('operators'));
-  });
-};
-var getOperatorsMap = exports.getOperatorsMap = function getOperatorsMap() {
-  return (0, _reselect.createSelector)(getOperators(), function (operators) {
-    return R.call(R.pipe(R.map(function (operator) {
-      return [operator.id, operator];
-    }), R.fromPairs), operators);
-  });
-};
-var getOperator = exports.getOperator = function getOperator() {
-  return (0, _reselect.createSelector)(getOperators(), function (_, _ref8) {
-    var operatorID = _ref8.operatorID;
-    return operatorID;
-  }, function (operatorsArray, findID) {
-    return R.find(function (_ref9) {
-      var id = _ref9.id;
-      return Number(id) === Number(findID);
-    }, operatorsArray);
-  });
-};
-var getActiveOperators = exports.getActiveOperators = function getActiveOperators() {
-  return (0, _reselect.createSelector)(getOperators(), R.filter(R.prop('active')));
-};
-var getCountriesByImmutableStructure = (0, _reselect.createSelector)(domain, function (geo) {
-  return geo.get('countries');
-});
-var getCountries = exports.getCountries = (0, _reselect.createSelector)(getCountriesByImmutableStructure, function (countries) {
-  return countries.toArray();
-});
-var getTopCountries = exports.getTopCountries = (0, _reselect.createSelector)(getCountries, function (countries) {
-  return countries.filter(function (country) {
-    return country.weight > 0;
-  });
-});
-var getCountry = exports.getCountry = function getCountry() {
-  return (0, _reselect.createSelector)(getCountries, getCountryID, function (countries, id) {
-    return R.find(function (country) {
-      return country.id === id;
-    }, countries);
-  });
-};
-var getTopCountry = exports.getTopCountry = (0, _reselect.createSelector)(getCountries, R.pipe(R.sort(R.descend(R.prop('weight'))), R.head));
-var getCitiesStore = exports.getCitiesStore = (0, _reselect.createSelector)(domain, function (geo) {
-  return geo.get('cities').toObject();
-});
-var getCitiesByCountry = exports.getCitiesByCountry = (0, _reselect.createSelector)(getCitiesStore, getCountryID, function (citiesStore, countryID) {
-  var _R$prop$toArray, _R$prop;
-  return (_R$prop$toArray = (_R$prop = R.prop(countryID, citiesStore)) === null || _R$prop === void 0 ? void 0 : _R$prop.toArray()) !== null && _R$prop$toArray !== void 0 ? _R$prop$toArray : EMPTY_ARRAY;
-});
-var getHotelsStore = (0, _reselect.createSelector)(domain, function (geo) {
-  return geo.get('hotels');
-});
-var getHotelsImmutableStructureByCountry = function getHotelsImmutableStructureByCountry() {
-  return (0, _reselect.createSelector)(getHotelsStore, getCountryID, function (store, countryID) {
-    return R.prop(countryID, store.toObject());
-  });
-};
-var getHotelsByCountry = exports.getHotelsByCountry = function getHotelsByCountry() {
-  return (0, _reselect.createSelector)(getHotelsImmutableStructureByCountry(), function (hotels) {
-    return hotels ? hotels.toArray() : EMPTY_ARRAY;
-  });
-};
-var getHotelByCountry = exports.getHotelByCountry = function getHotelByCountry() {
-  return (0, _reselect.createSelector)(getHotelsByCountry(), getHotelID, function (hotels, id) {
-    return R.find(function (hotel) {
-      return hotel.id === id;
-    }, hotels);
-  });
-};
-var getHotelsByKey = exports.getHotelsByKey = function getHotelsByKey() {
-  return (0, _reselect.createSelector)(getHotelsStore, getHotelKey, function (hotelsStore, key) {
-    return hotelsStore.has(key) ? hotelsStore.get(key).toArray() : EMPTY_ARRAY;
-  });
-};
-var getHotelByKey = exports.getHotelByKey = function getHotelByKey() {
-  return (0, _reselect.createSelector)(getHotelsByKey, getHotelID, function (hotels, id) {
-    return R.find(function (hotel) {
-      return hotel.id === id;
-    }, hotels);
-  });
-};
-var getGeoTree = function getGeoTree(state) {
-  return domain(state).get('geoTree');
-};
-var getGeoTreeByCountryId = exports.getGeoTreeByCountryId = function getGeoTreeByCountryId(state, _ref10) {
-  var countryID = _ref10.countryID;
+const getHotelsStore = (0, _reselect.createSelector)(domain, geo => geo.get('hotels'));
+const getHotelsImmutableStructureByCountry = () => (0, _reselect.createSelector)(getHotelsStore, getCountryID, (store, countryID) => R.prop(countryID, store.toObject()));
+const getHotelsByCountry = () => (0, _reselect.createSelector)(getHotelsImmutableStructureByCountry(), hotels => hotels ? hotels.toArray() : EMPTY_ARRAY);
+exports.getHotelsByCountry = getHotelsByCountry;
+const getHotelByCountry = () => (0, _reselect.createSelector)(getHotelsByCountry(), getHotelID, (hotels, id) => R.find(hotel => hotel.id === id, hotels));
+exports.getHotelByCountry = getHotelByCountry;
+const getHotelsByKey = () => (0, _reselect.createSelector)(getHotelsStore, getHotelKey, (hotelsStore, key) => hotelsStore.has(key) ? hotelsStore.get(key).toArray() : EMPTY_ARRAY);
+exports.getHotelsByKey = getHotelsByKey;
+const getHotelByKey = () => (0, _reselect.createSelector)(getHotelsByKey, getHotelID, (hotels, id) => R.find(hotel => hotel.id === id, hotels));
+exports.getHotelByKey = getHotelByKey;
+const getGeoTree = state => domain(state).get('geoTree');
+const getGeoTreeByCountryId = (state, _ref10) => {
+  let {
+    countryID
+  } = _ref10;
   return getGeoTree(state)[countryID] || EMPTY_ARRAY;
 };
-var getSuggestEntities = (0, _reselect.createSelector)(domain, function (geo) {
-  return geo.get('suggestEntities');
-});
-var getSuggestionIndex = function getSuggestionIndex(state, _ref11) {
-  var key = _ref11.key;
+exports.getGeoTreeByCountryId = getGeoTreeByCountryId;
+const getSuggestEntities = (0, _reselect.createSelector)(domain, geo => geo.get('suggestEntities'));
+const getSuggestionIndex = (state, _ref11) => {
+  let {
+    key
+  } = _ref11;
   return domain(state).getIn(['suggestions', key]);
 };
-var getSuggests = exports.getSuggests = function getSuggests() {
-  return (0, _reselect.createSelector)(getSuggestEntities, getSuggestionIndex, function (entities, index) {
-    if (!index) {
-      return index;
-    }
-    var hydrate = function hydrate(type) {
-      return (index[type] || EMPTY_ARRAY).map(function (id) {
-        return entities[type][id];
-      }).filter(Boolean);
-    };
-    return {
-      country: hydrate('country'),
-      city: hydrate('city'),
-      hotel: hydrate('hotel')
-    };
-  });
-};
-var getSuggestEntity = exports.getSuggestEntity = function getSuggestEntity(state, _ref12) {
+const getSuggests = () => (0, _reselect.createSelector)(getSuggestEntities, getSuggestionIndex, (entities, index) => {
+  if (!index) {
+    return index;
+  }
+  const hydrate = type => (index[type] || EMPTY_ARRAY).map(id => entities[type][id]).filter(Boolean);
+  return {
+    country: hydrate('country'),
+    city: hydrate('city'),
+    hotel: hydrate('hotel')
+  };
+});
+exports.getSuggests = getSuggests;
+const getSuggestEntity = (state, _ref12) => {
   var _getSuggestEntities$t;
-  var type = _ref12.type,
-    id = _ref12.id;
+  let {
+    type,
+    id
+  } = _ref12;
   return (_getSuggestEntities$t = getSuggestEntities(state)[type]) === null || _getSuggestEntities$t === void 0 ? void 0 : _getSuggestEntities$t[id];
 };
+exports.getSuggestEntity = getSuggestEntity;

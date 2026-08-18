@@ -1,6 +1,5 @@
 "use strict";
 
-function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -8,126 +7,96 @@ exports.getUnusedPrices = exports.getTotalBySelectedOperators = exports.getOffer
 var R = _interopRequireWildcard(require("ramda"));
 var _constants = require("../../../../queries/constants");
 var _constants2 = require("./constants");
-function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
-function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != _typeof(e) && "function" != typeof e) return { "default": e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && {}.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n["default"] = e, t && t.set(e, n), n; }
-function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
-function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
-function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
-var getIgnoreOperators = exports.getIgnoreOperators = function getIgnoreOperators(operators) {
-  return R.call(R.pipe(R.toPairs, R.filter(function (_ref) {
-    var _ref2 = _slicedToArray(_ref, 2),
-      isReady = _ref2[1];
-    return isReady;
-  }), R.map(R.head)), operators);
-};
-var stringifyOperators = function stringifyOperators(operators) {
-  return R.join(',', operators);
-};
-var addIgnoreOperators = exports.addIgnoreOperators = function addIgnoreOperators(query, ignoreOperators) {
-  return R.call(R.pipe(stringifyOperators, function (stringifyIgnoreOperators) {
-    return query.ignoreOperators = query.ignoreOperators ? R.concat("".concat(query.ignoreOperators, ","), stringifyIgnoreOperators) : stringifyIgnoreOperators;
-  }), ignoreOperators);
-};
-var getHotelsIDsFromPrices = exports.getHotelsIDsFromPrices = function getHotelsIDsFromPrices(prices) {
-  return R.map(R.prop('hotelID'), prices);
-};
-var sortOffers = function sortOffers(offersHub, currency) {
-  return function (offers) {
-    return R.call(R.pipe(R.map(function (offerID) {
-      return offersHub[offerID];
-    }), R.sort(R.ascend(R.path(['price', currency])))), offers);
-  };
-};
-var sortPrices = function sortPrices(currency) {
-  return function (prices) {
-    return R.sort(R.ascend(R.path(['offers', 0, 'price', currency])), prices);
-  };
-};
-var sortByReviews = function sortByReviews(ratingsA, ratingsB) {
-  return R.descend(R.reduce(function (acc, _ref3) {
-    var reviews = _ref3.reviews;
-    return R.add(acc, reviews);
-  }, 0), ratingsA, ratingsB);
-};
-var sortPricesByRatings = function sortPricesByRatings(hotelsHub) {
-  return function (prices) {
-    return R.sort(function (_ref4, _ref5) {
-      var idA = _ref4.hotelID;
-      var idB = _ref5.hotelID;
-      var _hotelsHub$idA = hotelsHub[idA],
-        averageRatingA = _hotelsHub$idA.averageRating,
-        ratingsA = _hotelsHub$idA.sourceRatings;
-      var _hotelsHub$idB = hotelsHub[idB],
-        averageRatingB = _hotelsHub$idB.averageRating,
-        ratingsB = _hotelsHub$idB.sourceRatings;
-      return averageRatingA === averageRatingB ? sortByReviews(ratingsA, ratingsB) : averageRatingB - averageRatingA;
-    }, prices);
-  };
-};
-var convertPricesListToMap = function convertPricesListToMap(prices) {
-  return R.reduce(function (acc, price) {
-    return R.over(R.lensProp(price.hotelID), function (prevPrice) {
-      return prevPrice ? R.over(R.lensProp('offers'), function (offers) {
-        return R.concat(offers, price.offers);
-      }, prevPrice) : price;
-    }, acc);
-  }, {}, prices);
-};
-var simplifyPrices = function simplifyPrices(prices) {
-  return R.map(R.over(R.lensProp('offers'), R.map(R.prop('id'))), prices);
-};
-var generateNextPrices = exports.generateNextPrices = function generateNextPrices(prices, offersHub, currency, sortBy, hotelsHub) {
-  var selectedOperators = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : [];
-  return R.call(R.pipe(convertPricesListToMap, R.toPairs, R.map(function (_ref6) {
-    var _ref7 = _slicedToArray(_ref6, 2),
-      price = _ref7[1];
+function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function (e) { return e ? t : r; })(e); }
+function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != typeof e && "function" != typeof e) return { default: e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && {}.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n.default = e, t && t.set(e, n), n; }
+const getIgnoreOperators = operators => R.call(R.pipe(R.toPairs, R.filter(_ref => {
+  let [, isReady] = _ref;
+  return isReady;
+}), R.map(R.head)), operators);
+exports.getIgnoreOperators = getIgnoreOperators;
+const stringifyOperators = operators => R.join(',', operators);
+const addIgnoreOperators = (query, ignoreOperators) => R.call(R.pipe(stringifyOperators, stringifyIgnoreOperators => query.ignoreOperators = query.ignoreOperators ? R.concat(`${query.ignoreOperators},`, stringifyIgnoreOperators) : stringifyIgnoreOperators), ignoreOperators);
+exports.addIgnoreOperators = addIgnoreOperators;
+const getHotelsIDsFromPrices = prices => R.map(R.prop('hotelID'), prices);
+exports.getHotelsIDsFromPrices = getHotelsIDsFromPrices;
+const sortOffers = (offersHub, currency) => offers => R.call(R.pipe(R.map(offerID => offersHub[offerID]), R.sort(R.ascend(R.path(['price', currency])))), offers);
+const sortPrices = currency => prices => R.sort(R.ascend(R.path(['offers', 0, 'price', currency])), prices);
+const sortByReviews = (ratingsA, ratingsB) => R.descend(R.reduce((acc, _ref2) => {
+  let {
+    reviews
+  } = _ref2;
+  return R.add(acc, reviews);
+}, 0), ratingsA, ratingsB);
+const sortPricesByRatings = hotelsHub => prices => R.sort((_ref3, _ref4) => {
+  let {
+    hotelID: idA
+  } = _ref3;
+  let {
+    hotelID: idB
+  } = _ref4;
+  const {
+    averageRating: averageRatingA,
+    sourceRatings: ratingsA
+  } = hotelsHub[idA];
+  const {
+    averageRating: averageRatingB,
+    sourceRatings: ratingsB
+  } = hotelsHub[idB];
+  return averageRatingA === averageRatingB ? sortByReviews(ratingsA, ratingsB) : averageRatingB - averageRatingA;
+}, prices);
+const convertPricesListToMap = prices => R.reduce((acc, price) => R.over(R.lensProp(price.hotelID), prevPrice => prevPrice ? R.over(R.lensProp('offers'), offers => R.concat(offers, price.offers), prevPrice) : price, acc), {}, prices);
+const simplifyPrices = prices => R.map(R.over(R.lensProp('offers'), R.map(R.prop('id'))), prices);
+const generateNextPrices = function (prices, offersHub, currency, sortBy, hotelsHub) {
+  let selectedOperators = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : [];
+  return R.call(R.pipe(convertPricesListToMap, R.toPairs, R.map(_ref5 => {
+    let [, price] = _ref5;
     return R.over(R.lensProp('offers'), sortOffers(offersHub, currency), price);
-  }), R.when(function () {
-    return !R.isEmpty(selectedOperators);
-  }, R.filter(function (_ref8) {
-    var offers = _ref8.offers;
-    return offers.some(function (_ref9) {
-      var operator = _ref9.operator;
+  }), R.when(() => !R.isEmpty(selectedOperators), R.filter(_ref6 => {
+    let {
+      offers
+    } = _ref6;
+    return offers.some(_ref7 => {
+      let {
+        operator
+      } = _ref7;
       return R.includes(operator, selectedOperators);
     });
   })), sortBy === _constants.SORT_BY_PRICE ? sortPrices(currency) : sortPricesByRatings(hotelsHub), simplifyPrices, R.take(_constants2.COUNT_AT_PAGE)), prices);
 };
-var getHotelsEntitiesMap = exports.getHotelsEntitiesMap = function getHotelsEntitiesMap(prices, hotelsHub, hotelsFromStore) {
-  return R.call(R.pipe(R.filter(function (_ref10) {
-    var hotelID = _ref10.hotelID;
-    return !hotelsFromStore[hotelID];
-  }), R.map(function (_ref11) {
-    var hotelID = _ref11.hotelID;
-    return [hotelID, hotelsHub[hotelID]];
-  }), R.fromPairs), prices);
-};
-var getOffersEntitiesMap = exports.getOffersEntitiesMap = function getOffersEntitiesMap(prices, offersHub) {
-  return R.call(R.pipe(R.map(R.prop('offers')), R.flatten, R.map(function (offerID) {
-    return [offerID, offersHub[offerID]];
-  }), R.fromPairs), prices);
-};
-var getUnusedPrices = exports.getUnusedPrices = function getUnusedPrices(nextPrices, unusedPrices) {
-  return R.call(R.pipe(getHotelsIDsFromPrices, function (usedHotels) {
-    return R.filter(function (_ref12) {
-      var hotelID = _ref12.hotelID;
-      return !R.includes(hotelID, usedHotels);
-    }, unusedPrices);
-  }), nextPrices);
-};
-var getTotalBySelectedOperators = exports.getTotalBySelectedOperators = function getTotalBySelectedOperators(_ref13) {
-  var offersHub = _ref13.offersHub,
-    prices = _ref13.prices,
-    selectedOperators = _ref13.selectedOperators;
-  var selectedOperatorsSet = new Set(selectedOperators);
-  return R.pipe(R.when(function () {
-    return selectedOperatorsSet.size;
-  }, R.pipe(convertPricesListToMap, R.values, R.map(R.over(R.lensProp('offers'), R.filter(function (offerID) {
-    return selectedOperatorsSet.has(offersHub[offerID].operator);
-  }))), R.filter(function (_ref14) {
-    var offers = _ref14.offers;
+exports.generateNextPrices = generateNextPrices;
+const getHotelsEntitiesMap = (prices, hotelsHub, hotelsFromStore) => R.call(R.pipe(R.filter(_ref8 => {
+  let {
+    hotelID
+  } = _ref8;
+  return !hotelsFromStore[hotelID];
+}), R.map(_ref9 => {
+  let {
+    hotelID
+  } = _ref9;
+  return [hotelID, hotelsHub[hotelID]];
+}), R.fromPairs), prices);
+exports.getHotelsEntitiesMap = getHotelsEntitiesMap;
+const getOffersEntitiesMap = (prices, offersHub) => R.call(R.pipe(R.map(R.prop('offers')), R.flatten, R.map(offerID => [offerID, offersHub[offerID]]), R.fromPairs), prices);
+exports.getOffersEntitiesMap = getOffersEntitiesMap;
+const getUnusedPrices = (nextPrices, unusedPrices) => R.call(R.pipe(getHotelsIDsFromPrices, usedHotels => R.filter(_ref10 => {
+  let {
+    hotelID
+  } = _ref10;
+  return !R.includes(hotelID, usedHotels);
+}, unusedPrices)), nextPrices);
+exports.getUnusedPrices = getUnusedPrices;
+const getTotalBySelectedOperators = _ref11 => {
+  let {
+    offersHub,
+    prices,
+    selectedOperators
+  } = _ref11;
+  const selectedOperatorsSet = new Set(selectedOperators);
+  return R.pipe(R.when(() => selectedOperatorsSet.size, R.pipe(convertPricesListToMap, R.values, R.map(R.over(R.lensProp('offers'), R.filter(offerID => selectedOperatorsSet.has(offersHub[offerID].operator)))), R.filter(_ref12 => {
+    let {
+      offers
+    } = _ref12;
     return !R.isEmpty(offers);
   }))), R.length)(prices);
 };
+exports.getTotalBySelectedOperators = getTotalBySelectedOperators;

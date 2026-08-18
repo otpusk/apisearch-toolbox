@@ -9,83 +9,118 @@ var _reduxActions = require("redux-actions");
 var R = _interopRequireWildcard(require("ramda"));
 var _actions = require("./actions");
 var _fn = require("../queries/fn");
-var _handleActions;
-function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
-function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != _typeof(e) && "function" != typeof e) return { "default": e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && {}.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n["default"] = e, t && t.set(e, n), n; }
-function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
-function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
-function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-var initialState = (0, _immutable.Map)({
+function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function (e) { return e ? t : r; })(e); }
+function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != typeof e && "function" != typeof e) return { default: e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && {}.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n.default = e, t && t.set(e, n), n; }
+const initialState = (0, _immutable.Map)({
   results: (0, _immutable.Map)(),
   charts: (0, _immutable.Map)(),
   availableDates: {}
 });
-var searchReducer = exports.searchReducer = (0, _reduxActions.handleActions)((_handleActions = {}, _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_handleActions, _actions.searchActions.resetSearch, function (state, _ref) {
-  var queryId = _ref.payload;
-  return state.setIn(['results', queryId], (0, _fn.createResultBones)()).removeIn(['charts', queryId]);
-}), _actions.searchActions.startSearch, function (state, _ref2) {
-  var queryId = _ref2.payload;
-  return state.setIn(['results', queryId, 'operators'], {}).setIn(['results', queryId, 'status'], 'starting').removeIn(['charts', queryId]);
-}), _actions.searchActions.processSearch, function (state, _ref3) {
-  var _ref3$payload = _ref3.payload,
-    operators = _ref3$payload.operators,
-    queryId = _ref3$payload.queryId,
-    country = _ref3$payload.country,
-    total = _ref3$payload.total,
-    page = _ref3$payload.page,
-    prices = _ref3$payload.prices,
-    meta = _ref3$payload.meta;
-  return state.mergeDeepIn(['results', queryId], (0, _immutable.Map)({
-    total: total ? total : state.getIn(['results', queryId, 'total']),
-    meta: meta ? meta : state.getIn(['results', queryId, 'meta'])
-  })).updateIn(['results', queryId, 'country'], function (value) {
-    return value ? value : country;
-  }).updateIn(['results', queryId, 'operators'], function () {
-    var prevOperators = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-    return R.mergeAll([prevOperators, operators]);
-  }).updateIn(['results', queryId, 'prices'], function () {
-    var prevPrices = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-    return R.call(R.pipe(R.clone, function (items) {
-      items[R.dec(page)] = prices;
-      return items;
-    }), prevPrices);
-  });
-}), _actions.searchActions.finishSearch, function (state, _ref4) {
-  var _ref4$payload = _ref4.payload,
-    queryId = _ref4$payload.queryId,
-    total = _ref4$payload.total;
-  return state.setIn(['results', queryId, 'status'], 'done').setIn(['results', queryId, 'total'], total);
-}), _actions.searchActions.patchSearch, function (state, _ref5) {
-  var _ref5$payload = _ref5.payload,
-    queryId = _ref5$payload.queryId,
-    key = _ref5$payload.key,
-    patch = _ref5$payload.patch;
-  return state.setIn(['results', queryId, key], patch);
-}), _actions.searchActions.failSearch, function (state, _ref6) {
-  var queryId = _ref6.payload;
-  return state.setIn(['results', queryId, 'status'], 'failed');
-}), _actions.searchActions.clearSearch, function (state, _ref7) {
-  var queryId = _ref7.payload;
-  return state.removeIn(['results', queryId]).removeIn(['charts', queryId]);
-}), _actions.searchActions.setFailSearchError, function (state, _ref8) {
-  var _ref8$payload = _ref8.payload,
-    queryId = _ref8$payload.queryId,
-    error = _ref8$payload.error;
-  return state.setIn(['results', queryId, 'error'], error);
-}), _actions.searchActions.setSearchStatus, function (state, _ref9) {
-  var _ref9$payload = _ref9.payload,
-    queryID = _ref9$payload.queryID,
-    status = _ref9$payload.status;
-  return state.setIn(['results', queryID, 'status'], status);
-}), _actions.searchActions.getPriceChartSuccess, function (state, _ref10) {
-  var _ref10$payload = _ref10.payload,
-    queryId = _ref10$payload.queryId,
-    chart = _ref10$payload.chart;
-  return state.setIn(['charts', queryId], chart);
-}), _defineProperty(_handleActions, _actions.searchActions.getAvailableDatesSuccess, function (state, _ref11) {
-  var payload = _ref11.payload;
-  var key = payload.key,
-    dates = payload.dates;
-  return state.setIn(['availableDates', key], dates);
-})), initialState);
+const searchReducer = exports.searchReducer = (0, _reduxActions.handleActions)({
+  [_actions.searchActions.resetSearch]: (state, _ref) => {
+    let {
+      payload: queryId
+    } = _ref;
+    return state.setIn(['results', queryId], (0, _fn.createResultBones)()).removeIn(['charts', queryId]);
+  },
+  [_actions.searchActions.startSearch]: (state, _ref2) => {
+    let {
+      payload: queryId
+    } = _ref2;
+    return state.setIn(['results', queryId, 'operators'], {}).setIn(['results', queryId, 'status'], 'starting').removeIn(['charts', queryId]);
+  },
+  [_actions.searchActions.processSearch]: (state, _ref3) => {
+    let {
+      payload: {
+        operators,
+        queryId,
+        country,
+        total,
+        page,
+        prices,
+        meta
+      }
+    } = _ref3;
+    return state.mergeDeepIn(['results', queryId], (0, _immutable.Map)({
+      total: total ? total : state.getIn(['results', queryId, 'total']),
+      meta: meta ? meta : state.getIn(['results', queryId, 'meta'])
+    })).updateIn(['results', queryId, 'country'], value => value ? value : country).updateIn(['results', queryId, 'operators'], function () {
+      let prevOperators = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      return R.mergeAll([prevOperators, operators]);
+    }).updateIn(['results', queryId, 'prices'], function () {
+      let prevPrices = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+      return R.call(R.pipe(R.clone, items => {
+        items[R.dec(page)] = prices;
+        return items;
+      }), prevPrices);
+    });
+  },
+  [_actions.searchActions.finishSearch]: (state, _ref4) => {
+    let {
+      payload: {
+        queryId,
+        total
+      }
+    } = _ref4;
+    return state.setIn(['results', queryId, 'status'], 'done').setIn(['results', queryId, 'total'], total);
+  },
+  [_actions.searchActions.patchSearch]: (state, _ref5) => {
+    let {
+      payload: {
+        queryId,
+        key,
+        patch
+      }
+    } = _ref5;
+    return state.setIn(['results', queryId, key], patch);
+  },
+  [_actions.searchActions.failSearch]: (state, _ref6) => {
+    let {
+      payload: queryId
+    } = _ref6;
+    return state.setIn(['results', queryId, 'status'], 'failed');
+  },
+  [_actions.searchActions.clearSearch]: (state, _ref7) => {
+    let {
+      payload: queryId
+    } = _ref7;
+    return state.removeIn(['results', queryId]).removeIn(['charts', queryId]);
+  },
+  [_actions.searchActions.setFailSearchError]: (state, _ref8) => {
+    let {
+      payload: {
+        queryId,
+        error
+      }
+    } = _ref8;
+    return state.setIn(['results', queryId, 'error'], error);
+  },
+  [_actions.searchActions.setSearchStatus]: (state, _ref9) => {
+    let {
+      payload: {
+        queryID,
+        status
+      }
+    } = _ref9;
+    return state.setIn(['results', queryID, 'status'], status);
+  },
+  [_actions.searchActions.getPriceChartSuccess]: (state, _ref10) => {
+    let {
+      payload: {
+        queryId,
+        chart
+      }
+    } = _ref10;
+    return state.setIn(['charts', queryId], chart);
+  },
+  [_actions.searchActions.getAvailableDatesSuccess]: (state, _ref11) => {
+    let {
+      payload
+    } = _ref11;
+    const {
+      key,
+      dates
+    } = payload;
+    return state.setIn(['availableDates', key], dates);
+  }
+}, initialState);

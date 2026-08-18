@@ -7,148 +7,98 @@ exports.geoActions = void 0;
 var _reduxActions = require("redux-actions");
 /* eslint-disable max-params */
 
-var geoActions = exports.geoActions = (0, _reduxActions.createActions)({
-  GET_SUGGESTS: function GET_SUGGESTS() {
-    var key = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+const geoActions = exports.geoActions = (0, _reduxActions.createActions)({
+  GET_SUGGESTS: function () {
+    let key = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
     return key;
   },
-  GET_SUGGESTS_SUCCESS: function GET_SUGGESTS_SUCCESS(key, suggestions) {
+  GET_SUGGESTS_SUCCESS: (key, suggestions) => ({
+    key,
+    suggestions
+  }),
+  GET_SUGGESTS_FAIL: error => error,
+  GET_DEPARTURE_CITIES: (geoID, methodVersion) => ({
+    geoID,
+    methodVersion
+  }),
+  GET_DEPARTURE_CITIES_SUCCESS: (key, departures) => ({
+    key,
+    departures
+  }),
+  GET_DEPARTURE_CITIES_FAIL: error => error,
+  GET_COUNTRIES: (options, methodVersion) => ({
+    options,
+    methodVersion
+  }),
+  GET_COUNTRIES_SUCCESS: countries => countries,
+  GET_COUNTRIES_FAIL: error => error,
+  GET_CITIES: (countryId, options) => ({
+    countryId,
+    options
+  }),
+  GET_CITIES_SUCCESS: (countryId, cities) => ({
+    countryId,
+    cities
+  }),
+  GET_CITIES_FAIL: error => error,
+  GET_HOTELS: function (countryId) {
+    let withPrice = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+    let services = arguments.length > 2 ? arguments[2] : undefined;
+    let rating = arguments.length > 3 ? arguments[3] : undefined;
+    let methodVersion = arguments.length > 4 ? arguments[4] : undefined;
+    let withServices = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : true;
     return {
-      key: key,
-      suggestions: suggestions
+      countryId,
+      withPrice,
+      services,
+      rating,
+      methodVersion,
+      withServices
     };
   },
-  GET_SUGGESTS_FAIL: function GET_SUGGESTS_FAIL(error) {
-    return error;
-  },
-  GET_DEPARTURE_CITIES: function GET_DEPARTURE_CITIES(geoID, methodVersion) {
+  GET_HOTELS_SUCCESS: (countryId, key, hotels) => ({
+    countryId,
+    key,
+    hotels
+  }),
+  GET_HOTELS_FAIL: error => error,
+  REMOVE_HOTELS: key => key,
+  GET_OPERATORS: (countryId, departureID, methodVersion) => ({
+    countryId,
+    departureID,
+    methodVersion
+  }),
+  GET_OPERATORS_SUCCESS: (key, operators) => ({
+    key,
+    operators
+  }),
+  GET_OPERATORS_FAIL: error => error,
+  GET_GEO_TREE: function (countryId) {
+    let withPrice = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+    let depth = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'city';
     return {
-      geoID: geoID,
-      methodVersion: methodVersion
+      countryId,
+      withPrice,
+      depth
     };
   },
-  GET_DEPARTURE_CITIES_SUCCESS: function GET_DEPARTURE_CITIES_SUCCESS(key, departures) {
-    return {
-      key: key,
-      departures: departures
-    };
-  },
-  GET_DEPARTURE_CITIES_FAIL: function GET_DEPARTURE_CITIES_FAIL(error) {
-    return error;
-  },
-  GET_COUNTRIES: function GET_COUNTRIES(options, methodVersion) {
-    return {
-      options: options,
-      methodVersion: methodVersion
-    };
-  },
-  GET_COUNTRIES_SUCCESS: function GET_COUNTRIES_SUCCESS(countries) {
-    return countries;
-  },
-  GET_COUNTRIES_FAIL: function GET_COUNTRIES_FAIL(error) {
-    return error;
-  },
-  GET_CITIES: function GET_CITIES(countryId, options) {
-    return {
-      countryId: countryId,
-      options: options
-    };
-  },
-  GET_CITIES_SUCCESS: function GET_CITIES_SUCCESS(countryId, cities) {
-    return {
-      countryId: countryId,
-      cities: cities
-    };
-  },
-  GET_CITIES_FAIL: function GET_CITIES_FAIL(error) {
-    return error;
-  },
-  GET_HOTELS: function GET_HOTELS(countryId) {
-    var withPrice = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-    var services = arguments.length > 2 ? arguments[2] : undefined;
-    var rating = arguments.length > 3 ? arguments[3] : undefined;
-    var methodVersion = arguments.length > 4 ? arguments[4] : undefined;
-    var withServices = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : true;
-    return {
-      countryId: countryId,
-      withPrice: withPrice,
-      services: services,
-      rating: rating,
-      methodVersion: methodVersion,
-      withServices: withServices
-    };
-  },
-  GET_HOTELS_SUCCESS: function GET_HOTELS_SUCCESS(countryId, key, hotels) {
-    return {
-      countryId: countryId,
-      key: key,
-      hotels: hotels
-    };
-  },
-  GET_HOTELS_FAIL: function GET_HOTELS_FAIL(error) {
-    return error;
-  },
-  REMOVE_HOTELS: function REMOVE_HOTELS(key) {
-    return key;
-  },
-  GET_OPERATORS: function GET_OPERATORS(countryId, departureID, methodVersion) {
-    return {
-      countryId: countryId,
-      departureID: departureID,
-      methodVersion: methodVersion
-    };
-  },
-  GET_OPERATORS_SUCCESS: function GET_OPERATORS_SUCCESS(key, operators) {
-    return {
-      key: key,
-      operators: operators
-    };
-  },
-  GET_OPERATORS_FAIL: function GET_OPERATORS_FAIL(error) {
-    return error;
-  },
-  GET_GEO_TREE: function GET_GEO_TREE(countryId) {
-    var withPrice = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-    var depth = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'city';
-    return {
-      countryId: countryId,
-      withPrice: withPrice,
-      depth: depth
-    };
-  },
-  GET_GEO_TREE_SUCCESS: function GET_GEO_TREE_SUCCESS(countryId, geoTree) {
-    return {
-      countryId: countryId,
-      geoTree: geoTree
-    };
-  },
-  GET_GEO_TREE_FAIL: function GET_GEO_TREE_FAIL(error) {
-    return error;
-  },
-  GET_LOCATION_DATA: function GET_LOCATION_DATA(id) {
-    return {
-      id: id
-    };
-  },
-  GET_LOCATION_DATA_SUCCESS: function GET_LOCATION_DATA_SUCCESS(id, data) {
-    return {
-      id: id,
-      data: data
-    };
-  },
-  GET_LOCATION_DATA_FAIL: function GET_LOCATION_DATA_FAIL(error) {
-    return error;
-  },
-  GET_FLIGHT_PORT: function GET_FLIGHT_PORT(iata) {
-    return iata;
-  },
-  GET_FLIGHT_PORT_SUCCESS: function GET_FLIGHT_PORT_SUCCESS(key, port) {
-    return {
-      key: key,
-      port: port
-    };
-  },
-  GET_FLIGHT_PORT_FAIL: function GET_FLIGHT_PORT_FAIL(error) {
-    return error;
-  }
+  GET_GEO_TREE_SUCCESS: (countryId, geoTree) => ({
+    countryId,
+    geoTree
+  }),
+  GET_GEO_TREE_FAIL: error => error,
+  GET_LOCATION_DATA: id => ({
+    id
+  }),
+  GET_LOCATION_DATA_SUCCESS: (id, data) => ({
+    id,
+    data
+  }),
+  GET_LOCATION_DATA_FAIL: error => error,
+  GET_FLIGHT_PORT: iata => iata,
+  GET_FLIGHT_PORT_SUCCESS: (key, port) => ({
+    key,
+    port
+  }),
+  GET_FLIGHT_PORT_FAIL: error => error
 });

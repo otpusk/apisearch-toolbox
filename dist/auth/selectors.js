@@ -4,17 +4,18 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.getToken = exports.getLansAsQuery = exports.getLang = void 0;
-var domain = function domain(_) {
-  return _.auth;
-};
-var getLang = exports.getLang = function getLang(state) {
+const domain = _ => _.auth;
+const getLang = state => {
   return domain(state).getIn(['otpusk', 'lang'], 'ru');
 };
-var getLansAsQuery = exports.getLansAsQuery = function getLansAsQuery(state) {
+exports.getLang = getLang;
+const getLansAsQuery = state => {
   return {
     lang: getLang(state)
   };
 };
-var getToken = exports.getToken = function getToken(state) {
+exports.getLansAsQuery = getLansAsQuery;
+const getToken = state => {
   return domain(state).getIn(['otpusk', 'token']);
 };
+exports.getToken = getToken;

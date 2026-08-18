@@ -5,31 +5,31 @@ Object.defineProperty(exports, "__esModule", {
 });
 Object.defineProperty(exports, "getAvailableDatesWorker", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _getAvailableDatesWorker.getAvailableDatesWorker;
   }
 });
 Object.defineProperty(exports, "getPriceChartWorker", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _getPriceChartWorker.getPriceChartWorker;
   }
 });
 Object.defineProperty(exports, "getResultsWorker", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _getResultsWorker.getResultsWorker;
   }
 });
 Object.defineProperty(exports, "silentSearchWorker", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _silentSearchWorker.silentSearchWorker;
   }
 });
 Object.defineProperty(exports, "warmupSearchWorker", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _warmupSearchWorker.warmupSearchWorker;
   }
 });

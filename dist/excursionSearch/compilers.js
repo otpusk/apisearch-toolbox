@@ -5,27 +5,27 @@ Object.defineProperty(exports, "__esModule", {
 });
 Object.defineProperty(exports, "arrayCompiler", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _compilers.arrayCompiler;
   }
 });
 exports.dateCompiler = void 0;
 Object.defineProperty(exports, "numberCompiler", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _compilers.numberCompiler;
   }
 });
 Object.defineProperty(exports, "toStringCompiler", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _compilers.toStringCompiler;
   }
 });
 var _fn = require("./fn");
 var _moment = _interopRequireDefault(require("moment"));
 var _compilers = require("../queries/compilers");
-function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
 // Instruments
 
 /**
@@ -34,6 +34,7 @@ function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default":
  * @param {Date} value value
  * @returns {String} param
  */
-var dateCompiler = exports.dateCompiler = function dateCompiler(date) {
-  return date ? (0, _moment["default"])(date).format("D.M.Y") : _fn.GLUE.empty;
+const dateCompiler = date => {
+  return date ? (0, _moment.default)(date).format("D.M.Y") : _fn.GLUE.empty;
 };
+exports.dateCompiler = dateCompiler;

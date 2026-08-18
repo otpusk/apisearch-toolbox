@@ -5,25 +5,25 @@ Object.defineProperty(exports, "__esModule", {
 });
 Object.defineProperty(exports, "ExcursionQuery", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _fn.Query;
   }
 });
 Object.defineProperty(exports, "excursionSearchActions", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _actions.actions;
   }
 });
 Object.defineProperty(exports, "excursionSearchReducer", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _reducer.reducer;
   }
 });
 Object.defineProperty(exports, "excursionSearchWatchers", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _watchers.watchers;
   }
 });

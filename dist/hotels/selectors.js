@@ -1,86 +1,49 @@
 "use strict";
 
-function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.hotelsHub = exports.getHotelsMarkers = exports.getHotelsDescriptionsByOperatorHub = exports.getHotelPhotosByCategory = exports.getHotelPhotoCategories = exports.getHotelMarker = exports.getHotelDescriptionsByOperator = exports.getHotel = void 0;
 var _reselect = require("reselect");
 var R = _interopRequireWildcard(require("ramda"));
-function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
-function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != _typeof(e) && "function" != typeof e) return { "default": e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && {}.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n["default"] = e, t && t.set(e, n), n; }
-function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
-function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
-function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
-var domain = function domain(_) {
-  return _.hotels;
-};
-var hotelKey = function hotelKey(_, key) {
-  return key;
-};
-var EMPTY_OBJ = {};
-var EMPTY_ARRAY = [];
-var getHotelsStore = (0, _reselect.createSelector)(domain, function (hotels) {
-  return hotels.get('store');
-});
-var getHotelsMarkersStore = (0, _reselect.createSelector)(domain, function (hotels) {
-  return hotels.get('markers');
-});
-var getHotelsMarkers = exports.getHotelsMarkers = (0, _reselect.createSelector)(getHotelsMarkersStore, function (store) {
-  return R.call(R.pipe(R.toPairs, R.map(function (_ref) {
-    var _ref2 = _slicedToArray(_ref, 2),
-      hotel = _ref2[1];
-    return {
-      hotelID: hotel.id,
-      position: R.pick(['lat', 'lng'], hotel.location),
-      stars: hotel.stars,
-      zoom: hotel.location.zoom
-    };
-  })), store.toObject());
-});
-var getHotelMarker = exports.getHotelMarker = function getHotelMarker() {
-  return (0, _reselect.createSelector)(getHotelsMarkersStore, function (_, _ref3) {
-    var hotelID = _ref3.hotelID;
-    return hotelID;
-  }, function (store, id) {
-    return store.toObject()[id];
-  });
-};
-var hotelsHub = exports.hotelsHub = (0, _reselect.createSelector)(getHotelsStore, R.ifElse(function (v) {
-  return v.isEmpty();
-}, R.always(EMPTY_OBJ), function (v) {
-  return v.toJS();
-}));
-var getHotel = exports.getHotel = function getHotel() {
-  return (0, _reselect.createSelector)(getHotelsStore, hotelKey, function (store, key) {
-    return store.get(key.toString());
-  });
-};
-var getHotelPhotoCategories = exports.getHotelPhotoCategories = function getHotelPhotoCategories() {
-  return (0, _reselect.createSelector)(getHotel(), R.pipe(R.propOr(EMPTY_ARRAY, 'photosByCategory'), R.map(R.prop('category')), R.uniqBy(R.prop('id'))));
-};
-var getHotelPhotosByCategory = exports.getHotelPhotosByCategory = function getHotelPhotosByCategory() {
-  return (0, _reselect.createSelector)(getHotel(), R.pipe(R.propOr(EMPTY_ARRAY, 'photosByCategory'), function (items) {
-    return R.map(function (category) {
-      return {
-        category: category,
-        photos: R.pipe(R.filter(function (item) {
-          return item.category.id === category.id;
-        }), R.map(R.prop('photo')))(items)
-      };
-    }, R.uniqBy(R.prop('id'), R.map(R.prop('category'), items)));
-  }));
-};
-var getHotelsDescriptionsByOperatorHub = exports.getHotelsDescriptionsByOperatorHub = R.pipe(domain, function (hotels) {
-  return hotels.get('descriptionsByOperator');
-});
-var getHotelDescriptionsByOperator = exports.getHotelDescriptionsByOperator = R.converge(function (descriptions, operatorID) {
-  var _descriptions$operato;
-  return (_descriptions$operato = descriptions[operatorID]) !== null && _descriptions$operato !== void 0 ? _descriptions$operato : EMPTY_ARRAY;
-}, [getHotelsDescriptionsByOperatorHub, function (_, _ref4) {
-  var operatorID = _ref4.operatorID;
+function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function (e) { return e ? t : r; })(e); }
+function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != typeof e && "function" != typeof e) return { default: e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && {}.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n.default = e, t && t.set(e, n), n; }
+const domain = _ => _.hotels;
+const hotelKey = (_, key) => key;
+const EMPTY_OBJ = {};
+const EMPTY_ARRAY = [];
+const getHotelsStore = (0, _reselect.createSelector)(domain, hotels => hotels.get('store'));
+const getHotelsMarkersStore = (0, _reselect.createSelector)(domain, hotels => hotels.get('markers'));
+const getHotelsMarkers = exports.getHotelsMarkers = (0, _reselect.createSelector)(getHotelsMarkersStore, store => R.call(R.pipe(R.toPairs, R.map(_ref => {
+  let [, hotel] = _ref;
+  return {
+    hotelID: hotel.id,
+    position: R.pick(['lat', 'lng'], hotel.location),
+    stars: hotel.stars,
+    zoom: hotel.location.zoom
+  };
+})), store.toObject()));
+const getHotelMarker = () => (0, _reselect.createSelector)(getHotelsMarkersStore, (_, _ref2) => {
+  let {
+    hotelID
+  } = _ref2;
+  return hotelID;
+}, (store, id) => store.toObject()[id]);
+exports.getHotelMarker = getHotelMarker;
+const hotelsHub = exports.hotelsHub = (0, _reselect.createSelector)(getHotelsStore, R.ifElse(v => v.isEmpty(), R.always(EMPTY_OBJ), v => v.toJS()));
+const getHotel = () => (0, _reselect.createSelector)(getHotelsStore, hotelKey, (store, key) => store.get(key.toString()));
+exports.getHotel = getHotel;
+const getHotelPhotoCategories = () => (0, _reselect.createSelector)(getHotel(), R.pipe(R.propOr(EMPTY_ARRAY, 'photosByCategory'), R.map(R.prop('category')), R.uniqBy(R.prop('id'))));
+exports.getHotelPhotoCategories = getHotelPhotoCategories;
+const getHotelPhotosByCategory = () => (0, _reselect.createSelector)(getHotel(), R.pipe(R.propOr(EMPTY_ARRAY, 'photosByCategory'), items => R.map(category => ({
+  category,
+  photos: R.pipe(R.filter(item => item.category.id === category.id), R.map(R.prop('photo')))(items)
+}), R.uniqBy(R.prop('id'), R.map(R.prop('category'), items)))));
+exports.getHotelPhotosByCategory = getHotelPhotosByCategory;
+const getHotelsDescriptionsByOperatorHub = exports.getHotelsDescriptionsByOperatorHub = R.pipe(domain, hotels => hotels.get('descriptionsByOperator'));
+const getHotelDescriptionsByOperator = exports.getHotelDescriptionsByOperator = R.converge((descriptions, operatorID) => descriptions[operatorID] ?? EMPTY_ARRAY, [getHotelsDescriptionsByOperatorHub, (_, _ref3) => {
+  let {
+    operatorID
+  } = _ref3;
   return operatorID;
 }]);

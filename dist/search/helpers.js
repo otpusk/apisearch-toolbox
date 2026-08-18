@@ -1,17 +1,14 @@
 "use strict";
 
-function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.sortOffersByMinPrice = exports.sortHotelsByMinOffer = exports.generateAvailableDatesKey = void 0;
 var R = _interopRequireWildcard(require("ramda"));
-function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
-function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != _typeof(e) && "function" != typeof e) return { "default": e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && {}.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n["default"] = e, t && t.set(e, n), n; }
-var sortOffersByMinPrice = exports.sortOffersByMinPrice = function sortOffersByMinPrice(currency) {
-  return R.sort(R.ascend(R.path(['price', currency])));
-};
-var sortHotelsByMinOffer = exports.sortHotelsByMinOffer = R.sort(R.ascend(R.path([0, 'price', 'uah'])));
-var generateAvailableDatesKey = exports.generateAvailableDatesKey = function generateAvailableDatesKey(countryID, departureID) {
-  return R.join('-', R.filter(Number.isFinite, [Number(countryID), Number(departureID)]));
-};
+function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function (e) { return e ? t : r; })(e); }
+function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != typeof e && "function" != typeof e) return { default: e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && {}.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n.default = e, t && t.set(e, n), n; }
+const sortOffersByMinPrice = currency => R.sort(R.ascend(R.path(['price', currency])));
+exports.sortOffersByMinPrice = sortOffersByMinPrice;
+const sortHotelsByMinOffer = exports.sortHotelsByMinOffer = R.sort(R.ascend(R.path([0, 'price', 'uah'])));
+const generateAvailableDatesKey = (countryID, departureID) => R.join('-', R.filter(Number.isFinite, [Number(countryID), Number(departureID)]));
+exports.generateAvailableDatesKey = generateAvailableDatesKey;

@@ -5,19 +5,19 @@ Object.defineProperty(exports, "__esModule", {
 });
 Object.defineProperty(exports, "servicesActions", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _actions.servicesActions;
   }
 });
 Object.defineProperty(exports, "servicesReducer", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _reducer.servicesReducer;
   }
 });
 Object.defineProperty(exports, "servicesWatchers", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _watchers.servicesWatchers;
   }
 });
