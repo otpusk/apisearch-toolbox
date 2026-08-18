@@ -1,0 +1,51 @@
+import { createActions } from 'redux-actions';
+export const offersActions = createActions({
+  GET_OFFER: function (offerId) {
+    let fresh = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+    let currency = arguments.length > 2 ? arguments[2] : undefined;
+    let withShortCode = arguments.length > 3 ? arguments[3] : undefined;
+    return {
+      offerId,
+      fresh,
+      currency,
+      withShortCode
+    };
+  },
+  GET_OFFER_SUCCESS: offerID => offerID,
+  GET_OFFER_FAIL: [error => error, (_, offerID) => ({
+    offerID
+  })],
+  ADD_OFFERS: offers => offers,
+  SET_OFFER: (offerID, offer) => ({
+    offerID,
+    offer
+  }),
+  SET_OFFER_STATUS: (offerID, status) => ({
+    offerID,
+    status
+  }),
+  ACTUALIZE_OFFER: (offerID, adults, children, currency, withShortCode) => ({
+    offerID,
+    adults,
+    children,
+    currency,
+    withShortCode
+  }),
+  SET_ACTUALIZED_OFFER: (offerID, offer) => ({
+    offerID,
+    offer
+  }),
+  SET_ACTUALIZED_STATUS: (offerID, status) => ({
+    offerID,
+    status
+  }),
+  START_ACTUALIZE_OFFER: offerID => offerID,
+  END_ACTUALIZE_OFFER: offerID => offerID,
+  FAIL_ACTUALIZE_OFFER: offerID => offerID,
+  CLEAR_ACTUALIZED_OFFER: offerID => offerID,
+  SET_MESSAGE_BY_ACTUALIZED_OFFER: (offerID, message) => ({
+    offerID,
+    message
+  }),
+  RESET_OFFERS_STORE: () => void 0
+});

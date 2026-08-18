@@ -1,11 +1,10 @@
 {
   "name": "@otpusk/apisearch-toolbox",
-  "version": "2.0.50",
+  "version": "2.0.51",
   "description": "",
-  "main": "dist/index.js",
   "scripts": {
     "start": "babel-node ./playground",
-    "transpile": "babel ./src --out-dir ./dist",
+    "transpile": "rm -rf dist && BABEL_ENV=cjs babel ./src --out-dir ./dist/cjs && BABEL_ENV=esm babel ./src --out-dir ./dist/esm",
     "publish-package": "npm publish"
   },
   "repository": {
@@ -52,5 +51,84 @@
   },
   "files": [
     "dist"
-  ]
+  ],
+  "sideEffects": false,
+  "exports": {
+    "./dist/excursion": {
+      "import": "./dist/esm/excursion/index.js",
+      "require": "./dist/cjs/excursion/index.js"
+    },
+    "./dist/excursionGeo": {
+      "import": "./dist/esm/excursionGeo/index.js",
+      "require": "./dist/cjs/excursionGeo/index.js"
+    },
+    "./dist/excursionSearch": {
+      "import": "./dist/esm/excursionSearch/index.js",
+      "require": "./dist/cjs/excursionSearch/index.js"
+    },
+    "./dist/excursionTours": {
+      "import": "./dist/esm/excursionTours/index.js",
+      "require": "./dist/cjs/excursionTours/index.js"
+    },
+    "./dist/geo": {
+      "import": "./dist/esm/geo/index.js",
+      "require": "./dist/cjs/geo/index.js"
+    },
+    "./dist/hotels": {
+      "import": "./dist/esm/hotels/index.js",
+      "require": "./dist/cjs/hotels/index.js"
+    },
+    "./dist/hotels/saga/workers": {
+      "import": "./dist/esm/hotels/saga/workers/index.js",
+      "require": "./dist/cjs/hotels/saga/workers/index.js"
+    },
+    "./dist/offers": {
+      "import": "./dist/esm/offers/index.js",
+      "require": "./dist/cjs/offers/index.js"
+    },
+    "./dist/offers/saga": {
+      "import": "./dist/esm/offers/saga/index.js",
+      "require": "./dist/cjs/offers/saga/index.js"
+    },
+    "./dist/operators": {
+      "import": "./dist/esm/operators/index.js",
+      "require": "./dist/cjs/operators/index.js"
+    },
+    "./dist/operators/saga/workers": {
+      "import": "./dist/esm/operators/saga/workers/index.js",
+      "require": "./dist/cjs/operators/saga/workers/index.js"
+    },
+    "./dist/queries": {
+      "import": "./dist/esm/queries/index.js",
+      "require": "./dist/cjs/queries/index.js"
+    },
+    "./dist/queries/saga": {
+      "import": "./dist/esm/queries/saga/index.js",
+      "require": "./dist/cjs/queries/saga/index.js"
+    },
+    "./dist/queries/saga/workers": {
+      "import": "./dist/esm/queries/saga/workers/index.js",
+      "require": "./dist/cjs/queries/saga/workers/index.js"
+    },
+    "./dist/search": {
+      "import": "./dist/esm/search/index.js",
+      "require": "./dist/cjs/search/index.js"
+    },
+    "./dist/search/saga/workers": {
+      "import": "./dist/esm/search/saga/workers/index.js",
+      "require": "./dist/cjs/search/saga/workers/index.js"
+    },
+    "./dist/search/saga/workers/getResultsWorker": {
+      "import": "./dist/esm/search/saga/workers/getResultsWorker/index.js",
+      "require": "./dist/cjs/search/saga/workers/getResultsWorker/index.js"
+    },
+    "./dist/services": {
+      "import": "./dist/esm/services/index.js",
+      "require": "./dist/cjs/services/index.js"
+    },
+    "./dist/*": {
+      "import": "./dist/esm/*.js",
+      "require": "./dist/cjs/*.js"
+    }
+  }
 }

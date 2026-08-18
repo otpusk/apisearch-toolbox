@@ -1,0 +1,115 @@
+// Core
+import { List, Map } from 'immutable';
+import moment from 'moment';
+import { getToursGeoById } from '@otpusk/json-api';
+
+// Instruments
+import { RANGE_DATE_TAG, RANGE_DATE_FIELD } from './constants';
+import { GLUE } from './fn';
+
+/**
+ * Parse binary string
+ *
+ * @param {string} value flags
+ * @param {Object} options options
+ * @returns {Map} flags list
+ */
+export const binaryParser = (value, _ref) => {
+  let {
+    prevValue
+  } = _ref;
+  const binaryValue = parseInt(value, 36).toString().split('').map(flag => Number(flag) === 1);
+  const newValues = List(binaryValue).unshift(...Array(prevValue.count() - binaryValue.length).fill(false));
+  return prevValue.mapEntries((_ref2, index) => {
+    let [k, v] = _ref2;
+    return [k, newValues.has(index) ? newValues.get(index) : v];
+  });
+};
+
+/**
+ * Parse range value
+ *
+ * @param {string} value range
+ * @returns {Map} range
+ */
+export const rangeParser = value => {
+  const valuesArray = value.split(GLUE.range);
+  const isEqualValues = valuesArray.length === 1;
+
+  // methods
+  const mapperValue = v => !isNaN(parseInt(v, 10)) ? Number(v) : null;
+  if (isEqualValues) {
+    const [val] = valuesArray.map(mapperValue);
+    return Map({
+      'from': val,
+      'to': val
+    });
+  }
+  const [from, to] = valuesArray.map(mapperValue);
+  return Map({
+    from,
+    to
+  });
+};
+
+/**
+ * Parse dates
+ *
+ * @param {string} value dates range
+ * @returns {Map} dates
+ */
+export const datesParser = value => {
+  if (value.includes(encodeURIComponent(RANGE_DATE_TAG))) {
+    const [mediana, range] = value.split(encodeURIComponent(RANGE_DATE_TAG));
+    return Map({
+      from: moment(mediana, 'DD.MM.YYYY').startOf('day').subtract(Number(range), 'days'),
+      to: moment(mediana, 'DD.MM.YYYY').startOf('day').add(Number(range), 'days'),
+      [RANGE_DATE_FIELD]: range
+    });
+  }
+  const [from, to] = value.split(GLUE.range).map(str => moment(str, 'DD-MM-YYYY')).map(date => date.isValid() ? date : null);
+  return Map({
+    from,
+    to
+  });
+};
+
+/**
+ * Array parser
+ *
+ * @param {string} value string
+ * @returns {Array} array
+ */
+export const arrayParser = value => value ? value.split(GLUE.list) : [];
+
+/**
+ * Numbers array parser
+ *
+ * @param {string} value string
+ * @returns{Array} array
+ */
+export const numbersArrayParser = value => arrayParser(value).map(Number);
+
+/**
+ * Parse geo
+ *
+ * @param {Number} value geoId
+ * @param {Object} token apitoken
+ * @returns {Map} location
+ */
+export const geoParser = async (value, _ref3) => {
+  let {
+    token
+  } = _ref3;
+  const location = await getToursGeoById(token, value);
+  return location;
+};
+
+/* parse boolean values that presented as a string */
+
+export const parseStringIntengerToBoolean = value => Boolean(Number(value));
+
+/* immutable List, Set parser */
+
+export const createImmutableArrayParser = baseValueCreator => value => value ? baseValueCreator(value.split(GLUE.list)) : baseValueCreator();
+export const createImmutableNumbersArrayParser = baseValueCreator => value => createImmutableArrayParser(baseValueCreator)(value).map(Number);

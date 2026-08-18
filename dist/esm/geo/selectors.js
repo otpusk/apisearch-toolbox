@@ -1,0 +1,116 @@
+import { createSelector } from 'reselect';
+import * as R from 'ramda';
+const EMPTY_ARRAY = [];
+const DEFAULT_DEPARTURE_GEO_ID = 0;
+const domain = _ => _.geo;
+const departureGeoID = (_, _ref) => {
+  let {
+    geoID
+  } = _ref;
+  return geoID;
+};
+const getDepartureID = (_, _ref2) => {
+  let {
+    departureID
+  } = _ref2;
+  return departureID;
+};
+const getIATA = (_, _ref3) => {
+  let {
+    iata
+  } = _ref3;
+  return iata;
+};
+const getCountryID = (_, _ref4) => {
+  let {
+    countryID
+  } = _ref4;
+  return countryID;
+};
+const getHotelID = (_, _ref5) => {
+  let {
+    hotelID
+  } = _ref5;
+  return hotelID;
+};
+const getHotelKey = (_, _ref6) => {
+  let {
+    hotelKey
+  } = _ref6;
+  return hotelKey;
+};
+const getDeparturesByImmutableStructure = createSelector(domain, geo => geo.get('departures'));
+export const getDepartures = () => createSelector(getDeparturesByImmutableStructure, departureGeoID, (map, geoID) => R.propOr(EMPTY_ARRAY, geoID, map.toJS()));
+export const getDepartureByDefaultGeo = () => createSelector(getDeparturesByImmutableStructure, getDepartureID, (map, id) => R.find(departure => departure.id === id, R.propOr(EMPTY_ARRAY, DEFAULT_DEPARTURE_GEO_ID, map.toJS())));
+export const getDepartureById = () => createSelector(getDepartures(), getDepartureID, (list, id) => R.find(R.pipe(R.prop('id'), R.equals(id)), list));
+export const getDepartureByIATA = () => createSelector(getDepartures(), getIATA, (list, code) => R.find(R.pipe(R.prop('iata'), R.equals(code)), list));
+export const getFlightPorts = createSelector(domain, geo => geo.get('flightPorts'));
+export const getFlightPort = () => createSelector(getFlightPorts, getIATA, (ports, iata) => R.prop(iata, ports));
+export const getOperators = () => createSelector(domain, (_, _ref7) => {
+  let {
+    key
+  } = _ref7;
+  return key;
+}, (geo, key) => R.call(R.pipe(operators => operators.toObject(), R.prop(key), R.ifElse(Boolean, operators => operators.toArray(), R.always(EMPTY_ARRAY))), geo.get('operators')));
+export const getOperatorsMap = () => createSelector(getOperators(), operators => R.call(R.pipe(R.map(operator => [operator.id, operator]), R.fromPairs), operators));
+export const getOperator = () => createSelector(getOperators(), (_, _ref8) => {
+  let {
+    operatorID
+  } = _ref8;
+  return operatorID;
+}, (operatorsArray, findID) => R.find(_ref9 => {
+  let {
+    id
+  } = _ref9;
+  return Number(id) === Number(findID);
+}, operatorsArray));
+export const getActiveOperators = () => createSelector(getOperators(), R.filter(R.prop('active')));
+const getCountriesByImmutableStructure = createSelector(domain, geo => geo.get('countries'));
+export const getCountries = createSelector(getCountriesByImmutableStructure, countries => countries.toArray());
+export const getTopCountries = createSelector(getCountries, countries => countries.filter(country => country.weight > 0));
+export const getCountry = () => createSelector(getCountries, getCountryID, (countries, id) => R.find(country => country.id === id, countries));
+export const getTopCountry = createSelector(getCountries, R.pipe(R.sort(R.descend(R.prop('weight'))), R.head));
+export const getCitiesStore = createSelector(domain, geo => geo.get('cities').toObject());
+export const getCitiesByCountry = createSelector(getCitiesStore, getCountryID, (citiesStore, countryID) => {
+  var _R$prop;
+  return ((_R$prop = R.prop(countryID, citiesStore)) === null || _R$prop === void 0 ? void 0 : _R$prop.toArray()) ?? EMPTY_ARRAY;
+});
+const getHotelsStore = createSelector(domain, geo => geo.get('hotels'));
+const getHotelsImmutableStructureByCountry = () => createSelector(getHotelsStore, getCountryID, (store, countryID) => R.prop(countryID, store.toObject()));
+export const getHotelsByCountry = () => createSelector(getHotelsImmutableStructureByCountry(), hotels => hotels ? hotels.toArray() : EMPTY_ARRAY);
+export const getHotelByCountry = () => createSelector(getHotelsByCountry(), getHotelID, (hotels, id) => R.find(hotel => hotel.id === id, hotels));
+export const getHotelsByKey = () => createSelector(getHotelsStore, getHotelKey, (hotelsStore, key) => hotelsStore.has(key) ? hotelsStore.get(key).toArray() : EMPTY_ARRAY);
+export const getHotelByKey = () => createSelector(getHotelsByKey, getHotelID, (hotels, id) => R.find(hotel => hotel.id === id, hotels));
+const getGeoTree = state => domain(state).get('geoTree');
+export const getGeoTreeByCountryId = (state, _ref10) => {
+  let {
+    countryID
+  } = _ref10;
+  return getGeoTree(state)[countryID] || EMPTY_ARRAY;
+};
+const getSuggestEntities = createSelector(domain, geo => geo.get('suggestEntities'));
+const getSuggestionIndex = (state, _ref11) => {
+  let {
+    key
+  } = _ref11;
+  return domain(state).getIn(['suggestions', key]);
+};
+export const getSuggests = () => createSelector(getSuggestEntities, getSuggestionIndex, (entities, index) => {
+  if (!index) {
+    return index;
+  }
+  const hydrate = type => (index[type] || EMPTY_ARRAY).map(id => entities[type][id]).filter(Boolean);
+  return {
+    country: hydrate('country'),
+    city: hydrate('city'),
+    hotel: hydrate('hotel')
+  };
+});
+export const getSuggestEntity = (state, _ref12) => {
+  var _getSuggestEntities$t;
+  let {
+    type,
+    id
+  } = _ref12;
+  return (_getSuggestEntities$t = getSuggestEntities(state)[type]) === null || _getSuggestEntities$t === void 0 ? void 0 : _getSuggestEntities$t[id];
+};
