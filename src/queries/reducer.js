@@ -4,14 +4,14 @@ import { handleActions } from 'redux-actions';
 import * as R from 'ramda';
 
 import { queriesActions } from './actions';
-import { createQuery, QUERY_PARAMS, parseHashToQuery, parseQueryString, createSearchQuery } from './fn';
+import { createQuery, QUERY_PARAMS, parseHashToQuery, parseQueryString } from './fn';
 
 const initalState = Map({});
 
 export const queriesReducer = handleActions(
     {
-        [queriesActions.createQuery]: (state, { payload: { queryId, initialParams, isUrl }}) => {
-            return state.set(queryId, isUrl ? createSearchQuery(initialParams) : createQuery(initialParams));
+        [queriesActions.createQuery]: (state, { payload: { queryId, initialParams }}) => {
+            return state.set(queryId, createQuery(initialParams));
         },
         [queriesActions.setQuery]: (state, { payload: { queryId, query }}) => {
             return state.set(queryId, query);

@@ -5,8 +5,7 @@ import { takeEvery } from 'redux-saga/effects';
 import { queriesActions } from '../actions';
 import {
     compileQueryStringWorker,
-    parseQueryStringWorker,
-    parseQueryParamWorker
+    parseQueryStringWorker
 } from './workers';
 
 export const queriesWatchers = Object.freeze({

@@ -19,11 +19,10 @@ const queriesReducer = exports.queriesReducer = (0, _reduxActions.handleActions)
     let {
       payload: {
         queryId,
-        initialParams,
-        isUrl
+        initialParams
       }
     } = _ref;
-    return state.set(queryId, isUrl ? (0, _fn.createSearchQuery)(initialParams) : (0, _fn.createQuery)(initialParams));
+    return state.set(queryId, (0, _fn.createQuery)(initialParams));
   },
   [_actions.queriesActions.setQuery]: (state, _ref2) => {
     let {

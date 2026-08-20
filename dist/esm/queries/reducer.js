@@ -3,18 +3,17 @@ import moment from 'moment';
 import { handleActions } from 'redux-actions';
 import * as R from 'ramda';
 import { queriesActions } from './actions';
-import { createQuery, QUERY_PARAMS, parseHashToQuery, parseQueryString, createSearchQuery } from './fn';
+import { createQuery, QUERY_PARAMS, parseHashToQuery, parseQueryString } from './fn';
 const initalState = Map({});
 export const queriesReducer = handleActions({
   [queriesActions.createQuery]: (state, _ref) => {
     let {
       payload: {
         queryId,
-        initialParams,
-        isUrl
+        initialParams
       }
     } = _ref;
-    return state.set(queryId, isUrl ? createSearchQuery(initialParams) : createQuery(initialParams));
+    return state.set(queryId, createQuery(initialParams));
   },
   [queriesActions.setQuery]: (state, _ref2) => {
     let {
