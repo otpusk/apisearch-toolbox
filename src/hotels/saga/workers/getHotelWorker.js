@@ -4,6 +4,8 @@ import * as R from 'ramda';
 
 import { hotelsActions } from '../../actions';
 
+const normalizeHotel = (hotel) => R.assoc('photosCount', Number(hotel.photosCount), hotel);
+
 export function* getHotelWorker ({ payload: hotelId }) {
     try {
         const { token, lang } = yield select(({ auth }) => ({
@@ -20,7 +22,7 @@ export function* getHotelWorker ({ payload: hotelId }) {
             lang
         );
 
-        yield put(hotelsActions.getHotelSuccess(hotel));
+        yield put(hotelsActions.getHotelSuccess(normalizeHotel(hotel)));
     } catch (error) {
         yield put(hotelsActions.getHotelFail(error));
     }
