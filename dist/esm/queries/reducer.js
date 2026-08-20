@@ -3,7 +3,7 @@ import moment from 'moment';
 import { handleActions } from 'redux-actions';
 import * as R from 'ramda';
 import { queriesActions } from './actions';
-import { createQuery, QUERY_PARAMS, parseOSQueryHash, parseQueryString, createSearchQuery } from './fn';
+import { createQuery, QUERY_PARAMS, parseHashToQuery, parseQueryString, createSearchQuery } from './fn';
 const initalState = Map({});
 export const queriesReducer = handleActions({
   [queriesActions.createQuery]: (state, _ref) => {
@@ -104,7 +104,7 @@ export const queriesReducer = handleActions({
         queryString
       }
     } = _ref8;
-    return state.update(queries => queryString ? queries.set(targetQueryId, parseOSQueryHash(queryString, queries.get(targetQueryId))) : queries);
+    return state.update(queries => queryString ? queries.set(targetQueryId, parseHashToQuery(queryString)) : queries);
   },
   [queriesActions.parseQueryString]: (state, _ref9) => {
     let {

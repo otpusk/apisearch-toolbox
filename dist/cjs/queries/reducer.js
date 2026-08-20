@@ -113,7 +113,7 @@ const queriesReducer = exports.queriesReducer = (0, _reduxActions.handleActions)
         queryString
       }
     } = _ref8;
-    return state.update(queries => queryString ? queries.set(targetQueryId, (0, _fn.parseOSQueryHash)(queryString, queries.get(targetQueryId))) : queries);
+    return state.update(queries => queryString ? queries.set(targetQueryId, (0, _fn.parseHashToQuery)(queryString)) : queries);
   },
   [_actions.queriesActions.parseQueryString]: (state, _ref9) => {
     let {

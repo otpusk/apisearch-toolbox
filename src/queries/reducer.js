@@ -4,7 +4,7 @@ import { handleActions } from 'redux-actions';
 import * as R from 'ramda';
 
 import { queriesActions } from './actions';
-import { createQuery, QUERY_PARAMS, parseOSQueryHash, parseQueryString, createSearchQuery } from './fn';
+import { createQuery, QUERY_PARAMS, parseHashToQuery, parseQueryString, createSearchQuery } from './fn';
 
 const initalState = Map({});
 
@@ -62,7 +62,7 @@ export const queriesReducer = handleActions(
 
             return state.update(
                 (queries) => queryString
-                    ? queries.set(targetQueryId, parseOSQueryHash(queryString, queries.get(targetQueryId)))
+                    ? queries.set(targetQueryId, parseHashToQuery(queryString))
                     : queries
             );
         },
