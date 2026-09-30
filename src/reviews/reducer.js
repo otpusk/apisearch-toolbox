@@ -4,12 +4,12 @@ import * as R from 'ramda';
 import { setTurpravdaWidget } from './actions';
 
 const initialState = {
-    turpravdaWidget: {},
+    turpravdaReviews: {},
 };
 
 export default handleActions({
     [setTurpravdaWidget]: (state, { payload }) => R.set(
-        R.lensPath(['turpravdaWidget', payload.hotelID]),
+        R.lensPath(['turpravdaReviews', payload.hotelID]),
         payload.widget,
         state
     ),
