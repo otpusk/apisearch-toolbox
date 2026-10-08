@@ -4,7 +4,10 @@ import * as R from 'ramda';
 import { hotelsActions } from '../../actions';
 export function getHotelWorker(_ref) {
   let {
-    payload: hotelId
+    payload: {
+      hotelId,
+      options = {}
+    }
   } = _ref;
   return function* () {
     try {
@@ -24,7 +27,7 @@ export function getHotelWorker(_ref) {
         hotel
       } = yield call(getToursHotel, R.mergeAll([token, {
         data: 'extlinks'
-      }]), hotelId, lang);
+      }]), hotelId, lang, options);
       yield put(hotelsActions.getHotelSuccess(hotel));
     } catch (error) {
       yield put(hotelsActions.getHotelFail(error));

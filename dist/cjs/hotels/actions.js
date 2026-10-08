@@ -6,7 +6,10 @@ Object.defineProperty(exports, "__esModule", {
 exports.hotelsActions = void 0;
 var _reduxActions = require("redux-actions");
 const hotelsActions = exports.hotelsActions = (0, _reduxActions.createActions)({
-  GET_HOTEL: hotelId => hotelId,
+  GET_HOTEL: (hotelId, options) => ({
+    hotelId,
+    options
+  }),
   GET_HOTEL_SUCCESS: hotel => hotel,
   GET_HOTEL_FAIL: error => error,
   ADD_HOTEL: hotel => hotel,
