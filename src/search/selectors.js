@@ -473,6 +473,26 @@ export const getOperatorsByHotelID = () => createSelector(
         )
 );
 
+export const getCheapestOffersByOperators = () => createSelector(
+    getFlattenPrices(),
+    getOffers(),
+    getQuery,
+    (_, { hotelID }) => hotelID,
+    (prices, offersHub, query, hotelID) => R.isEmpty(prices)
+        ? EMPTY_ARRAY
+        : R.call(
+            R.pipe(
+                R.find(R.propEq(hotelID, 'hotelID')),
+                R.propOr(EMPTY_ARRAY, 'offers'),
+                R.map((id) => offersHub[id]),
+                R.reject(R.either(R.isNil, R.pathSatisfies(R.isNil, ['price', query.get(QUERY_PARAMS.CURRENCY)]))),
+                sortOffersByMinPrice(query.get(QUERY_PARAMS.CURRENCY)),
+                R.uniqBy(R.prop('operator'))
+            ),
+            prices
+        )
+);
+
 const getCharts = createSelector(
     domain,
     (search) => search.get('charts')
