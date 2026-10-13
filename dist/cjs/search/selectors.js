@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.selectOperators = exports.offersByKey = exports.isStart = exports.isSetSearch = exports.isSetHotelAtPrices = exports.isSearch = exports.isProccess = exports.isFail = exports.isDone = exports.hotelsByKey = exports.getTotal = exports.getSearchProgressByPercent = exports.getSearchCountry = exports.getPricesWithEntities = exports.getPrices = exports.getOperatorsWithMinPrice = exports.getOperatorsByHotelID = exports.getOperatorLink = exports.getOffersFromPrices = exports.getNightsWithMinPrice = exports.getHotelsTotal = exports.getHotelsMarkers = exports.getHotelsByMultipleSearch = exports.getHotelsByMinPrice = exports.getFoodsWithMinPrice = exports.getFlattenPrices = exports.getError = exports.getChart = exports.getCenterByHotelsMarkers = exports.getCategoryWithMinPrice = exports.getBoundsByHotelsMarkers = exports.getAvailableDates = exports.createGetDeparturesWithMinPrice = void 0;
+exports.selectOperators = exports.offersByKey = exports.isStart = exports.isSetSearch = exports.isSetHotelAtPrices = exports.isSearch = exports.isProccess = exports.isFail = exports.isDone = exports.hotelsByKey = exports.getTotal = exports.getSearchProgressByPercent = exports.getSearchCountry = exports.getPricesWithEntities = exports.getPrices = exports.getOperatorsWithMinPrice = exports.getOperatorsByHotelID = exports.getOperatorLink = exports.getOffersFromPrices = exports.getNightsWithMinPrice = exports.getHotelsTotal = exports.getHotelsMarkers = exports.getHotelsByMultipleSearch = exports.getHotelsByMinPrice = exports.getHotelOffersByOperators = exports.getFoodsWithMinPrice = exports.getFlattenPrices = exports.getError = exports.getChart = exports.getCenterByHotelsMarkers = exports.getCategoryWithMinPrice = exports.getBoundsByHotelsMarkers = exports.getAvailableDates = exports.createGetDeparturesWithMinPrice = void 0;
 var _reselect = require("reselect");
 var R = _interopRequireWildcard(require("ramda"));
 var _static = require("@otpusk/json-api/dist/static");
@@ -217,23 +217,30 @@ const getOperatorsByHotelID = () => (0, _reselect.createSelector)(getFlattenPric
   return hotelID;
 }, (prices, offersHub, operatorsMap, hotelID) => R.isEmpty(prices) ? EMPTY_ARRAY : R.call(R.pipe(R.find(R.propEq(hotelID, 'hotelID')), R.propOr(EMPTY_ARRAY, 'offers'), R.map(id => offersHub[id].operator), R.uniq, R.map(id => operatorsMap[id])), prices));
 exports.getOperatorsByHotelID = getOperatorsByHotelID;
+const getHotelOffersByOperators = () => (0, _reselect.createSelector)(getFlattenPrices(), (0, _selectors.getOffers)(), _selectors3.getQuery, (_, _ref18) => {
+  let {
+    hotelID
+  } = _ref18;
+  return hotelID;
+}, (prices, offersHub, query, hotelID) => R.isEmpty(prices) ? EMPTY_ARRAY : R.call(R.pipe(R.find(R.propEq(hotelID, 'hotelID')), R.propOr(EMPTY_ARRAY, 'offers'), R.map(id => offersHub[id]), R.reject(R.pathSatisfies(R.isNil, ['price', query.get(_fn.QUERY_PARAMS.CURRENCY)])), (0, _helpers.sortOffersByMinPrice)(query.get(_fn.QUERY_PARAMS.CURRENCY)), R.uniqBy(R.prop('operator'))), prices));
+exports.getHotelOffersByOperators = getHotelOffersByOperators;
 const getCharts = (0, _reselect.createSelector)(domain, search => search.get('charts'));
 const getChart = exports.getChart = (0, _reselect.createSelector)(getCharts, getQueryID, (charts, queryID) => charts.get(queryID, EMPTY_ARRAY));
-const getHotelsMarkers = () => (0, _reselect.createSelector)(getPricesWithEntities(), prices => R.filter(Boolean, R.map(R.pipe(_ref18 => {
+const getHotelsMarkers = () => (0, _reselect.createSelector)(getPricesWithEntities(), prices => R.filter(Boolean, R.map(R.pipe(_ref19 => {
   let {
     hotel,
     offers: [offer]
-  } = _ref18;
+  } = _ref19;
   return R.mergeAll([hotel, {
     offerID: R.prop('id', offer)
   }]);
-}, R.ifElse(R.prop('location'), _ref19 => {
+}, R.ifElse(R.prop('location'), _ref20 => {
   let {
     id,
     location,
     offerID,
     stars
-  } = _ref19;
+  } = _ref20;
   return {
     hotelID: id,
     offerID,
@@ -254,13 +261,13 @@ exports.getCenterByHotelsMarkers = getCenterByHotelsMarkers;
 const getBoundsByHotelsMarkers = () => (0, _reselect.createSelector)(getHotelsMarkers(), markers => !R.isEmpty(markers) ? R.call(R.pipe(R.map(R.applySpec({
   latitude: R.path(['position', 'lat']),
   longitude: R.path(['position', 'lng'])
-})), _geolib.getBounds, _ref20 => {
+})), _geolib.getBounds, _ref21 => {
   let {
     minLat,
     maxLat,
     minLng,
     maxLng
-  } = _ref20;
+  } = _ref21;
   return {
     ne: {
       lat: maxLat,
