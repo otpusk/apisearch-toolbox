@@ -473,7 +473,7 @@ export const getOperatorsByHotelID = () => createSelector(
         )
 );
 
-export const getCheapestOffersByOperators = () => createSelector(
+export const getHotelOffersByOperators = () => createSelector(
     getFlattenPrices(),
     getOffers(),
     getQuery,
