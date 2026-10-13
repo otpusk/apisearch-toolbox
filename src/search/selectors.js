@@ -485,7 +485,7 @@ export const getHotelOffersByOperators = () => createSelector(
                 R.find(R.propEq(hotelID, 'hotelID')),
                 R.propOr(EMPTY_ARRAY, 'offers'),
                 R.map((id) => offersHub[id]),
-                R.reject(R.either(R.isNil, R.pathSatisfies(R.isNil, ['price', query.get(QUERY_PARAMS.CURRENCY)]))),
+                R.reject(R.pathSatisfies(R.isNil, ['price', query.get(QUERY_PARAMS.CURRENCY)])),
                 sortOffersByMinPrice(query.get(QUERY_PARAMS.CURRENCY)),
                 R.uniqBy(R.prop('operator'))
             ),
