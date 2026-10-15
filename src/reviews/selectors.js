@@ -5,7 +5,7 @@ const domain = (_) => _.reviews;
 
 const getTurpravdaWidgets = createSelector(
     domain,
-    R.prop('turpravdaWidget')
+    R.prop('turpravdaReviews')
 );
 
 export const getTurpravdaWidget = createSelector(
