@@ -1,5 +1,19 @@
 export const EMPTY_COUNTRY_ID = 0;
 
+const UKRAINIAN_LABELS = {
+    'beach_line': 'Лінія пляжу',
+    'location':   'Розташування',
+    'beach':      'Пляж',
+    'main':       'Головне',
+    'beach_type': 'Тип пляжу',
+    'child':      'Для дітей',
+    'hotel':      'Послуги в готелі',
+    'room':       'Зручності у номерах',
+    'sport':      'Розваги та спорт',
+    'recommend':  'Готелі з рекомендацією',
+    'chains':     'Мережа готелів',
+};
+
 export const STATIC_LABELS_BY_LANG = {
     'ru': {
         'beach_line': 'Линия пляжа',
@@ -27,32 +41,9 @@ export const STATIC_LABELS_BY_LANG = {
         'recommend':  'Отели с рекомендацией',
         'chains':     'Сеть отелей',
     },
-    'uk': {
-        'beach_line': 'Лінія пляжу',
-        'location':   'Розташування',
-        'beach':      'Пляж',
-        'main':       'Головне',
-        'beach_type': 'Тип пляжу',
-        'child':      'Для дітей',
-        'hotel':      'Послуги в готелі',
-        'room':       'Зручності у номерах',
-        'sport':      'Розваги та спорт',
-        'recommend':  'Готелі з рекомендацією',
-        'chains':     'Мережа готелів',
-    },
-    'ukr': {
-        'beach_line': 'Лінія пляжу',
-        'location':   'Розташування',
-        'beach':      'Пляж',
-        'main':       'Головне',
-        'beach_type': 'Тип пляжу',
-        'child':      'Для дітей',
-        'hotel':      'Послуги в готелі',
-        'room':       'Зручності у номерах',
-        'sport':      'Розваги та спорт',
-        'recommend':  'Готелі з рекомендацією',
-        'chains':     'Мережа готелів',
-    },
+    'uk':  UKRAINIAN_LABELS,
+    'ukr': UKRAINIAN_LABELS,
+    'ua':  UKRAINIAN_LABELS,
     'en': {
         'beach_line': 'Beach line',
         'location':   'Location',
