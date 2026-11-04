@@ -17,7 +17,7 @@ const normalizeServices = (services) => R.call(
         R.toPairs,
         R.map(([serviceKey, group]) => [
             serviceKey,
-            groupMapperLabelKeys(group)
+            R.includes(serviceKey, ['byCountries', 'chains']) ? group : groupMapperLabelKeys(group)
         ]),
         R.fromPairs
     ),
