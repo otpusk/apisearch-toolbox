@@ -5,7 +5,7 @@ const domain = (_) => _.reviews;
 
 const getTurpravdaWidgets = createSelector(
     domain,
-    R.prop('turpravdaReviews')
+    R.prop('turpravdaWidget')
 );
 
 export const getTurpravdaWidget = createSelector(
@@ -13,3 +13,5 @@ export const getTurpravdaWidget = createSelector(
     (_, { hotelID }) => hotelID,
     (widgets, id) => widgets[id]
 );
+
+export const getTurpravdaReviews = (state, { hotelID }) => domain(state).turpravdaReviews[hotelID];
