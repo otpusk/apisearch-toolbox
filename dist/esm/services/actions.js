@@ -6,7 +6,9 @@ export const servicesActions = createActions({
     countryId,
     options
   }),
-  GET_ALL_SERVICES: () => EMPTY_COUNTRY_ID,
+  GET_ALL_SERVICES: () => ({
+    countryId: EMPTY_COUNTRY_ID
+  }),
   GET_SERVICES_SUCCESS: (countryId, services) => ({
     countryId,
     services
