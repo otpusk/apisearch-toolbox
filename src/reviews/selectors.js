@@ -8,19 +8,8 @@ const getTurpravdaWidgets = createSelector(
     R.prop('turpravdaReviews')
 );
 
-const getTurpravdaHotels = createSelector(
-    domain,
-    R.prop('turpravdaHotels')
-);
-
 export const getTurpravdaWidget = createSelector(
     getTurpravdaWidgets,
     (_, { hotelID }) => hotelID,
     (widgets, id) => widgets[id]
-);
-
-export const getTurpravdaHotel = createSelector(
-    getTurpravdaHotels,
-    (_, { hotelID }) => hotelID,
-    (hotels, id) => hotels[id]
 );
