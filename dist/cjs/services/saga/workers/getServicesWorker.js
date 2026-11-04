@@ -16,7 +16,7 @@ const groupMapperLabelKeys = group => R.map(R.pipe(R.keys, _ref => {
 }), group);
 const normalizeServices = services => R.call(R.pipe(R.toPairs, R.map(_ref2 => {
   let [serviceKey, group] = _ref2;
-  return [serviceKey, groupMapperLabelKeys(group)];
+  return [serviceKey, R.includes(serviceKey, ['byCountries', 'chains']) ? group : groupMapperLabelKeys(group)];
 }), R.fromPairs), services);
 const extractLabels = services => R.call(R.pipe(R.omit(['byCountries', 'chains']), R.toPairs, R.map(_ref3 => {
   let [, group] = _ref3;

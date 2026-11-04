@@ -12,7 +12,9 @@ const servicesActions = exports.servicesActions = (0, _reduxActions.createAction
     countryId,
     options
   }),
-  GET_ALL_SERVICES: () => _constants.EMPTY_COUNTRY_ID,
+  GET_ALL_SERVICES: () => ({
+    countryId: _constants.EMPTY_COUNTRY_ID
+  }),
   GET_SERVICES_SUCCESS: (countryId, services) => ({
     countryId,
     services
