@@ -199,23 +199,30 @@ export const getHotelOffersByOperators = () => createSelector(getFlattenPrices()
   } = _ref18;
   return hotelID;
 }, (prices, offersHub, query, hotelID) => R.isEmpty(prices) ? EMPTY_ARRAY : R.call(R.pipe(R.find(R.propEq(hotelID, 'hotelID')), R.propOr(EMPTY_ARRAY, 'offers'), R.map(id => offersHub[id]), R.reject(R.pathSatisfies(R.isNil, ['price', query.get(QUERY_PARAMS.CURRENCY)])), sortOffersByMinPrice(query.get(QUERY_PARAMS.CURRENCY)), R.uniqBy(R.prop('operator'))), prices));
+export const getOffersByDates = () => createSelector(getOffersFromPrices(), getQuery, (offers, query) => R.isEmpty(offers) ? EMPTY_ARRAY : R.call(R.pipe(R.reject(R.pathSatisfies(R.isNil, ['price', query.get(QUERY_PARAMS.CURRENCY)])), sortOffersByMinPrice(query.get(QUERY_PARAMS.CURRENCY)), R.groupBy(R.prop('date')), R.toPairs, R.map(_ref19 => {
+  let [date, dateOffers] = _ref19;
+  return {
+    date,
+    offers: dateOffers
+  };
+})), offers));
 const getCharts = createSelector(domain, search => search.get('charts'));
 export const getChart = createSelector(getCharts, getQueryID, (charts, queryID) => charts.get(queryID, EMPTY_ARRAY));
-export const getHotelsMarkers = () => createSelector(getPricesWithEntities(), prices => R.filter(Boolean, R.map(R.pipe(_ref19 => {
+export const getHotelsMarkers = () => createSelector(getPricesWithEntities(), prices => R.filter(Boolean, R.map(R.pipe(_ref20 => {
   let {
     hotel,
     offers: [offer]
-  } = _ref19;
+  } = _ref20;
   return R.mergeAll([hotel, {
     offerID: R.prop('id', offer)
   }]);
-}, R.ifElse(R.prop('location'), _ref20 => {
+}, R.ifElse(R.prop('location'), _ref21 => {
   let {
     id,
     location,
     offerID,
     stars
-  } = _ref20;
+  } = _ref21;
   return {
     hotelID: id,
     offerID,
@@ -234,13 +241,13 @@ export const getCenterByHotelsMarkers = () => createSelector(getHotelsMarkers(),
 export const getBoundsByHotelsMarkers = () => createSelector(getHotelsMarkers(), markers => !R.isEmpty(markers) ? R.call(R.pipe(R.map(R.applySpec({
   latitude: R.path(['position', 'lat']),
   longitude: R.path(['position', 'lng'])
-})), getBounds, _ref21 => {
+})), getBounds, _ref22 => {
   let {
     minLat,
     maxLat,
     minLng,
     maxLng
-  } = _ref21;
+  } = _ref22;
   return {
     ne: {
       lat: maxLat,

@@ -8,3 +8,9 @@ export const getTurpravdaWidget = createSelector(getTurpravdaWidgets, (_, _ref) 
   } = _ref;
   return hotelID;
 }, (widgets, id) => widgets[id]);
+export const getTurpravdaReviews = (state, _ref2) => {
+  let {
+    hotelID
+  } = _ref2;
+  return domain(state).turpravdaReviews[hotelID];
+};

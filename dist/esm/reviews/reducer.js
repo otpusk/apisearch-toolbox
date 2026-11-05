@@ -1,8 +1,9 @@
 import { handleActions } from 'redux-actions';
 import * as R from 'ramda';
-import { setTurpravdaWidget } from './actions';
+import { setTurpravdaReviews, setTurpravdaWidget } from './actions';
 const initialState = {
-  turpravdaWidget: {}
+  turpravdaWidget: {},
+  turpravdaReviews: {}
 };
 export default handleActions({
   [setTurpravdaWidget]: (state, _ref) => {
@@ -10,5 +11,11 @@ export default handleActions({
       payload
     } = _ref;
     return R.set(R.lensPath(['turpravdaWidget', payload.hotelID]), payload.widget, state);
+  },
+  [setTurpravdaReviews]: (state, _ref2) => {
+    let {
+      payload
+    } = _ref2;
+    return R.set(R.lensPath(['turpravdaReviews', payload.hotelID]), payload.reviews, state);
   }
 }, initialState);

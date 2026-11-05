@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getTurpravdaWidget = void 0;
+exports.getTurpravdaWidget = exports.getTurpravdaReviews = void 0;
 var _reselect = require("reselect");
 var R = _interopRequireWildcard(require("ramda"));
 function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function (e) { return e ? t : r; })(e); }
@@ -16,3 +16,10 @@ const getTurpravdaWidget = exports.getTurpravdaWidget = (0, _reselect.createSele
   } = _ref;
   return hotelID;
 }, (widgets, id) => widgets[id]);
+const getTurpravdaReviews = (state, _ref2) => {
+  let {
+    hotelID
+  } = _ref2;
+  return domain(state).turpravdaReviews[hotelID];
+};
+exports.getTurpravdaReviews = getTurpravdaReviews;

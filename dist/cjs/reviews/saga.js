@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = _default;
 var _effects = require("redux-saga/effects");
 var _jsonApi = require("@otpusk/json-api");
+var _selectors = require("../auth/selectors");
 var _actions = require("./actions");
 function getTurpravdaWidgetSaga(_ref) {
   let {
@@ -30,6 +31,21 @@ function getTurpravdaWidgetSaga(_ref) {
     }
   }();
 }
+function getTurpravdaReviewsSaga(_ref3) {
+  let {
+    payload: hotelID
+  } = _ref3;
+  return function* () {
+    const lang = yield (0, _effects.select)(_selectors.getLang);
+    try {
+      const reviews = yield (0, _effects.call)(_jsonApi.getTurpravdaHotelReviews, hotelID, lang);
+      yield (0, _effects.put)((0, _actions.setTurpravdaReviews)(hotelID, reviews));
+    } catch (error) {
+      yield (0, _effects.put)((0, _actions.getTurpravdaReviewsFail)(error));
+    }
+  }();
+}
 function* _default() {
   yield (0, _effects.takeEvery)(_actions.getTurpravdaWidget, getTurpravdaWidgetSaga);
+  yield (0, _effects.takeEvery)(_actions.getTurpravdaReviews, getTurpravdaReviewsSaga);
 }
