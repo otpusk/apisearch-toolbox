@@ -510,6 +510,23 @@ export const getOffersByDates = () => createSelector(
         )
 );
 
+export const getOffersByRooms = () => createSelector(
+    getOffersFromPrices(),
+    getQuery,
+    (offers, query) => R.isEmpty(offers)
+        ? EMPTY_ARRAY
+        : R.call(
+            R.pipe(
+                R.reject(R.pathSatisfies(R.isNil, ['price', query.get(QUERY_PARAMS.CURRENCY)])),
+                sortOffersByMinPrice(query.get(QUERY_PARAMS.CURRENCY)),
+                R.groupBy(R.path(['room', 'name'])),
+                R.values,
+                R.map((roomOffers) => ({ room: roomOffers[0].room, offers: roomOffers }))
+            ),
+            offers
+        )
+);
+
 const getCharts = createSelector(
     domain,
     (search) => search.get('charts')
