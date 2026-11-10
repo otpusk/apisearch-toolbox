@@ -520,8 +520,8 @@ export const getOffersByRooms = () => createSelector(
                 R.reject(R.pathSatisfies(R.isNil, ['price', query.get(QUERY_PARAMS.CURRENCY)])),
                 sortOffersByMinPrice(query.get(QUERY_PARAMS.CURRENCY)),
                 R.groupBy(R.path(['room', 'name'])),
-                R.values,
-                R.map((roomOffers) => ({ room: roomOffers[0].room, offers: roomOffers }))
+                R.toPairs,
+                R.map(([room, roomOffers]) => ({ room, offers: roomOffers }))
             ),
             offers
         )
