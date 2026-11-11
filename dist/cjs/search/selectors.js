@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.selectOperators = exports.offersByKey = exports.isStart = exports.isSetSearch = exports.isSetHotelAtPrices = exports.isSearch = exports.isProccess = exports.isFail = exports.isDone = exports.hotelsByKey = exports.getTotal = exports.getSearchProgressByPercent = exports.getSearchCountry = exports.getPricesWithEntities = exports.getPrices = exports.getOperatorsWithMinPrice = exports.getOperatorsByHotelID = exports.getOperatorLink = exports.getOffersFromPrices = exports.getOffersByDates = exports.getNightsWithMinPrice = exports.getHotelsTotal = exports.getHotelsMarkers = exports.getHotelsByMultipleSearch = exports.getHotelsByMinPrice = exports.getHotelOffersByOperators = exports.getFoodsWithMinPrice = exports.getFlattenPrices = exports.getError = exports.getChart = exports.getCenterByHotelsMarkers = exports.getCategoryWithMinPrice = exports.getBoundsByHotelsMarkers = exports.getAvailableDates = exports.createGetDeparturesWithMinPrice = void 0;
+exports.selectOperators = exports.offersByKey = exports.isStart = exports.isSetSearch = exports.isSetHotelAtPrices = exports.isSearch = exports.isProccess = exports.isFail = exports.isDone = exports.hotelsByKey = exports.getTotal = exports.getSearchProgressByPercent = exports.getSearchCountry = exports.getPricesWithEntities = exports.getPrices = exports.getOperatorsWithMinPrice = exports.getOperatorsByHotelID = exports.getOperatorLink = exports.getOffersFromPrices = exports.getOffersByRooms = exports.getOffersByDates = exports.getNightsWithMinPrice = exports.getHotelsTotal = exports.getHotelsMarkers = exports.getHotelsByMultipleSearch = exports.getHotelsByMinPrice = exports.getHotelOffersByOperators = exports.getFoodsWithMinPrice = exports.getFlattenPrices = exports.getError = exports.getChart = exports.getCenterByHotelsMarkers = exports.getCategoryWithMinPrice = exports.getBoundsByHotelsMarkers = exports.getAvailableDates = exports.createGetDeparturesWithMinPrice = void 0;
 var _reselect = require("reselect");
 var R = _interopRequireWildcard(require("ramda"));
 var _static = require("@otpusk/json-api/dist/static");
@@ -232,23 +232,31 @@ const getOffersByDates = () => (0, _reselect.createSelector)(getOffersFromPrices
   };
 })), offers));
 exports.getOffersByDates = getOffersByDates;
+const getOffersByRooms = () => (0, _reselect.createSelector)(getOffersFromPrices(), _selectors3.getQuery, (offers, query) => R.isEmpty(offers) ? EMPTY_ARRAY : R.call(R.pipe(R.reject(R.pathSatisfies(R.isNil, ['price', query.get(_fn.QUERY_PARAMS.CURRENCY)])), R.groupBy(R.path(['room', 'id'])), R.toPairs, R.map(_ref20 => {
+  let [roomId, roomOffers] = _ref20;
+  return {
+    roomId: Number(roomId),
+    offers: roomOffers
+  };
+}), R.sort(R.ascend(R.path(['offers', 0, 'price', query.get(_fn.QUERY_PARAMS.CURRENCY)])))), offers));
+exports.getOffersByRooms = getOffersByRooms;
 const getCharts = (0, _reselect.createSelector)(domain, search => search.get('charts'));
 const getChart = exports.getChart = (0, _reselect.createSelector)(getCharts, getQueryID, (charts, queryID) => charts.get(queryID, EMPTY_ARRAY));
-const getHotelsMarkers = () => (0, _reselect.createSelector)(getPricesWithEntities(), prices => R.filter(Boolean, R.map(R.pipe(_ref20 => {
+const getHotelsMarkers = () => (0, _reselect.createSelector)(getPricesWithEntities(), prices => R.filter(Boolean, R.map(R.pipe(_ref21 => {
   let {
     hotel,
     offers: [offer]
-  } = _ref20;
+  } = _ref21;
   return R.mergeAll([hotel, {
     offerID: R.prop('id', offer)
   }]);
-}, R.ifElse(R.prop('location'), _ref21 => {
+}, R.ifElse(R.prop('location'), _ref22 => {
   let {
     id,
     location,
     offerID,
     stars
-  } = _ref21;
+  } = _ref22;
   return {
     hotelID: id,
     offerID,
@@ -269,13 +277,13 @@ exports.getCenterByHotelsMarkers = getCenterByHotelsMarkers;
 const getBoundsByHotelsMarkers = () => (0, _reselect.createSelector)(getHotelsMarkers(), markers => !R.isEmpty(markers) ? R.call(R.pipe(R.map(R.applySpec({
   latitude: R.path(['position', 'lat']),
   longitude: R.path(['position', 'lng'])
-})), _geolib.getBounds, _ref22 => {
+})), _geolib.getBounds, _ref23 => {
   let {
     minLat,
     maxLat,
     minLng,
     maxLng
-  } = _ref22;
+  } = _ref23;
   return {
     ne: {
       lat: maxLat,
