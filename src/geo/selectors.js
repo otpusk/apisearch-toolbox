@@ -103,6 +103,14 @@ export const getActiveOperators = () => createSelector(
     R.filter(R.prop('active'))
 );
 
+export const getOperatorsSortedByRank = () => createSelector(
+    getOperators(),
+    R.sortWith([
+        R.ascend(R.propOr(Infinity, 'rank')),
+        ({ name: a }, { name: b }) => a.localeCompare(b)
+    ])
+);
+
 const getCountriesByImmutableStructure = createSelector(
     domain,
     (geo) => geo.get('countries')
