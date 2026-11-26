@@ -65,6 +65,15 @@ export const getOperator = () => createSelector(getOperators(), (_, _ref8) => {
   return Number(id) === Number(findID);
 }, operatorsArray));
 export const getActiveOperators = () => createSelector(getOperators(), R.filter(R.prop('active')));
+export const getOperatorsSortedByRank = () => createSelector(getOperators(), R.sortWith([R.ascend(R.propOr(Infinity, 'rank')), (_ref10, _ref11) => {
+  let {
+    name: a
+  } = _ref10;
+  let {
+    name: b
+  } = _ref11;
+  return a.localeCompare(b);
+}]));
 const getCountriesByImmutableStructure = createSelector(domain, geo => geo.get('countries'));
 export const getCountries = createSelector(getCountriesByImmutableStructure, countries => countries.toArray());
 export const getTopCountries = createSelector(getCountries, countries => countries.filter(country => country.weight > 0));
@@ -82,17 +91,17 @@ export const getHotelByCountry = () => createSelector(getHotelsByCountry(), getH
 export const getHotelsByKey = () => createSelector(getHotelsStore, getHotelKey, (hotelsStore, key) => hotelsStore.has(key) ? hotelsStore.get(key).toArray() : EMPTY_ARRAY);
 export const getHotelByKey = () => createSelector(getHotelsByKey, getHotelID, (hotels, id) => R.find(hotel => hotel.id === id, hotels));
 const getGeoTree = state => domain(state).get('geoTree');
-export const getGeoTreeByCountryId = (state, _ref10) => {
+export const getGeoTreeByCountryId = (state, _ref12) => {
   let {
     countryID
-  } = _ref10;
+  } = _ref12;
   return getGeoTree(state)[countryID] || EMPTY_ARRAY;
 };
 const getSuggestEntities = createSelector(domain, geo => geo.get('suggestEntities'));
-const getSuggestionIndex = (state, _ref11) => {
+const getSuggestionIndex = (state, _ref13) => {
   let {
     key
-  } = _ref11;
+  } = _ref13;
   return domain(state).getIn(['suggestions', key]);
 };
 export const getSuggests = () => createSelector(getSuggestEntities, getSuggestionIndex, (entities, index) => {
@@ -106,11 +115,11 @@ export const getSuggests = () => createSelector(getSuggestEntities, getSuggestio
     hotel: hydrate('hotel')
   };
 });
-export const getSuggestEntity = (state, _ref12) => {
+export const getSuggestEntity = (state, _ref14) => {
   var _getSuggestEntities$t;
   let {
     type,
     id
-  } = _ref12;
+  } = _ref14;
   return (_getSuggestEntities$t = getSuggestEntities(state)[type]) === null || _getSuggestEntities$t === void 0 ? void 0 : _getSuggestEntities$t[id];
 };

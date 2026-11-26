@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getTopCountry = exports.getTopCountries = exports.getSuggests = exports.getSuggestEntity = exports.getOperatorsMap = exports.getOperators = exports.getOperator = exports.getHotelsByKey = exports.getHotelsByCountry = exports.getHotelByKey = exports.getHotelByCountry = exports.getGeoTreeByCountryId = exports.getFlightPorts = exports.getFlightPort = exports.getDepartures = exports.getDepartureById = exports.getDepartureByIATA = exports.getDepartureByDefaultGeo = exports.getCountry = exports.getCountries = exports.getCitiesStore = exports.getCitiesByCountry = exports.getActiveOperators = void 0;
+exports.getTopCountry = exports.getTopCountries = exports.getSuggests = exports.getSuggestEntity = exports.getOperatorsSortedByRank = exports.getOperatorsMap = exports.getOperators = exports.getOperator = exports.getHotelsByKey = exports.getHotelsByCountry = exports.getHotelByKey = exports.getHotelByCountry = exports.getGeoTreeByCountryId = exports.getFlightPorts = exports.getFlightPort = exports.getDepartures = exports.getDepartureById = exports.getDepartureByIATA = exports.getDepartureByDefaultGeo = exports.getCountry = exports.getCountries = exports.getCitiesStore = exports.getCitiesByCountry = exports.getActiveOperators = void 0;
 var _reselect = require("reselect");
 var R = _interopRequireWildcard(require("ramda"));
 function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function (e) { return e ? t : r; })(e); }
@@ -82,6 +82,16 @@ const getOperator = () => (0, _reselect.createSelector)(getOperators(), (_, _ref
 exports.getOperator = getOperator;
 const getActiveOperators = () => (0, _reselect.createSelector)(getOperators(), R.filter(R.prop('active')));
 exports.getActiveOperators = getActiveOperators;
+const getOperatorsSortedByRank = () => (0, _reselect.createSelector)(getOperators(), R.sortWith([R.ascend(R.propOr(Infinity, 'rank')), (_ref10, _ref11) => {
+  let {
+    name: a
+  } = _ref10;
+  let {
+    name: b
+  } = _ref11;
+  return a.localeCompare(b);
+}]));
+exports.getOperatorsSortedByRank = getOperatorsSortedByRank;
 const getCountriesByImmutableStructure = (0, _reselect.createSelector)(domain, geo => geo.get('countries'));
 const getCountries = exports.getCountries = (0, _reselect.createSelector)(getCountriesByImmutableStructure, countries => countries.toArray());
 const getTopCountries = exports.getTopCountries = (0, _reselect.createSelector)(getCountries, countries => countries.filter(country => country.weight > 0));
@@ -104,18 +114,18 @@ exports.getHotelsByKey = getHotelsByKey;
 const getHotelByKey = () => (0, _reselect.createSelector)(getHotelsByKey, getHotelID, (hotels, id) => R.find(hotel => hotel.id === id, hotels));
 exports.getHotelByKey = getHotelByKey;
 const getGeoTree = state => domain(state).get('geoTree');
-const getGeoTreeByCountryId = (state, _ref10) => {
+const getGeoTreeByCountryId = (state, _ref12) => {
   let {
     countryID
-  } = _ref10;
+  } = _ref12;
   return getGeoTree(state)[countryID] || EMPTY_ARRAY;
 };
 exports.getGeoTreeByCountryId = getGeoTreeByCountryId;
 const getSuggestEntities = (0, _reselect.createSelector)(domain, geo => geo.get('suggestEntities'));
-const getSuggestionIndex = (state, _ref11) => {
+const getSuggestionIndex = (state, _ref13) => {
   let {
     key
-  } = _ref11;
+  } = _ref13;
   return domain(state).getIn(['suggestions', key]);
 };
 const getSuggests = () => (0, _reselect.createSelector)(getSuggestEntities, getSuggestionIndex, (entities, index) => {
@@ -130,12 +140,12 @@ const getSuggests = () => (0, _reselect.createSelector)(getSuggestEntities, getS
   };
 });
 exports.getSuggests = getSuggests;
-const getSuggestEntity = (state, _ref12) => {
+const getSuggestEntity = (state, _ref14) => {
   var _getSuggestEntities$t;
   let {
     type,
     id
-  } = _ref12;
+  } = _ref14;
   return (_getSuggestEntities$t = getSuggestEntities(state)[type]) === null || _getSuggestEntities$t === void 0 ? void 0 : _getSuggestEntities$t[id];
 };
 exports.getSuggestEntity = getSuggestEntity;
